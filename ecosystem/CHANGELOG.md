@@ -8,6 +8,9 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). This ch
 
 ### Added
 
+- **Fair Stand: eksik görselle proje açma** — `kyrox-fair-stand` PR #283.
+  - Dosyası bulunamayan görsel artık projenin açılmasını engellemiyor; o yüzey kendi rengiyle çiziliyor.
+  - Müşterisiz içe aktarmada ham API hatası yerine yol gösteren bir mesaj çıkıyor.
 - **Fair Stand admin formu ↔ DB denetimi** — `projects/fair-stand/ADMIN_FORM_DB_AUDIT.md`.
   - Item tipi formu birebir uyumlu.
   - Item formunda 4 serbest metin alanı DB kısıtıyla uyuşmuyor.
