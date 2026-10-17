@@ -32,6 +32,26 @@ Lokal runtime acceptance PASS. `deployed` / `merged` / `production` iddiası yok
 
 Mimari ayrıntı: [ITEM_CATALOG_ARCHITECTURE.md](ITEM_CATALOG_ARCHITECTURE.md).
 
+## Eksik görselle proje açma ve müşterisiz içe aktarma — 2026-10-18
+
+`kyrox-fair-stand` PR #283.
+
+**Kullanıcı tarafı**
+- **Önce:** Projenin tek bir görsel dosyası sunucuda eksik olduğunda proje hiç açılmıyordu ("Proje açılamadı").
+- **Şimdi:**
+  - Proje açılıyor; görseli bulunamayan yüzey kendi rengiyle gösteriliyor.
+  - Durum satırında kaç görselin bulunamadığı yazıyor.
+  - Görsel bağlantısı projede kalıyor; dosya geri gelirse görsel yeniden görünüyor.
+- **İçe aktarma:** Paket müşteri bilgisi taşımıyorsa ve editör müşterisiz açıldıysa, ham API hatası yerine yol gösteren bir mesaj çıkıyor: "Müşteriler → müşteri → Yeni Proje". Her projenin bir müşteriye bağlı olması kuralı değişmedi.
+
+**Veri.**
+- Proje kaydı, şema, migration ve API değişmez.
+- Kaydetme, sunucudaki görselleri silmez.
+
+**SaaS etkisi.** Organization izolasyonu, yetki, entitlement ve kullanım ölçümü değişmez.
+
+**Açık.** ZIP dışa aktarma, eksik görsel olduğunda hâlâ hata veriyor.
+
 ## Otomatik kayıt süresi — 2026-10-18
 
 `kyrox-fair-stand` PR #282.
