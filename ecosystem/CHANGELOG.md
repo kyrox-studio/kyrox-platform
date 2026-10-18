@@ -8,6 +8,11 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). This ch
 
 ### Added
 
+- **Fair Stand sahne editörü Faz 5: kurumsal grup şablonu** — `kyrox-fair-stand` `feat/group-templates`.
+  - Migration `0067_group_templates` → `fair_stand_group_templates`.
+  - Gruplar kartı → Şablon olarak kaydet; Şablonlarım → Yerleştir / Adlandır / Sil.
+  - Korunan: renk, cam panel, metal separatör. Görseller / Lightbox / Mesh girmez (5a).
+  - Yol haritası ve durum: `GROUP_LOCK_ROADMAP.md`, `PROJECT_STATUS.md`; DB kılavuzu `FAIR_STAND_DB_KULLANIM_KILAVUZU.md` §5.22.
 - **Fair Stand sahne editörü Faz 4: grup döndürme** — `kyrox-fair-stand` PR #285.
   - Gruptaki öğede Shift+R bütün grubu 45° döndürür.
   - Merkez sabit kalır, art arda döndürmede grup kaymaz.

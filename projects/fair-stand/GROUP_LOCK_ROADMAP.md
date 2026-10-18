@@ -9,7 +9,7 @@
 > | Faz 3 — Grup (öğeden bağımsız) | Uygulandı: `kyrox-fair-stand` PR #284 |
 > | Faz 3b — Grup aç / kapat (3ds Max gibi) | Açık karar, kod yok |
 > | Faz 4 — Çok duvarlı grup ve grup döndürme | Uygulandı: çok duvarlı grup Faz 3 ile, grup döndürme `kyrox-fair-stand` PR #285 |
-> | Faz 5 — Kurumsal şablon | Plan, kod yok |
+> | Faz 5 — Kurumsal şablon | Uygulandı: `kyrox-fair-stand` `feat/group-templates` (migration `0067`, API + Şablonlarım kartı) |
 > | Faz 6 | İlk iki madde Faz 3 ve Faz 4 ile karşılandı; opsiyonel maddeler plan |
 >
 > Her faz ayrı PR'dır ve kodlamadan önce kullanıcı onayı alınır (`kyrox-fair-stand/AGENTS.md` kod öncesi checkpoint).
@@ -209,35 +209,33 @@ Faz 3 sonrası kullanıcının sorduğu, henüz karara bağlanmamış iki konu. 
 
 ### Faz 5 — Kurumsal şablonlar (H)
 
+> **Durum:** Uygulandı (`kyrox-fair-stand`). Migration `0067_group_templates`, API `/api/v1/fair-stand/group-templates`, kenar çubuğu **Şablonlarım**, Gruplar kartında **Şablon olarak kaydet**.
+
 **Amaç.** Bir grubu organizasyonun kendi kataloğuna kaydedip başka projelerde tek hamlede kullanmak.
 
 **Neden Item değil, şablon**
 - Item kataloğu (`fair_stand_items`) ortaktır, organizasyona ait değildir.
 - Bir Item'ın BOM reçetesi, birimi ve davranış ailesi olmalıdır (`ITEM_CONTRACT.md`). Grubu Item yapmak BOM'u ikiye katlama ve sözleşme dışı paralel model riski taşır.
-- **Şablon** ise yalnız "hangi parçalar, nasıl dizilmiş" bilgisini saklar. Sahneye konunca normal parçalara açılır. Her parça zaten bir Item olduğu için BOM ve maliyet bugünkü gibi doğru çıkar.
+- **Şablon** ise "hangi parçalar, nasıl dizilmiş, hangi yüzey ataması" bilgisini saklar. Sahneye konunca normal parçalara açılır. Her parça zaten bir Item olduğu için BOM ve maliyet bugünkü gibi doğru çıkar.
 
-**Davranış**
-- Grup seçiliyken sağ tık → **Şablon olarak kaydet** → isim (ör. "Raflı TV'li duvar"), isteğe bağlı açıklama.
-- Kenar çubuğunda **Şablonlarım** bölümü: organizasyonun şablonları ve küçük önizlemeleri.
-- Sürükle-bırak ya da tıklayıp yerleştirme: şablon tek gölge olarak taşınır. Bırakılınca parçalar normal modüller olarak eklenir ve şablon adıyla **yeni bir grup** kurulur.
-- Sahnede her şey normal gruptur: istenmeyen parça **gruptan çıkarılıp silinebilir** ya da grup çözülebilir. Bu sahneyi etkiler, şablonu değiştirmez.
-- Şablon yönetimi: yeniden adlandır, güncelle (seçili grupla üzerine yaz), sil. Yetki kuralı uygulamada karara bağlanır.
+**Uygulanan davranış (kullanıcı kararları, 2026-10-18)**
+- Gruplar kartı → **Şablon olarak kaydet** → isim.
+- Kenar çubuğunda **Şablonlarım**: **Yerleştir** / **Adlandır** / **Sil**. Güncelleme yok; silip yeniden kaydedilir.
+- Yerleştirince parçalar yeni kimliklerle eklenir, şablon adıyla **yeni kilitsiz grup** kurulur; stand ortasına (yer yoksa ilk boş yere) konur, sonra sürüklenir.
+- Katalogda olmayan `itemKey` atlanır ve yazılır.
+- Yetkiler proje yetkileridir (read / create|update / delete). Oturum yoksa (CRM dışı) şablonlar kapalıdır.
+- **Korunan:** ölçü, göreli konum/açı, renk, cam panel, metal separatör.
+- **Korunmayan (5a):** görseller, Lightbox, Mesh. (Opsiyonel 5b: şablon görsellerinin taşınması — yapılmadı.)
 
 **Veri (sunucu)**
-- Yeni tablo `fair_stand_group_templates`: `id`, `organization_id`, `name`, `description`, `payload` (JSON: parçalar, göreli konumlar, renkler, görsel yerleşimleri), `created_by`, tarihler. `organization_id` ile izole edilir.
-- Görseller bugün **proje başına** tutulduğu için şablondaki görseller ayrı ele alınır.
-  - **Öneri, 5a:** şablon renkleri ve yapıyı taşır, görseller boş gelir.
-  - **5b:** şablon görselleri ayrı depolanır ve şablon sahneye konunca projeye kopyalanır.
-- Parçalar `itemKey` ile saklanır. Şablon açılırken katalogda artık olmayan bir `itemKey` varsa o parça atlanır ve kullanıcıya yazılır.
+- Tablo `fair_stand_group_templates`: `id`, `organization_id`, `name`, `member_count`, `payload` (JSON), `created_by`, tarihler. `description` kolonu yok.
+- `organization_id` yalnız auth context’ten; başka org 404.
+- Canonical envanter: `docs/refactor/DATABASE.md`, `docs/refactor/FAIR_STAND_DB_KULLANIM_KILAVUZU.md` §5.22.
 
-**Dokunulacak yüzeyler.**
-- Backend: model, alembic migration, uygulama servisi, API rotaları, organizasyon yetki kontrolü, pytest.
-- Frontend: şablon istemcisi, kenar çubuğu bölümü, yerleştirme akışı (Faz 3 çoğaltma mantığını yeniden kullanır), `src/featureContracts.js`.
-
-**Testler.**
-- pytest: organizasyon izolasyonu, yetki, payload doğrulaması.
-- Unit: şablon ↔ grup dönüşümü, eksik `itemKey`.
-- E2E: grup → şablon kaydet → yeni proje → şablonu yerleştir → parçalar ve grup oluştu → bir parçayı çıkar/sil.
+**Kod yüzeyleri.**
+- Backend: `0067_group_templates.py`, `group_templates.py`, `group_template_routes.py`, pytest.
+- Frontend: `src/groupTemplates.js`, `groupTemplateRemote.js`, `groupTemplatePanel.js`, `main.js`, `moduleGroupPanel.js`.
+- Test: `test/groupTemplates.test.js`, `e2e/group-template.spec.mjs`.
 
 ### Faz 6 — Gelişmiş
 
@@ -265,8 +263,9 @@ Faz 3 sonrası kullanıcının sorduğu, henüz karara bağlanmamış iki konu. 
 | Öğe birden fazla grupta | Hayır; başka gruba eklemek sorularak taşır | Karar (Faz 3) |
 | Geri alma geçmişi | Kaydedilmez, son 50 adım | Karar (Faz 2) |
 | Görsel silme geri alınır mı | Hayır; görsel silinince geçmiş sıfırlanır | Karar (Faz 2) |
-| Şablon Item mı | Hayır, sahnede normal parçalara açılan şablon | Öneri |
-| Şablonda görseller | 5a'da yok, 5b'de ayrı depolama | Öneri |
+| Şablon Item mı | Hayır, sahnede normal parçalara açılan şablon | Karar (Faz 5) |
+| Şablonda renk / cam / metal | Korunur | Karar (Faz 5) |
+| Şablonda görseller / Lightbox / Mesh | 5a: yok; 5b opsiyonel | Karar (Faz 5) / 5b açık |
 | Kilit / grup / şablon BOM'a girer mi | Hayır (parçalar girer) | Ürün kararı |
 
 ## 6. Riskler
