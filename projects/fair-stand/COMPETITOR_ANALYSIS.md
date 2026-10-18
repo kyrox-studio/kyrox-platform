@@ -3,7 +3,7 @@
 **Durum:** Gözlem notu (kod yok).  
 **Tarih:** 2026-10-18  
 **Amaç:** Canlı app üzerinden BoothDesign ve StandBuilder’ı kaydetmek; Fair Stand hız stratejisine girdi.  
-**Uygulama planı (kod):** `kyrox-fair-stand/docs/refactor/PERFORMANCE_ROADMAP.md` (P0–P4).
+**Uygulama planı (yapılacaklar):** [PERFORMANCE_ROADMAP.md](PERFORMANCE_ROADMAP.md) (P0–P4). Kod: `kyrox-fair-stand` ayrı PR.
 
 Tahmin yazılmaz. URL veya ürün değişirse bu dosya güncellenir.
 
@@ -82,4 +82,4 @@ Kyrox Fair Stand hantal hissediliyor çünkü birçok UI aksiyonunda `disposeWal
 | Kalite varsayılan | FAST | Hafif sahne | Yüksek gölge (hedef: balanced) |
 | BOM | Sistem + satır | Sepet / fiyat | Panel / ilişki / üretim |
 
-**Sonuç (ürün kararı değil, hız stratejisi):** Rakibi kopyalamıyoruz. Kod işleri `kyrox-fair-stand` `PERFORMANCE_ROADMAP.md` P0–P4 sırasıyla yürür.
+**Sonuç (ürün kararı değil, hız stratejisi):** Rakibi kopyalamıyoruz. Yapılacaklar [PERFORMANCE_ROADMAP.md](PERFORMANCE_ROADMAP.md) P0–P4; uygulama `kyrox-fair-stand` ayrı PR.

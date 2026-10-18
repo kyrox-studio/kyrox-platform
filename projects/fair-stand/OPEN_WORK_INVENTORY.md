@@ -123,7 +123,7 @@ Her item kendi ölçü/BOM’unu taşır; stand tavanı yalnız max zarf.
 |---|---|
 | `PRODUCT_FUTURE.md` | PDF teklif, montaj sırası, depo/paketleme, stok, proje onay/paylaşım |
 | `RENDER_FUTURE_BACKLOG.md` | HDRI, AO, PBR, post-processing |
-| `kyrox-fair-stand` `PERFORMANCE_ROADMAP.md` | Kod komşu hız backlog (P0–P4; henüz uygulanmadı) |
+| Platform `PERFORMANCE_ROADMAP.md` | Teşhis + P0–P4 hız planı (henüz uygulanmadı; kod ayrı PR) |
 | Platform `COMPETITOR_ANALYSIS.md` | BoothDesign / StandBuilder gözlem (analiz; kod yok) |
 | Platform `ROADMAP.md` (fair-stand) | Tenant katalog, cost-catalog slug, admin form↔DB audit |
 
