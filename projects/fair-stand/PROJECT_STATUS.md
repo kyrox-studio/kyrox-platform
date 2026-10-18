@@ -41,6 +41,7 @@ Mimari ayrıntı: [ITEM_CATALOG_ARCHITECTURE.md](ITEM_CATALOG_ARCHITECTURE.md).
 - Parçalar birbirine göre yerini korur; art arda döndürmede grup kaymaz.
 - Duvar, kapı ve panel de 45° açıya geçebilir.
 - Döndürülmüş grup standa sığmazsa işlem yapılmaz. Kilitli grup dönmez.
+- Taşıma, döndürme ve çoğaltma aynı sınır kuralını kullanır: öğenin dönmüş kaplama alanı stand içinde kalmalı. Önceden 45° döndürülmüş duvar paneli sürüklenince stand dışına taşabiliyordu; bu hata aynı PR'da düzeltildi.
 - Sağ tık menüsünde ve Gruplar kartında döndürme düğmesi yoktur.
 
 **Veri.** Yalnız üyelerin konum ve açı değerleri değişir; kayıt biçimi, şema ve migration değişmez.
