@@ -7,6 +7,7 @@
 > | Faz 1 — Kilit | Uygulandı: `kyrox-fair-stand` PR #278, CI yeşil, `main`'de |
 > | Faz 2 — Geri al / İleri al | Uygulandı: `kyrox-fair-stand` PR #281, CI yeşil, `main`'de |
 > | Faz 3 — Grup (öğeden bağımsız) | Uygulandı: `kyrox-fair-stand` PR #284 |
+> | Faz 3b — Grup aç / kapat (3ds Max gibi) | Açık karar, kod yok |
 > | Faz 4 | Büyük ölçüde Faz 3 ile karşılandı (çok duvarlı grup); grup döndürme açık |
 > | Faz 5–6 | Plan, kod yok |
 >
@@ -176,6 +177,22 @@ Kesin liste `contract:verify` discovery'si ile çıkarılır.
 **Dokunulan yüzeyler.** Yeni `src/moduleGroups.js` (saf mantık) ve `src/moduleGroupPanel.js` (Gruplar kartı); `src/moduleLock.js` (`isModuleLocked` grup kilidini sayar); `src/scene3d.js` (grup sürükleme, ok tuşu, Shift+R reddi, üye çerçevesi, `selectModulesById`); `src/moduleContextMenu.js` (grup bölümü); `src/main.js`; `src/designState.js`; `src/projectImportValidation.js`; `src/featureContracts.js` (`module-group`); `index.html` ve `src/configuratorMarkup.js`; `src/helpGuide.js`.
 
 **Testler.** Unit `test/moduleGroups.test.js` ve `test/moduleGroupPanel.test.js`; E2E `e2e/module-group.spec.mjs`: iki kutu blok gruplanır, kartta 2 parça görünür, birlikte taşınır, stand dışına taşmaz, kilitliyken oynamaz, çoğaltılır, onaylı silinir, çözülür.
+
+**Seçim rengi.** Shift+tık toplu seçim ve grup üyesi çerçevesi Kyrox bakırıdır (`#C47A3A`); tek öğe ve panel seçimi mavi kalır.
+
+### Faz 3b — Grup aç / kapat (açık karar, kullanıcı notu 2026-10-18)
+
+Faz 3 sonrası kullanıcının sorduğu, henüz karara bağlanmamış iki konu. 3ds Max'teki **Group > Open / Close** davranışı örnek alınır.
+
+**1. Gruptaki bir öğeye tıklanınca bütün grup mu seçilsin?**
+- **Bugün (Faz 3):** Tık yalnız tıklanan paneli seçer; grubun diğer üyeleri bakır çerçeveyle gösterilir. Sürükleme ve ok tuşu bütün grubu taşır.
+- **Seçenek:** Tık bütün grubu seçer (3ds Max'te kapalı grup tek nesne gibi seçilir). Gruptaki tek öğeye ulaşmak için grup **açılır**.
+
+**2. Gruptaki öğenin özellikleri (renk, görsel, cam, kumaş, ölçü) değiştirilebilsin mi?**
+- **Bugün (Faz 3):** Değiştirilebiliyor; grup yalnız taşıma, kilit, çoğaltma ve silmeyi birlikte yapıyor.
+- **Seçenek (3ds Max gibi):** Kapalı grupta öğe düzenlenemez. Sağ tık veya Gruplar kartından **Grubu aç** denir; grup açıkken öğeler tek tek seçilir, düzenlenir ve taşınır. **Grubu kapat** ile grup yeniden tek parça gibi davranır. Açık grup pembe/bakır kesik çerçeveyle gösterilir; aynı anda tek grup açık olur.
+
+**Karar verilmesi gerekenler:** (a) Tıkın varsayılanı (panel mi, bütün grup mu); (b) kapalı grupta görünüm değişikliğine (renk/görsel) izin verilip verilmeyeceği; (c) açık grupta tek öğe taşımanın diğer üyelerle göreli konumu bozmasına izin verilip verilmeyeceği; (d) aç/kapat durumunun kaydedilip kaydedilmeyeceği (öneri: kaydedilmez, proje açılınca gruplar kapalı başlar); (e) kilitli grubun açılıp açılamayacağı (öneri: açılamaz, önce kilit açılır).
 
 ### Faz 4 — Çok duvarlı gruplar: serbest sıra (G)
 
