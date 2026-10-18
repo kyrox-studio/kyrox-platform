@@ -7,12 +7,12 @@
 > | Faz 1 — Kilit | Uygulandı: `kyrox-fair-stand` PR #278, CI yeşil, `main`'de |
 > | Faz 2 — Geri al / İleri al | Uygulandı: `kyrox-fair-stand` PR #281, CI yeşil, `main`'de |
 > | Faz 3 — Grup (öğeden bağımsız) | Uygulandı: `kyrox-fair-stand` PR #284 |
-> | Faz 3b — Grup aç / kapat (3ds Max gibi) | Açık karar, kod yok |
+> | Faz 3b — Grup aç / kapat (3ds Max gibi) | **Karar alındı (2026-10-18); kod yok** — aşağıdaki karar tablosu |
 > | Faz 4 — Çok duvarlı grup ve grup döndürme | Uygulandı: çok duvarlı grup Faz 3 ile, grup döndürme `kyrox-fair-stand` PR #285 |
 > | Faz 5 — Kurumsal şablon | Uygulandı: `kyrox-fair-stand` PR #286 (migration `0067`, API + Şablonlarım kartı) |
 > | Faz 6 | İlk iki madde Faz 3 ve Faz 4 ile karşılandı; opsiyonel maddeler plan |
 >
-> **Grup işi kapandı (2026-10-18):** Faz 1–5 uygulandı ve yayında. Faz 3b (grup aç / kapat) ve Faz 6 opsiyonel maddeleri (şablon görselleri, rafın duvarı takip etmesi) yeni bir karar verilene kadar açık bekler.
+> **Grup işi (2026-10-18):** Faz 1–5 yayında. Faz 3b ürün kararları kilitlendi; uygulama ayrı PR. Şablon görsel taşımaz (kalıcı karar). Faz 6’da yalnız opsiyonel “raf ev sahibi duvar” açık.
 >
 > Her faz ayrı PR'dır ve kodlamadan önce kullanıcı onayı alınır (`kyrox-fair-stand/AGENTS.md` kod öncesi checkpoint).
 >
@@ -183,23 +183,27 @@ Kesin liste `contract:verify` discovery'si ile çıkarılır.
 
 **Seçim rengi.** Shift+tık toplu seçim ve grup üyesi çerçevesi Kyrox bakırıdır (`#C47A3A`); tek öğe ve panel seçimi mavi kalır.
 
-### Faz 3b — Grup aç / kapat (açık karar, kullanıcı notu 2026-10-18)
+### Faz 3b — Grup aç / kapat (karar 2026-10-18; kod yok)
 
-Faz 3 sonrası kullanıcının sorduğu, henüz karara bağlanmamış iki konu. 3ds Max'teki **Group > Open / Close** davranışı örnek alınır.
+3ds Max **Group > Open / Close** modeli. Kullanıcı onayı: önerilen seçeneklerin tümü.
 
-**1. Gruptaki bir öğeye tıklanınca bütün grup mu seçilsin?**
-- **Bugün (Faz 3):** Tık yalnız tıklanan paneli seçer; grubun diğer üyeleri bakır çerçeveyle gösterilir. Sürükleme ve ok tuşu bütün grubu taşır.
-- **Seçenek:** Tık bütün grubu seçer (3ds Max'te kapalı grup tek nesne gibi seçilir). Gruptaki tek öğeye ulaşmak için grup **açılır**.
+| # | Konu | Karar |
+|---|---|---|
+| 1a | Kapalı grupta tık | **Bütün grup seçilir** (tek nesne gibi). Tek öğeye ulaşmak için grup açılır. |
+| 1b | Kapalı grupta renk / görsel / cam / kumaş / ölçü | **Yasak** — önce **Grubu aç**. |
+| 1c | Açık grupta tek öğe taşıma | **İzin** — göreli konum bozulabilir. |
+| 1d | Açık/kapalı durumu proje kaydı | **Kaydedilmez** — proje açılınca tüm gruplar kapalı başlar; açık yalnız oturumdur. |
+| 1e | Kilitli grup açılır mı | **Hayır** — önce grup kilidi açılır. |
 
-**2. Gruptaki öğenin özellikleri (renk, görsel, cam, kumaş, ölçü) değiştirilebilsin mi?**
-- **Bugün (Faz 3):** Değiştirilebiliyor; grup yalnız taşıma, kilit, çoğaltma ve silmeyi birlikte yapıyor.
-- **Seçenek (3ds Max gibi):** Kapalı grupta öğe düzenlenemez. Sağ tık veya Gruplar kartından **Grubu aç** denir; grup açıkken öğeler tek tek seçilir, düzenlenir ve taşınır. **Grubu kapat** ile grup yeniden tek parça gibi davranır. Açık grup kesik bakır çerçeveyle gösterilir; aynı anda tek grup açık olur.
-
-**Karar verilmesi gerekenler:** (a) Tıkın varsayılanı (panel mi, bütün grup mu); (b) kapalı grupta görünüm değişikliğine (renk/görsel) izin verilip verilmeyeceği; (c) açık grupta tek öğe taşımanın diğer üyelerle göreli konumu bozmasına izin verilip verilmeyeceği; (d) aç/kapat durumunun kaydedilip kaydedilmeyeceği (öneri: kaydedilmez, proje açılınca gruplar kapalı başlar); (e) kilitli grubun açılıp açılamayacağı (öneri: açılamaz, önce kilit açılır).
+**Davranış özeti (uygulama hedefi)**
+- Kapalı: tık / sürükleme / ok / Shift+R bütün grup; üye özelliği ve tek üye taşıma yok.
+- **Grubu aç** (sağ tık veya Gruplar kartı): öğeler tek tek seçilir, düzenlenir, taşınır. Açık grup kesik bakır çerçeve; aynı anda en fazla bir grup açık.
+- **Grubu kapat:** yeniden kapalı davranış.
+- Bugünkü Faz 3 (tık = panel, kapalıyken özellik değişir) bu kararlarla değiştirilir.
 
 ### Faz 4 — Çok duvarlı gruplar: serbest sıra (G)
 
-> **Durum:** Faz 3'ün öğeden bağımsız tanımıyla büyük ölçüde karşılandı: grupta duvar sınırı yok, gruplanınca kenar parçaları serbest öğe olur, grup katı cisim gibi taşınır ve çoğaltılır. Açık kalan: grubu toptan döndürme.
+> **Durum:** Faz 3 ile karşılandı (serbest sıra + katı taşıma). Grup döndürme PR #285 ile uygulandı.
 
 **Amaç.** Depo gibi standın içinde duran, birden fazla duvar parçasından (kapı dahil) kurulu yapıyı bütün olarak taşımak ve çoğaltmak.
 
@@ -227,7 +231,7 @@ Faz 3 sonrası kullanıcının sorduğu, henüz karara bağlanmamış iki konu. 
 - Katalogda olmayan `itemKey` atlanır ve yazılır.
 - Yetkiler proje yetkileridir (read / create|update / delete). Oturum yoksa (CRM dışı) şablonlar kapalıdır.
 - **Korunan:** ölçü, göreli konum/açı, renk, cam panel, metal separatör.
-- **Korunmayan (5a):** görseller, Lightbox, Mesh. (Opsiyonel 5b: şablon görsellerinin taşınması — yapılmadı.)
+- **Korunmayan (kalıcı):** görseller, Lightbox, Mesh. Şablona girmez; ayrı faz / backlog yok (kullanıcı kararı 2026-10-18).
 
 **Veri (sunucu)**
 - Tablo `fair_stand_group_templates`: `id`, `organization_id`, `name`, `member_count`, `payload` (JSON), `created_by`, tarihler. `description` kolonu yok.
@@ -248,7 +252,7 @@ Faz 3 sonrası kullanıcının sorduğu, henüz karara bağlanmamış iki konu. 
   - Merkez üye merkezlerinin ortalamasıdır; dönüşte sabit kaldığı için art arda döndürmede grup kaymaz (8 × 45° başa döner).
   - Her üyenin konumu ve açısı birlikte döner. Tek kısıt stand alanı: sığmazsa işlem yapılmaz. Kilitli grup ya da kendi kilidi olan üye döndürmeyi engeller.
 - (Opsiyonel, ayrı karar) Rafların gruplamadan bağımsız olarak bağlı oldukları duvarı her zaman takip etmesi: raf state'ine kalıcı "ev sahibi duvar" bağı. Duvar ve raf aynı gruptaysa Faz 3 ile zaten birlikte taşınır.
-- (Opsiyonel) Şablon görsellerinin şablonla birlikte taşınması (5b).
+- ~~Şablon görselleri.~~ **Yapılmayacak** (2026-10-18): görsel / Lightbox / Mesh şablona girmez; backlog maddesi yok.
 
 ## 5. Kararlar
 
@@ -256,7 +260,7 @@ Faz 3 sonrası kullanıcının sorduğu, henüz karara bağlanmamış iki konu. 
 |---|---|---|
 | Faz sırası | Kilit → Geri al → Grup → Çok duvarlı grup → Şablon → Gelişmiş | Öneri |
 | Toplu seçim tuşu | Shift+tık (Ctrl panel seçiminde kalır) | Karar (Faz 1) |
-| Gruptan tek öğe seçmek | Alt+tık yok; tık panel seçer, grup işlemleri sağ tıkta ve Gruplar kartında | Karar (Faz 3) |
+| Gruptan tek öğe seçmek | Kapalı grupta tık bütün grubu seçer (3b). Tek öğe için grup açılır. Açık grupta tık panel seçer. | Karar (Faz 3; 3b ile güncellendi) |
 | Kilitli öğe silinebilir mi | Hayır, önce kilit açılır | Karar (Faz 1) |
 | Grup seçiliyken Sil | Grubu sil komutu bütün grubu onayla siler; Delete tuşu yalnız seçili parçayı | Karar (Faz 3) |
 | Çoğaltılan öğe / grup | Kilitsiz doğar; grup kopyası yeni, kilitsiz gruptur; içinde ne olursa olsun çoğaltılır | Karar (Faz 1, Faz 3) |
@@ -267,8 +271,13 @@ Faz 3 sonrası kullanıcının sorduğu, henüz karara bağlanmamış iki konu. 
 | Görsel silme geri alınır mı | Hayır; görsel silinince geçmiş sıfırlanır | Karar (Faz 2) |
 | Şablon Item mı | Hayır, sahnede normal parçalara açılan şablon | Karar (Faz 5) |
 | Şablonda renk / cam / metal | Korunur | Karar (Faz 5) |
-| Şablonda görseller / Lightbox / Mesh | 5a: yok; 5b opsiyonel | Karar (Faz 5) / 5b açık |
+| Şablonda görseller / Lightbox / Mesh | Yok; şablona girmez (kalıcı; ayrı faz yok) | Karar (Faz 5 + 2026-10-18) |
 | Kilit / grup / şablon BOM'a girer mi | Hayır (parçalar girer) | Ürün kararı |
+| 3b kapalı tık | Bütün grup | Karar (Faz 3b, 2026-10-18) |
+| 3b kapalı özellik düzenleme | Yasak; önce aç | Karar (Faz 3b) |
+| 3b açık tek öğe taşıma | İzin (göreli bozulabilir) | Karar (Faz 3b) |
+| 3b açık/kapalı persist | Kaydedilmez; açılışta hepsi kapalı | Karar (Faz 3b) |
+| 3b kilitli grup açma | Yasak; önce kilit | Karar (Faz 3b) |
 
 ## 6. Riskler
 
