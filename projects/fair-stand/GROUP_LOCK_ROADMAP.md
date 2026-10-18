@@ -12,7 +12,7 @@
 > | Faz 5 — Kurumsal şablon | Uygulandı: `kyrox-fair-stand` PR #286 (migration `0067`, API + Şablonlarım kartı) |
 > | Faz 6 | İlk iki madde Faz 3 ve Faz 4 ile karşılandı; opsiyonel maddeler plan |
 >
-> **Grup işi (2026-10-18):** Faz 1–5 yayında. Faz 3b ürün kararları kilitlendi; uygulama ayrı PR. Faz 6 opsiyonel (şablon 5b görseller, raf ev sahibi) hâlâ açık.
+> **Grup işi (2026-10-18):** Faz 1–5 yayında. Faz 3b ürün kararları kilitlendi; uygulama ayrı PR. Şablon görsel taşımaz (kalıcı karar). Faz 6’da yalnız opsiyonel “raf ev sahibi duvar” açık.
 >
 > Her faz ayrı PR'dır ve kodlamadan önce kullanıcı onayı alınır (`kyrox-fair-stand/AGENTS.md` kod öncesi checkpoint).
 >
@@ -231,7 +231,7 @@ Kesin liste `contract:verify` discovery'si ile çıkarılır.
 - Katalogda olmayan `itemKey` atlanır ve yazılır.
 - Yetkiler proje yetkileridir (read / create|update / delete). Oturum yoksa (CRM dışı) şablonlar kapalıdır.
 - **Korunan:** ölçü, göreli konum/açı, renk, cam panel, metal separatör.
-- **Korunmayan (5a):** görseller, Lightbox, Mesh. (Opsiyonel 5b: şablon görsellerinin taşınması — yapılmadı.)
+- **Korunmayan (kalıcı):** görseller, Lightbox, Mesh. Şablona girmez; ayrı faz / backlog yok (kullanıcı kararı 2026-10-18).
 
 **Veri (sunucu)**
 - Tablo `fair_stand_group_templates`: `id`, `organization_id`, `name`, `member_count`, `payload` (JSON), `created_by`, tarihler. `description` kolonu yok.
@@ -252,7 +252,7 @@ Kesin liste `contract:verify` discovery'si ile çıkarılır.
   - Merkez üye merkezlerinin ortalamasıdır; dönüşte sabit kaldığı için art arda döndürmede grup kaymaz (8 × 45° başa döner).
   - Her üyenin konumu ve açısı birlikte döner. Tek kısıt stand alanı: sığmazsa işlem yapılmaz. Kilitli grup ya da kendi kilidi olan üye döndürmeyi engeller.
 - (Opsiyonel, ayrı karar) Rafların gruplamadan bağımsız olarak bağlı oldukları duvarı her zaman takip etmesi: raf state'ine kalıcı "ev sahibi duvar" bağı. Duvar ve raf aynı gruptaysa Faz 3 ile zaten birlikte taşınır.
-- (Opsiyonel) Şablon görsellerinin şablonla birlikte taşınması (5b).
+- ~~Şablon görselleri.~~ **Yapılmayacak** (2026-10-18): görsel / Lightbox / Mesh şablona girmez; backlog maddesi yok.
 
 ## 5. Kararlar
 
@@ -271,7 +271,7 @@ Kesin liste `contract:verify` discovery'si ile çıkarılır.
 | Görsel silme geri alınır mı | Hayır; görsel silinince geçmiş sıfırlanır | Karar (Faz 2) |
 | Şablon Item mı | Hayır, sahnede normal parçalara açılan şablon | Karar (Faz 5) |
 | Şablonda renk / cam / metal | Korunur | Karar (Faz 5) |
-| Şablonda görseller / Lightbox / Mesh | 5a: yok; 5b opsiyonel | Karar (Faz 5) / 5b açık |
+| Şablonda görseller / Lightbox / Mesh | Yok; şablona girmez (kalıcı) | Karar (Faz 5; 5b iptal 2026-10-18) |
 | Kilit / grup / şablon BOM'a girer mi | Hayır (parçalar girer) | Ürün kararı |
 | 3b kapalı tık | Bütün grup | Karar (Faz 3b, 2026-10-18) |
 | 3b kapalı özellik düzenleme | Yasak; önce aç | Karar (Faz 3b) |
