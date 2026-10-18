@@ -190,7 +190,7 @@ Faz 3 sonrası kullanıcının sorduğu, henüz karara bağlanmamış iki konu. 
 
 **2. Gruptaki öğenin özellikleri (renk, görsel, cam, kumaş, ölçü) değiştirilebilsin mi?**
 - **Bugün (Faz 3):** Değiştirilebiliyor; grup yalnız taşıma, kilit, çoğaltma ve silmeyi birlikte yapıyor.
-- **Seçenek (3ds Max gibi):** Kapalı grupta öğe düzenlenemez. Sağ tık veya Gruplar kartından **Grubu aç** denir; grup açıkken öğeler tek tek seçilir, düzenlenir ve taşınır. **Grubu kapat** ile grup yeniden tek parça gibi davranır. Açık grup pembe/bakır kesik çerçeveyle gösterilir; aynı anda tek grup açık olur.
+- **Seçenek (3ds Max gibi):** Kapalı grupta öğe düzenlenemez. Sağ tık veya Gruplar kartından **Grubu aç** denir; grup açıkken öğeler tek tek seçilir, düzenlenir ve taşınır. **Grubu kapat** ile grup yeniden tek parça gibi davranır. Açık grup kesik bakır çerçeveyle gösterilir; aynı anda tek grup açık olur.
 
 **Karar verilmesi gerekenler:** (a) Tıkın varsayılanı (panel mi, bütün grup mu); (b) kapalı grupta görünüm değişikliğine (renk/görsel) izin verilip verilmeyeceği; (c) açık grupta tek öğe taşımanın diğer üyelerle göreli konumu bozmasına izin verilip verilmeyeceği; (d) aç/kapat durumunun kaydedilip kaydedilmeyeceği (öneri: kaydedilmez, proje açılınca gruplar kapalı başlar); (e) kilitli grubun açılıp açılamayacağı (öneri: açılamaz, önce kilit açılır).
 
