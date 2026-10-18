@@ -271,7 +271,7 @@ Kesin liste `contract:verify` discovery'si ile çıkarılır.
 | Görsel silme geri alınır mı | Hayır; görsel silinince geçmiş sıfırlanır | Karar (Faz 2) |
 | Şablon Item mı | Hayır, sahnede normal parçalara açılan şablon | Karar (Faz 5) |
 | Şablonda renk / cam / metal | Korunur | Karar (Faz 5) |
-| Şablonda görseller / Lightbox / Mesh | Yok; şablona girmez (kalıcı) | Karar (Faz 5; 5b iptal 2026-10-18) |
+| Şablonda görseller / Lightbox / Mesh | Yok; şablona girmez (kalıcı; ayrı faz yok) | Karar (Faz 5 + 2026-10-18) |
 | Kilit / grup / şablon BOM'a girer mi | Hayır (parçalar girer) | Ürün kararı |
 | 3b kapalı tık | Bütün grup | Karar (Faz 3b, 2026-10-18) |
 | 3b kapalı özellik düzenleme | Yasak; önce aç | Karar (Faz 3b) |
