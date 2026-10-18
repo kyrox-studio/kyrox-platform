@@ -8,6 +8,18 @@ sudo bash scripts/server/deploy-all.sh
 sudo bash scripts/server/check-server.sh
 ```
 
+## deploy-all.sh self-update
+
+`deploy-all.sh` updates its own repo (fair-crm) with `git pull`. Bash has already loaded the old `main()` and `lib/common.sh` at that point, so without a restart a change to the deploy logic would only take effect on the next deploy.
+
+- Before the fair-crm pull the script takes the sha256 of `scripts/server/deploy-all.sh` and `scripts/server/lib/common.sh`.
+- After the pull, when either file changed, it restarts itself once with the new version (`exec`, same arguments) and sets `KYROX_DEPLOY_REEXECED=1`.
+- The restart happens before dependency install, migrations and service restarts, so that work runs once, with the new version. The second pass sees the repos already up to date (`pull --ff-only` is a no-op).
+- `KYROX_DEPLOY_REEXECED=1` blocks a second restart (no loop). Do not set it by hand.
+- The acceptance report shows `Deploy scripts: unchanged` or `Deploy scripts: restarted with updated deploy scripts`.
+
+Run `deploy-all.sh` once; a second manual run is not needed after a deploy-script change. Scripts called as separate processes (`apply-nginx-*.sh`, etc.) were always read fresh.
+
 ## check-server.sh output format
 
 ```text
