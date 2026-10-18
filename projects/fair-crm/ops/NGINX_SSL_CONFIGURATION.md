@@ -155,6 +155,25 @@ Mevcut yönlendirme:
 /kyrox-core/  -> http://127.0.0.1:8000/
 ```
 
+### Statik dosya performansı (gzip + önbellek)
+
+`scripts/server/apply-nginx-performance.sh` bunları ekler; kurallar `scripts/server/nginx_performance.py` içindedir. Yalnız eksik olanı ekler, tekrar çalıştırmak bir şey değiştirmez, elle yazılmış satırlara dokunmaz. `nginx -t` hata verirse önceki dosyalar geri yüklenir.
+
+| Ne | Nerede | Kural |
+|----|--------|-------|
+| gzip | `/etc/nginx/conf.d/kyrox-gzip.conf` (tüm siteler) | JS, CSS, JSON, SVG, GLB/GLTF sıkıştırılır. Ubuntu varsayılanı yalnız HTML'i sıkıştırır. `nginx.conf` içinde açık olan bir gzip satırı bu dosyaya yazılmaz. Elle yazılmış (işaretsiz) bir `kyrox-gzip.conf` olduğu gibi kalır. |
+| `/assets/` | site dosyası | `Cache-Control: public, max-age=31536000, immutable` — Vite dosya adı içerik özetini taşır. 404 yanıtı önbelleğe alınmaz. |
+| `/index.html` (SPA girişi) | site dosyası | `no-cache` — yeni deploy hemen görünür. |
+| `/models/`, `/textures/` | site dosyası | `no-cache` + ETag — ad sabit; dosya değişmediyse 304 döner, gövde inmez. GLB `model/gltf-binary` olarak sunulur. |
+
+Ne zaman çalışır:
+
+- **İlk kurulum:** `bootstrap-server.sh` şablonu kurar (şablon kuralları zaten içerir) ve ardından betiği çalıştırır; böylece gzip dosyası da yazılır.
+- **Her deploy:** `deploy-all.sh`, nginx reload adımında betiği çalıştırır; eski veya elle düzenlenmiş site dosyasına eksik kuralları ekler.
+- **Kontrol:** `check-server.sh` kurallar veya JS gzip eksikse `[WARN]` verir (deploy bunları ekler).
+
+Ölçüm (nginx 1.24, Docker): `three-vendor` paketi 669 KB yerine 171 KB iner; değişmemiş model 304 döner.
+
 ## 4. Domain'i Nginx'e Bağlama
 
 Dosyayı aç:

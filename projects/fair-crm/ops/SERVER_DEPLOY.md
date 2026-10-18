@@ -23,7 +23,7 @@ Final: HEALTHY | DEGRADED | BROKEN
 ```
 
 - **HEALTHY** — no failures, no warnings
-- **DEGRADED** — warnings only (e.g. 443 not configured, Postgres bound to 0.0.0.0 via Docker)
+- **DEGRADED** — warnings only (e.g. 443 not configured, Postgres bound to 0.0.0.0 via Docker, nginx static cache/gzip rules missing — the next `deploy-all.sh` adds them)
 - **BROKEN** — one or more `[FAIL]` checks
 
 Set `CHECK_STRICT=1` to treat warnings as failure (exit 1).
@@ -119,7 +119,7 @@ Restore development and production restore jobs do **not** conflict with the ser
 | Script | Role |
 |--------|------|
 | `bootstrap-server.sh` | OS packages, Docker, nginx, Postgres container, env scaffolding — **no** migrations or restore |
-| `deploy-all.sh` | Code update, `alembic upgrade head`, systemd restart — **no** DB reset or restore execution |
+| `deploy-all.sh` | Code update, `alembic upgrade head`, systemd restart, missing nginx gzip/cache rules (`apply-nginx-performance.sh`) — **no** DB reset or restore execution |
 | `scripts/dev/run-restore-job.ps1` | Destructive restore runner (dev); requires `ALLOW_RESTORE=true` and explicit `TARGET_DATABASE_URL` |
 | `scripts/server/run-restore-job.sh` | Same runner on Linux server; **not** called by `deploy-all.sh` |
 
