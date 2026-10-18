@@ -32,6 +32,31 @@ Lokal runtime acceptance PASS. `deployed` / `merged` / `production` iddiası yok
 
 Mimari ayrıntı: [ITEM_CATALOG_ARCHITECTURE.md](ITEM_CATALOG_ARCHITECTURE.md).
 
+## Sahne editörü: grup — 2026-10-18
+
+[GROUP_LOCK_ROADMAP.md](GROUP_LOCK_ROADMAP.md) Faz 3, öğeden bağımsız tanımla. `kyrox-fair-stand` PR #284.
+
+**Kullanıcı tarafı**
+- Öğeler Shift+tık ile seçilir, sağ tık → **Grup oluştur…** → isim verilir.
+- Her türlü öğe gruplanabilir: duvar, profil, lamba, logo, TV, kutu blok, mobilya.
+- Bir öğe tek grupta olur; başka gruba eklemek sorularak yapılır.
+- Grup her yöne birlikte taşınır (sürükleme, ok tuşu). Tek kısıt stand alanıdır.
+- Kenara bağlı duvar parçaları gruplanınca serbest öğe olur.
+- **Grup kilidi** bütün parçaları kilitler.
+- **Grubu çoğalt** yeni, kilitsiz bir kopya grup üretir.
+- **Grubu sil** onay ister.
+- Kenar çubuğunda **Gruplar** kartı var.
+
+**Veri.**
+- Grup bilgisi her üye öğede `group` alanı olarak durur.
+- Proje kaydı biçimi, şema ve migration değişmez.
+
+**SaaS etkisi.**
+- Organization izolasyonu, yetki, entitlement ve kullanım ölçümü değişmez.
+- Grup bir Item değildir; Item master, katalog ve BOM etkilenmez.
+
+**Bilinçli sonuç.** Kenardan ayrılan duvar parçaları duvar kapasitesi hesabına ve otomatik duvar lambası dizisine girmez.
+
 ## Eksik görselle proje açma ve müşterisiz içe aktarma — 2026-10-18
 
 `kyrox-fair-stand` PR #283.

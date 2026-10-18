@@ -6,7 +6,11 @@
 > |---|---|
 > | Faz 1 — Kilit | Uygulandı: `kyrox-fair-stand` PR #278, CI yeşil, `main`'de |
 > | Faz 2 — Geri al / İleri al | Uygulandı: `kyrox-fair-stand` PR #281, CI yeşil, `main`'de |
-> | Faz 3–6 | Plan, kod yok |
+> | Faz 3 — Grup (öğeden bağımsız) | Uygulandı: `kyrox-fair-stand` PR #284 |
+> | Faz 3b — Grup aç / kapat (3ds Max gibi) | Açık karar, kod yok |
+> | Faz 4 | Faz 3 ile karşılandı (çok duvarlı grup); kalan grup döndürme Faz 6'da |
+> | Faz 5 — Kurumsal şablon | Plan, kod yok |
+> | Faz 6 | İlk madde Faz 3 ile karşılandı; grup döndürme ve opsiyonel maddeler plan |
 >
 > Her faz ayrı PR'dır ve kodlamadan önce kullanıcı onayı alınır (`kyrox-fair-stand/AGENTS.md` kod öncesi checkpoint).
 >
@@ -56,8 +60,7 @@
 - **Toplu seçim** — Shift+tık ile birden fazla öğe seçmek. Kalıcı değildir; toplu kilitleme ve grup kurmanın ön adımıdır. Ctrl, panel yüzey seçimi olarak kalır.
 - **Kilit** — öğenin bulunduğu yere sabitlenmesi. Kilitli öğe taşınmaz, döndürülmez, silinmez. Görünüm (renk, görsel, TV içeriği) değiştirilebilir.
 - **Geri al / İleri al** — proje tasarımındaki her değişikliğin adım adım geri alınması ve yinelenmesi.
-- **Grup** — isimli, kalıcı öğe kümesi. Bir üyeye tıklamak bütün grubu seçer; grup birlikte taşınır.
-- **Çapa** — grubun taşıma referansı. Grupta duvar parçası varsa çapa odur, yoksa ilk üyedir. Taşıma başlarken her üyenin çapaya göre göreli konumu (boyunca / önünde / yükseklik / dönüş) hesaplanır. Çapa kendi kurallarıyla taşınır, üyeler aynı göreli konumla yeniden yerleştirilir.
+- **Grup** — öğeden bağımsız, isimli, kalıcı öğe kümesi. Her türlü öğe girer; grup bütün olarak aynı kaydırmayla taşınır ve çoğaltılır. (Faz 3 uygulamasında eski "çapa" tanımı kullanıcı kararıyla kaldırıldı.)
 - **Grup kilidi** — grubun bütün olarak kilitlenmesi.
 - **Kurumsal şablon** — bir grubun organizasyon kataloğuna kaydedilmiş hali. Sahneye konunca **normal parçalara ve yeni bir gruba açılır**; şablon bir Item değildir.
 
@@ -149,66 +152,52 @@ Kesin liste `contract:verify` discovery'si ile çıkarılır.
 
 **Kabul.** Listelenen bütün işler tek tek geri alınır ve yinelenir; proje değişince geçmiş sıfırlanır; CI zinciri yeşil.
 
-### Faz 3 — Grup: tek çapa, liste paneli, çoğaltma (C, D, E, F)
+### Faz 3 — Grup: öğeden bağımsız küme, birlikte taşıma, liste paneli, çoğaltma (C, D, E, F)
 
-**Amaç.** Duvar + raflar + baza, duvar + lambalar, masa + sandalyeler birlikte hareket etsin. Grup kilitlenebilsin, içeriği görülebilsin, çoğaltılabilsin.
+> **Durum: uygulandı** (`kyrox-fair-stand` PR #284). İlk plandaki "tek çapa / grupta en fazla 1 duvar" tanımı, uygulamadan önce kullanıcı kararıyla aşağıdaki öğeden bağımsız tanımla değiştirildi.
 
-**Davranış: oluşturma ve düzenleme**
-- Shift+tık ile 2+ öğe seç → sağ tık → **Grup oluştur** → isim (varsayılan "Grup 1").
-- Üyeye tıklamak bütün grubu seçer: tüm üyelerde çerçeve ve grup adı.
-- **Gruba ekle (attach):** grup seçiliyken Shift ile yeni öğe ekle → "Gruba ekle".
-- **Gruptan çıkar (detach):** Alt+tık ile gruptaki tek öğeyi seç → "Gruptan çıkar".
-- **Yeniden adlandır**, **Grubu çöz**, **Grubu kilitle / kilidini aç** (Faz 1 kuralları bütün gruba uygulanır).
-- **Sil** (grup seçiliyken): bütün grup, onay sorularak silinir. Kilitliyse silinmez.
-- Öğe silinince gruptan düşer. Grupta 1 öğe kalırsa grup çözülür.
+**Amaç.** İstenen öğeler (duvar paneli, profil, lamba, logo, TV, görselli kutu blok, masa, sandalye, banko…) tek bir isimli küme olsun; birlikte taşınsın, çoğaltılsın ve kilitlenip düzeni korunsun.
 
-**Davranış: birlikte taşıma**
-- Sürükleme ve ok tuşlarıyla, §3'teki çapa mantığıyla.
-- Çapa bugünkü kurallarla taşınır (zincir, mıknatıs, snap aynen).
-- Raf, TV, ışıklı köpük, lamba ve baza duvarın yeni yerine aynı göreli konumla oturtulur. Duvar başka kenara geçerse üyeler de döner.
-- Bir üye bile sığmıyor ya da çakışıyorsa bütün taşıma reddedilir ve bütün üyelerde kırmızı gölge çıkar. Grup üyeleri birbirine çakışma sayılmaz.
+**Kararlar (kullanıcı, 2026-10-18)**
+- Grup öğeden bağımsızdır; her türlü öğe ve karışık küme gruplanır. Duvar sınırı yoktur.
+- Gruplanınca stand kenarına bağlı (`back` / `left` / `right`) üyeler serbest öğeye çevrilir; konum ve açı aynı kalır, eski kenar `fromWallId` olarak hatırlanır. Grup çözülünce ya da üye çıkarılınca öğe hâlâ aynı kenar çizgisinde ve aynı açıdaysa kenara geri bağlanır.
+- Grup bütün olarak her yöne taşınır (sürükleme, ok tuşu; 10 cm adım). **Tek kısıt:** hiçbir üye aktif stand alanının dışına taşamaz. Başka öğelerle çakışma ve tür kuralları (ör. TV'nin duvarda durması) aranmaz; zincir itme yoktur. Stand dışına çıkan adım uygulanmaz, grup kenarda durur.
+- İçinde ne olursa olsun her grup çoğaltılabilir. Kopya "… (kopya)" adıyla yeni, kilitsiz bir gruptur; grubun sağına, soluna, önüne ya da arkasına ilk boşluğa konur, yer yoksa işlem reddedilir.
+- Grubu silmek onaylıdır: "Grubun tamamı silinecek (N parça)". Delete tuşu yalnız seçili parçayı siler.
+- Tık bugünkü gibi panel seçer (boyama bozulmaz); grubun diğer üyelerinde çerçeve görünür. Alt+tık yok; grup işlemleri sağ tık menüsünde ve Gruplar kartında.
+- Bir öğe aynı anda tek grupta olur. Başka gruptaki öğe eklenmek istenirse sorulur: "… grubundan çıkarılıp … grubuna eklensin mi?" Hayır → hiçbir şey değişmez.
+- Grupta 1 parça kalırsa grup kendiliğinden çözülür.
+- Gruptaki öğede Shift+R (döndürme) reddedilir; grup döndürme sonraki faza kalır.
 
-**Davranış: grup listesi paneli (E)**
-- Kenar çubuğunda **Gruplar** bölümü: her grup adıyla, üye sayısıyla ve kilit durumuyla listelenir.
-- Grup açılınca üyeleri listelenir. Her satırda katalogdaki ad ve ölçü (ör. "Raf 100", "Baza 200") bulunur.
-- Satıra tıklayınca o parça sahnede seçilir ve kamera ona odaklanır.
-- Satırdan **gruptan çıkar**; grup başlığından **yeniden adlandır / kilitle / çöz**.
+**Grup kilidi.** Grup kilitliyse bütün üyeler Faz 1 kurallarıyla kilitli sayılır (taşınmaz, döndürülmez, boyutlanmaz, silinmez). Kilitli gruptaki tek parçanın kilidi açılamaz. Kilitliyken adlandırma ve çoğaltma yapılabilir; çıkarma, çözme ve silme yapılamaz. Kendi kilidi olan bir üye grubu taşıtmaz.
 
-**Davranış: grup çoğaltma (F)**
-- Sağ tık → **Grubu çoğalt**. Bütün üyeler yeni kimliklerle kopyalanır (`duplicateModuleState`), kopyalar yeni bir gruba alınır: "Grup adı (kopya)". Renk, görsel ve göreli konumlar aynı kalır; kopyalar kilitsiz doğar. `duplicateModuleState` metal separatör grup kimliklerini zaten yeniliyor; kopya grubun metal levhaları orijinalden ayrı sayılır.
-- **Yerleşim:**
-  - Serbest gruplarda (masa + sandalyeler) kopya grubun yanına konur. Yer yoksa uyarı verilir ve hiçbir şey eklenmez.
-  - Duvar çapalı gruplarda çapa bugünkü duvar çoğaltma kuralıyla yanına eklenir (zincir planı), üyeler yeni duvara göre yerleştirilir.
-- Kopya her zaman geçerli bir konuma konur; konamıyorsa işlem tümden reddedilir.
+**Veri.** Her üyede `group: { id, name, locked, fromWallId? }`. Sunucu proje payload'u yalnız `{stand, modules}` tuttuğu için ayrı bir `groups` alanı kullanılmadı; şema, migration ve proje sürümü değişmez. Kayıt, revizyon, içe/dışa aktarma ve geri al bu alanı kendiliğinden kapsar. İçe aktarma alanın biçimini ve gruplar arası tutarlılığı doğrular. Tek öğe kopyası gruba girmez; "Tüm özellikleri kaldır" grubu ve öğe kilidini korur.
 
-**Kısıtlar**
-- Grupta en fazla **1 duvar parçası** (`wall`) bulunur; çapa odur. Yanına sınırsız `wall-overlay`, `top`, `free` üye eklenebilir.
-- Lightbox kumaşına bağlı modül bugünkü gibi taşınamaz.
-- Bir öğe aynı anda tek grupta olur.
+**Bilinçli sonuç.** Kenardan ayrılan duvar parçaları duvar kapasitesi hesabına ve otomatik duvar lambası dizisine girmez.
 
-**Veri.** Proje düzeyinde `groups: [{ id, name, moduleIds, locked }]`. Göreli konumlar kaydedilmez, taşıma başında hesaplanır. İçe aktarma doğrulaması: üyeler var mı, öğe tek grupta mı, duvar sayısı ≤ 1 mi. Geri al / ileri al grupları da kapsar.
+**Dokunulan yüzeyler.** Yeni `src/moduleGroups.js` (saf mantık) ve `src/moduleGroupPanel.js` (Gruplar kartı); `src/moduleLock.js` (`isModuleLocked` grup kilidini sayar); `src/scene3d.js` (grup sürükleme, ok tuşu, Shift+R reddi, üye çerçevesi, `selectModulesById`); `src/moduleContextMenu.js` (grup bölümü); `src/main.js`; `src/designState.js`; `src/projectImportValidation.js`; `src/featureContracts.js` (`module-group`); `index.html` ve `src/configuratorMarkup.js`; `src/helpGuide.js`.
 
-**Dokunulacak yüzeyler.**
-- Yeni `src/moduleGroups.js`: oluştur, ekle, çıkar, çöz, adlandır, doğrula, çoğalt; çapa ve göreli konum hesabı. Saf ve testli.
-- `src/scene3d.js`: grup seçimi, çoklu gölge, toplu taşıma.
-- `src/moduleContextMenu.js`.
-- Kenar çubuğu (`src/sidebarController.js` ve ilgili HTML).
-- `src/main.js` ve proje kayıt yolu.
-- `src/projectImportValidation.js`.
-- `src/featureContracts.js`: `module-group` feature contract'ı, çünkü birden fazla modülü koordine eder.
-- `src/helpGuide.js`.
+**Testler.** Unit `test/moduleGroups.test.js` ve `test/moduleGroupPanel.test.js`; E2E `e2e/module-group.spec.mjs`: iki kutu blok gruplanır, kartta 2 parça görünür, birlikte taşınır, stand dışına taşmaz, kilitliyken oynamaz, çoğaltılır, onaylı silinir, çözülür.
 
-**Testler.**
-- Unit: grup işlemleri; çapa taşınınca raf ve baza göreli konumu; kenar değişince dönüş; çakışmada tümden ret; çoğaltmada yeni kimlik ve kopya grubu; içe aktarma doğrulaması.
-- E2E (`e2e/module-group.spec.mjs`): duvar + raf + baza → grupla → isim → listede üç parça görünüyor → sürükle → üçü aynı göreli konumda → çoğalt → yenile → iki grup duruyor → detach → çöz.
+**Seçim rengi.** Shift+tık toplu seçim ve grup üyesi çerçevesi Kyrox bakırıdır (`#C47A3A`); tek öğe ve panel seçimi mavi kalır.
 
-**Kabul.**
-- Gruplu duvar taşınınca raf ve baza "ayrı oynamaz".
-- Liste paneli üyeleri doğru gösterir.
-- Çoğaltma eksiksiz bir kopya grup üretir.
-- Kayıttan sonra her şey korunur; CI zinciri yeşil.
+### Faz 3b — Grup aç / kapat (açık karar, kullanıcı notu 2026-10-18)
+
+Faz 3 sonrası kullanıcının sorduğu, henüz karara bağlanmamış iki konu. 3ds Max'teki **Group > Open / Close** davranışı örnek alınır.
+
+**1. Gruptaki bir öğeye tıklanınca bütün grup mu seçilsin?**
+- **Bugün (Faz 3):** Tık yalnız tıklanan paneli seçer; grubun diğer üyeleri bakır çerçeveyle gösterilir. Sürükleme ve ok tuşu bütün grubu taşır.
+- **Seçenek:** Tık bütün grubu seçer (3ds Max'te kapalı grup tek nesne gibi seçilir). Gruptaki tek öğeye ulaşmak için grup **açılır**.
+
+**2. Gruptaki öğenin özellikleri (renk, görsel, cam, kumaş, ölçü) değiştirilebilsin mi?**
+- **Bugün (Faz 3):** Değiştirilebiliyor; grup yalnız taşıma, kilit, çoğaltma ve silmeyi birlikte yapıyor.
+- **Seçenek (3ds Max gibi):** Kapalı grupta öğe düzenlenemez. Sağ tık veya Gruplar kartından **Grubu aç** denir; grup açıkken öğeler tek tek seçilir, düzenlenir ve taşınır. **Grubu kapat** ile grup yeniden tek parça gibi davranır. Açık grup kesik bakır çerçeveyle gösterilir; aynı anda tek grup açık olur.
+
+**Karar verilmesi gerekenler:** (a) Tıkın varsayılanı (panel mi, bütün grup mu); (b) kapalı grupta görünüm değişikliğine (renk/görsel) izin verilip verilmeyeceği; (c) açık grupta tek öğe taşımanın diğer üyelerle göreli konumu bozmasına izin verilip verilmeyeceği; (d) aç/kapat durumunun kaydedilip kaydedilmeyeceği (öneri: kaydedilmez, proje açılınca gruplar kapalı başlar); (e) kilitli grubun açılıp açılamayacağı (öneri: açılamaz, önce kilit açılır).
 
 ### Faz 4 — Çok duvarlı gruplar: serbest sıra (G)
+
+> **Durum:** Faz 3'ün öğeden bağımsız tanımıyla büyük ölçüde karşılandı: grupta duvar sınırı yok, gruplanınca kenar parçaları serbest öğe olur, grup katı cisim gibi taşınır ve çoğaltılır. Açık kalan: grubu toptan döndürme.
 
 **Amaç.** Depo gibi standın içinde duran, birden fazla duvar parçasından (kapı dahil) kurulu yapıyı bütün olarak taşımak ve çoğaltmak.
 
@@ -252,9 +241,9 @@ Kesin liste `contract:verify` discovery'si ile çıkarılır.
 
 ### Faz 6 — Gelişmiş
 
-- Kenar duvar zincirine (`back` / `left` / `right`) bağlı birden fazla duvar parçasının grup olarak taşınması (zincir/reflow ile birlikte).
-- Grubu döndürme (çapa merkezli, Item rotation adımlarına uygun; `docs/refactor/ROTATION.md`).
-- (Opsiyonel, ayrı karar) Rafların gruplamadan bağımsız olarak bağlı oldukları duvarı her zaman takip etmesi: raf state'ine kalıcı "ev sahibi duvar" bağı.
+- ~~Kenar duvar zincirine (`back` / `left` / `right`) bağlı birden fazla duvar parçasının grup olarak taşınması.~~ **Faz 3 ile karşılandı:** gruplanınca kenar parçaları serbest öğeye çevrilir ve grup her yöne taşınır. Fark: zincir/reflow ile komşu paneller itilmez (kullanıcı kararı).
+- **Grubu döndürme** — grup için kalan tek hareket işi (Faz 4'teki "grup döndürme açık" notu da budur). Grup merkezi etrafında, Item rotation adımlarına uygun; `docs/refactor/ROTATION.md`. Bugün gruptaki öğede Shift+R reddedilir.
+- (Opsiyonel, ayrı karar) Rafların gruplamadan bağımsız olarak bağlı oldukları duvarı her zaman takip etmesi: raf state'ine kalıcı "ev sahibi duvar" bağı. Duvar ve raf aynı gruptaysa Faz 3 ile zaten birlikte taşınır.
 - (Opsiyonel) Şablon görsellerinin şablonla birlikte taşınması (5b).
 
 ## 5. Kararlar
@@ -263,11 +252,13 @@ Kesin liste `contract:verify` discovery'si ile çıkarılır.
 |---|---|---|
 | Faz sırası | Kilit → Geri al → Grup → Çok duvarlı grup → Şablon → Gelişmiş | Öneri |
 | Toplu seçim tuşu | Shift+tık (Ctrl panel seçiminde kalır) | Karar (Faz 1) |
-| Gruptan tek öğe seçmek | Alt+tık | Öneri |
+| Gruptan tek öğe seçmek | Alt+tık yok; tık panel seçer, grup işlemleri sağ tıkta ve Gruplar kartında | Karar (Faz 3) |
 | Kilitli öğe silinebilir mi | Hayır, önce kilit açılır | Karar (Faz 1) |
-| Grup seçiliyken Sil | Bütün grup, onaylı | Öneri |
-| Çoğaltılan öğe / grup | Kilitsiz doğar (Faz 1 karar); grup kopyası yeni gruptur (öneri) | Kısmen karar |
-| Grupta duvar sayısı (Faz 3) | En fazla 1 | Öneri |
+| Grup seçiliyken Sil | Grubu sil komutu bütün grubu onayla siler; Delete tuşu yalnız seçili parçayı | Karar (Faz 3) |
+| Çoğaltılan öğe / grup | Kilitsiz doğar; grup kopyası yeni, kilitsiz gruptur; içinde ne olursa olsun çoğaltılır | Karar (Faz 1, Faz 3) |
+| Grup kapsamı (Faz 3) | Öğeden bağımsız; duvar sınırı yok; kenar parçaları serbest öğeye çevrilir | Karar (Faz 3) |
+| Grup taşıma kısıtı | Yalnız aktif stand alanı; çakışma ve tür kuralları aranmaz | Karar (Faz 3) |
+| Öğe birden fazla grupta | Hayır; başka gruba eklemek sorularak taşır | Karar (Faz 3) |
 | Geri alma geçmişi | Kaydedilmez, son 50 adım | Karar (Faz 2) |
 | Görsel silme geri alınır mı | Hayır; görsel silinince geçmiş sıfırlanır | Karar (Faz 2) |
 | Şablon Item mı | Hayır, sahnede normal parçalara açılan şablon | Öneri |

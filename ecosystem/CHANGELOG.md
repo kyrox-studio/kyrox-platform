@@ -8,6 +8,12 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). This ch
 
 ### Added
 
+- **Fair Stand sahne editörü Faz 3: grup** — `kyrox-fair-stand` PR #284.
+  - Grup öğeden bağımsız.
+  - Grup bütün olarak taşınır ve çoğaltılır; tek kısıt stand alanı.
+  - Grup kilitlenebilir, onaylı silinir.
+  - Kenar çubuğunda Gruplar kartı var.
+  - `GROUP_LOCK_ROADMAP.md` Faz 3 bu tanımla yeniden yazıldı. Faz 4 büyük ölçüde karşılandı; grup döndürme açık.
 - **Fair Stand: eksik görselle proje açma** — `kyrox-fair-stand` PR #283.
   - Dosyası bulunamayan görsel artık projenin açılmasını engellemiyor; o yüzey kendi rengiyle çiziliyor.
   - Müşterisiz içe aktarmada ham API hatası yerine yol gösteren bir mesaj çıkıyor.
