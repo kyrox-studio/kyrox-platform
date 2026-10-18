@@ -8,8 +8,9 @@
 > | Faz 2 — Geri al / İleri al | Uygulandı: `kyrox-fair-stand` PR #281, CI yeşil, `main`'de |
 > | Faz 3 — Grup (öğeden bağımsız) | Uygulandı: `kyrox-fair-stand` PR #284 |
 > | Faz 3b — Grup aç / kapat (3ds Max gibi) | Açık karar, kod yok |
-> | Faz 4 | Büyük ölçüde Faz 3 ile karşılandı (çok duvarlı grup); grup döndürme açık |
-> | Faz 5–6 | Plan, kod yok |
+> | Faz 4 | Faz 3 ile karşılandı (çok duvarlı grup); kalan grup döndürme Faz 6'da |
+> | Faz 5 — Kurumsal şablon | Plan, kod yok |
+> | Faz 6 | İlk madde Faz 3 ile karşılandı; grup döndürme ve opsiyonel maddeler plan |
 >
 > Her faz ayrı PR'dır ve kodlamadan önce kullanıcı onayı alınır (`kyrox-fair-stand/AGENTS.md` kod öncesi checkpoint).
 >
@@ -240,9 +241,9 @@ Faz 3 sonrası kullanıcının sorduğu, henüz karara bağlanmamış iki konu. 
 
 ### Faz 6 — Gelişmiş
 
-- Kenar duvar zincirine (`back` / `left` / `right`) bağlı birden fazla duvar parçasının grup olarak taşınması (zincir/reflow ile birlikte).
-- Grubu döndürme (çapa merkezli, Item rotation adımlarına uygun; `docs/refactor/ROTATION.md`).
-- (Opsiyonel, ayrı karar) Rafların gruplamadan bağımsız olarak bağlı oldukları duvarı her zaman takip etmesi: raf state'ine kalıcı "ev sahibi duvar" bağı.
+- ~~Kenar duvar zincirine (`back` / `left` / `right`) bağlı birden fazla duvar parçasının grup olarak taşınması.~~ **Faz 3 ile karşılandı:** gruplanınca kenar parçaları serbest öğeye çevrilir ve grup her yöne taşınır. Fark: zincir/reflow ile komşu paneller itilmez (kullanıcı kararı).
+- **Grubu döndürme** — grup için kalan tek hareket işi (Faz 4'teki "grup döndürme açık" notu da budur). Grup merkezi etrafında, Item rotation adımlarına uygun; `docs/refactor/ROTATION.md`. Bugün gruptaki öğede Shift+R reddedilir.
+- (Opsiyonel, ayrı karar) Rafların gruplamadan bağımsız olarak bağlı oldukları duvarı her zaman takip etmesi: raf state'ine kalıcı "ev sahibi duvar" bağı. Duvar ve raf aynı gruptaysa Faz 3 ile zaten birlikte taşınır.
 - (Opsiyonel) Şablon görsellerinin şablonla birlikte taşınması (5b).
 
 ## 5. Kararlar
