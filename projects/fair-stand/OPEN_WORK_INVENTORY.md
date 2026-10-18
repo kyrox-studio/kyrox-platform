@@ -79,6 +79,7 @@ Her item kendi ölçü/BOM’unu taşır; stand tavanı yalnız max zarf.
 | B.1 `eyeCount` | SİLİNECEK | Gerçek glass shelf yerleşimine geçilecek |
 | B.2 `wallGapCm` | KORUNACAK | Foam tüketicisi; grup taşınır |
 | B.3 mount vs `default_z_cm` | ARAŞTIRILACAK | İki kolon; biri seçilmeden silinmez |
+| B.3b Z clamp → tip davranışı (DB) | BACKLOG — şimdilik kodda | `placement=top` → `clampMountBottomZCm` (taban 0…tavan); floor-relative / overlay ayrı; yeni item için JS case yasak — PENDING B.3b |
 | B.4–B.5 strip occupancy | KALDIRILACAK | § A.4 sonrası |
 | B.7 gizli-350 seed SKU | BACKLOG | `wall_200_100` vb. ayrı yükseklik SKU’ları |
 | B.7 BOM↔leaf soft-warning | KARAR; kod yok | Admin uyarı; auto-fix yok |
