@@ -32,6 +32,22 @@ Lokal runtime acceptance PASS. `deployed` / `merged` / `production` iddiası yok
 
 Mimari ayrıntı: [ITEM_CATALOG_ARCHITECTURE.md](ITEM_CATALOG_ARCHITECTURE.md).
 
+## Sahne editörü: grup döndürme — 2026-10-18
+
+[GROUP_LOCK_ROADMAP.md](GROUP_LOCK_ROADMAP.md) Faz 4. `kyrox-fair-stand` PR #285.
+
+**Kullanıcı tarafı**
+- Gruptaki bir öğe seçiliyken **Shift+R** bütün grubu 45° döndürür.
+- Parçalar birbirine göre yerini korur; art arda döndürmede grup kaymaz.
+- Duvar, kapı ve panel de 45° açıya geçebilir.
+- Döndürülmüş grup standa sığmazsa işlem yapılmaz. Kilitli grup dönmez.
+- Taşıma, döndürme ve çoğaltma aynı sınır kuralını kullanır: öğenin dönmüş kaplama alanı stand içinde kalmalı. Önceden 45° döndürülmüş duvar paneli sürüklenince stand dışına taşabiliyordu; bu hata aynı PR'da düzeltildi.
+- Sağ tık menüsünde ve Gruplar kartında döndürme düğmesi yoktur.
+
+**Veri.** Yalnız üyelerin konum ve açı değerleri değişir; kayıt biçimi, şema ve migration değişmez.
+
+**SaaS etkisi.** Organization izolasyonu, yetki, entitlement ve kullanım ölçümü değişmez. Item master, katalog ve BOM etkilenmez.
+
 ## Sahne editörü: grup — 2026-10-18
 
 [GROUP_LOCK_ROADMAP.md](GROUP_LOCK_ROADMAP.md) Faz 3, öğeden bağımsız tanımla. `kyrox-fair-stand` PR #284.
