@@ -8,9 +8,9 @@
 > | Faz 2 — Geri al / İleri al | Uygulandı: `kyrox-fair-stand` PR #281, CI yeşil, `main`'de |
 > | Faz 3 — Grup (öğeden bağımsız) | Uygulandı: `kyrox-fair-stand` PR #284 |
 > | Faz 3b — Grup aç / kapat (3ds Max gibi) | Açık karar, kod yok |
-> | Faz 4 | Faz 3 ile karşılandı (çok duvarlı grup); kalan grup döndürme Faz 6'da |
+> | Faz 4 — Çok duvarlı grup ve grup döndürme | Uygulandı: çok duvarlı grup Faz 3 ile, grup döndürme `kyrox-fair-stand` PR #285 |
 > | Faz 5 — Kurumsal şablon | Plan, kod yok |
-> | Faz 6 | İlk madde Faz 3 ile karşılandı; grup döndürme ve opsiyonel maddeler plan |
+> | Faz 6 | İlk iki madde Faz 3 ve Faz 4 ile karşılandı; opsiyonel maddeler plan |
 >
 > Her faz ayrı PR'dır ve kodlamadan önce kullanıcı onayı alınır (`kyrox-fair-stand/AGENTS.md` kod öncesi checkpoint).
 >
@@ -242,7 +242,11 @@ Faz 3 sonrası kullanıcının sorduğu, henüz karara bağlanmamış iki konu. 
 ### Faz 6 — Gelişmiş
 
 - ~~Kenar duvar zincirine (`back` / `left` / `right`) bağlı birden fazla duvar parçasının grup olarak taşınması.~~ **Faz 3 ile karşılandı:** gruplanınca kenar parçaları serbest öğeye çevrilir ve grup her yöne taşınır. Fark: zincir/reflow ile komşu paneller itilmez (kullanıcı kararı).
-- **Grubu döndürme** — grup için kalan tek hareket işi (Faz 4'teki "grup döndürme açık" notu da budur). Grup merkezi etrafında, Item rotation adımlarına uygun; `docs/refactor/ROTATION.md`. Bugün gruptaki öğede Shift+R reddedilir.
+- ~~Grubu döndürme.~~ **Faz 4 ile uygulandı** (`kyrox-fair-stand` PR #285). Kararlar (kullanıcı, 2026-10-18):
+  - Gruptaki öğe seçiliyken yalnız **Shift+R**; sağ tık ve Gruplar kartında düğme yok.
+  - Adım **45°**; yön tek öğe Shift+R ile aynı. Gruptaki 90° adımlı duvar, kapı ve panel de 45° açıya geçebilir.
+  - Merkez üye merkezlerinin ortalamasıdır; dönüşte sabit kaldığı için art arda döndürmede grup kaymaz (8 × 45° başa döner).
+  - Her üyenin konumu ve açısı birlikte döner. Tek kısıt stand alanı: sığmazsa işlem yapılmaz. Kilitli grup ya da kendi kilidi olan üye döndürmeyi engeller.
 - (Opsiyonel, ayrı karar) Rafların gruplamadan bağımsız olarak bağlı oldukları duvarı her zaman takip etmesi: raf state'ine kalıcı "ev sahibi duvar" bağı. Duvar ve raf aynı gruptaysa Faz 3 ile zaten birlikte taşınır.
 - (Opsiyonel) Şablon görsellerinin şablonla birlikte taşınması (5b).
 

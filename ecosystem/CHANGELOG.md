@@ -8,6 +8,10 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). This ch
 
 ### Added
 
+- **Fair Stand sahne editörü Faz 4: grup döndürme** — `kyrox-fair-stand` PR #285.
+  - Gruptaki öğede Shift+R bütün grubu 45° döndürür.
+  - Merkez sabit kalır, art arda döndürmede grup kaymaz.
+  - Tek kısıt stand alanıdır.
 - **Fair Stand sahne editörü Faz 3: grup** — `kyrox-fair-stand` PR #284.
   - Grup öğeden bağımsız.
   - Grup bütün olarak taşınır ve çoğaltılır; tek kısıt stand alanı.
