@@ -1,8 +1,14 @@
 # Kyrox — Açık iş / dağınık not envanteri
 
-> Tarih: 2026-10-18  
+> Tarih: 2026-10-18 (okuma sırası: 2026-10-18 tek-kaynak temizliği)  
 > Amaç: Audit, PENDING, roadmap ve stub notlarını tek bakışta görmek.  
 > **Kanonik kaynaklar değişmez** — bu dosya özet haritadır; çelişkide aşağıdakiler kazanır.
+
+## Okuma sırası (oturum buradan)
+
+1. **Bu dosya** — özet harita (iş kuyruğu değil)
+2. **`kyrox-fair-stand/audit/FINDINGS.md`** — açık/kapalı F-*
+3. **`kyrox-fair-stand/docs/refactor/PENDING_ITEM_DECISIONS.md`** — ertelenmiş karar
 
 | Konu | Kanonik dosya |
 |---|---|
@@ -12,7 +18,7 @@
 | FAZ 4–6 | `kyrox-fair-stand/ROADMAP.md` + `ROADMAP_PHASE_4.md` + bu ağaçta `ROADMAP_PHASE_5_6.md` |
 | CRM kuyruk | `kyrox-platform/projects/fair-crm/ROADMAP.md` |
 
-**Uyarı:** `SYSTEM_AUDIT_CHECKLIST.md`, `audit/FULL_SWEEP_STATE.md` ve eski `audit/evidence/*` OPEN sayaçları bayat olabilir. Açık bulgu için yalnız `FINDINGS.md` kullan.
+**Bakma (bayat sayaç / ikinci kopya):** `kyrox-fair-stand/SYSTEM_AUDIT_CHECKLIST.md`, `kyrox-fair-stand/audit/FULL_SWEEP_STATE.md`, eski `audit/evidence/*` OPEN satırları. Açık bulgu için yalnız `FINDINGS.md`.
 
 `src/` içinde anlamlı `TODO` / `FIXME` neredeyse yok; iş belgelerde.
 
