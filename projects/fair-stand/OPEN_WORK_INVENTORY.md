@@ -103,10 +103,9 @@ Her item kendi ölçü/BOM’unu taşır; stand tavanı yalnız max zarf.
 | 1 Kilit | Uygulandı (PR #278) |
 | 2 Geri al / ileri al | Uygulandı (PR #281) |
 | 3 Grup | Uygulandı (PR #284) |
-| **3b Grup aç / kapat** (3ds Max gibi) | **Açık karar, kod yok** |
+| **3b Grup aç / kapat** (3ds Max gibi) | **Karar alındı (2026-10-18); kod yok** — tık=grup, kapalıda özellik yok, açıkta tek taşıma OK, persist yok, kilitliyken açılmaz |
 | 4 Grup döndürme | Uygulandı (PR #285) |
-| 5 Kurumsal şablon | Uygulandı (PR #286, migration 0067) |
-| 5b Şablon görselleri / Lightbox / Mesh | **Opsiyonel, yapılmadı** |
+| 5 Kurumsal şablon | Uygulandı (PR #286, migration 0067); görsel/Lightbox/Mesh **taşınmaz** (kalıcı) |
 | 6 Opsiyonel “raf ev sahibi duvar” | Plan |
 
 ### Master roadmap — `kyrox-fair-stand/ROADMAP.md`
@@ -166,7 +165,7 @@ Kaynak: `kyrox-platform/projects/fair-crm/ROADMAP.md` + `backlog/*`
 
 1. **Ürün kararı:** F-014 / F-048 + PENDING § A (tavan/şerit) + B.7 soft-warning  
 2. **Teknik kapanış:** F-030 / F-031 kapanış kanıtı; F-040 ZIP/GLB e2e; F-018 / F-021 / F-035; F-046 ESLint; F-042 deploy  
-3. **Editör UX kalan:** Grup 3b aç/kapat; şablon 5b görseller (isteğe bağlı)  
+3. **Editör UX:** Grup 3b kararlı — uygulama PR’si (şablon görsel taşıma yok / iptal)
 4. **FAZ 4 checklist:** Raw BOM instance, parametric, connection graph  
 5. **CRM:** mail cancel stub + MailerSend/preferences; TOBB prod deploy yetkisi  
 6. **Doc:** checklist / FULL_SWEEP’i kanonik FINDINGS ile karıştırmamak  
