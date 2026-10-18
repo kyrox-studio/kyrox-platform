@@ -8,7 +8,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). This ch
 
 ### Added
 
-- **Fair Stand sahne editörü Faz 5: kurumsal grup şablonu** — `kyrox-fair-stand` `feat/group-templates`.
+- **Fair Stand sahne editörü Faz 5: kurumsal grup şablonu** — `kyrox-fair-stand` PR #286.
   - Migration `0067_group_templates` → `fair_stand_group_templates`.
   - Gruplar kartı → Şablon olarak kaydet; Şablonlarım → Yerleştir / Adlandır / Sil.
   - Korunan: renk, cam panel, metal separatör. Görseller / Lightbox / Mesh girmez (5a).

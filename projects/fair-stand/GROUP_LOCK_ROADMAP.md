@@ -9,8 +9,10 @@
 > | Faz 3 — Grup (öğeden bağımsız) | Uygulandı: `kyrox-fair-stand` PR #284 |
 > | Faz 3b — Grup aç / kapat (3ds Max gibi) | Açık karar, kod yok |
 > | Faz 4 — Çok duvarlı grup ve grup döndürme | Uygulandı: çok duvarlı grup Faz 3 ile, grup döndürme `kyrox-fair-stand` PR #285 |
-> | Faz 5 — Kurumsal şablon | Uygulandı: `kyrox-fair-stand` `feat/group-templates` (migration `0067`, API + Şablonlarım kartı) |
+> | Faz 5 — Kurumsal şablon | Uygulandı: `kyrox-fair-stand` PR #286 (migration `0067`, API + Şablonlarım kartı) |
 > | Faz 6 | İlk iki madde Faz 3 ve Faz 4 ile karşılandı; opsiyonel maddeler plan |
+>
+> **Grup işi kapandı (2026-10-18):** Faz 1–5 uygulandı ve yayında. Faz 3b (grup aç / kapat) ve Faz 6 opsiyonel maddeleri (şablon görselleri, rafın duvarı takip etmesi) yeni bir karar verilene kadar açık bekler.
 >
 > Her faz ayrı PR'dır ve kodlamadan önce kullanıcı onayı alınır (`kyrox-fair-stand/AGENTS.md` kod öncesi checkpoint).
 >
