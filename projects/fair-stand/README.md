@@ -39,6 +39,7 @@ Kanonik Item ürün verisi DB/API’den gelir; static JS Item/Category master yo
 | [ADMIN_FORM_DB_AUDIT.md](ADMIN_FORM_DB_AUDIT.md) | Admin Item / Item tipi formu ↔ kod ↔ canlı DB denetimi (2026-10-18) ve bekleyen düzeltmeler |
 | [PRODUCT_FUTURE.md](PRODUCT_FUTURE.md) | Henüz faza yerleşmemiş gelecek ürün gereksinimleri |
 | [RENDER_FUTURE_BACKLOG.md](RENDER_FUTURE_BACKLOG.md) | Render / HDRI / PBR gelecek backlog'u |
+| [COMPETITOR_ANALYSIS.md](COMPETITOR_ANALYSIS.md) | BoothDesign / StandBuilder ürün-stack-hız gözlemi (analiz; kod yok) |
 
 Tarihsel Fair Stand kayıtları (normatif değil): [../../archive/fair-stand/](../../archive/fair-stand/) — `MILESTONES.md`, `CHANGELOG_2026-08.md`, `LEGACY_TRASH.md`, `BASE_FAMILY_MIGRATION_HANDOFF.md`.
 
