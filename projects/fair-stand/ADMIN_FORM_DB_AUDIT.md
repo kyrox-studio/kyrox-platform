@@ -4,7 +4,7 @@
 |------|--------|
 | Denetim tarihi | 2026-10-18 |
 | Kapsam | CRM Admin **Item Tipleri** ve **Item** düzenleme formları |
-| Karşılaştırılan | CRM formu (`kyrox-fair-crm` `FairStandSnapCatalogAdminPage.tsx`, `FairStandItemsAdminPage.tsx`) · Fair Stand backend (`models.py`, `admin_snap_catalog.py`, `admin_items.py`, `item_type_behavior_seed.py`) · sahne motoru (`src/moduleBehavior.js` vb.) · canlı `fair_stand` DB (Alembic head `0066_metal_separator_area`) |
+| Karşılaştırılan | CRM formu (`kyrox-fair-crm` `FairStandSnapCatalogAdminPage.tsx`, `FairStandItemsAdminPage.tsx`) · Fair Stand backend (`models.py`, `admin_snap_catalog.py`, `admin_items.py`, `item_type_behavior_seed.py`) · sahne motoru (`src/moduleBehavior.js` vb.) · canlı `fair_stand` DB (Alembic head `0067_group_templates`; bu denetim Item/tip formları kapsar, grup şablonu formu değildir) |
 | Durum | Yalnız tespit. Kod değişikliği yapılmadı. |
 
 Alanların anlamı için: `kyrox-fair-stand` deposunda `docs/refactor/FAIR_STAND_DB_KULLANIM_KILAVUZU.md` ve `docs/refactor/DATABASE.md`.
