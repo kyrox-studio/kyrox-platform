@@ -30,12 +30,27 @@ Biz hantal hissediyoruz çünkü birçok UI aksiyonunda `disposeWall` + tam `bui
 
 | Belirti | Şiddet | Not |
 |---|---|---|
-| Kayıtlı projeyi sahneye açma | **5–10 sn** (2026-09-24; yeniden ölçülecek — P0 adım 1) | En acil UX (P0) |
+| Kayıtlı projeyi sahneye açma | **5–10 sn** (2026-09-24); lokal ölçüm 2026-10-19: Düzenle'den sahne tamamen hazır **6,7–7,3 sn** (§ 1.1) | En acil UX (P0) |
 | Sahneyi döndürme (orbit) | Takılma | Gölge (P1) |
 | Modül sürükleme | Ara sıra spike | Snap + rebuild çakışması (P2) |
 | Nedensiz donma | Bazen | Arka plan `rebuildWall` / texture |
 
 ---
+
+### 1.1 Ölçüm (2026-10-19, lokal `npm run dev`, gerçek proje: 99 modül, 13 görsel 0,4 MB, 60 görsel yüzeyi, 13 model)
+
+Konsol: `[Fair Stand ölçüm] …` (kyrox-fair-stand #296). İki ölçüm tutarlı:
+
+| Adım | Süre | Not |
+|---|---:|---|
+| Editör kodu yükleme | 1,6–2,0 sn | Vite dev paketlemeden yükler; canlıda (tek paket + gzip) ayrıca ölçülecek |
+| Katalog + editör başlatma | 0,5–0,7 sn | |
+| Proje verisi | 0,4 sn | |
+| Görsel indirme | 1,4–1,7 sn | **0,4 MB için**; bant genişliği değil istek gecikmesi (aşağı bak) |
+| Görsel hazırlama + sahne kurulumu | 0,1 sn | |
+| Sahnenin dolması (görsel + model) | +2,5 sn | Görsel işleme toplam yalnız 16–39 ms; **son model** bekletiyor (son görsel +3,1 sn, son model +4,6 sn) |
+
+**Lokal bulgu:** CRM backend core'a `KYROX_CORE_BASE_URL=http://localhost:8000` ile gidiyor; Windows `localhost`'u önce IPv6 (`::1`) dener, core yalnız `127.0.0.1` dinler → CRM'in core'a her isteği **~2,3 sn** gecikir (ölçüm: httpx `localhost` 2,36 sn, `127.0.0.1` 0,17 sn). Fair Stand `.env`'i zaten `127.0.0.1`. Canlı (Linux) ayarı ayrıca kontrol edilecek; lokal `.env` düzeltmesi kullanıcı kararı.
 
 ## 2. Kök nedenler (özet)
 
@@ -90,12 +105,22 @@ JS, CSS, JSON, SVG, GLB gzip ile; `/assets/` 1 yıl `immutable`; `index.html` `n
 
 ### P0 — Proje açma (hedef tipik &lt; 2–3 sn)
 
-1. **Ölçüm önce:** `performance.mark` (loadProject / cacheAssets / GLB / buildWall); 0, 5, 20 görselli projede ilk ve ikinci açılış süresi. Hedefler bu sayılara göre kesinleşir.  
+1. **Ölçüm önce:** `performance.mark` (loadProject / cacheAssets / GLB / buildWall); 0, 5, 20 görselli projede ilk ve ikinci açılış süresi. Hedefler bu sayılara göre kesinleşir. — **YAPILDI 2026-10-19** (kyrox-fair-stand #296 `projectOpenTiming.js`, kyrox-fair-crm #357 `fs:editor-route` işareti). Sonuç § 1.1.  
 2. Asset cache: `updatedAt` + metadata aynıysa HTTP yok.  
 3. Eşzamanlı indirme sınırı (4–6) — bugün sınırsız paralel.  
 4. Aşamalı overlay.
 
-**Kod:** `projectRemote.js`, `main.js`. **Durum:** BACKLOG.
+5. **Modelleri erken başlat:** proje verisi gelir gelmez projedeki modellerin (`modelFile`) indirme + ayrıştırması başlasın; sahne kurulumunu beklemesin, görsel indirmesiyle paralel yürüsün. Ölçümde sahnenin dolması +2,5 sn ve bekleten son model (§ 1.1). Kod: `main.js` / `projectRemote.js` + `scene3d.js` `loadItemModel` önbelleği (aynı `gltfSceneCache`).
+6. **Görsel indirme gecikmesi:** 13 görsel / 0,4 MB için 1,4–1,7 sn → bant genişliği değil istek başına gecikme. Önce backend tarafı incelenir (görsel uç noktası, istek başına yetki/DB çağrısı, sunucunun istekleri sıra ile işleyip işlemediği); lokal `localhost` gecikmesi (madde 7) ayrılarak ölçülür.
+7. **Lokal ortam `localhost` → `127.0.0.1`:** CRM `backend/.env` `KYROX_CORE_BASE_URL` (§ 1.1 lokal bulgu, her core isteğinde ~2,3 sn). Lokal `.env` git'e girmez; değişiklik kullanıcı kararı. Canlı sunucudaki değer ayrıca kontrol edilir; aynı gecikme varsa `deploy`/şablon ayarı düzeltilir.
+
+**Sıra (ölçüme göre):** 5 → 6 → 2–3 (önbellek + eşzamanlılık sınırı) → 4 (aşamalı overlay; P0-Y yükleme ekranıyla birlikte değerlendirilir). 7 lokal ölçümleri temizlemek için istenirse hemen.
+
+**Kod:** `projectRemote.js`, `main.js` (+ 5 için `scene3d.js` model önbelleği, 6 için backend). **Durum:** adım 1 YAPILDI; 2–7 BACKLOG.
+
+### P0-Y — Yarım sahne gösterilmez — **YAPILDI (2026-10-19)**
+
+Yükleme ekranı sahnenin bütün görselleri ve 3D modelleri gelene kadar açık kalır, alt satırda ilerleme yazar (`45 / 73`). Proje, geçmiş revizyon, canlıya dönüş ve içe aktarma aynı kuralı izler; yüklenemeyen parça gelmiş sayılır, 30 sn dolarsa ekran yine kapanır. Düzenle ile gelindiğinde yükleme ekranı editör açılır açılmaz görünür. Toplam süre değişmez; yalnız yarım sahne gösterilmez. Kod: kyrox-fair-stand #299 (`sceneAssetLoading.js`).
 
 ### P0-M — 3D model sıkıştırma (P0 ile paralel; düşük risk)
 
@@ -103,7 +128,9 @@ JS, CSS, JSON, SVG, GLB gzip ile; `/assets/` 1 yıl `immutable`; `index.html` `n
 2. `GLTFLoader`’a `MeshoptDecoder` / `DRACOLoader` ekle.  
 3. Görsel karşılaştırma: sıkıştırılmış model eskisiyle aynı görünmeli (ölçü, malzeme, yön).
 
-**Kod:** `kyrox-fair-stand` model yükleme (`loadGltfScene`) + `public/models/`. **Durum:** BACKLOG.
+**Kod:** `kyrox-fair-stand` model yükleme (`loadGltfScene`) + `public/models/` + `scripts/compress-models.mjs`.  
+**Durum:** PR açık — kyrox-fair-stand #298 (kullanıcı lokal denemesi ve CI bekleniyor; merge olunca YAPILDI + tarih).  
+**Sonuç:** `public/models` 33,92 → 12,53 MB (−%63). Yalnız `gltf-transform meshopt` (optimize/dedup/join/palette yok — malzeme adları korunur: `plastic_wit`, `Material1`, `Burlington_Leather`). Decoder: `three/addons/libs/meshopt_decoder.module.js` → `loadGltfScene` `setMeshoptDecoder`. Koruma: `test/glbNameContract.test.js` (#297) kodun adla aradığı GLB parçalarını kilitler.
 
 ### P1 — Orbit / kalite profili
 
@@ -152,7 +179,8 @@ Ekle / sil / taşı = tek modül grubu; `disposeWall` yalnız stand tipi / hard 
 
 ## 5. Doğrulama kapısı
 
-- [ ] Ölçüm: 0 / 5 / 20 görselli projede ilk ve ikinci açılış süresi kayıtlı  
+- [x] Ölçüm: 0 / 5 / 20 görselli projede ilk ve ikinci açılış süresi kayıtlı (2026-10-19, § 1.1)  
+- [x] Yarım sahne gösterilmez: yükleme ekranı sahne dolana kadar (2026-10-19, P0-Y)  
 - [ ] Proje 0 görsel: açılış &lt; 1 sn  
 - [ ] Proje 20 görsel: 2. açılış &lt; 1.5 sn; gereksiz asset GET yok  
 - [ ] Modeller sıkıştırılmış; görünüm eskisiyle aynı  
