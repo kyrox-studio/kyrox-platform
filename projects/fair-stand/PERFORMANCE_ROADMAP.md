@@ -115,7 +115,7 @@ JS, CSS, JSON, SVG, GLB gzip ile; `/assets/` 1 yıl `immutable`; `index.html` `n
 
 **Kod:** `projectRemote.js`, `main.js` (+ 5 için `scene3d.js` model önbelleği, 6 için backend). **Durum:** adım 1 YAPILDI; 2, 3, 4, 5, 6 kyrox-fair-stand **PR #301** (2026-10-19; merge olunca YAPILDI). Ek: aynı görselin dokusu paneller arasında paylaşılır (GPU'ya görsel başına 1 yükleme). Lokal ölçüm: Düzenle'den sahne çizilene 6,7–7,3 sn → 3,9 sn.
 
-8. **İlk çizim karesi (sıradaki en büyük kalem):** sahnenin ilk çiziminde dokular ekran kartına yüklenir ve gölgelendiriciler derlenir, hepsi tek karede. Ölçüm: 99 modüllü projede ~0,9 sn (+17 program, +31 doku); 122 modüllü projede ilk açılışta **5,0 sn** (+19 program, +42 doku). Seçenekler: doku çözünürlük üst sınırı (ör. 2048 → 1024; görüntü kalitesi kararı kullanıcıda), GLB içi büyük dokuların küçültülmesi, tüm parçalar geldikten sonra çizimden önce `compileAsync`. Not: yalnız `compileAsync` ve dokuları karelere yaymak tek başına işe yaramadı (malzemeler sonra geldiği için iş yine ilk karede toplanıyor).
+8. **İlk çizim karesi (sıradaki en büyük kalem; P1 sonrası gölge ve spot ışık programları editörden çıktı, yeniden ölçülmeli):** sahnenin ilk çiziminde dokular ekran kartına yüklenir ve gölgelendiriciler derlenir, hepsi tek karede. Ölçüm: 99 modüllü projede ~0,9 sn (+17 program, +31 doku); 122 modüllü projede ilk açılışta **5,0 sn** (+19 program, +42 doku). Seçenekler: doku çözünürlük üst sınırı (ör. 2048 → 1024; görüntü kalitesi kararı kullanıcıda), GLB içi büyük dokuların küçültülmesi, tüm parçalar geldikten sonra çizimden önce `compileAsync`. Not: yalnız `compileAsync` ve dokuları karelere yaymak tek başına işe yaramadı (malzemeler sonra geldiği için iş yine ilk karede toplanıyor).
 
 ### P0-Y — Yarım sahne gösterilmez — **YAPILDI (2026-10-19)**
 
@@ -138,7 +138,7 @@ Yükleme ekranı sahnenin bütün görselleri ve 3D modelleri gelene kadar açı
 3. Orbit sırasında `balanced`/`low` için gölge geçici kapalı.  
 4. UI: sahne köşesinde Oto / Hızlı / Denge / Yüksek.
 
-**Kod:** `visualQuality` + `scene3d.js`. **Durum:** BACKLOG.
+**Kod:** `visualQuality` + `scene3d.js`. **Durum:** kullanıcı kararıyla sadeleşti — **YAPILDI (2026-10-19, kyrox-fair-stand #302):** editörde ışık gölgesi ve LED projektör / raf altı spot ışıkları kapalı (render katmanı), Render Al'da açık (yükleme ekranıyla). Kalite profili ve döndürürken gölge kapatma gereksiz kaldı. Ek: projektör camında `transmission` kaldırıldı (her kareyi iki kez çizdiriyordu).
 
 ### P2 — `rebuildWall` budama
 
@@ -146,13 +146,13 @@ Yükleme ekranı sahnenin bütün görselleri ve 3D modelleri gelene kadar açı
 2. Sonra: renk / glass kısmi update (tam build yok).  
 3. Drag snap throttle.
 
-**Kod:** `main.js` (+ sonra scene3d). **Durum:** BACKLOG.
+**Kod:** `main.js` (+ sonra scene3d). **Durum:** kısmen — **program koruma YAPILDI (#302):** `disposeWall` eski nesneleri ilk kareden sonra dispose eder; tam kurulum bütün gölgelendiricileri yeniden derletmez (projektör bırakma ilk kare 1291–4893 ms → 23–36 ms). Aynı frame coalesce ve renk/cam kısmi update BACKLOG.
 
 ### P3 — Incremental scene graph
 
 Ekle / sil / taşı = tek modül grubu; `disposeWall` yalnız stand tipi / hard reset. Instancing.
 
-**Durum:** BACKLOG (P2 partial sonrası).
+**Durum:** kısmen — **YAPILDI (2026-10-19, kyrox-fair-stand #302 ve sonraki PR):** katalogdan bırakma, katalog düğmesiyle ekleme ve çoğaltma yeni modülü tek başına ekler (`appendModule`); silme yalnız o modülü kaldırır (`removeModule`). Taşıma/döndürme zaten sahne içinde tek modüldü. **Kalan tam kurulumlar:** geri al/ileri al, grup işlemleri, şeride araya ekleme, kumaş kaplamalı modül silme.
 
 ### P4 — Ürün / veri (paralel)
 
@@ -183,9 +183,9 @@ Ekle / sil / taşı = tek modül grubu; `disposeWall` yalnız stand tipi / hard 
 - [ ] Proje 0 görsel: açılış &lt; 1 sn  
 - [ ] Proje 20 görsel: 2. açılış &lt; 1.5 sn; gereksiz asset GET yok  
 - [x] Modeller sıkıştırılmış; görünüm eskisiyle aynı (2026-10-19, #298)  
-- [ ] Kalite profili (oto dahil) UI + unit test  
+- [x] Editörde gölge/spot ışık kapalı, Render Al'da açık (kalite profili yerine; 2026-10-19)  
 - [ ] `rebuildWall` aynı frame coalesce  
-- [ ] Orbit: oto/balanced’ta akıcı his  
+- [x] Orbit: akıcı his (gölge ve spot ışık editörde yok; kullanıcı onayı 2026-10-19)  
 - [ ] 30 modül: hâlâ full yol varsa `buildWall` &lt; 500 ms  
 - [x] gzip + statik önbellek canlıda (2026-10-19)
 
