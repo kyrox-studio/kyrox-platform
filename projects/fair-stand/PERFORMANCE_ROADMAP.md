@@ -1,6 +1,6 @@
 # Fair Stand — performans + ürün yol haritası
 
-**Durum:** Aktif plan. Ağ katmanı YAPILDI (§ 3 P-ağ); P0–P4 için kod yok, uygulama kyrox-fair-stand ayrı PR.  
+**Durum:** Aktif plan. P-ağ, P0, P0-Y, P0-M, P1 YAPILDI; P2 ve P3 büyük ölçüde YAPILDI (kalanlar fazların altında); P4 açık. Uygulama kyrox-fair-stand ayrı PR'lar.  
 **Kaynak:** Prod gözlem (2026-09-24) + kod (2026-10-19 doğrulandı) + rakip tarayıcı analizi (2026-10-18).  
 **Hedef ölçek:** Eşzamanlı ~100 aktif stand tasarımı.  
 **Kanon:** bu dosya (kyrox-platform/projects/fair-stand/PERFORMANCE_ROADMAP.md). Rakip analizi: [COMPETITOR_ANALYSIS.md](COMPETITOR_ANALYSIS.md) (tek kaynak).
@@ -30,7 +30,7 @@ Biz hantal hissediyoruz çünkü birçok UI aksiyonunda `disposeWall` + tam `bui
 
 | Belirti | Şiddet | Not |
 |---|---|---|
-| Kayıtlı projeyi sahneye açma | **5–10 sn** (2026-09-24); lokal ölçüm 2026-10-19: Düzenle'den sahne tamamen hazır **6,7–7,3 sn** (§ 1.1) | En acil UX (P0) |
+| Kayıtlı projeyi sahneye açma | **5–10 sn** (2026-09-24); lokal ölçüm 2026-10-19: Düzenle'den sahne tamamen hazır **6,7–7,3 sn** (§ 1.1) → P0 sonrası canlı (Ctrl+F5, 99 modül) **2,77 sn** | En acil UX (P0) |
 | Sahneyi döndürme (orbit) | Takılma | Gölge (P1) |
 | Modül sürükleme | Ara sıra spike | Snap + rebuild çakışması (P2) |
 | Nedensiz donma | Bazen | Arka plan `rebuildWall` / texture |
@@ -115,7 +115,7 @@ JS, CSS, JSON, SVG, GLB gzip ile; `/assets/` 1 yıl `immutable`; `index.html` `n
 
 **Kod:** `projectRemote.js`, `main.js` (+ 5 için `scene3d.js` model önbelleği, 6 için backend). **Durum:** adım 1 YAPILDI; 2, 3, 4, 5, 6 kyrox-fair-stand **PR #301** (2026-10-19; merge olunca YAPILDI). Ek: aynı görselin dokusu paneller arasında paylaşılır (GPU'ya görsel başına 1 yükleme). Lokal ölçüm: Düzenle'den sahne çizilene 6,7–7,3 sn → 3,9 sn.
 
-8. **İlk çizim karesi (sıradaki en büyük kalem; P1 sonrası gölge ve spot ışık programları editörden çıktı, yeniden ölçülmeli):** sahnenin ilk çiziminde dokular ekran kartına yüklenir ve gölgelendiriciler derlenir, hepsi tek karede. Ölçüm: 99 modüllü projede ~0,9 sn (+17 program, +31 doku); 122 modüllü projede ilk açılışta **5,0 sn** (+19 program, +42 doku). Seçenekler: doku çözünürlük üst sınırı (ör. 2048 → 1024; görüntü kalitesi kararı kullanıcıda), GLB içi büyük dokuların küçültülmesi, tüm parçalar geldikten sonra çizimden önce `compileAsync`. Not: yalnız `compileAsync` ve dokuları karelere yaymak tek başına işe yaramadı (malzemeler sonra geldiği için iş yine ilk karede toplanıyor).
+8. **İlk çizim karesi — ÖLÇÜLDÜ, iş gerekmedi (2026-10-19, kyrox-fair-stand #305):** "sahne tamamen hazır" satırı artık çizimi de yazar (kare, en ağır kare, program, doku). 113 modül, lokal: 9 kare toplam 767 ms, en ağır kare 356 ms (19 program, 41 doku); açılıştan sahne hazır +1,6 sn ve sonu son gelen model belirliyor. Doku üst sınırı gerekmedi: yüklenen görseller zaten 1536 px'e küçültülüyor (`MAX_IMAGE_LONG_EDGE_PX`), katalog GLB dokuları en çok 1024 px. Canlı (Ctrl+F5, 99 modül): Düzenle'den 2,77 sn; en büyük adım proje verisi 1,25 sn (lokal 0,5 sn) — ayrıca incelenecek. Önceki not: sahnenin ilk çiziminde dokular ekran kartına yüklenir ve gölgelendiriciler derlenir, hepsi tek karede. Ölçüm: 99 modüllü projede ~0,9 sn (+17 program, +31 doku); 122 modüllü projede ilk açılışta **5,0 sn** (+19 program, +42 doku). Seçenekler: doku çözünürlük üst sınırı (ör. 2048 → 1024; görüntü kalitesi kararı kullanıcıda), GLB içi büyük dokuların küçültülmesi, tüm parçalar geldikten sonra çizimden önce `compileAsync`. Not: yalnız `compileAsync` ve dokuları karelere yaymak tek başına işe yaramadı (malzemeler sonra geldiği için iş yine ilk karede toplanıyor).
 
 ### P0-Y — Yarım sahne gösterilmez — **YAPILDI (2026-10-19)**
 
@@ -138,7 +138,7 @@ Yükleme ekranı sahnenin bütün görselleri ve 3D modelleri gelene kadar açı
 3. Orbit sırasında `balanced`/`low` için gölge geçici kapalı.  
 4. UI: sahne köşesinde Oto / Hızlı / Denge / Yüksek.
 
-**Kod:** `visualQuality` + `scene3d.js`. **Durum:** kullanıcı kararıyla sadeleşti — **YAPILDI (2026-10-19, kyrox-fair-stand #302):** editörde ışık gölgesi ve LED projektör / raf altı spot ışıkları kapalı (render katmanı), Render Al'da açık (yükleme ekranıyla). Kalite profili ve döndürürken gölge kapatma gereksiz kaldı. Ek: projektör camında `transmission` kaldırıldı (her kareyi iki kez çizdiriyordu).
+**Kod:** `visualQuality` + `scene3d.js`. **Durum:** kullanıcı kararıyla sadeleşti — **YAPILDI (2026-10-19, kyrox-fair-stand #302):** editörde ışık gölgesi ve LED projektör / raf altı spot ışıkları kapalı (render katmanı), Render Al'da açık (yükleme ekranıyla). Kalite profili ve döndürürken gölge kapatma gereksiz kaldı. Ek: projektör camında `transmission` kaldırıldı (her kareyi iki kez çizdiriyordu). Cam masa `transmission` editörde kapalı, yalnız Render Al çizerken açık (#305).
 
 ### P2 — `rebuildWall` budama
 
@@ -146,13 +146,13 @@ Yükleme ekranı sahnenin bütün görselleri ve 3D modelleri gelene kadar açı
 2. Sonra: renk / glass kısmi update (tam build yok).  
 3. Drag snap throttle.
 
-**Kod:** `main.js` (+ sonra scene3d). **Durum:** kısmen — **program koruma YAPILDI (#302):** `disposeWall` eski nesneleri ilk kareden sonra dispose eder; tam kurulum bütün gölgelendiricileri yeniden derletmez (projektör bırakma ilk kare 1291–4893 ms → 23–36 ms). Aynı frame coalesce ve renk/cam kısmi update BACKLOG.
+**Kod:** `main.js` (+ sonra scene3d). **Durum:** kısmen — **program koruma YAPILDI (#302):** `disposeWall` eski nesneleri ilk kareden sonra dispose eder; tam kurulum bütün gölgelendiricileri yeniden derletmez (projektör bırakma ilk kare 1291–4893 ms → 23–36 ms). Aynı frame coalesce **ertelendi** (kullanıcı kararı 2026-10-19: düzenleme yenilemesi 7–15 ms, ölçülebilir kazanç yok). Renk/cam kısmi update BACKLOG.
 
 ### P3 — Incremental scene graph
 
 Ekle / sil / taşı = tek modül grubu; `disposeWall` yalnız stand tipi / hard reset. Instancing.
 
-**Durum:** kısmen — **YAPILDI (2026-10-19, kyrox-fair-stand #302 ve sonraki PR):** katalogdan bırakma, katalog düğmesiyle ekleme ve çoğaltma yeni modülü tek başına ekler (`appendModule`); silme yalnız o modülü kaldırır (`removeModule`). Taşıma/döndürme zaten sahne içinde tek modüldü. **Kalan tam kurulumlar:** geri al/ileri al, grup işlemleri, şeride araya ekleme, kumaş kaplamalı modül silme.
+**Durum:** kısmen — **YAPILDI (2026-10-19, kyrox-fair-stand #302 ve sonraki PR):** katalogdan bırakma, katalog düğmesiyle ekleme ve çoğaltma yeni modülü tek başına ekler (`appendModule`); silme yalnız o modülü kaldırır (`removeModule`). Taşıma/döndürme zaten sahne içinde tek modüldü. Geri al/ileri al (#304), grup işlemleri (oluştur, ekle, çıkar, çöz, çoğalt, sil, şablon yerleştir) ve şeride araya ekleme (#305) sahneyi eşitler (`syncModules`): yalnız içeriği değişen modül yeniden yaratılır, yalnız yeri değişen taşınır. Lokal: düzenleme yenilemesi 7–15 ms, +0 program. **Kalan tam kurulumlar:** ölçü değiştirme (ışıklı strafor / tül / kutu blok), raf altı aydınlatma aç/kapa, tümünü sıfırla, kumaş kaplamalı modül silme, stand oluşturma.
 
 ### P4 — Ürün / veri (paralel)
 
@@ -184,7 +184,7 @@ Ekle / sil / taşı = tek modül grubu; `disposeWall` yalnız stand tipi / hard 
 - [ ] Proje 20 görsel: 2. açılış &lt; 1.5 sn; gereksiz asset GET yok  
 - [x] Modeller sıkıştırılmış; görünüm eskisiyle aynı (2026-10-19, #298)  
 - [x] Editörde gölge/spot ışık kapalı, Render Al'da açık (kalite profili yerine; 2026-10-19)  
-- [ ] `rebuildWall` aynı frame coalesce  
+- [ ] `rebuildWall` aynı frame coalesce — ertelendi (yenileme 7–15 ms; 2026-10-19)  
 - [x] Orbit: akıcı his (gölge ve spot ışık editörde yok; kullanıcı onayı 2026-10-19)  
 - [ ] 30 modül: hâlâ full yol varsa `buildWall` &lt; 500 ms  
 - [x] gzip + statik önbellek canlıda (2026-10-19)
