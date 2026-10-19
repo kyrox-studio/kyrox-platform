@@ -50,8 +50,6 @@ Konsol: `[Fair Stand ölçüm] …` (kyrox-fair-stand #296). İki ölçüm tutar
 | Görsel hazırlama + sahne kurulumu | 0,1 sn | |
 | Sahnenin dolması (görsel + model) | +2,5 sn | Görsel işleme toplam yalnız 16–39 ms; **son model** bekletiyor (son görsel +3,1 sn, son model +4,6 sn) |
 
-**Lokal bulgu:** CRM backend core'a `KYROX_CORE_BASE_URL=http://localhost:8000` ile gidiyor; Windows `localhost`'u önce IPv6 (`::1`) dener, core yalnız `127.0.0.1` dinler → CRM'in core'a her isteği **~2,3 sn** gecikir (ölçüm: httpx `localhost` 2,36 sn, `127.0.0.1` 0,17 sn). Fair Stand `.env`'i zaten `127.0.0.1`. Canlı (Linux) ayarı ayrıca kontrol edilecek; lokal `.env` düzeltmesi kullanıcı kararı.
-
 ## 2. Kök nedenler (özet)
 
 1. **Proje açma:** her açılışta bütün görseller yeniden iner (paralel, sınırsız) + sıkıştırılmamış GLB + tam `buildWall`.  
@@ -111,12 +109,11 @@ JS, CSS, JSON, SVG, GLB gzip ile; `/assets/` 1 yıl `immutable`; `index.html` `n
 4. Aşamalı overlay.
 
 5. **Modelleri erken başlat:** proje verisi gelir gelmez projedeki modellerin (`modelFile`) indirme + ayrıştırması başlasın; sahne kurulumunu beklemesin, görsel indirmesiyle paralel yürüsün. Ölçümde sahnenin dolması +2,5 sn ve bekleten son model (§ 1.1). Kod: `main.js` / `projectRemote.js` + `scene3d.js` `loadItemModel` önbelleği (aynı `gltfSceneCache`).
-6. **Görsel indirme gecikmesi:** 13 görsel / 0,4 MB için 1,4–1,7 sn → bant genişliği değil istek başına gecikme. Önce backend tarafı incelenir (görsel uç noktası, istek başına yetki/DB çağrısı, sunucunun istekleri sıra ile işleyip işlemediği); lokal `localhost` gecikmesi (madde 7) ayrılarak ölçülür.
-7. **Lokal ortam `localhost` → `127.0.0.1`:** CRM `backend/.env` `KYROX_CORE_BASE_URL` (§ 1.1 lokal bulgu, her core isteğinde ~2,3 sn). Lokal `.env` git'e girmez; değişiklik kullanıcı kararı. Canlı sunucudaki değer ayrıca kontrol edilir; aynı gecikme varsa `deploy`/şablon ayarı düzeltilir.
+6. **Görsel indirme gecikmesi:** 13 görsel / 0,4 MB için 1,4–1,7 sn → bant genişliği değil istek başına gecikme. Önce backend tarafı incelenir (görsel uç noktası, istek başına yetki/DB çağrısı, sunucunun istekleri sıra ile işleyip işlemediği).
 
-**Sıra (ölçüme göre):** 5 → 6 → 2–3 (önbellek + eşzamanlılık sınırı) → 4 (aşamalı overlay; P0-Y yükleme ekranıyla birlikte değerlendirilir). 7 lokal ölçümleri temizlemek için istenirse hemen.
+**Sıra (ölçüme göre):** 5 → 6 → 2–3 (önbellek + eşzamanlılık sınırı) → 4 (aşamalı overlay; P0-Y yükleme ekranıyla birlikte değerlendirilir).
 
-**Kod:** `projectRemote.js`, `main.js` (+ 5 için `scene3d.js` model önbelleği, 6 için backend). **Durum:** adım 1 YAPILDI; 2–7 BACKLOG.
+**Kod:** `projectRemote.js`, `main.js` (+ 5 için `scene3d.js` model önbelleği, 6 için backend). **Durum:** adım 1 YAPILDI; 2–6 BACKLOG.
 
 ### P0-Y — Yarım sahne gösterilmez — **YAPILDI (2026-10-19)**
 
