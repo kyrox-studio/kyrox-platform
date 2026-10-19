@@ -113,7 +113,9 @@ JS, CSS, JSON, SVG, GLB gzip ile; `/assets/` 1 yıl `immutable`; `index.html` `n
 
 **Sıra (ölçüme göre):** 5 → 6 → 2–3 (önbellek + eşzamanlılık sınırı) → 4 (aşamalı overlay; P0-Y yükleme ekranıyla birlikte değerlendirilir).
 
-**Kod:** `projectRemote.js`, `main.js` (+ 5 için `scene3d.js` model önbelleği, 6 için backend). **Durum:** adım 1 YAPILDI; 2–6 BACKLOG.
+**Kod:** `projectRemote.js`, `main.js` (+ 5 için `scene3d.js` model önbelleği, 6 için backend). **Durum:** adım 1 YAPILDI; 2, 3, 4, 5, 6 kyrox-fair-stand **PR #301** (2026-10-19; merge olunca YAPILDI). Ek: aynı görselin dokusu paneller arasında paylaşılır (GPU'ya görsel başına 1 yükleme). Lokal ölçüm: Düzenle'den sahne çizilene 6,7–7,3 sn → 3,9 sn.
+
+8. **İlk çizim karesi (sıradaki en büyük kalem):** sahnenin ilk çiziminde dokular ekran kartına yüklenir ve gölgelendiriciler derlenir, hepsi tek karede. Ölçüm: 99 modüllü projede ~0,9 sn (+17 program, +31 doku); 122 modüllü projede ilk açılışta **5,0 sn** (+19 program, +42 doku). Seçenekler: doku çözünürlük üst sınırı (ör. 2048 → 1024; görüntü kalitesi kararı kullanıcıda), GLB içi büyük dokuların küçültülmesi, tüm parçalar geldikten sonra çizimden önce `compileAsync`. Not: yalnız `compileAsync` ve dokuları karelere yaymak tek başına işe yaramadı (malzemeler sonra geldiği için iş yine ilk karede toplanıyor).
 
 ### P0-Y — Yarım sahne gösterilmez — **YAPILDI (2026-10-19)**
 
@@ -126,7 +128,7 @@ Yükleme ekranı sahnenin bütün görselleri ve 3D modelleri gelene kadar açı
 3. Görsel karşılaştırma: sıkıştırılmış model eskisiyle aynı görünmeli (ölçü, malzeme, yön).
 
 **Kod:** `kyrox-fair-stand` model yükleme (`loadGltfScene`) + `public/models/` + `scripts/compress-models.mjs`.  
-**Durum:** PR açık — kyrox-fair-stand #298 (kullanıcı lokal denemesi ve CI bekleniyor; merge olunca YAPILDI + tarih).  
+**Durum:** YAPILDI — 2026-10-19 (kyrox-fair-stand #298). `@gltf-transform/cli` bağımlılık değil; `npm run compress:models` npx ile sabit sürümü çalıştırır (npm audit temiz).  
 **Sonuç:** `public/models` 33,92 → 12,53 MB (−%63). Yalnız `gltf-transform meshopt` (optimize/dedup/join/palette yok — malzeme adları korunur: `plastic_wit`, `Material1`, `Burlington_Leather`). Decoder: `three/addons/libs/meshopt_decoder.module.js` → `loadGltfScene` `setMeshoptDecoder`. Koruma: `test/glbNameContract.test.js` (#297) kodun adla aradığı GLB parçalarını kilitler.
 
 ### P1 — Orbit / kalite profili
@@ -180,7 +182,7 @@ Ekle / sil / taşı = tek modül grubu; `disposeWall` yalnız stand tipi / hard 
 - [x] Yarım sahne gösterilmez: yükleme ekranı sahne dolana kadar (2026-10-19, P0-Y)  
 - [ ] Proje 0 görsel: açılış &lt; 1 sn  
 - [ ] Proje 20 görsel: 2. açılış &lt; 1.5 sn; gereksiz asset GET yok  
-- [ ] Modeller sıkıştırılmış; görünüm eskisiyle aynı  
+- [x] Modeller sıkıştırılmış; görünüm eskisiyle aynı (2026-10-19, #298)  
 - [ ] Kalite profili (oto dahil) UI + unit test  
 - [ ] `rebuildWall` aynı frame coalesce  
 - [ ] Orbit: oto/balanced’ta akıcı his  
