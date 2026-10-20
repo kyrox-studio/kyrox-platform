@@ -1,6 +1,6 @@
 # Kyrox — Açık iş / dağınık not envanteri
 
-> Tarih: 2026-10-18 (okuma sırası: 2026-10-18 tek-kaynak temizliği)  
+> Tarih: 2026-10-20 (okuma sırası: 2026-10-18 tek-kaynak temizliği; 2026-10-20 belge eşitleme)  
 > Amaç: Audit, PENDING, roadmap ve stub notlarını tek bakışta görmek.  
 > **Kanonik kaynaklar değişmez** — bu dosya özet haritadır; çelişkide aşağıdakiler kazanır.
 
@@ -107,6 +107,16 @@ Her item kendi ölçü/BOM’unu taşır; stand tavanı yalnız max zarf.
 | 4 Grup döndürme | Uygulandı (PR #285) |
 | 5 Kurumsal şablon | Uygulandı (PR #286, migration 0067); görsel/Lightbox/Mesh **taşınmaz** (kalıcı) |
 | 6 Opsiyonel “raf ev sahibi duvar” | Plan |
+
+### Son teslimler (2026-10-19 → 20)
+
+| İş | PR | Durum |
+|---|---|---|
+| Duvar yüksekliği 250–500 cm, bant reçetesi (migration `0068`–`0071`) | #307 | Merge + deploy (canlı DB `0071`) |
+| Tablet kullanımı: seçim çubuğu, uzun basma, sade menü + Gelişmiş, Çoklu panel/modül, dokunarak ekleme | #308 | Merge + deploy |
+| Otomatik kayıt kapalıyken yalnız Kaydet; Kopyala (Çoğalt Sağ/Sol kaldırıldı); çift tık modül seçimi, Ctrl seçilenin çoğulu, Shift+tık kaldırıldı | #309 | Açık; kullanıcı lokalde deniyor |
+
+Açık kalan: açık standın duvar yüksekliğini değiştirmek (`PENDING_ITEM_DECISIONS.md` B.16).
 
 ### Master roadmap — `kyrox-fair-stand/ROADMAP.md`
 
