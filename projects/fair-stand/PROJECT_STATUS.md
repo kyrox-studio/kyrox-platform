@@ -43,7 +43,7 @@ Mimari ayrıntı: [ITEM_CATALOG_ARCHITECTURE.md](ITEM_CATALOG_ARCHITECTURE.md).
 
 ## Yeni proje sihirbazı — 2026-10-20
 
-`kyrox-fair-stand` (PR açık; merge kullanıcı testinden sonra). Yeni projede boş sahnede 3 adımlı kurulum (stand tipi, ölçü + duvar yüksekliği + depo, özet + Oluştur) mevcut kurulum alanlarını ve Sahneyi Oluştur akışını kullanır. İlk sahneden sonra 3 ipucu bir kez gösterilir. Veritabanı / migration yok.
+`kyrox-fair-stand` (PR açık; merge kullanıcı testinden sonra). Yeni projede boş sahnede 3 adımlı kurulum (stand tipi, ölçü + duvar yüksekliği + depo, özet + Oluştur) mevcut kurulum alanlarını ve Sahneyi Oluştur akışını kullanır. İlk sahneden sonra 3 ipucu bir kez gösterilir. Veritabanı / migration yok. Depo seçimi tek liste: "Depo yok" + ölçüler; depo seçiliyken "Depo içeriği eklensin" açılır (sol menü ve sihirbaz).
 
 ## Tablet kullanımı — 2026-10-20
 
