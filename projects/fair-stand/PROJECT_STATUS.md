@@ -49,6 +49,7 @@ Mimari ayrıntı: [ITEM_CATALOG_ARCHITECTURE.md](ITEM_CATALOG_ARCHITECTURE.md).
 - Dokunmatikte uzun basma sağ tık menüsünü açar; menüye Döndür eklendi.
 - Sağ tık menüsü sade + **Gelişmiş** (Cam, Metal Separatör, Lightbox, Mesh).
 - Çoklu panel: parmakla tarama (Ctrl + tık dikdörtgeni, komşu modül ve köşe dahil). Katalog kartına dokunup sahnede yere dokunarak ekleme.
+- Üst banttaki ipucu yazıları kaldırıldı; görünüm küpü sağ üst köşede; bant küpün ve menü aç/kapa düğmesinin altına hiçbir boyutta girmez; iki parmakla yakınlaştırırken öğe sürüklenmez; konsolda ölçüm satırı varsayılan kapalı (`localStorage.fairStandTiming = '1'` ile açılır) (2026-10-20, ayrı PR).
 
 ## Duvar yüksekliği 250–500 cm — 2026-10-19
 
