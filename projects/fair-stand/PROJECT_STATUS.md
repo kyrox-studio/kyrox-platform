@@ -41,6 +41,10 @@ Mimari ayrıntı: [ITEM_CATALOG_ARCHITECTURE.md](ITEM_CATALOG_ARCHITECTURE.md).
 - **Seçim:** çift tık / çift dokunuş modülün tamamını seçer; Ctrl/Cmd + tık seçilenin çoğulu (modül seçiliyse modül ekle/çıkar, panel veya banko yüzü seçiliyse çoklu yüzey). **Shift + tık ile modül seçimi kaldırıldı.**
 - **Tablet:** Çoklu panelde ikinci panele dokunmak Ctrl + tık gibi seçer.
 
+## Yeni proje sihirbazı — 2026-10-20
+
+`kyrox-fair-stand` (PR açık; merge kullanıcı testinden sonra). Yeni projede boş sahnede 3 adımlı kurulum (stand tipi, ölçü + duvar yüksekliği + depo, özet + Oluştur) mevcut kurulum alanlarını ve Sahneyi Oluştur akışını kullanır. İlk sahneden sonra 3 ipucu bir kez gösterilir. Veritabanı / migration yok.
+
 ## Tablet kullanımı — 2026-10-20
 
 `kyrox-fair-stand` PR #308 (merge + deploy, 2026-10-20).

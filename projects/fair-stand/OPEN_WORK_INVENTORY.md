@@ -118,6 +118,8 @@ Her item kendi ölçü/BOM’unu taşır; stand tavanı yalnız max zarf.
 
 Açık kalan: açık standın duvar yüksekliğini değiştirmek (`PENDING_ITEM_DECISIONS.md` B.16).
 
+Gelecek (karar 2026-10-20): **hazır stand tasarımları** — masa, sandalye vb. dolu hazır standlarla hızlı başlangıç (yeni proje sihirbazına bağlanabilir). Grup şablonu bu iş için yeterli görülmedi.
+
 ### Master roadmap — `kyrox-fair-stand/ROADMAP.md`
 
 | Faz | Durum | Özet |
