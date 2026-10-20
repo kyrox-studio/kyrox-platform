@@ -59,7 +59,7 @@
 
 ## 3. Kavramlar
 
-- **Toplu seçim** — Shift+tık ile birden fazla öğe seçmek. Kalıcı değildir; toplu kilitleme ve grup kurmanın ön adımıdır. Ctrl, panel yüzey seçimi olarak kalır.
+- **Toplu seçim** — birden fazla öğe seçmek: çift tıkla modülü seç, Ctrl/Cmd+tık ile ekle/çıkar (2026-10-20, PR #309; önce Shift+tık idi). Kalıcı değildir; toplu kilitleme ve grup kurmanın ön adımıdır. Panel seçiliyken Ctrl, panel yüzey seçimi olarak kalır.
 - **Kilit** — öğenin bulunduğu yere sabitlenmesi. Kilitli öğe taşınmaz, döndürülmez, silinmez. Görünüm (renk, görsel, TV içeriği) değiştirilebilir.
 - **Geri al / İleri al** — proje tasarımındaki her değişikliğin adım adım geri alınması ve yinelenmesi.
 - **Grup** — öğeden bağımsız, isimli, kalıcı öğe kümesi. Her türlü öğe girer; grup bütün olarak aynı kaydırmayla taşınır ve çoğaltılır. (Faz 3 uygulamasında eski "çapa" tanımı kullanıcı kararıyla kaldırıldı.)
@@ -83,7 +83,7 @@
 
 **Davranış**
 - Sağ tık → **Kilitle** / **Kilidi aç**.
-- Shift+tık ile toplu seçim → **Seçilenleri kilitle / kilidini aç**.
+- Çift tık + Ctrl/Cmd+tık ile toplu seçim → **Seçilenleri kilitle / kilidini aç** (2026-10-20'ye kadar Shift+tık).
 - Kilitli öğe:
   - Sürüklenmez. Sürüklenmeye çalışılırsa "Kilitli — taşımak için önce kilidi açın" uyarısı çıkar; kamera dönüşü normal çalışır.
   - Ok tuşları ve döndürme kısayolu çalışmaz.
@@ -181,7 +181,7 @@ Kesin liste `contract:verify` discovery'si ile çıkarılır.
 
 **Testler.** Unit `test/moduleGroups.test.js` ve `test/moduleGroupPanel.test.js`; E2E `e2e/module-group.spec.mjs`: iki kutu blok gruplanır, kartta 2 parça görünür, birlikte taşınır, stand dışına taşmaz, kilitliyken oynamaz, çoğaltılır, onaylı silinir, çözülür.
 
-**Seçim rengi.** Shift+tık toplu seçim ve grup üyesi çerçevesi Kyrox bakırıdır (`#C47A3A`); tek öğe ve panel seçimi mavi kalır.
+**Seçim rengi.** Toplu modül seçimi (bugün çift tık + Ctrl/Cmd+tık) ve grup üyesi çerçevesi Kyrox bakırıdır (`#C47A3A`); tek öğe ve panel seçimi mavi kalır.
 
 ### Faz 3b — Grup aç / kapat (karar 2026-10-18; kod yok)
 
@@ -259,7 +259,7 @@ Kesin liste `contract:verify` discovery'si ile çıkarılır.
 | Konu | Karar | Durum |
 |---|---|---|
 | Faz sırası | Kilit → Geri al → Grup → Çok duvarlı grup → Şablon → Gelişmiş | Öneri |
-| Toplu seçim tuşu | Shift+tık (Ctrl panel seçiminde kalır) | Karar (Faz 1) |
+| Toplu seçim tuşu | ~~Shift+tık~~ → çift tık + Ctrl/Cmd+tık: Ctrl seçilenin çoğulu (modül seçiliyse modül, panel/banko yüzü seçiliyse yüzey); Shift+tık kaldırıldı | Karar (Faz 1; 2026-10-20 PR #309 ile değişti) |
 | Gruptan tek öğe seçmek | Kapalı grupta tık bütün grubu seçer (3b). Tek öğe için grup açılır. Açık grupta tık panel seçer. | Karar (Faz 3; 3b ile güncellendi) |
 | Kilitli öğe silinebilir mi | Hayır, önce kilit açılır | Karar (Faz 1) |
 | Grup seçiliyken Sil | Grubu sil komutu bütün grubu onayla siler; Delete tuşu yalnız seçili parçayı | Karar (Faz 3) |
@@ -283,7 +283,7 @@ Kesin liste `contract:verify` discovery'si ile çıkarılır.
 
 - `src/scene3d.js` çok büyük (~350 KB). Seçim ve sürükleme değişiklikleri mevcut kaynak-şekli testlerine dokunabilir (`test/moduleSelectionState.test.js`, `test/moduleSelectionVisual.test.js`, `test/ctrlMultiSelect.test.js`, `test/scene3dPublicContract.test.js`). Discovery çıktısına göre gözden geçirilir.
 - Kilit kontrolü yalnız sürüklemeye konursa zincir kaydırması, ekleme, çoğaltma ya da otomatik planlayıcılar kilidi delebilir. Kontrol, plan uygulanmadan önceki ortak noktaya konmalıdır.
-- **Shift tuşu çakışması.** Kamerayı yöneten hazır Three.js kontrolünde Shift + sol tıkla boş alanı sürüklemek kamerayı döndürmek yerine kaydırır (pan). Bu varsayılan davranıştır ve uygulamadan önce bu projede doğrulanacaktır. Çoklu seçim de Shift+tık kullanacağı için kural şudur:
+- **Shift tuşu çakışması** *(tarihî; 2026-10-20'den beri Shift+tık ile seçim yok, boş alanda Shift kaydırma aynen duruyor).* Kamerayı yöneten hazır Three.js kontrolünde Shift + sol tıkla boş alanı sürüklemek kamerayı döndürmek yerine kaydırır (pan). Bu varsayılan davranıştır ve uygulamadan önce bu projede doğrulanacaktır. Çoklu seçim de Shift+tık kullanacağı için kural şudur:
   - **Shift+tık bir parçanın üstündeyse:** Parça seçime eklenir ya da çıkarılır; kamera kımıldamaz. Tıklama kamera kontrolünden önce yakalanır; bugün Ctrl+tık için yapılanın aynısıdır (`test/ctrlMultiSelect.test.js`).
   - **Shift+tık / sürükleme boş alandaysa:** Bugünkü kamera davranışı aynen korunur.
 - Geri alma yakalama noktası kaçırılırsa bir işlem geri alınamaz; değişiklik tespiti tek noktadan (imza) yapılmalıdır.
