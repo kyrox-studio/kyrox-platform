@@ -39,7 +39,7 @@ Biz hantal hissediyoruz çünkü birçok UI aksiyonunda `disposeWall` + tam `bui
 
 ### 1.1 Ölçüm (2026-10-19, lokal `npm run dev`, gerçek proje: 99 modül, 13 görsel 0,4 MB, 60 görsel yüzeyi, 13 model)
 
-Konsol: `[Fair Stand ölçüm] …` (kyrox-fair-stand #296). İki ölçüm tutarlı:
+Konsol: `[Fair Stand ölçüm] …` (kyrox-fair-stand #296). 2026-10-20'den beri varsayılan kapalı; görmek için tarayıcı konsolunda `localStorage.setItem('fairStandTiming', '1')` + yenile. 2026-10-20'den beri varsayılan kapalı; görmek için tarayıcı konsolunda `localStorage.setItem('fairStandTiming', '1')` + yenile. İki ölçüm tutarlı:
 
 | Adım | Süre | Not |
 |---|---:|---|
