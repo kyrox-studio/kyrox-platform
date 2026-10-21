@@ -32,6 +32,16 @@ Lokal runtime acceptance PASS. `deployed` / `merged` / `production` iddiası yok
 
 Mimari ayrıntı: [ITEM_CATALOG_ARCHITECTURE.md](ITEM_CATALOG_ARCHITECTURE.md).
 
+## Panel duvarı çerçevesi: dört kenar aynı kesit — 2026-10-21
+
+`kyrox-fair-stand` PR #312 (açık; dal `feat/panel-cerceve-gorunumu`, kullanıcı lokalde denedi). Yalnız 3B görünüm; migration yok, BOM ve kayıt biçimi değişmez.
+
+- Düz panel, bazalı duvar, kapı ve vitrinde iki dikme ile alt/üst profil aynı kesitte çizilir (3ds Max referansındaki kapalı çerçeve); profil kenarlarında koyu ton kenar çizgisi.
+- Kesit modül reçetesindeki profil Item'ının sahne ölçüsüdür (`fair_stand_item_scene_dimensions`, yerel DB'de 10 × 10). Reçetesinde profil olmayan modülde stand `frame_depth_cm` ile kare kesit. Stand `frame_width_cm` sahnede okunmaz.
+- Paneller profillerin 15 mm önünde durur ve çerçevenin dış kenarından alt, üst, sağ ve sol 4 cm içeride biter; çerçeve panel çevresinde görünür. Panel kalınlığı reçetedeki panel Item'ından (0,8 cm). TV, raf ve strafor panel yüzüne oturur. Vitrinde dikme gövde yüksekliğinde çizilmez (gövdenin içinden geçmez).
+- Baza, banko ve L banko aynı görünüm: kare kesitli köşe dikmeleri ve raylar, paneller profilin 15 mm önünde ve dört yanda 4 cm içeride. Tabla ve ölçüler değişmez.
+- Bütün profil ve dikmeler kanallı alüminyum profil görünümünde: dört yüzün ortasında 2 cm ağızlı, 1,5 cm derin kanal; dış ölçü aynı.
+
 ## Sahne editörü: yalnız Kaydet, Kopyala, çift tık seçimi — 2026-10-20
 
 `kyrox-fair-stand` PR #309 (açık; merge ve deploy yok, kullanıcı lokalde deniyor).
