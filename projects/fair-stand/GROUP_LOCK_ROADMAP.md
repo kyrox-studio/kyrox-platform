@@ -22,6 +22,26 @@
 >
 > Kilit, grup ve şablon **fiziksel ürün değildir**: BOM'a, üretime ve maliyete kendileri girmez, `itemKey` taşımaz (`ITEM_CONTRACT.md` kapsamı dışı; açık ürün kararı). Şablondan sahneye konan parçalar normal Item'dır ve BOM'a bugünkü gibi girer.
 
+## 2026-10-22 — Yerelde uygulanan seçim ve kilit ekleri
+
+**Teslim durumu:** Yerelde doğrulandı ve [Fair Stand PR #318](https://github.com/kyrox-studio/kyrox-fair-stand/pull/318)
+ile gönderildi. PR açık; henüz main'e merge veya canlı deploy yok.
+Doğrulama kaydı: [Proje Durumu](PROJECT_STATUS.md#2026-10-22--yerel-seçim-ve-kilit-değişiklikleri).
+
+- Yeni standın otomatik arka/yan duvarları kilitli başlar. Mevcut projeler açılırken
+  kayıtlı kilit tercihleri değiştirilmez; menüden kilit açılabilir.
+- Sahne aktifken Ctrl/Cmd+A, tür ve sayı sınırı olmadan sahnedeki bütün modülleri
+  seçer; kamera dışında kalanlar da dahildir. Metin alanında normal Ctrl+A çalışır.
+- Çoklu seçim menüsü kilit, kilit açma, grup kurma, tamamı seçilen grupları çözme
+  ve silme sunar. Grup kilidi toplu kilit açmayla yalnız bütün üyeleri seçiliyse açılır.
+- Toplu grup çözmede seçilen tam gruplardan biri kilitliyse hiçbir grup çözülmez.
+  Parçalar yerinde kalır; mevcut kenara yeniden bağlanma kuralı korunur.
+- Toplu silme tek onay ister. Seçimde kilitli öğe varsa hiçbir öğe silinmez;
+  iptalde de değişiklik yapılmaz. Delete ve seçim çubuğu aynı işlemi kullanır.
+- İşlemler mevcut proje kaydı ve geri alma altyapısına bağlıdır. Yeni Item, BOM,
+  yetki, API, DB kolonu veya Alembic migration yoktur. Kılavuz kullanım adımlarını
+  açıklar; gereksiz vitrin/broşürlük ölçüleri bölümü kaldırılmıştır.
+
 ## 1. Neden
 
 | # | Durum | Örnek | Çözüm | Faz |
@@ -35,7 +55,7 @@
 | G | Bir yapıyı bütün olarak taşımak | Depoyu standın başka yerine almak | **Çok duvarlı grup** | 4 |
 | H | Sık kullanılan seti her projede hazır bulmak | Organizasyonun "raflı TV'li duvar" seti | **Kurumsal şablon** | 5 |
 
-## 2. Bugünkü durum (koda göre)
+## 2. Başlangıç durumu (Faz 1 öncesi; tarihî)
 
 - **Seçim tek öğelik.** `selectedModuleId` tek değer (`src/scene3d.js`). Ctrl/Cmd+tık öğe değil **panel yüzeyi** seçer (görsel/renk için; `selectRectangleTo`). Öğeler için çoklu seçim yok.
 - **Taşıma tek öğelik.** `dragSession` tek `moduleState` taşır. Bırakınca yalnız plan içindeki yerleşimler yazılır (`finishPlacementDrag`). Duvar zincirinde `planContinuousModuleMove` komşuları kaydırabilir (`src/moduleMove.js`, `wallReflow.js`). Serbest öğe `validatePlacementAgainstModules` ile doğrulanır (`src/modulePlacement.js`). Ok tuşları seçili tek öğeyi taşır.

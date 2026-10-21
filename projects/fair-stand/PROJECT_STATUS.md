@@ -2,12 +2,34 @@
 
 | Alan | Değer |
 |------|--------|
-| Son doğrulama | **2026-10-20** |
+| Son doğrulama | **2026-10-22** |
 | Implementation deposu | `kyrox-studio/kyrox-fair-stand` |
 | Hosted backend | Fair Stand FastAPI (`:8002`) / PostgreSQL `fair_stand` |
 | Item master | İlişkisel PostgreSQL; catalog bootstrap API |
 | Category master | `fair_stand_categories` |
 | Catalog | Yalnız Item projeksiyonu |
+
+## 2026-10-22 — Yerel seçim ve kilit değişiklikleri
+
+**Yerelde doğrulandı, commit/push yapıldı; [Fair Stand PR #318](https://github.com/kyrox-studio/kyrox-fair-stand/pull/318)
+açık. Henüz main'e merge veya canlı deploy yapılmadı.**
+Ürün kuralları [Grup/Kilit kaydında](GROUP_LOCK_ROADMAP.md#2026-10-22--yerelde-uygulanan-seçim-ve-kilit-ekleri).
+
+- Yeni standın otomatik duvarları kilitli gelir; Ctrl/Cmd+A tüm sahne modüllerini
+  seçer. Toplu kilit, kilit açma, grup kurma/çözme ve onaylı silme uygulandı.
+- Kılavuz, teknik uygulama kaydı ve makine tarafından okunan change contract
+  güncellendi. Vitrin/broşürlük ürün ölçüleri kılavuzdan kaldırıldı.
+- Yerel doğrulama: 1353 frontend unit/integration ve 177 backend testi,
+  syntax, build ve change gate geçti.
+  Tam Chromium koşusunda 203 senaryonun 202'si geçti; eski kilitsiz başlangıç
+  beklentisi güncellenen test aynı koşullarla yeniden geçti (dosyanın tamamı 5/5,
+  son başarısızları yeniden çalıştırma 1/1). Timeout/tolerans gevşetilmedi.
+- 78 öğelik gerçek sahne kaydı açıldı: 26 duvar, 26 lamba, 26 masa; tamamının
+  seçimi ve toplu kilitlenmesi doğrulandı. Silme iptali, kilit koruması, tek adımda
+  geri alma, grup çözme ve metin alanındaki Ctrl+A da tarayıcıda doğrulandı.
+- SaaS etkisi: mevcut proje örneği düzenleme/kayıt mekanizması kullanılır;
+  organizasyon sınırı, yetki kataloğu, Core, kota, job, veri saklama ve backend
+  şeması değişmez. Yeni API veya Alembic migration gerekmez.
 
 ## Uygulama durumu
 
