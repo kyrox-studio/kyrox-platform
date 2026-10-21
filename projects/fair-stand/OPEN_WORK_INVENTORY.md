@@ -89,6 +89,8 @@ Her item kendi ölçü/BOM’unu taşır; stand tavanı yalnız max zarf.
 | C.1–C.2 strip / tavan fallback | KALDIRILACAK | § A.5–6 |
 | D.1 Color/Image/Lighting mekanizmaları | YAPILMADI | Config şeması yok |
 | E.1 proje–org kuralları | MEVCUT; genişletme | Paylaşım / varsayılan org ayrı karar |
+| E.2 stand `frame_width_cm` | KALDIRILACAK (karar bekliyor) | 2026-10-21'den beri sahnede okunmaz (kesit = reçete profil Item sahne ölçüsü). Kolonun ve CRM Temel Ayarlar alanının kaldırılması migration + CRM işi; CRM'e dokunmadan önce kullanıcıya sorulur |
+| E.3 dikme sahne ölçüsü | VERİ | `upright_*` sahne kesiti 8 × 8, profiller 10 × 10; sahne dikmeyi profil kesitiyle çizer. Dikme kayıtları profil ile eşitlenmeli mi kararı |
 
 **Not:** B.6, B.11–B.15, C.3–C.5 gibi birçok madde **kodda bitti**; PENDING’de “KOD / KAPANDI” diye durur, tekrar açılmaz (§ F).
 
