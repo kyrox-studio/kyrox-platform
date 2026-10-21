@@ -34,14 +34,14 @@ Mimari ayrıntı: [ITEM_CATALOG_ARCHITECTURE.md](ITEM_CATALOG_ARCHITECTURE.md).
 
 ## Düz duvara arka yüz paneli — 2026-10-21
 
-`kyrox-fair-stand` dal `feat/arka-yuz-panel` (raf dalının üstünde; commit yok, kullanıcı lokalde deniyor). Migration yok.
+`kyrox-fair-stand` dal `feat/arka-yuz-panel` (push edildi, PR yok; raf dalının üstünde, #313 sonrası main'e alınır). Migration yok.
 
 - Sağ tık "Arka yüze panel ekle / kaldır": düz duvarlar (50/100/150/200, kısa duvarlar). Arka paneller seçilir, görsel/cam/Lightbox/metal alır.
 - BOM tek çerçeve + iki yüz panel: `wall_100` → 2 × `profile_91`, 2 × `upright_346_5`, 14 × `panel_98`. Köşede içe bakan yüz `panel_corner_*` olur; T'de gövde bugünkü kuralla düz kalır (karar bekliyor).
 
 ## Raf: Tekli / 2 sıralı / 3 sıralı — 2026-10-21
 
-`kyrox-fair-stand` dal `feat/raf-sirali` (commit/PR yok; kullanıcı lokalde deniyor). Migration `0072_shelf_rows` (yerelde uygulandı; canlıya alınmadan önce sorulacak).
+`kyrox-fair-stand` PR #313 (açık; dal `feat/raf-sirali`). Migration `0072_shelf_rows` (yerelde uygulandı; canlıya alınmadan önce sorulacak).
 
 - Katalogda üç kart: Tekli raf, 2 sıralı raf, 3 sıralı raf; kartta genişlik yok. Genişlik takıldığı duvar modülünden gelir (100 / 150 / 200); 50 cm duvar ve duvar dışı reddedilir; başka duvara taşınınca genişlik yeniden seçilir.
 - BOM tekli raf reçetesinin sıra sayısı katıdır: 2 sıralı 150 → 2 tahta + 6 ayak; 3 sıralı 100 → 3 tahta + 6 ayak.
