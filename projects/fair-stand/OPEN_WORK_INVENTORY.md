@@ -93,7 +93,7 @@ Her item kendi ölçü/BOM’unu taşır; stand tavanı yalnız max zarf.
 | E.6 T'de gövde köşe paneli | KARAR BEKLİYOR | Bugünkü kural: T'de gövde duvarı köşe paneli almaz (`payCorner: false`), arka yüz de bu kuralı izler. Kullanıcının T görseli gövdenin kol tarafını da köşe gösteriyor; değişirse ön yüz BOM'u da değişir |
 | E.4 raf ayağı ölçüsü | VERİ | `shelf_leg` DB'de ölçüsüz; ayak sahnede çizilmez, yalnız BOM'da. Ölçü girilirse çizim ayrı iş |
 | E.5 0072 canlıya | KAPANDI | `0072_shelf_rows` 2026-10-21 deploy ile canlıda |
-| E.7 0073–0074 canlıya | BEKLİYOR | `0073_move_snap_10cm` (bütün taşıma adımları 10 cm) ve `0074_showcase_brochure` (ayaklı vitrin, broşürlük) yerelde; PR merge sonrası deploy kullanıcıya sorulur |
+| E.7 0073–0075 canlıya | BEKLİYOR | `0073_move_snap_10cm` (bütün taşıma adımları 10 cm), `0074_showcase_brochure` (ayaklı vitrin, broşürlük) ve `0075_glass_bar_table` (bar masası) yerelde; deploy kullanıcıya sorulur |
 | E.8 vitrin / broşürlük fiyatı | VERİ | `floor_showcase_100` ve `brochure_stand` BOM'a 1 adet yazılır; `fair_stand_cost_items` fiyatı yok, kullanıcıdan bekleniyor |
 | E.3 dikme sahne ölçüsü | VERİ | `upright_*` sahne kesiti 8 × 8, profiller 10 × 10; sahne dikmeyi profil kesitiyle çizer. Dikme kayıtları profil ile eşitlenmeli mi kararı |
 
