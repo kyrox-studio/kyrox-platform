@@ -149,6 +149,15 @@ Do not claim “CI blocks merge/push” unless repository protection actually re
 
 A failed protected-branch/main run is a broken-main condition and must be corrected even if the push technically succeeded.
 
+### PR-only checks (owner decision 2026-10-21)
+
+For `kyrox-core`, `kyrox-fair-crm`, `kyrox-fair-stand` and `kyrox-platform` the canonical checks run on the pull request only; they do not run again on `main` after merge.
+
+- `main` requires the canonical checks to pass on the PR before merge, with the strict (up-to-date) policy: the PR branch must contain the current `main`, so the tested tree is the merged tree. A re-run on `main` would test the same tree again and only lengthens the work.
+- Workflows therefore trigger on `pull_request` (and `workflow_dispatch`), not on `push: main`. Deploy or maintenance workflows that must act on `main` are not test gates and keep their own triggers.
+- Merging without a green PR run, or bypassing the required checks, is forbidden. If a repository loses the required-check or strict rule, the PR-only model no longer holds and `push: main` checks must be restored.
+- `kyrox-web` and `kyrox-brand` are outside this rule for now (owner decision).
+
 ## 13. Completion reporting
 
 Reports must describe the observed state precisely.
