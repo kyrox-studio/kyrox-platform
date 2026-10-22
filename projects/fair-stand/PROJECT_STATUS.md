@@ -9,21 +9,41 @@
 | Category master | `fair_stand_categories` |
 | Catalog | Yalnız Item projeksiyonu |
 
+## 2026-10-22 — Profil kartı ve boy seçimi (migration 0078)
+
+**[Fair Stand PR #322](https://github.com/kyrox-studio/kyrox-fair-stand/pull/322) main'e merge edildi
+(2026-10-22). Canlı deploy yapılmadı; canlı veritabanına `0078` alınmalı.**
+
+- Profil dikme gibi katalogda tek kartla gelir (`profile_289`); bırakırken boy sorulur
+  ("Bir daha sorma" tercihi, sağ tık **Profil boyu…**). Gerçek boy (BOM) → sahne boyu:
+  41,5 → 50, 91 → 100, 140,5 → 150, 190 → 200, 239,5 → 250, 289 → 300, 388 → 400, 487 → 500.
+- Migration `0078_profile_lengths`: admin ekranında açılmış `profile_289_scene` kartı
+  `profile_289` olur (proje ve grup şablonu JSON'u dahil); `profile_239_5`, `profile_388`,
+  `profile_487` eklenir; katalogda yalnız `profile_289` görünür. Gizli boylar sahnede çizilir.
+- BOM: her profil kendi `itemKey` ×1 adet; duvar reçeteleri değişmez.
+- Doğrulama: 1408 frontend unit/integration, 181 backend, build, change gate, tam Chromium
+  E2E 210/210, CI yeşil. Yerel PostgreSQL'de `0077 → 0078` denendi (3 projede anahtar çevrildi).
+- SaaS etkisi: katalog verisi değişir (migration); API ve yetki modeli aynı.
+
 ## 2026-10-22 — Sahne ışığı, alınlık aydınlatması, uzak panel titremesi
 
-**[Fair Stand PR #321](https://github.com/kyrox-studio/kyrox-fair-stand/pull/321) açık; CI bekleniyor.
-Henüz main'e merge veya canlı deploy yapılmadı.**
+**[Fair Stand PR #321](https://github.com/kyrox-studio/kyrox-fair-stand/pull/321) main'e merge edildi
+(2026-10-22). Canlı deploy yapılmadı.**
 
 - Standın tepesinde gölgesiz sahne spotu: zemine stand merkezli, köşeleri 2 m aşan
-  yumuşak kenarlı ışık havuzu. Ortam ve ana ışık kısılır; iki tam yatay çapraz dolgu
-  ışığı dışa bakan alınlık yüzlerini aydınlatır, zemine düşmez.
+  yumuşak kenarlı ışık havuzu. Sahne ışığında ortam ışığı ters çevrilir (gök rengi koyu,
+  yer rengi açık): zemin ve hol karanlık, alınlık gibi dikey yüzler aydınlık. Editörde ana
+  ışık kapanır; ışık sayısı sahne ışığı kapalı editörle aynı kalır (ilk CI'da tablet çift
+  dokunuşu 350 ms eşiğini aşıyordu; test gevşetilmeden ışıklar azaltıldı).
 - Üst bantta **Sahne Işığı** düğmesi: varsayılan açık, oturumluk, projeye kaydedilmez.
+  CRM içindeki konfigüratörde de (`configuratorMarkup.js`) aynı düğme vardır; iki HTML
+  kaynağının üst bandı testle eşit tutulur.
   Render Al her zaman sahne ışığıyla çizer; projektör/raf altı ışıkları yalnız Render Al'da.
 - Otomatik alınlık gövdesi içeriden açık renk; BOM ve arka yüz paneli değişmez.
 - Perspektif kamera `near` değeri bakılan noktaya uzaklığın %1'i (0.05–1 m): büyük
   standlarda uzak panellerdeki derinlik titremesi (z-fighting) kalktı.
-- Yerel doğrulama: 1401 frontend unit/integration, build, change gate ve tam Chromium
-  E2E 209/209 geçti. Timeout/tolerans gevşetilmedi.
+- Doğrulama: 1402 frontend unit/integration, build, change gate, tam Chromium E2E
+  209/209 ve CI yeşil. Timeout/tolerans gevşetilmedi.
 - SaaS etkisi: yalnız istemci görünümü; backend şeması, API ve Alembic migration yok.
 
 ## 2026-10-22 — Yerel seçim ve kilit değişiklikleri
@@ -67,7 +87,7 @@ Lokal runtime acceptance PASS. `deployed` / `merged` / `production` iddiası yok
 | Tenant-scoped Item katalog | Kapsam dışı; katalog global |
 | Static JS Item master | Kaldırıldı |
 | Fallback / dual SoT | Yok |
-| Migration | Fair Stand Alembic head `0077_upright_render` (yerel; canlı veritabanı son kayıtta `0072`, 2026-10-21 deploy — 0073–0077'nin canlıya alındığı bu kayıtta doğrulanmadı). `0077_upright_render` bütün dikmeleri sahnede çizilir yapar (`is_render`; 400+ cm dikme bırakma hatası). `0076_vertical_move` dikey taşınmayı ve taban referansını öğe ayarı yapar (`fair_stand_items.vertical_move`, `z_reference`: floor | wall-top). `0075_glass_bar_table` Bar Masası'nı (`glass_bar_table`, cam masa ailesi, 108 cm) ekler. `0073_move_snap_10cm` bütün türlerin taşıma adımını 10 cm yapar. `0074_showcase_brochure` ayaklı vitrin (`floor_showcase_100`) ve broşürlük (`brochure_stand`) tekil Item'larını, türlerini ve katalog önizlemelerini ekler. `0072` raf kartlarını (Tekli / 2 / 3 sıralı), `fair_stand_item_width_variants` tablosunu ve sıralı raf reçetelerini ekler. `0068`–`0071` duvar yüksekliği bant reçeteleri: `fair_stand_item_components.per_band` ve `height_matched`; düz duvar + dikmeler (`0068`), kapı ve 2/3 gözlü vitrin (`0069`), 100'lük ayırıcılar (`0070`), 50'lik ayırıcılar ve 350 reçete düzeltmesi (`0071`). `0067` organizasyon grup şablonlarını (`fair_stand_group_templates`) ekler. `0065_metal_separator` katalogda görünmeyen `metal_separator` Item'ını ekler; `0066` bu Item'ı `metre_kare` birimiyle maliyetlendirilebilir yapar (dönüştürülmüş panel bloğu adet değil en × boy olarak faturalanır). `fair_stand_cost_items` organization Item fiyatını ve manuel kalemi aynı tabloda tutar. ITEM satırında `item_key` zorunlu, `name` ve `unit` boştur. MANUAL satırında `item_key` boştur, `name` ve `unit` zorunludur. `unit` → `fair_stand_units.unit_key`, ON UPDATE CASCADE, ON DELETE CASCADE. Aynı organization aynı Item’ı iki kez yazamaz. Manuel ad ve birim için ek unique yoktur. `fair_stand_items` fiyat kolonu taşımaz. `fair_stand_items.is_cost_enabled` NOT NULL, default false; mevcut satırlar false kalır. Bu bayrak fiyat, birim ve reçete miktarı değildir. `fair_stand_item_type` sınıflandırmadır. Sahne davranışı isteğe bağlı `fair_stand_item_type_scene_behavior` satırıdır; satır yoksa tip non-scene’dir. `production` behavior satırı taşımaz. `digital_print`, `mesh_fabric`, `lightbox_fabric` bu tipe bağlı gizli Item’lardır. `foam_logo` kaldırıldı. Strafor metrekare `illuminated-foam` sahne kaydına yazılır. `tulle_fabric` (görünen ad Tül, tip `tulle-fabric`) tek Item’dır: katalogda görünür, sahneye sürüklenir, BOM miktarı en × boy / 10000 m² olarak aynı `itemKey` ile yazılır ve maliyet kalemi bu `itemKey` ile eşleşir. Kalınlık item master `depth_cm` 0.4 değeridir. İlk yerleşim `default_z_cm` 350 değerini kullanır. `fair_stand_items.unit` → `fair_stand_units.unit_key` FK’sidir: ON UPDATE CASCADE, ON DELETE RESTRICT. Proje BOM’u katalogdaki `elektrik_panosu` satırını her listeye 1 adet yazar; bu satır modül reçetesi değildir. Aynı liste Dijital Baskı, Mesh ve Lightbox alanlarını kendi production kalemlerine, strafor alanını `illuminated-foam` kaydına bağlar. |
+| Migration | Fair Stand Alembic head `0078_profile_lengths` (main; canlı veritabanı son kayıtta `0072`, 2026-10-21 deploy — 0073–0078'in canlıya alındığı bu kayıtta doğrulanmadı). `0078_profile_lengths` profil boylarını düzenler: `profile_289_scene` → `profile_289`, `profile_239_5` / `profile_388` / `profile_487` eklenir, sahne boyları 50…500, katalogda yalnız `profile_289`. `0077_upright_render` bütün dikmeleri sahnede çizilir yapar (`is_render`; 400+ cm dikme bırakma hatası). `0076_vertical_move` dikey taşınmayı ve taban referansını öğe ayarı yapar (`fair_stand_items.vertical_move`, `z_reference`: floor | wall-top). `0075_glass_bar_table` Bar Masası'nı (`glass_bar_table`, cam masa ailesi, 108 cm) ekler. `0073_move_snap_10cm` bütün türlerin taşıma adımını 10 cm yapar. `0074_showcase_brochure` ayaklı vitrin (`floor_showcase_100`) ve broşürlük (`brochure_stand`) tekil Item'larını, türlerini ve katalog önizlemelerini ekler. `0072` raf kartlarını (Tekli / 2 / 3 sıralı), `fair_stand_item_width_variants` tablosunu ve sıralı raf reçetelerini ekler. `0068`–`0071` duvar yüksekliği bant reçeteleri: `fair_stand_item_components.per_band` ve `height_matched`; düz duvar + dikmeler (`0068`), kapı ve 2/3 gözlü vitrin (`0069`), 100'lük ayırıcılar (`0070`), 50'lik ayırıcılar ve 350 reçete düzeltmesi (`0071`). `0067` organizasyon grup şablonlarını (`fair_stand_group_templates`) ekler. `0065_metal_separator` katalogda görünmeyen `metal_separator` Item'ını ekler; `0066` bu Item'ı `metre_kare` birimiyle maliyetlendirilebilir yapar (dönüştürülmüş panel bloğu adet değil en × boy olarak faturalanır). `fair_stand_cost_items` organization Item fiyatını ve manuel kalemi aynı tabloda tutar. ITEM satırında `item_key` zorunlu, `name` ve `unit` boştur. MANUAL satırında `item_key` boştur, `name` ve `unit` zorunludur. `unit` → `fair_stand_units.unit_key`, ON UPDATE CASCADE, ON DELETE CASCADE. Aynı organization aynı Item’ı iki kez yazamaz. Manuel ad ve birim için ek unique yoktur. `fair_stand_items` fiyat kolonu taşımaz. `fair_stand_items.is_cost_enabled` NOT NULL, default false; mevcut satırlar false kalır. Bu bayrak fiyat, birim ve reçete miktarı değildir. `fair_stand_item_type` sınıflandırmadır. Sahne davranışı isteğe bağlı `fair_stand_item_type_scene_behavior` satırıdır; satır yoksa tip non-scene’dir. `production` behavior satırı taşımaz. `digital_print`, `mesh_fabric`, `lightbox_fabric` bu tipe bağlı gizli Item’lardır. `foam_logo` kaldırıldı. Strafor metrekare `illuminated-foam` sahne kaydına yazılır. `tulle_fabric` (görünen ad Tül, tip `tulle-fabric`) tek Item’dır: katalogda görünür, sahneye sürüklenir, BOM miktarı en × boy / 10000 m² olarak aynı `itemKey` ile yazılır ve maliyet kalemi bu `itemKey` ile eşleşir. Kalınlık item master `depth_cm` 0.4 değeridir. İlk yerleşim `default_z_cm` 350 değerini kullanır. `fair_stand_items.unit` → `fair_stand_units.unit_key` FK’sidir: ON UPDATE CASCADE, ON DELETE RESTRICT. Proje BOM’u katalogdaki `elektrik_panosu` satırını her listeye 1 adet yazar; bu satır modül reçetesi değildir. Aynı liste Dijital Baskı, Mesh ve Lightbox alanlarını kendi production kalemlerine, strafor alanını `illuminated-foam` kaydına bağlar. |
 
 Mimari ayrıntı: [ITEM_CATALOG_ARCHITECTURE.md](ITEM_CATALOG_ARCHITECTURE.md).
 
