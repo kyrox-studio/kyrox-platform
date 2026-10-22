@@ -123,12 +123,12 @@ Her item kendi ölçü/BOM’unu taşır; stand tavanı yalnız max zarf.
 | Tablet kullanımı: seçim çubuğu, uzun basma, sade menü + Gelişmiş, Çoklu panel/modül, dokunarak ekleme | #308 | Merge + deploy |
 | Otomatik kayıt kapalıyken yalnız Kaydet; Kopyala (Çoğalt Sağ/Sol kaldırıldı); çift tık modül seçimi, Ctrl seçilenin çoğulu, Shift+tık kaldırıldı | #309 | Merge |
 | Otomatik alınlık: sihirbaz "Alınlık olsun → Tek / Çift sıra" + sol menü listesi; açık kenarlara wall-short, açık köşelere dikme, 5 m'yi aşan kenarda eşit aralıklı ara dikme (`autoFascia.js`); short (wall-short-1/2) birleşimlerinde arka yüz paneli BOM'da tam boy duvar kuralıyla köşe paneline döner (`relationshipBom.js`) | #320 | Merge |
-| Sahne ışığı: tepe spotu + ışık havuzu, ortam kısma, yatay dolgu (alınlık dış yüzü), üst bantta **Sahne Işığı** düğmesi (varsayılan açık, oturumluk); otomatik alınlık gövdesi içeriden açık renk; perspektif kamera dinamik `near` (büyük standda uzak panel z-fighting) | #321 | Açık; tam E2E 209/209, CI bekleniyor |
+| Sahne ışığı: tepe spotu + ışık havuzu, ters ortam ışığı (alınlık dış yüzü aydınlık, ek ışık yok), üst bantta **Sahne Işığı** düğmesi (varsayılan açık, oturumluk; CRM'de de); otomatik alınlık gövdesi içeriden açık renk; perspektif kamera dinamik `near` (büyük standda uzak panel z-fighting) | #321 | Merge |
+| Profil kartı ve boy seçimi: tek kart `profile_289`, bırakırken boy penceresi; gerçek → sahne 41,5→50 … 289→300, 388→400, 487→500 (migration `0078`, `profile_289_scene` → `profile_289`) | #322 | Merge |
 
 Açık kalan: açık standın duvar yüksekliğini değiştirmek (`PENDING_ITEM_DECISIONS.md` B.16).
 
 Sıradaki (2026-10-22):
-- **Profil kartı ve boy seçimi:** sahneye sürüklenen profil için dikmedeki gibi boy penceresi; gerçek → sahne 41,5→50, 91→100, 140,5→150, 190→200, 239,5→250 (yeni `profile_239_5`), 289→300 (`profile_289_scene` → `profile_289` yeniden adlandırma).
 - **Alınlık profilleri tek profil:** alınlıktaki profil uzunluklarının panel başına parçalar yerine tek profile çevrilmesi; BOM/sahne kapsamı envanterde netleşecek.
 
 Gelecek (karar 2026-10-20): **hazır stand tasarımları** — masa, sandalye vb. dolu hazır standlarla hızlı başlangıç (yeni proje sihirbazına bağlanabilir). Grup şablonu bu iş için yeterli görülmedi.
