@@ -122,6 +122,7 @@ Her item kendi ölçü/BOM’unu taşır; stand tavanı yalnız max zarf.
 | Duvar yüksekliği 250–500 cm, bant reçetesi (migration `0068`–`0071`) | #307 | Merge + deploy (canlı DB `0071`) |
 | Tablet kullanımı: seçim çubuğu, uzun basma, sade menü + Gelişmiş, Çoklu panel/modül, dokunarak ekleme | #308 | Merge + deploy |
 | Otomatik kayıt kapalıyken yalnız Kaydet; Kopyala (Çoğalt Sağ/Sol kaldırıldı); çift tık modül seçimi, Ctrl seçilenin çoğulu, Shift+tık kaldırıldı | #309 | Açık; kullanıcı lokalde deniyor |
+| Otomatik alınlık: sihirbaz "Alınlık olsun → Tek / Çift sıra" + sol menü listesi; açık kenarlara wall-short, açık köşelere dikme, 5 m'yi aşan kenarda eşit aralıklı ara dikme (`autoFascia.js`); short (wall-short-1/2) birleşimlerinde arka yüz paneli BOM'da tam boy duvar kuralıyla köşe paneline döner (`relationshipBom.js`) | — | Dal `feat/otomatik-alinlik`; commit yok, kullanıcı lokalde deniyor |
 
 Açık kalan: açık standın duvar yüksekliğini değiştirmek (`PENDING_ITEM_DECISIONS.md` B.16).
 
