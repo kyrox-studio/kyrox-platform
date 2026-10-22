@@ -115,16 +115,21 @@ Her item kendi ölçü/BOM’unu taşır; stand tavanı yalnız max zarf.
 | 5 Kurumsal şablon | Uygulandı (PR #286, migration 0067); görsel/Lightbox/Mesh **taşınmaz** (kalıcı) |
 | 6 Opsiyonel “raf ev sahibi duvar” | Plan |
 
-### Son teslimler (2026-10-19 → 20)
+### Son teslimler (2026-10-19 → 22)
 
 | İş | PR | Durum |
 |---|---|---|
 | Duvar yüksekliği 250–500 cm, bant reçetesi (migration `0068`–`0071`) | #307 | Merge + deploy (canlı DB `0071`) |
 | Tablet kullanımı: seçim çubuğu, uzun basma, sade menü + Gelişmiş, Çoklu panel/modül, dokunarak ekleme | #308 | Merge + deploy |
-| Otomatik kayıt kapalıyken yalnız Kaydet; Kopyala (Çoğalt Sağ/Sol kaldırıldı); çift tık modül seçimi, Ctrl seçilenin çoğulu, Shift+tık kaldırıldı | #309 | Açık; kullanıcı lokalde deniyor |
-| Otomatik alınlık: sihirbaz "Alınlık olsun → Tek / Çift sıra" + sol menü listesi; açık kenarlara wall-short, açık köşelere dikme, 5 m'yi aşan kenarda eşit aralıklı ara dikme (`autoFascia.js`); short (wall-short-1/2) birleşimlerinde arka yüz paneli BOM'da tam boy duvar kuralıyla köşe paneline döner (`relationshipBom.js`) | — | Dal `feat/otomatik-alinlik`; commit yok, kullanıcı lokalde deniyor |
+| Otomatik kayıt kapalıyken yalnız Kaydet; Kopyala (Çoğalt Sağ/Sol kaldırıldı); çift tık modül seçimi, Ctrl seçilenin çoğulu, Shift+tık kaldırıldı | #309 | Merge |
+| Otomatik alınlık: sihirbaz "Alınlık olsun → Tek / Çift sıra" + sol menü listesi; açık kenarlara wall-short, açık köşelere dikme, 5 m'yi aşan kenarda eşit aralıklı ara dikme (`autoFascia.js`); short (wall-short-1/2) birleşimlerinde arka yüz paneli BOM'da tam boy duvar kuralıyla köşe paneline döner (`relationshipBom.js`) | #320 | Merge |
+| Sahne ışığı: tepe spotu + ışık havuzu, ortam kısma, yatay dolgu (alınlık dış yüzü), üst bantta **Sahne Işığı** düğmesi (varsayılan açık, oturumluk); otomatik alınlık gövdesi içeriden açık renk; perspektif kamera dinamik `near` (büyük standda uzak panel z-fighting) | #321 | Açık; tam E2E 209/209, CI bekleniyor |
 
 Açık kalan: açık standın duvar yüksekliğini değiştirmek (`PENDING_ITEM_DECISIONS.md` B.16).
+
+Sıradaki (2026-10-22):
+- **Profil kartı ve boy seçimi:** sahneye sürüklenen profil için dikmedeki gibi boy penceresi; gerçek → sahne 41,5→50, 91→100, 140,5→150, 190→200, 239,5→250 (yeni `profile_239_5`), 289→300 (`profile_289_scene` → `profile_289` yeniden adlandırma).
+- **Alınlık profilleri tek profil:** alınlıktaki profil uzunluklarının panel başına parçalar yerine tek profile çevrilmesi; BOM/sahne kapsamı envanterde netleşecek.
 
 Gelecek (karar 2026-10-20): **hazır stand tasarımları** — masa, sandalye vb. dolu hazır standlarla hızlı başlangıç (yeni proje sihirbazına bağlanabilir). Grup şablonu bu iş için yeterli görülmedi.
 
