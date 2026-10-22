@@ -127,7 +127,7 @@ Her item kendi ölçü/BOM’unu taşır; stand tavanı yalnız max zarf.
 | Profil kartı ve boy seçimi: tek kart `profile_289`, bırakırken boy penceresi; gerçek → sahne 41,5→50 … 289→300, 388→400, 487→500 (migration `0078`, `profile_289_scene` → `profile_289`) | #322 | Merge |
 
 | Kısa panel tek kart: katalogda Tek Sıra / Çift Sıra için birer kart (`wall_100_short_1/2`); adlar DB'de "Panel Tek Sıra W" / "Panel Çift Sıra W", "Profil 41,5", "Dikme 346,5"; sağ tık başlığı sahnedeki öğenin adını yazar; bırakırken genişlik 50/100/150/200 konum hesabından önce sorulur (`wallShortWidth.js`, migration `0079_wall_short_cards`); profil işinin (#322, merge) üstüne kurulu | #323 | Merge |
-| Alınlık profilleri tek profil: uç uca kısa panellerin (Tek/Çift Sıra) üst/alt profili BOM'da taşıyıcıdan taşıyıcıya (dikme / tam boy duvar ucu) tek parça; tam boy yoksa en uzun uygun profil + kalan parça (`relationshipBom.js` `applyShortRunProfiles`); kısa panelin bağlantı çizgisine konan profil o raydaki panel profilini düşürür (`applyProfileRail`) | — | Dal `feat/kisa-panel-profil-birlesimi` |
+| Alınlık profilleri tek profil: uç uca kısa panellerin (Tek/Çift Sıra) üst/alt profili BOM'da taşıyıcıdan taşıyıcıya (dikme / tam boy duvar ucu) tek parça; tam boy yoksa en uzun uygun profil + kalan parça (`relationshipBom.js` `applyShortRunProfiles`); kısa panelin bağlantı çizgisine konan profil o raydaki panel profilini düşürür (`applyProfileRail`) | #325 | unit 1424/1424, tam E2E 210/210 |
 
 Açık kalan: açık standın duvar yüksekliğini değiştirmek (`PENDING_ITEM_DECISIONS.md` B.16).
 
