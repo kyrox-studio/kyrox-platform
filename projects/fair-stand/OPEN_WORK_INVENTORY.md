@@ -102,6 +102,11 @@ Her item kendi ölçü/BOM’unu taşır; stand tavanı yalnız max zarf.
 ---
 
 ## 3. Fair Stand — yol haritası / faz
+### Kullanılabilirlik — 2026-10-23 takip
+
+Açık maddelerin tek kaynağı: [Kullanılabilirlik Yol Haritası](KULLANILABILIRLIK_YOL_HARITASI.md). Güncel uygulama ve doğrulama: [PROJECT_STATUS.md](PROJECT_STATUS.md#2026-10-23--basit--gelişmiş-mod-ve-ayarlar). Basit/Gelişmiş seçici, Ayarlar, toplu kilit, ölçü tercihi, taşıma ızgarası, metreyle kurulum ve kılavuz tamamlandı; ilk paket PR #334 ile birleşti; ek paket PR #335 gönderildi, CI/otomatik birleştirme takip ediliyor; canlı deploy yapılmadı.
+
+Açık: grup dış sınır ölçüleri; Stand / Ürün ekle / Tasarım menü düzeni (kullanıcı tarafından ertelendi); bütün yapı düzenleme ve teknik parçaların otomatik çözülmesi. Bunlar yeni audit bulgusu veya tamamlanmış özellik olarak kaydedilmez.
 
 ### Grup / kilit / şablon — `GROUP_LOCK_ROADMAP.md`
 
