@@ -2,12 +2,35 @@
 
 | Alan | Değer |
 |------|--------|
-| Son doğrulama | **2026-10-22** |
+| Son doğrulama | **2026-10-23** |
 | Implementation deposu | `kyrox-studio/kyrox-fair-stand` |
 | Hosted backend | Fair Stand FastAPI (`:8002`) / PostgreSQL `fair_stand` |
 | Item master | İlişkisel PostgreSQL; catalog bootstrap API |
 | Category master | `fair_stand_categories` |
 | Catalog | Yalnız Item projeksiyonu |
+
+## 2026-10-23 — Basit / Gelişmiş mod ve Ayarlar
+
+**Implementation:** `kyrox-fair-stand`, commit `401bd238`, dal `feat/basit-mod-olcu-gorunumu` GitHub’a gönderildi. İlk paket [PR #334](https://github.com/kyrox-studio/kyrox-fair-stand/pull/334) ile main dalına birleştirildi; canlı deploy yapılmadı.
+
+- Tek Basit / Gelişmiş seçici; Basit varsayılan. Ayarlar, Gruplar, Şablonlarım ve Standartlar yalnız Gelişmişte görünür. Ortak açılır/kapanır bölüm şablonu kullanılır.
+- Gelişmiş → Ayarlar: **Herşeyi Kilitle**, **Ölçüleri göster**, **Otomatik kayıt**. Kilit kutusu bütün mevcut öğeleri kilitler veya öğe/grup kilitlerini açar; grupları çözmez. Kısmi kilitte ara durum, boş sahnede pasif; geri alma ve proje kaydı mevcut kilit akışını kullanır.
+- Ölçüler Basitte kapalı, Gelişmişte açık başlar; Gelişmişte kullanıcı kapatabilir. Tercih oturumluktur, projeye yazılmaz. Izgara tekil/grup taşıma, katalog yerleştirme ve kopya önizlemesinde ölçü tercihinden bağımsız görünür.
+- Sol menü ve sihirbazda genişlik/derinlik metreyle, 0,5 m adımlarıyla girilir; virgül/nokta kabul edilir. Duvar yüksekliği metre gösterir. Proje/BOM hesapları cm kalır; migration yoktur.
+- Depo, alınlık ve zemin ifadeleri sadeleştirildi; sihirbaza zemin seçimi eklendi. Kaydet üst alana taşındı; paylaşım düğmesi **Ekranı paylaş** olarak adlandırıldı.
+- Kılavuzda tek **Gelişmiş > Ayarlar** açılır bölümü bu üç kontrolün işlevini ve tercihlerin saklanmasını açıklar.
+
+**Yerel kanıt:** 1.459 birim testi, 230 Chromium E2E testi, build ve contract:verify başarılı. Bu sayılar ilgili uygulama commit’inin yerel doğrulamasıdır; PR CI veya canlı kabul kaydı değildir.
+
+**Bölgesel zemin takibi (yerel, uygulama commit’i 48fcb9c4, PR #335):** Tüm stand kaplaması iki modda da erişilebilir; Alan X/Y, genişlik/derinlik, alan kaplaması ve ekle/çiz/sil kontrolleri yalnız Gelişmişte görünür. Mod geçişi uygulanmış bölgesel zemini sahneden, proje kaydından veya BOM’dan kaldırmaz; yalnız tamamlanmamış çizimi kapatır. Genel kural: mod geçişi yalnız arayüz/yardımcı gösterimleri değiştirir, standı veya tasarım verisini değiştirmez. Ek paket doğrulaması tamamlandı: 1.459 birim testi, build ve contract:verify başarılı. 230 E2E senaryosunun 225 tanesi ilk denemede, 2 tanesi koşu içi yeniden denemede geçti; kalan 3 senaryo tek işçiyle tekrar çalıştırılıp geçti. Bölgesel zemin testi görüntünün, tüm stand/modules verisinin ve Basitte kayıt/açma sonucunun korunduğunu doğrular.
+
+**Açık kalanlar:** Grup toplam ölçüleri uygulanmadı. Stand / Ürün ekle / Tasarım menü düzeni kullanıcı kararıyla ertelendi. Teknik kartları gizleyerek otomatik yapı çözme veya bütün duvar/depo/alınlık düzenleme tamamlanmış sayılmaz.
+
+**SaaS etkisi:** Fair Stand editör sunumu ve mevcut proje kilitleri kapsamındadır. Mod seçimi yetki değildir. Organization izolasyonu, backend yetkilendirme, Core sahipliği, entitlement/usage, lifecycle, secrets, job ve veri saklama sınırları değişmez; yeni API/DB şeması yoktur.
+
+### Geçmiş ve üretim ayrıntıları — 2026-10-23 yerel takip
+
+Revizyonlar Proje içindeki başlangıçta kapalı **Geçmiş** bölümünden açılır; revizyon yoksa gizlenir. Üretim Listesi üst banttan sol menüdeki başlangıçta kapalı **Ayrıntılar** bölümüne taşındı. Her iki modda da erişilir; sahne yokken liste düğmesi pasiftir. Revizyon oturum/API davranışı, BOM hesabı ve mevcut liste paneli değişmez; bölüm açma/kapatma tasarıma yazmaz. Kılavuz ve hedefli gerçek tarayıcı akışları güncellendi; hedefli dört senaryo geçti. Son tam doğrulama: 1.459 birim testi, 230/230 Chromium E2E testi (6,4 dk), build ve contract:verify başarılı. Üst bant küçülünce seçim çubuğunun Kaydet üzerine gelmesi düzeltildi; gerçek seçim/kayıt akışında çakışma kontrol edildi. Bu ek paket [PR #335](https://github.com/kyrox-studio/kyrox-fair-stand/pull/335) ile gönderildi; GitHub CI/otomatik birleştirme takip ediliyor.
 
 ## 2026-10-22 — Profil kartı ve boy seçimi (migration 0078)
 
