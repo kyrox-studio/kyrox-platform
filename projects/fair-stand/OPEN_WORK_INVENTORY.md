@@ -130,8 +130,9 @@ Her item kendi ölçü/BOM’unu taşır; stand tavanı yalnız max zarf.
 | Alınlık profilleri tek profil: uç uca kısa panellerin (Tek/Çift Sıra) üst/alt profili BOM'da taşıyıcıdan taşıyıcıya (dikme / tam boy duvar ucu) tek parça; tam boy yoksa en uzun uygun profil + kalan parça (`relationshipBom.js` `applyShortRunProfiles`); kısa panelin bağlantı çizgisine konan profil o raydaki panel profilini düşürür (`applyProfileRail`) | #325 | Merge + deploy |
 | Stand API: Core yetki sorgusu oturumu tanımazsa 401, Core'a ulaşılamazsa 503 (önceden yakalanmayan hata → 500; CRM istemcisi 401'de yenileme/girişe yönlenir) | #326 | Merge |
 | Stand ölü kod taraması: yetim `cornerPlacement.js`, çağrılmayan frontend/backend yardımcıları ve importlar, `alembic.ini` `path_separator`; davranış değişmez | #327 | Merge |
+| Profil 346,5 (`0081`), katalogda sahne profili yok; ölçü soran kartlar ölçüsüz başlık ("Profil", "Dikme", "Panel Tek Sıra"); stand kapasite uyarısı kaldırıldı; E2E kendi sunucusunu açar (#329) | #330 | Merge + deploy |
 
-Açık kalan: açık standın duvar yüksekliğini değiştirmek (`PENDING_ITEM_DECISIONS.md` B.16). Karar bekleyen (2026-10-23 tarama): admin kaynaklı `profile_*_scene` Item'larının (6; 4'ü sunucu projelerinde kullanılıyor, `profile_346_5_scene`'in kanonik karşılığı yok) kanonik profillere taşınması; yazılmış ve test edilmiş stand eksen kapasitesi uyarısının (`standCapacity.js`, `formatCapacityPopup`) arayüze bağlanması ya da kaldırılması.
+Açık kalan: açık standın duvar yüksekliğini değiştirmek (`PENDING_ITEM_DECISIONS.md` B.16). Ertelendi (2026-10-23): `z_frame` / `z_max` dikey sınır davranışının DB'ye taşınması (`modulePlacement.js` TODO(DB)); `scene3d.js` ve `main.js`'in parçalanması; yalnız testlerde kullanılan ~35 export'un gözden geçirilmesi; `normalizeModuleItemState`'e dikme dalı (içe aktarılan eski projelerde dikme sahne ölçüsü). `profile_346_5` maliyet kaydı admin ekranından girilecek.
 
 Gelecek (karar 2026-10-20): **hazır stand tasarımları** — masa, sandalye vb. dolu hazır standlarla hızlı başlangıç (yeni proje sihirbazına bağlanabilir). Grup şablonu bu iş için yeterli görülmedi.
 
