@@ -250,5 +250,7 @@
 ### GitHub teslimatı — 2026-10-23
 
 - İlk mod/ayar/metre paketi `401bd238`: [PR #334](https://github.com/kyrox-studio/kyrox-fair-stand/pull/334) main dalına birleştirildi.
-- Bölgesel zemin, Geçmiş ve üretim ayrıntıları paketi `48fcb9c4`: [PR #335](https://github.com/kyrox-studio/kyrox-fair-stand/pull/335). Yerel 1.459 birim ve 230/230 Chromium E2E başarılı; GitHub CI ve otomatik birleştirme takip ediliyor.
+- Bölgesel zemin, Geçmiş ve üretim ayrıntıları paketi `48fcb9c4`: [PR #335](https://github.com/kyrox-studio/kyrox-fair-stand/pull/335). Yerel 1.459 birim ve 230/230 Chromium E2E başarılı; GitHub CI başarılı; PR #335 otomatik olarak main dalına birleştirildi (merge `9ba4b6c3`).
 - Canlı deploy yapılmadı. Önceki commit/push bekleme notları ara çalışma kayıtlarıdır; bu teslimat kaydı onları günceller.
+
+- Belge teslimatı: [Platform PR #151](https://github.com/kyrox-studio/kyrox-platform/pull/151) CI başarılı olarak main dalına birleşti. Kod CI kanıtı: [CI çalışması](https://github.com/kyrox-studio/kyrox-fair-stand/actions/runs/40003914796), sonuç success. Canlı deploy yapılmadı.
