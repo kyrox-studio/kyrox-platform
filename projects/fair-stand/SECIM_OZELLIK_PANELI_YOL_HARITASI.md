@@ -1,14 +1,16 @@
 # Fair Stand — Seçime Göre Özellik Paneli Yol Haritası
 
 **Tarih:** 2026-10-24  
-**Durum:** Kullanıcı kararlarına göre hazırlanmış uygulama planı; panel henüz uygulanmadı.  
+**Durum:** 1. adım ve 2. adımın işlevsel kısmı yerelde uygulandı (2026-10-24, kod PR #339; auto-merge açık, GitHub CI bekleniyor); 3. adım (görsel düzen) bekliyor. Uygulama özeti ve doğrulama: [PROJECT_STATUS.md](PROJECT_STATUS.md).  
+**Son yerel doğrulama:** 1.515 birim, 198 backend, 239/239 Chromium E2E; build ve change-contract başarılı. 0084/0085 yerel DB’de uygulandı. Vitrin gövde rengi, Lightbox/Mesh normal tık ve kısa pencerede açıklama taşması giderildi; ayrıntı PROJECT_STATUS kaydındadır.
+
 **Sıralama:** Önce işlev ve mevcut davranışların korunması; görsel düzenleme en son.
 
 ## Kesin kapsam
 
 Sağ tık işlemleri ve seçimin desteklediği özellikler ortak bir panelde sunulacak. Her ürüne aynı ayarlar gösterilmeyecek. Item, seçilen yüzey, mevcut değerler, kilit ve işlem yetkisi birlikte değerlendirilecek.
 
-**Mevcut tek/çift tık araç çubuğu kaldırılmayacak:** Döndür, Kopyala, Sil, Çoklu panel / Çoklu modül ve ⋯ korunacak. Çubuk ile panel ayrı erişim yüzeyleridir; aynı işlemi ayrı iş kurallarıyla gerçekleştirmeyecekler.
+**Mevcut tek/çift tık araç çubuğu kaldırılmayacak:** Döndür, Kopyala, Sil, Çoklu panel / Çoklu modül korunacak. Kullanıcının sonraki kararıyla ⋯ kaldırıldı; panel tek tıkla açılır. Çubuk ile panel ayrı erişim yüzeyleridir; aynı işlemi ayrı iş kurallarıyla gerçekleştirmeyecekler.
 
 İlk adım normal tık, çift tık, sağ tık ve çoklu seçim yollarının tamamını kapsar. Yalnız tek öğede açılan bir panel, ilk adım tamamlandı sayılmaz.
 
@@ -19,7 +21,7 @@ Sağ tık işlemleri ve seçimin desteklediği özellikler ortak bir panelde sun
 | Mevcut sahip | Panel çalışmasındaki rolü |
 |---|---|
 | `src/scene3d.js` | Seçim, hit testi, panel / modül ayrımı, `getSelectionContext`, `buildModuleContext`, sağ tık, uzun basma ve çoklu seçim |
-| `src/selectionToolbar.js` | Korunacak seçim araç çubuğu, Çoklu panel / Çoklu modül ve ⋯ girişi |
+| `src/selectionToolbar.js` | Korunacak seçim araç çubuğu, Çoklu panel / Çoklu modül; ⋯ kaldırıldı |
 | `src/moduleContextMenu.js` | Taşınacak sağ tık komutları, görünürlük koşulları ve mevcut Ekle penceresi |
 | `src/itemCapabilities.js` | Item yüzey yetenekleri: renk, görsel, cam, Lightbox ve Mesh |
 | `src/main.js` | Mevcut işlem bağlantıları, renk / görsel kontrolleri, ürün özel işlemleri ve uygulama yetkileri |
@@ -36,25 +38,25 @@ Bu adımda sade, mevcut ortak bileşenleri kullanan bir panel yeterlidir. Son re
 
 | Giriş | Seçim davranışı | Araç çubuğu / ortak panel |
 |---|---|---|
-| Yüzeye normal tık / dokunma | Mevcut panel / yüzey seçimi; renk ve görselin hedefi aynı yüzey kalır | Mevcut çubuk kalır. Panel açıksa yeni seçime göre güncellenir. |
+| Yüzeye normal tık / dokunma | Mevcut panel / yüzey seçimi; renk ve görselin hedefi aynı yüzey kalır | Mevcut çubuk kalır. Ortak panel açılır; açıksa yeni seçime göre güncellenir. |
 | Yüzey hedefi olmayan öğeye normal tık | Mevcut öğe seçimi korunur | Desteklenen öğe işlemleri ve doğru özellik bağlamı kullanılır. |
-| Çift tık / çift dokunma | Öğenin tamamını seçer | Mevcut çubuk kalır; Çoklu modül davranışı korunur. Panel açıksa öğe bağlamına geçer. |
+| Çift tık / çift dokunma | Öğenin tamamını seçer | Mevcut çubuk kalır; Çoklu modül davranışı korunur. Panel öğe bağlamına geçer. |
 | Sağ tık | Tek seçimde mevcut hedef belirleme kuralı korunur | Ayrı eski menü yerine ortak panel açılır; sağ tıklanan yüzey / öğe ve işlem kapsamı açık gösterilir. |
-| Çubuktaki ⋯ | Mevcut seçimden bağlam alınır | Sağ tıkla aynı ortak panel açılır; yeni hit testiyle seçimin hedefi değiştirilmez. |
+| Çubuktaki ⋯ | Kullanıcı kararıyla kaldırıldı | Yerine öğeye/yüzeye tek tık paneli açar. |
 | Dokunmatik uzun basma | Mevcut sağ tık eşdeğeri | Aynı panel açılır; ardından gelen tarayıcı olayı ikinci kez işlem başlatmaz. |
 | Ctrl/Cmd + tık | Seçili olana göre panel veya modül çoğulu | Çoklu panel ve çoklu modül birbirine dönüşmez. |
 | Çoklu panel düğmesi | Mevcut dokunma / parmak taraması ve tek seferlik mod | Seçim korunur; panel toplu yüzey bağlamını gösterir. |
 | Çoklu modül düğmesi | Öğeye dokunarak ekleme / çıkarma | Panel çoklu öğe bağlamını gösterir. |
-| Boş alana tık / Esc | Mevcut seçim temizleme ve işlem iptali öncelikleri | Seçim yoksa eski öğenin işlemleri aktif kalmaz. |
+| Boş alana tık / Esc | Mevcut seçim temizleme ve işlem iptali öncelikleri | Panel kapanır; seçim yoksa eski öğenin işlemleri aktif kalmaz. |
 | Boş alana sağ tık | Mevcut seçimi gizlice başka öğeye çevirmeme | Hedef yoksa sahte öğe bağlamı üretilmez; mevcut kapanma davranışı korunur. |
 
-**Açılma kararı:** İlk sürümde sağ tık, ⋯ ve uzun basma ortak panelin kesin açılma yollarıdır. Normal / çift tık mevcut çubuğu korur ve açık paneli günceller. Kapalı panelin her normal / çift tıkta otomatik açılması ayrı bir kullanım kararıdır; araç çubuğunun kaldırılması anlamına gelmez ve bu planda kendiliğinden uygulanmaz.
+**Açılma kararı (kullanıcı kararı, 2026-10-24):** Panel öğeye / yüzeye **tek tıkla** (dokunmada tek dokunuşla) açılır; referans BoothDesign'daki gibi sahnenin sağında, seçimin başlığıyla. Sağ tık ve uzun basma aynı paneli açmaya devam eder. Sürükleme, kamera hareketi, sağ tuşla çevirme ve kopya yerleştirme paneli açmaz; boş alana tık paneli kapatır. Mevcut araç çubuğu (Döndür, Kopyala, Sil, Çoklu panel / modül) korunur; ⋯ kullanıcı kararıyla kaldırılmıştır.
 
 - [ ] Tüm girişler aynı güncel seçim bağlamına bağlansın.
 - [ ] Tek tık / çift tık ayrımı, sürükleme eşiği ve kamera hareketi bozulmasın.
 - [ ] Panel üzerindeki tık, yazı girişi ve kaydırma sahne seçimini veya kamerayı tetiklemesin.
 - [ ] Çoklu öğe seçimi varken sağ tık seçimi tek öğeye düşürmesin; komşuya kayan sağ tık için mevcut koruma taşınsın.
-- [ ] Çoklu panel içinde sağ tık / ⋯ toplu yüzey hedefini kaybetmesin. Seçim dışındaki sağ tık davranışı mevcut kuralla karşılaştırılıp ayrıca test edilsin; panel geçişi gerekçesiyle sessizce değiştirilmesin.
+- [ ] Çoklu panel içinde sağ tık toplu yüzey hedefini kaybetmesin. Seçim dışındaki sağ tık davranışı mevcut kuralla karşılaştırılıp ayrıca test edilsin; panel geçişi gerekçesiyle sessizce değiştirilmesin.
 
 ### 1.2 Tek öğe / yüzey yetenekleri
 
@@ -82,7 +84,7 @@ Bu adımda sade, mevcut ortak bileşenleri kullanan bir panel yeterlidir. Son re
 - [ ] Her panel kontrolü mevcut işlem fonksiyonuna yönlensin. Yeni menü için paralel boyama, silme, ekleme, kilit veya BOM mantığı yazılmasın.
 - [ ] Çubuktaki Döndür / Kopyala / Sil düğmeleri doğrudan çalışmaya devam etsin; kullanıcı bu işlemler için panel açmaya zorlanmasın.
 - [ ] İşlem kapsamı başlık ve düğme adıyla belli olsun: yüzey işlemi, öğeyi silme ve grubu silme aynı işlem gibi sunulmasın.
-- [ ] İlk adımın sonunda sağ tık ve ⋯ eski bağımsız menü yerine ortak paneli açsın. Geçiş sırasında eski menü karşılaştırma için geçici tutulabilir; kalıcı iki farklı işlem sistemi oluşmasın.
+- [ ] İlk adımın sonunda sağ tık eski bağımsız menü yerine ortak paneli açsın. Geçiş sırasında eski menü karşılaştırma için geçici tutulabilir; kalıcı iki farklı işlem sistemi oluşmasın.
 
 ### 1.4 Çoklu panel
 
@@ -119,7 +121,7 @@ Bu adımda sade, mevcut ortak bileşenleri kullanan bir panel yeterlidir. Son re
 
 ### 1. Adım kabulü
 
-Normal tık / çift tık araç çubuğu yerinde kalacak; sağ tık, ⋯ ve uzun basma aynı paneli açacak. Tek yüzey, tek öğe, çoklu panel, çoklu modül ve grup bağlamları mevcut işlemlerle çalışmadan bu adım kapanmayacak. Ürün yetenekleri ve toplu işlem uygunluğu ilk adımın parçasıdır; görsel aşamaya ertelenmeyecek.
+Normal tık / çift tık araç çubuğu yerinde kalacak; sağ tık ve uzun basma aynı paneli açacak. Tek yüzey, tek öğe, çoklu panel, çoklu modül ve grup bağlamları mevcut işlemlerle çalışmadan bu adım kapanmayacak. Ürün yetenekleri ve toplu işlem uygunluğu ilk adımın parçasıdır; görsel aşamaya ertelenmeyecek.
 
 ## 2. Adım — İşlevsel kabul ve geçiş temizliği
 
@@ -134,8 +136,8 @@ Normal tık / çift tık araç çubuğu yerinde kalacak; sağ tık, ⋯ ve uzun 
 
 | Senaryo | Beklenen kanıt |
 |---|---|
-| Normal / çift tık | Aynı hedef seçilir; mevcut çubuk ve Çoklu panel / modül ayrımı kalır. |
-| Sağ tık / ⋯ / uzun basma | Aynı seçimde aynı işlem listesi ve aynı sonuç; çift tetikleme yok. |
+| Normal / çift tık | Aynı hedef seçilir ve panel açılır; mevcut çubuk ve Çoklu panel / modül ayrımı kalır. |
+| Sağ tık / uzun basma | Aynı seçimde aynı işlem listesi ve aynı sonuç; çift tetikleme yok. |
 | Renk / görsel almayan ürün | Desteklenmeyen kontrol görünmez; mevcut ürün ve yüzey kuralları kullanılır. |
 | Tek yüzey / çok yüzeyli öğe | İşlem doğru yüzeye yazılır; gövde ve ekran karışmaz. |
 | Çoklu panel | Geçerli dikdörtgen işlem görür; geçersiz düzlem / birleşim nedeni açıklanır. |
