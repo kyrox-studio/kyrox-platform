@@ -103,6 +103,14 @@ Her item kendi ölçü/BOM’unu taşır; stand tavanı yalnız max zarf.
 
 ## 3. Fair Stand — yol haritası / faz
 
+**Sıradaki ilk iş — Varyant aileleri admin'den (2026-10-25, plan):** [Plan](VARYANT_AILELERI_ADMIN_PLANI.md). Aile tanımı (panel başlığı, kart adı, etiket, sıra, eş aile) bugün `src/catalogWidthFamily.js` içinde; DB tablosu + `/admin/variant-families` + CRM ekranı ile admin'e taşınacak. Yetki: Item admin izinleri. Kod yok; üç açık karar planda.
+
+**Görsel seçimi — iki yol (2026-10-25, not; yöntem açık):** Özellikler panelinde görsel iki yoldan seçilecek: (1) mevcut görsel arşivinden (assets), (2) yeni görsel yükleyerek. İki yolun panelde nasıl sunulacağı henüz kararlaştırılmadı; tasarım konuşulacak.
+
+**Görsel arşivinde çift tık uygular (2026-10-25, iş):** Görsel arşivindeki bir görsele çift tıklanınca seçili yüzeye doğrudan uygulansın.
+
+**Varyant tek kart + Özellikler paneli (2026-10-25, yerel):** 0086 ile Vitrin, Raf, TV (85" dahil), Video Wall, Uzun Saksı tek kart; varyant panelde canlı seçilir, öğe snaplı kenara göre büyür, itilen öğelerin üstündeki TV/logo taşınır. Üretim Listesi üst banda döndü, Modül Ekle düğmesi kalktı, sahnede silme onaysız (Geri al; geçmiş revizyonda da). Ayrıntı: [Proje durumu](PROJECT_STATUS.md).
+
 **Ortak kısa dikme düzeltmesi (2026-10-24, yerel):** Taşıyıcı aynı birleşim noktasını ve bandı karşılıyorsa kalan ortak 49,5 / 99 kısa dikme de düşülür. Eski iki 99 beklentisi ve sözleşme kapsamı güncellendi; genişletilmiş regresyon ile üretim listesi/kayıt-açma testleri eklendi. Son tam doğrulama: 1.509 birim ve 232/232 Chromium E2E, build ve contract:verify başarılı. Kod PR #338 main’e birleşti (a098e723), yerel taban eşitlendi. Ayrıntı: [Proje durumu](PROJECT_STATUS.md).
 
 **Seçime Göre Özellik Paneli (2026-10-24, yerel):** [Plan](SECIM_OZELLIK_PANELI_YOL_HARITASI.md). İşlevsel adım uygulandı: öğeye tek tık, sağ tık, ⋯ ve uzun basma sahnenin sağındaki aynı paneli açar; mevcut sağ tık işlemleri, renk / görsel, çoklu panel / çoklu modül / grup bağlamı paneldedir; araç çubuğu korunur. ⋯ kullanıcı kararıyla kaldırıldı. 0084 katalog kartı ve 0085 vitrin renk yeteneği yerel DB’ye uygulandı; dört sunta renk/kayıt akışı ve açıklama taşması doğrulandı. Son tam koşu: 1.515 birim, 198 backend, 242/242 E2E; build ve contract:verify başarılı. Kod PR #340 ile gönderildi; auto-merge açık, GitHub CI bekleniyor. Açık: 3. adımın kalan görsel düzeni. Ayrıntı: [Proje durumu](PROJECT_STATUS.md).

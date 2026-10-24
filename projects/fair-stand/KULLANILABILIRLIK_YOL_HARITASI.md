@@ -247,6 +247,7 @@
 
 - Proje içindeki revizyon listesi **Geçmiş** başlığından açılır; başlangıçta kapalıdır, kayıt yoksa görünmez. Seçili revizyon, eski kaydı açma ve son revizyona dönme mevcut akışla çalışır.
 - Üretim Listesi üst banttan **Ayrıntılar → Üretim Listesi** girişine taşındı. Ayrıntılar başlangıçta kapalıdır; iki modda da erişilir. Sahne yokken düğme pasiftir.
+- 2026-10-24 geri dönüş: Üretim Listesi yeniden üst bantta (İleri al’ın yanında), Ayrıntılar kaldırıldı. Modül ekle kartındaki Modül Ekle düğmesi kaldırıldı, katalog sürükle/dokun ile kullanılır; Sahneyi Sıfırla en altta Tüm Özellikleri Kaldır’ın üstüne alındı.
 - Mevcut BOM hesabı, liste paneli, metin indirme ve ayrı pencere korunur. Bu bölümleri açıp kapatmak stand verisini değiştirmez.
 - Kılavuz güncellendi. Son tam doğrulama: 1.459 birim testi, 230/230 Chromium E2E testi (6,4 dk), build ve contract:verify başarılı. Üst bantla seçim çubuğunun çakışması da giderildi; Kaydet erişimi gerçek tarayıcı akışında doğrulandı. Uygulama yerel; commit/push yapılmadı.
 
