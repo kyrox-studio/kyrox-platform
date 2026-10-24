@@ -9,6 +9,12 @@
 | Category master | `fair_stand_categories` |
 | Catalog | Yalnız Item projeksiyonu |
 
+## 2026-10-24 — Ortak kısa dikmenin taşıyıcıyla ikamesi (yerel)
+
+Kısa panel uç uca / köşe birleşiminde kalan tek ortak kısa dikme, aynı birleşim noktasını ve yükseklik bandını karşılayan bağımsız dikme varsa BOM'dan düşülür. Kural reçetedeki 49,5 ve 99 dikmeler için ortaktır; taşıyıcının kendi satırı korunur. Konum, bandı kapsama ve mevcut 3,5 cm üst boşluk toleransı yeniden kullanılır. Aynı ortak uç ikinci kez düşülmez. Üst üste kolonların uzun dikmeye çevrilmesi kuralı değişmez.
+
+İki eski 99 beklentisi bu kurala göre güncellendi; yeni testler genişlik/yön, karma bant, yetersiz yükseklik, uzak konum, mükerrer taşıyıcı, sıra bağımsızlığı ve kayıt normalizasyonunu kapsar. İlgili 85 birim testi ile gerçek üretim listesi ve kayıt/açma için iki Chromium senaryosu başarılı. Son tam doğrulama: 1.509 birim testi, 232/232 Chromium E2E (6,4 dk), build ve contract:verify başarılı. Yeni Item, migration veya proje şeması yoktur. Kod `2c6646f5`, [PR #338](https://github.com/kyrox-studio/kyrox-fair-stand/pull/338) ile gönderildi; otomatik birleştirme etkin, GitHub CI bekleniyor. Canlı deploy yapılmadı.
+
 ## 2026-10-24 — Kesik çizgili seçim sınırları (yerel)
 
 Tek öğe mavi, grup/çoklu seçim tek turuncu kesik çizgili 3B sınırla gösterilir. Grup sınırı görünen üyelerin birleşik dünya sınırlarından üretilir, taşıma ve döndürmede güncellenir. Üyelerin ayrı kutuları gizlenir; yüzey seçimi mevcut düzenleme semantiğini korur. Çerçeveler raycast hedefi değildir ve Render Al çıktısından gizlenir. Proje, BOM, kilit ve taşıma kuralları değişmez. Doğrulama: 1.460 birim testi, build ve contract:verify başarılı. 230 Chromium senaryosundan 229 tanesi ilk denemede geçti; proje silme senaryosu yeniden denemede geçti (229 passed + 1 flaky, 6,8 dk). Grup senaryosu tek mavi kutuyu, tek ortak turuncu kutuyu, kesik malzemeyi ve grup işlemlerini gerçek sahnede doğrular. Uygulama commit’i `3a5a34db`, [PR #336](https://github.com/kyrox-studio/kyrox-fair-stand/pull/336) ile gönderildi; CI ve otomatik birleştirme bekleniyor.
