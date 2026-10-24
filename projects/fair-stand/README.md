@@ -34,6 +34,7 @@ Kanonik Item ürün verisi DB/API’den gelir; static JS Item/Category master yo
 | [ITEM_CATALOG_ARCHITECTURE.md](ITEM_CATALOG_ARCHITECTURE.md) | Item / Category as-built mimari (tek kaynak) |
 | [PROJECT_STATUS.md](PROJECT_STATUS.md) | Canlı ürün durumu |
 | [KULLANILABILIRLIK_YOL_HARITASI.md](KULLANILABILIRLIK_YOL_HARITASI.md) | Basit/Gelişmiş, başlangıç, zemin, kayıt ve bütün yapı düzenleme takibi |
+| [SECIM_OZELLIK_PANELI_YOL_HARITASI.md](SECIM_OZELLIK_PANELI_YOL_HARITASI.md) | Mevcut seçim çubuğu korunarak sağ tık işlemlerinin yeteneğe bağlı ortak panele taşınması; önce işlev, sonra görsel tasarım |
 | [ROADMAP.md](ROADMAP.md) | Katalog / platform iş kuyruğu; configurator üst seviye planı ve FAZ 4 detayı `fair-stand` deposundadır |
 | [ROADMAP_PHASE_5_6.md](ROADMAP_PHASE_5_6.md) | FAZ 5 (Final BOM) ve FAZ 6 (maliyet / Fair CRM) detaylı planı |
 | [GROUP_LOCK_ROADMAP.md](GROUP_LOCK_ROADMAP.md) | Sahne editörü planı: kilit (Faz 1), geri al (Faz 2) ve öğeden bağımsız grup (Faz 3) ve grup döndürme (Faz 4) uygulandı; kurumsal şablon ve gelişmiş özellikler planda |

@@ -117,6 +117,8 @@
 
 ### 3. Seçim ve düzenleme
 
+**2026-10-24 planı:** [Seçime Göre Özellik Paneli Yol Haritası](SECIM_OZELLIK_PANELI_YOL_HARITASI.md). Tek / çift tık araç çubuğu ve Çoklu panel / Çoklu modül düğmeleri korunacak. Sağ tık, ⋯ ve uzun basma işlemleri ortak özellik paneline taşınacak; ilk adım tüm seçim yollarını kapsayacak, görsel tasarım işlevsel kabulden sonra yapılacak. Aşağıdaki eski sadeleştirme önerileri araç çubuğunun kaldırılması olarak yorumlanmayacak.
+
 - [ ] Tek tık / dokunma ile seçim ve seçilene uygun görünür işlemler tasarlansın; temel kullanım çift tık veya sağ tık öğrenmeyi gerektirmesin.
 - [ ] Temel işlemler **Taşı / Döndür / Kopyala / Sil** olarak anlaşılır biçimde sunulsun.
 - [ ] Çoklu panel / çoklu modül seçimi, gruplama ve kilitleme ikinci seviyeye taşınsın.

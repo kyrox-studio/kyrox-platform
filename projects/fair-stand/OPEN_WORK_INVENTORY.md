@@ -102,6 +102,8 @@ Her item kendi ölçü/BOM’unu taşır; stand tavanı yalnız max zarf.
 ---
 
 ## 3. Fair Stand — yol haritası / faz
+
+**Yeni plan (2026-10-24):** [Seçime Göre Özellik Paneli](SECIM_OZELLIK_PANELI_YOL_HARITASI.md). Mevcut tek / çift tık araç çubuğu korunacak; sağ tık işlemleri, çoklu panel / çoklu modül bağlamı ve ürün yetenekleri ortak panelde sunulacak. İlk adım işlevsel aktarım, son adım görsel tasarım; henüz uygulanmadı.
 ### Kullanılabilirlik — 2026-10-24 takip
 
 Açık maddelerin tek kaynağı: [Kullanılabilirlik Yol Haritası](KULLANILABILIRLIK_YOL_HARITASI.md). Güncel uygulama ve doğrulama: [PROJECT_STATUS.md](PROJECT_STATUS.md#2026-10-23--basit--gelişmiş-mod-ve-ayarlar). Basit/Gelişmiş seçici, Ayarlar, toplu kilit, ölçü tercihi, taşıma ızgarası, metreyle kurulum ve kılavuz tamamlandı; ilk paket PR #334 ile birleşti; ek paket PR #335 GitHub CI başarılı olduktan sonra otomatik birleşti; canlı deploy yapılmadı.
@@ -138,6 +140,7 @@ Açık: grup dış sınır ölçüleri; Stand / Ürün ekle / Tasarım menü dü
 | Stand API: Core yetki sorgusu oturumu tanımazsa 401, Core'a ulaşılamazsa 503 (önceden yakalanmayan hata → 500; CRM istemcisi 401'de yenileme/girişe yönlenir) | #326 | Merge |
 | Stand ölü kod taraması: yetim `cornerPlacement.js`, çağrılmayan frontend/backend yardımcıları ve importlar, `alembic.ini` `path_separator`; davranış değişmez | #327 | Merge |
 | Profil 346,5 (`0081`), katalogda sahne profili yok; ölçü soran kartlar ölçüsüz başlık ("Profil", "Dikme", "Panel Tek Sıra"); stand kapasite uyarısı kaldırıldı; E2E kendi sunucusunu açar (#329) | #330 | Merge + deploy |
+| Katalog tekli ekleme (`0082_panel_separator_cards`): Panel ve Separatör tek kart, bırakırken genişlik (Separatörde "Sarmaşıklı" çentiği); katalog penceresi sol sekme + tekli seçim; sağ tık tek "Ekle…" (sağ → sol → önü → müsait yer; duvar üstü/tepe öğeler tıklanan modülün üstüne); kopyalamada "… hafızaya alındı" bildirimi; Banko / Köşe Banko / Baza tek kart (`0083`); bildirimler en fazla 2; katalog penceresi sabit yükseklik; yeni proje kaydında adres `/stand-projects/{id}`; "?" üst bantta, Persp/Ortho küp kutusunda; alınlık dikmesi birleşime ortalı. Dal `feat/katalog-tekli-ekle` | — | PR + auto-merge |
 
 Açık kalan: açık standın duvar yüksekliğini değiştirmek (`PENDING_ITEM_DECISIONS.md` B.16). Ertelendi (2026-10-23): `z_frame` / `z_max` dikey sınır davranışının DB'ye taşınması (`modulePlacement.js` TODO(DB)); `scene3d.js` ve `main.js`'in parçalanması; yalnız testlerde kullanılan ~35 export'un gözden geçirilmesi; `normalizeModuleItemState`'e dikme dalı (içe aktarılan eski projelerde dikme sahne ölçüsü). `profile_346_5` maliyet kaydı admin ekranından girilecek.
 
