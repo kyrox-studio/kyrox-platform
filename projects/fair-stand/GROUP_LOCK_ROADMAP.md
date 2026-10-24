@@ -186,7 +186,7 @@ Kesin liste `contract:verify` discovery'si ile çıkarılır.
 - Grup bütün olarak her yöne taşınır (sürükleme, ok tuşu; 10 cm adım). **Tek kısıt:** hiçbir üye aktif stand alanının dışına taşamaz. Başka öğelerle çakışma ve tür kuralları (ör. TV'nin duvarda durması) aranmaz; zincir itme yoktur. Stand dışına çıkan adım uygulanmaz, grup kenarda durur.
 - İçinde ne olursa olsun her grup çoğaltılabilir. Kopya "… (kopya)" adıyla yeni, kilitsiz bir gruptur; grubun sağına, soluna, önüne ya da arkasına ilk boşluğa konur, yer yoksa işlem reddedilir.
 - Grubu silmek onaylıdır: "Grubun tamamı silinecek (N parça)". Delete tuşu yalnız seçili parçayı siler.
-- Tık bugünkü gibi panel seçer (boyama bozulmaz); grubun diğer üyelerinde çerçeve görünür. Alt+tık yok; grup işlemleri sağ tık menüsünde ve Gruplar kartında.
+- Tık bugünkü gibi panel seçer (boyama bozulmaz); grubun tamamını saran tek turuncu kesik çizgili kutu görünür (2026-10-24 yerel güncelleme). Alt+tık yok; grup işlemleri sağ tık menüsünde ve Gruplar kartında.
 - Bir öğe aynı anda tek grupta olur. Başka gruptaki öğe eklenmek istenirse sorulur: "… grubundan çıkarılıp … grubuna eklensin mi?" Hayır → hiçbir şey değişmez.
 - Grupta 1 parça kalırsa grup kendiliğinden çözülür.
 - Gruptaki öğede Shift+R (döndürme) reddedilir; grup döndürme sonraki faza kalır.
@@ -197,11 +197,11 @@ Kesin liste `contract:verify` discovery'si ile çıkarılır.
 
 **Bilinçli sonuç.** Kenardan ayrılan duvar parçaları duvar kapasitesi hesabına ve otomatik duvar lambası dizisine girmez.
 
-**Dokunulan yüzeyler.** Yeni `src/moduleGroups.js` (saf mantık) ve `src/moduleGroupPanel.js` (Gruplar kartı); `src/moduleLock.js` (`isModuleLocked` grup kilidini sayar); `src/scene3d.js` (grup sürükleme, ok tuşu, Shift+R reddi, üye çerçevesi, `selectModulesById`); `src/moduleContextMenu.js` (grup bölümü); `src/main.js`; `src/designState.js`; `src/projectImportValidation.js`; `src/featureContracts.js` (`module-group`); `index.html` ve `src/configuratorMarkup.js`; `src/helpGuide.js`.
+**Dokunulan yüzeyler.** Yeni `src/moduleGroups.js` (saf mantık) ve `src/moduleGroupPanel.js` (Gruplar kartı); `src/moduleLock.js` (`isModuleLocked` grup kilidini sayar); `src/scene3d.js` (grup sürükleme, ok tuşu, Shift+R reddi, seçim sınırı, `selectModulesById`); `src/moduleContextMenu.js` (grup bölümü); `src/main.js`; `src/designState.js`; `src/projectImportValidation.js`; `src/featureContracts.js` (`module-group`); `index.html` ve `src/configuratorMarkup.js`; `src/helpGuide.js`.
 
 **Testler.** Unit `test/moduleGroups.test.js` ve `test/moduleGroupPanel.test.js`; E2E `e2e/module-group.spec.mjs`: iki kutu blok gruplanır, kartta 2 parça görünür, birlikte taşınır, stand dışına taşmaz, kilitliyken oynamaz, çoğaltılır, onaylı silinir, çözülür.
 
-**Seçim rengi.** Toplu modül seçimi (bugün çift tık + Ctrl/Cmd+tık) ve grup üyesi çerçevesi Kyrox bakırıdır (`#C47A3A`); tek öğe ve panel seçimi mavi kalır.
+**Seçim görünümü — 2026-10-24 kullanıcı kararı (yerel uygulama):** Tek öğenin kapladığı alan mavi (`#2563EB`) kesik çizgili 3B kutuyla gösterilir. Grup ve çoklu öğe seçiminde üyelerin ortak dış sınırını saran tek turuncu (`#F97316`) kesik çizgili kutu kullanılır; üyelerde ayrı kutular gösterilmez. Bu, önceki bakır üye çerçeveleri kararının yerine geçer. Grup aç/kapat fazı uygulanmış sayılmaz.
 
 ### Faz 3b — Grup aç / kapat (karar 2026-10-18; kod yok)
 
@@ -217,7 +217,7 @@ Kesin liste `contract:verify` discovery'si ile çıkarılır.
 
 **Davranış özeti (uygulama hedefi)**
 - Kapalı: tık / sürükleme / ok / Shift+R bütün grup; üye özelliği ve tek üye taşıma yok.
-- **Grubu aç** (sağ tık veya Gruplar kartı): öğeler tek tek seçilir, düzenlenir, taşınır. Açık grup kesik bakır çerçeve; aynı anda en fazla bir grup açık.
+- **Grubu aç** (sağ tık veya Gruplar kartı): öğeler tek tek seçilir, düzenlenir, taşınır. Açık grup kesik turuncu çerçeve (2026-10-24 seçim rengi kararı); aynı anda en fazla bir grup açık.
 - **Grubu kapat:** yeniden kapalı davranış.
 - Bugünkü Faz 3 (tık = panel, kapalıyken özellik değişir) bu kararlarla değiştirilir.
 
