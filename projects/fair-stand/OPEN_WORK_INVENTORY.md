@@ -103,6 +103,8 @@ Her item kendi ölçü/BOM’unu taşır; stand tavanı yalnız max zarf.
 
 ## 3. Fair Stand — yol haritası / faz
 
+**Ortak kısa dikme düzeltmesi (2026-10-24, yerel):** Taşıyıcı aynı birleşim noktasını ve bandı karşılıyorsa kalan ortak 49,5 / 99 kısa dikme de düşülür. Eski iki 99 beklentisi ve sözleşme kapsamı güncellendi; genişletilmiş regresyon ile üretim listesi/kayıt-açma testleri eklendi. Son tam doğrulama: 1.509 birim ve 232/232 Chromium E2E, build ve contract:verify başarılı. Kod PR #338 gönderildi; otomatik birleştirme etkin, GitHub CI bekleniyor. Ayrıntı: [Proje durumu](PROJECT_STATUS.md).
+
 **Yeni plan (2026-10-24):** [Seçime Göre Özellik Paneli](SECIM_OZELLIK_PANELI_YOL_HARITASI.md). Mevcut tek / çift tık araç çubuğu korunacak; sağ tık işlemleri, çoklu panel / çoklu modül bağlamı ve ürün yetenekleri ortak panelde sunulacak. İlk adım işlevsel aktarım, son adım görsel tasarım; henüz uygulanmadı.
 ### Kullanılabilirlik — 2026-10-24 takip
 
