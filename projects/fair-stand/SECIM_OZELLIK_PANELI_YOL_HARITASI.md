@@ -83,7 +83,6 @@ Bu adımda sade, mevcut ortak bileşenleri kullanan bir panel yeterlidir. Son re
 - [ ] Uygulama başlangıcında sağ tıkta bulunan bütün action'lar listeye karşı kontrol edilsin; yerel Ekle çalışmasındaki son değişiklikler envantere dahil edilsin.
 - [ ] Her panel kontrolü mevcut işlem fonksiyonuna yönlensin. Yeni menü için paralel boyama, silme, ekleme, kilit veya BOM mantığı yazılmasın.
 - [ ] Çubuktaki Döndür / Kopyala / Sil düğmeleri doğrudan çalışmaya devam etsin; kullanıcı bu işlemler için panel açmaya zorlanmasın.
-- [ ] İşlem kapsamı başlık ve düğme adıyla belli olsun: yüzey işlemi, öğeyi silme ve grubu silme aynı işlem gibi sunulmasın.
 - [ ] İlk adımın sonunda sağ tık eski bağımsız menü yerine ortak paneli açsın. Geçiş sırasında eski menü karşılaştırma için geçici tutulabilir; kalıcı iki farklı işlem sistemi oluşmasın.
 
 ### 1.4 Çoklu panel
@@ -93,7 +92,7 @@ Bu adımda sade, mevcut ortak bileşenleri kullanan bir panel yeterlidir. Son re
 - [ ] Banko gibi yüzleri tek tek seçilen ürünlerde mevcut özel seçim davranışı korunsun; her yüzey dikdörtgen panel gibi ele alınmasın.
 - [ ] Parmak taraması / dokunma ile Çoklu panel modu aynı seçim kümesini panele iletsin; parmak kalkınca modun kapanması seçimi silmesin.
 - [ ] Ortak özellikler bütün seçimin yeteneklerinden hesaplanarak sunulsun; yalnız son tıklanan panelin yeteneğine göre kontrol açılmasın.
-- [ ] Farklı değerlerde ortak alan Karışık olarak gösterilsin; panel açılınca ilk öğenin değeri diğerlerine kendiliğinden uygulanmasın.
+- [ ] Panel açılınca ilk öğenin değeri diğerlerine kendiliğinden uygulanmasın.
 - [ ] Her hedefin kabul etmediği toplu işlem gizlensin veya açık gerekçeyle pasif olsun; kullanıcıdan habersiz yalnız bazı yüzeylere uygulanmasın.
 - [ ] Görsel / Lightbox / Mesh / Metal Separatör için mevcut aynı düzlem, tam dikdörtgen ve birleşim doğrulamaları aynen kullanılsın. Geçersiz seçimde neden belirtilsin.
 - [ ] Birleşik görselin hedefleri ve yüzey kaydı korunsun; kopya gruptaki düzenleme kaynak gruba yazılmasın.
@@ -141,7 +140,7 @@ Normal tık / çift tık araç çubuğu yerinde kalacak; sağ tık ve uzun basma
 | Renk / görsel almayan ürün | Desteklenmeyen kontrol görünmez; mevcut ürün ve yüzey kuralları kullanılır. |
 | Tek yüzey / çok yüzeyli öğe | İşlem doğru yüzeye yazılır; gövde ve ekran karışmaz. |
 | Çoklu panel | Geçerli dikdörtgen işlem görür; geçersiz düzlem / birleşim nedeni açıklanır. |
-| Karma değer ve yetenek | Karışık değer doğru görünür; panel açmak state değiştirmez, sessiz kısmi uygulama olmaz. |
+| Karma yetenek | Panel açmak state değiştirmez; sessiz kısmi uygulama olmaz. |
 | Çoklu modül / grup | Seçim sağ tıkla dağılmaz; grup üyeliği, kilit ve atomik silme korunur. |
 | Kopya görsel grubu | Kopyanın değişikliği kaynağa yazılmaz. |
 | Panel odağı / iki parmak / sürükleme | Panel kullanımı sahneyi yanlışlıkla taşımaz; kamera ve pinch davranışları korunur. |
@@ -156,7 +155,7 @@ Normal tık / çift tık araç çubuğu yerinde kalacak; sağ tık ve uzun basma
 **Ön koşul:** İlk iki adımın işlevsel kabulü tamamlanmış olacak.
 
 - [ ] Panelin konumu ve boyutu gerçek kullanım üzerinden belirlensin; masaüstünde sağ panel ve mobilde alttan açılan panel değerlendirilsin.
-- [ ] Seçili öğe / yüzey / grup başlığı, bölüm sırası, boş durum, kilit açıklaması ve Karışık değer sunumu tasarlansın.
+- [ ] Seçili öğe / yüzey / grup başlığı, bölüm sırası, boş durum ve kilit açıklaması tasarlansın.
 - [ ] Renk kartelası, görsel alanı, ölçü seçenekleri, Ekle… ve grup işlemleri ortak bileşenlerle düzenlensin.
 - [ ] Basit / Gelişmiş ayrıntı hiyerarşisi son haline getirilsin; mevcut seçim araç çubuğu ve çoklu seçim düğmeleri korunsun.
 - [ ] Sahne, seçili öğe, Kaydet, görünüm küpü ve seçim çubuğu örtüşmeleri masaüstü / dar ekran / tablette kontrol edilsin.
@@ -166,4 +165,4 @@ Normal tık / çift tık araç çubuğu yerinde kalacak; sağ tık ve uzun basma
 
 Yeni Item / BOM kuralı, yeni ürün özelliği, serbest ölçü sistemi, yeni grup aç/kapat davranışı, grup toplam ölçüleri, otomatik yapı çözme, katalog / sol menüyü baştan düzenleme ve backend yetki modeli değişikliği bu planın kapsamı değildir. Mevcut yeteneği görünür kılmak, o ürün için yeni bir yetenek üretmek anlamına gelmez.
 
-Bu belge yalnız yol haritasıdır. Bu plan hazırlanırken uygulama kodu değiştirilmedi; hiçbir faz uygulanmış veya test edilmiş sayılmıyor.
+Bu belge güncel yol haritasıdır; uygulama ve doğrulama durumu üstteki kayıt ile PROJECT_STATUS.md üzerinden izlenir.
