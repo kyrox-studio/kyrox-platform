@@ -1,8 +1,8 @@
 # Fair Stand — Seçime Göre Özellik Paneli Yol Haritası
 
 **Tarih:** 2026-10-24  
-**Durum:** 1. adım ve 2. adımın işlevsel kısmı yerelde uygulandı (2026-10-24, kod PR #339; auto-merge açık, GitHub CI bekleniyor); 3. adım (görsel düzen) bekliyor. Uygulama özeti ve doğrulama: [PROJECT_STATUS.md](PROJECT_STATUS.md).  
-**Son yerel doğrulama:** 1.515 birim, 198 backend, 239/239 Chromium E2E; build ve change-contract başarılı. 0084/0085 yerel DB’de uygulandı. Vitrin gövde rengi, Lightbox/Mesh normal tık ve kısa pencerede açıklama taşması giderildi; ayrıntı PROJECT_STATUS kaydındadır.
+**Durum:** 1. adım ve 2. adımın işlevsel kısmı yerelde uygulandı (2026-10-24, kod PR #340; auto-merge açık, GitHub CI bekleniyor); 3. adım (görsel düzen) bekliyor. Uygulama özeti ve doğrulama: [PROJECT_STATUS.md](PROJECT_STATUS.md).  
+**Son yerel doğrulama:** 1.515 birim, 198 backend, 242/242 Chromium E2E; build ve change-contract başarılı. 0084/0085 yerel DB’de uygulandı. Vitrin gövde rengi, Lightbox/Mesh normal tık ve kısa pencerede açıklama taşması giderildi; ayrıntı PROJECT_STATUS kaydındadır.
 
 **Sıralama:** Önce işlev ve mevcut davranışların korunması; görsel düzenleme en son.
 
