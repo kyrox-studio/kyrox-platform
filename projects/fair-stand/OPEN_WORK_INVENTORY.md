@@ -109,7 +109,7 @@ Her item kendi ölçü/BOM’unu taşır; stand tavanı yalnız max zarf.
 
 **Görsel arşivinde çift tık uygular (2026-10-25, iş):** Görsel arşivindeki bir görsele çift tıklanınca seçili yüzeye doğrudan uygulansın.
 
-**Varyant tek kart + Özellikler paneli (2026-10-25, yerel):** 0086 ile Vitrin, Raf, TV (85" dahil), Video Wall, Uzun Saksı tek kart; varyant panelde canlı seçilir, öğe snaplı kenara göre büyür, itilen öğelerin üstündeki TV/logo taşınır. Üretim Listesi üst banda döndü, Modül Ekle düğmesi kalktı, sahnede silme onaysız (Geri al; geçmiş revizyonda da). Ayrıntı: [Proje durumu](PROJECT_STATUS.md).
+**Varyant tek kart + Özellikler paneli (2026-10-25, yerel):** 0086 ile Vitrin, Raf, TV (85" dahil), Video Wall, Uzun Saksı tek kart; varyant panelde canlı seçilir, öğe snaplı kenara göre büyür, itilen öğelerin üstündeki TV/logo taşınır. Üretim Listesi üst banda döndü, Modül Ekle düğmesi kalktı, sahnede silme onaysız (Geri al; geçmiş revizyonda da). Doğrulama (2026-10-25): 1.517 birim, 200 backend, tam E2E 244/244 (13,7 dk; onaysız silmeye uyarlanan toplu silme testi ayrıca yeniden koşuldu), build ve contract:verify başarılı. Fair Stand kodu henüz commit edilmedi. Ayrıntı: [Proje durumu](PROJECT_STATUS.md).
 
 **Ortak kısa dikme düzeltmesi (2026-10-24, yerel):** Taşıyıcı aynı birleşim noktasını ve bandı karşılıyorsa kalan ortak 49,5 / 99 kısa dikme de düşülür. Eski iki 99 beklentisi ve sözleşme kapsamı güncellendi; genişletilmiş regresyon ile üretim listesi/kayıt-açma testleri eklendi. Son tam doğrulama: 1.509 birim ve 232/232 Chromium E2E, build ve contract:verify başarılı. Kod PR #338 main’e birleşti (a098e723), yerel taban eşitlendi. Ayrıntı: [Proje durumu](PROJECT_STATUS.md).
 
