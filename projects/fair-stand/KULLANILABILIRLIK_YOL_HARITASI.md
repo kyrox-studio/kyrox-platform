@@ -156,7 +156,8 @@
 
 - [x] İki mod aynı proje verisi üzerinde çalışsın; ayrı proje biçimi veya ayrı hesaplama modeli oluşmasın.
 - [x] Mod değiştirmek parçaları silmesin, sahneyi yeniden kurmasın veya tasarımı değiştirmesin.
-- [ ] Gelişmişte hazırlanmış projenin yapısı basit modda eksiksiz görüntülensin; desteklenen düzenlemeler açıkça sunulsun.
+- [x] Gelişmişte hazırlanmış projenin yapısı Basit moda geçince korunsun. Mod geçişi yalnız kontrolleri ve yardımcı gösterimleri değiştirir; öğeleri veya bölgesel zeminleri kaldırmaz. Bu madde bilinen bir veri kaybı hatası değil, korunması gereken genel kuraldır.
+- [ ] Basit modda desteklenen düzenlemeler açıkça sunulsun; bütün yapı düzenleme ve teknik parçaların otomatik çözülmesi gibi henüz uygulanmamış işler hazır kabul edilmesin.
 - [ ] Basit modda gizlenen işlemler klavye kısayolları ve sağ tık menüsü dahil bütün giriş yollarıyla birlikte değerlendirilsin.
 - [x] Mod seçimi yetki sistemiyle karıştırılmasın; bir kontrolün gizlenmesi güvenlik yetkisi sayılmasın.
 - [x] **Karar (2026-10-23):** Tek Basit / Gelişmiş seçici sol menünün üstünde yer alır. Basit varsayılan moddur. Ölçüler Basitte kapalı, Gelişmişte açık başlar; kullanıcı Gelişmiş → Ayarlar bölümünden değiştirebilir; Ayarlar Basit modda görünmez. Tercihler oturum boyunca mod başına ayrı korunur; sayfa yeniden açılınca varsayılanlara döner.
@@ -239,7 +240,7 @@
 - **Genel kullanıcı kuralı:** Basit / Gelişmiş geçişi yalnız arayüzü ve yardımcı gösterimleri değiştirir; standı veya tasarım verisini değiştirmez. Ölçü, öğe, yerleşim, grup, kilit, yüzey ve zeminler korunur. Uygulama sözleşmesi: `kyrox-fair-stand/PROJECT_RULES.md`.
 - Tüm standın baz kaplaması iki modda da seçilebilir. Alan X/Y, genişlik/derinlik, alan kaplaması ve ekle/çiz/sil kontrolleri yalnız Gelişmişte görünür.
 - Mevcut bölgesel zemin Basitte sahnede, BOM ve proje kaydında korunur; Gelişmişe dönünce aynı alan düzenlenir. Mod değişiminde yalnız tamamlanmamış çizim önizlemesi iptal edilir.
-- Uygulandı ve doğrulandı: 1.459 birim testi, build ve contract:verify başarılı. 230 Chromium senaryosunun 225 tanesi ilk koşuda geçti, 2 tanesi aynı koşuda yeniden denemede geçti; kalan 3 senaryo tek işçiyle tekrar çalıştırılıp geçti. Bölgesel zemin senaryosu tam koşuda başarılı; iki yönlü mod geçişi, görüntü, stand/modules kayıt eşitliği ve Basitte kayıt/açma denetlendi. Henüz commit/push yapılmadı.
+- Uygulandı ve doğrulandı: 1.459 birim testi, build ve contract:verify başarılı. 230 Chromium senaryosunun 225 tanesi ilk koşuda geçti, 2 tanesi aynı koşuda yeniden denemede geçti; kalan 3 senaryo tek işçiyle tekrar çalıştırılıp geçti. Bölgesel zemin senaryosu tam koşuda başarılı; iki yönlü mod geçişi, görüntü, stand/modules kayıt eşitliği ve Basitte kayıt/açma denetlendi. Uygulama commit’i `3a5a34db`, [PR #336](https://github.com/kyrox-studio/kyrox-fair-stand/pull/336) ile gönderildi; CI ve otomatik birleştirme bekleniyor.
 ### Geçmiş ve üretim ayrıntıları — 2026-10-23
 
 - Proje içindeki revizyon listesi **Geçmiş** başlığından açılır; başlangıçta kapalıdır, kayıt yoksa görünmez. Seçili revizyon, eski kaydı açma ve son revizyona dönme mevcut akışla çalışır.
@@ -254,3 +255,12 @@
 - Canlı deploy yapılmadı. Önceki commit/push bekleme notları ara çalışma kayıtlarıdır; bu teslimat kaydı onları günceller.
 
 - Belge teslimatı: [Platform PR #151](https://github.com/kyrox-studio/kyrox-platform/pull/151) CI başarılı olarak main dalına birleşti. Kod CI kanıtı: [CI çalışması](https://github.com/kyrox-studio/kyrox-fair-stand/actions/runs/40003914796), sonuç success. Canlı deploy yapılmadı.
+
+
+### Seçim sınırları — 2026-10-24 yerel uygulama
+
+- Tek öğenin kapladığı alan mavi kesik çizgili 3B kutuyla gösterilir. Grup ve çoklu öğe seçiminde üyelerin ortak dış sınırını saran tek turuncu kesik çizgili kutu vardır; ayrı üye kutuları gizlenir.
+- Ortak sınır taşıma ve döndürmede güncellenir. Çerçeveler tıklamayı yakalamaz ve Render Al görseline girmez; proje verisine veya üretim listesine eklenmez.
+- Bu değişiklik grup toplam ölçü etiketleri veya grup aç/kapat özelliğinin tamamlandığı anlamına gelmez; bu işler açık kalır.
+- Doğrulama: 1.460 birim testi, build ve contract:verify başarılı. Tam Chromium koşusu 229 passed + 1 flaky (proje silme testi yeniden denemede başarılı), toplam 230 senaryo.
+- Uygulama commit’i `3a5a34db`, [PR #336](https://github.com/kyrox-studio/kyrox-fair-stand/pull/336) ile gönderildi. CI ve otomatik birleştirme bekleniyor; canlı deploy yapılmadı. Ayrıntı: [Grup/kilit yol haritası](GROUP_LOCK_ROADMAP.md).

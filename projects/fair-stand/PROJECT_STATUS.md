@@ -2,12 +2,16 @@
 
 | Alan | Değer |
 |------|--------|
-| Son doğrulama | **2026-10-23** |
+| Son doğrulama | **2026-10-24** |
 | Implementation deposu | `kyrox-studio/kyrox-fair-stand` |
 | Hosted backend | Fair Stand FastAPI (`:8002`) / PostgreSQL `fair_stand` |
 | Item master | İlişkisel PostgreSQL; catalog bootstrap API |
 | Category master | `fair_stand_categories` |
 | Catalog | Yalnız Item projeksiyonu |
+
+## 2026-10-24 — Kesik çizgili seçim sınırları (yerel)
+
+Tek öğe mavi, grup/çoklu seçim tek turuncu kesik çizgili 3B sınırla gösterilir. Grup sınırı görünen üyelerin birleşik dünya sınırlarından üretilir, taşıma ve döndürmede güncellenir. Üyelerin ayrı kutuları gizlenir; yüzey seçimi mevcut düzenleme semantiğini korur. Çerçeveler raycast hedefi değildir ve Render Al çıktısından gizlenir. Proje, BOM, kilit ve taşıma kuralları değişmez. Doğrulama: 1.460 birim testi, build ve contract:verify başarılı. 230 Chromium senaryosundan 229 tanesi ilk denemede geçti; proje silme senaryosu yeniden denemede geçti (229 passed + 1 flaky, 6,8 dk). Grup senaryosu tek mavi kutuyu, tek ortak turuncu kutuyu, kesik malzemeyi ve grup işlemlerini gerçek sahnede doğrular. Uygulama commit’i `3a5a34db`, [PR #336](https://github.com/kyrox-studio/kyrox-fair-stand/pull/336) ile gönderildi; CI ve otomatik birleştirme bekleniyor.
 
 ## 2026-10-23 — Basit / Gelişmiş mod ve Ayarlar
 
