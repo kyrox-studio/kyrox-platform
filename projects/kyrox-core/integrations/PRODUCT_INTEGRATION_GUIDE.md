@@ -108,7 +108,7 @@ Rules:
 
 ### Platform Super Admin
 
-Platform Super Admin is not a role. It is determined only by the authenticated user's `identity_users.is_super_admin` database flag. After authentication, Core returns an authorization allow result before account authorization state, RBAC, permission lookup, membership, organization scope, or ownership enforcement. This also covers new or unseeded permission codes.
+Platform Super Admin is not a role. It is determined only by the authenticated user's `identity_users.is_super_admin` database flag. After authentication, Core returns an authorization allow result before RBAC, permission lookup, membership, organization scope, or ownership enforcement. This also covers new or unseeded permission codes. Authentication and token validity are never bypassed ([ADR-0003](../../../ecosystem/decisions/0003-identity-security-strategy.md#platform-super-admin-invariant)): when any user, including a Super Admin, is deactivated, deleted or loses the Super Admin flag, all of that user's sessions are revoked and existing tokens stop working immediately. The last active, non-deleted Super Admin cannot be deactivated, demoted or deleted, including by themselves (API 409, database trigger as concurrency guard).
 
 Products must honor this Core authorization result and must not add local role, membership, scope, ownership, hide, disable, or CRUD checks that can deny a Platform Super Admin. For all other users, products must remain fail-closed and enforce the normal database-backed authorization result. Only an active Platform Super Admin may change the flag, and no role—including `OrganizationAdmin`—may receive the same bypass.
 
