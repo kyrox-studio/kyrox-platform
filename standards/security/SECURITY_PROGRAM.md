@@ -284,7 +284,7 @@ Kimlik önekleri: **F-C** Core, **F-R** CRM, **F-S** Stand, **F-B** tarayıcı/d
 |---|---|---|---|---|
 | **F-V1** SEC-05 | Compose/bootstrap tek `postgres` rolü; `bootstrap-server.sh` uzak SUPERUSER rolü ve `ufw allow 15432` oluşturabiliyor | Core, CRM, Stand, migration ve yedek aynı `postgres` rolü (SUPERUSER+BYPASSRLS, tek giriş rolü); 5 URL'de aynı parola; CRM üç DB'nin superuser URL'sini taşıyor. 15432 kuralı ve uzak rol şu an yok. 5432 yalnız 127.0.0.1 | **P0** | Rol ayrımı için mimari plan (§6.6) |
 | F-V2 SEC-04 | Deploy şablonu `DEPLOY_SERVICE_USER` root'a düşüyor | 4 servis `User=root`, sertleştirme yok; Stand `project-assets` 0777 | P1 | — |
-| F-V3 SEC-04 | — | Core/CRM/Stand backend `.env` 0644; HS256 anahtarı 3 serviste aynı | P1 | — |
+| F-V3 SEC-04 | — | Core/CRM/Stand backend `.env` 0644; HS256 anahtarı 3 serviste aynı. **E-015:** Core ve CRM `.env` 0600 root:root, nobody okuyamıyor (canlı doğrulandı) | P1 — Core/CRM kısmı düzeltildi | Stand `.env` izni; HS256 ayrımı (F-C8) |
 | F-V4 SEC-04/11 | — | SSH `PermitRootLogin yes`, `PasswordAuthentication yes`, fail2ban yok; 24 saatte 11 başarısız deneme; son 7 gün tüm başarılı girişler publickey | P1 | — |
 | F-V5 SEC-12/04 | `kyrox-backup.sh` şifrelemesiz | Drive'a şifresiz: 3 PG + MariaDB dump, tüm `.env`'ler, 4 TLS privkey; rclone `scope=drive` (tam Drive), değişmez kopya yok | P1 | — |
 | F-V6 SEC-12 | `kyrox-restore.sh` `docker rm -f` `-v`'siz | 16.10 tatbikatından 6 sahipsiz volume (~3,1 GB); içerik okunmadı, ilişki zaman/dizin yapısından | P1 | Volume içeriğinin silinmeden önce sahibince doğrulanması |
@@ -345,7 +345,7 @@ Olumlu: gerçek `kyrox-backup.sh` + `kyrox-restore.sh --deneme` izole Docker'da 
 |---|---|---|---|---|
 | 1 | Core `CORE_PRODUCT_LIFECYCLE_TOKEN` ve CRM `KYROX_CORE_PRODUCT_LIFECYCLE_TOKEN` aynı güçlü değer; `.env` yedeği; iki servis restart | Yok (mevcut kodla uyumlu: iki taraf aynı değeri kullanır) | Sağlık 200; CRM→Core lifecycle çağrısı (iç adres) 200; public değerle 401 | **UYGULANDI (E-014).** Varsayılana dönülmez; sorun olursa token iki tarafta birlikte yeniden üretilir |
 | 2 | PR #45 deploy | Adım 1 | Token'sız/yanlış 401, doğru 200 | **UYGULANDI (E-014).** Önceki commit'e deploy (token kalır) |
-| 3 | `.env` dosyaları 0600, sahibi servis kullanıcısı; `project-assets` 0750 | Servis kullanıcısı kararı (F-V2 ile birlikte) | Servisler başlar, upload çalışır | `chmod` önceki değer |
+| 3 | `.env` dosyaları 0600, sahibi servis kullanıcısı; `project-assets` 0750 | Servis kullanıcısı kararı (F-V2 ile birlikte) | Servisler başlar, upload çalışır | **Kısmen UYGULANDI (E-015):** Core/CRM `.env` 0600 root:root (servisler root); Stand `.env` ve `project-assets` açık. Geri dönüş: `chmod` önceki değer (önerilmez) |
 | 4 | nginx: `/kyrox-core/docs`, `openapi.json`, `redoc` kapat; `server_tokens off`; nosniff + Referrer-Policy | `nginx -t` | curl -I başlıklar; docs 404 | Yapılandırma yedeği + `nginx -s reload` |
 | 5 | nginx `limit_req` (login/reset/forgot/signup) | F-004 kararı (eşikler) | İzole önce; canlıda yalnız başlık/yapılandırma kontrolü | Yedek + reload |
 | 6 | SSH: `PasswordAuthentication no`, ardından `PermitRootLogin prohibit-password`; fail2ban | Anahtarla ikinci oturum açık tutulur; konsol erişimi teyitli | Yeni oturumla anahtar girişi | Açık oturumdan `sshd_config` yedeği + reload |
@@ -384,7 +384,54 @@ Kapanış için: düzeltme commit'i, kalıcı negatif test, CI kanıtı ve gerek
 - **Deploy:** `/opt/kyrox/kyrox-core` temiz çalışma kopyasında `0a4fe17` → `91f9d41` fast-forward (8 dosya: kod, test, `.env.example`, SEC kaydı; bağımlılık veya migration değişikliği yok), yalnız `kyrox-core` restart. Merge commit `91f9d415d7bb86ea07dd431478ab76e78b0c94b0`, PR head `9446556` CI [run 40193613457](https://github.com/kyrox-studio/kyrox-core/actions/runs/40193613457) 469 passed.
 - **Durum:** F-C7 → **KABUL EDİLDİ (canlı)**: kod (fail-closed), negatif testler (CI), canlı yapılandırma ve canlı ret/kabul doğrulaması aynı kayıtta.
 - **Canlıda doğrulanmayanlar:** Token tanımsızken 503 davranışı canlıda denenmedi (token kaldırılmadı); CI testleriyle kanıtlı. CRM organization-closure akışının gerçek bir kapanışla uçtan uca çalışması denenmedi (veri değiştirir).
-- **Kalan risk:** Token, 0644 izinli `.env` dosyalarında diğer sırlarla birlikte duruyor (F-V3, ayrı adım). CRM hâlâ token tanımsızsa public varsayılanı göndermeye hazır kod taşıyor (Core artık reddediyor; CRM tarafı düzeltmesi açık iş).
+- **Kalan risk (E-014 anında):** Token, 0644 izinli `.env` dosyalarına yazıldı; bu nedenle E-015'te izinler düzeltildi ve token yenilendi. CRM token tanımsızsa public varsayılanı göndermeye hazır kod taşıyordu (Core artık reddediyor); CRM tarafı düzeltmesi E-015 sonrası ayrı PR.
+
+### 6.8 Çalıştırılan canlı değişiklik ve kanıt E-015 — Core/CRM `.env` izinleri ve lifecycle token rotasyonu (F-V3 kısmi, F-C7)
+
+- **Kapsam:** Yalnız Core ve CRM backend `.env` sahiplik/izinleri, iki `.env` yedeğinin yeri ve lifecycle token'ın iki tarafta birlikte yenilenmesi. Diğer sırlar (JWT, DB, SMTP vb.) değiştirilmedi. Stand `.env`'i kapsam dışı (izni değişmedi, F-V3 açık).
+- **İnceleme (salt okunur):**
+  - Login kabuğu olan tek yerel kullanıcı `root`.
+  - `kyrox-core`, `fair-crm-backend`, `fair-crm-mail-worker` ve `fair-stand` servislerinin dördü de `User=root`. `.env`'leri yalnız bu üç Core/CRM birimi `EnvironmentFile` olarak okuyor.
+  - Yedek betiği root ile çalışıyor. `docker` grubunda yalnız root var.
+  - `/var/backups/kyrox` 0700, arşivler 0600 root:root, `/etc/fair-crm/*` 0600: zaten doğru.
+  - Deploy betiği mevcut `.env`'yi korur ve yerinde yazar (`copy_env_if_missing`, `replace_or_append_env_key`); izni geri açan adım yok.
+  - CRM frontend `.env`/`.env.production` yalnız derleme zamanı `VITE_*` anahtarları içeriyor (anahtar adları kontrol edildi); build'e gömülü ve sunucu sırrı değil, kapsam dışı.
+- **Hedef:** Servisler root çalıştığı için gerekli okuyucu yalnız root: `.env` → `0600 root:root`. Servis kullanıcısı değişikliği F-V2 kararına bağlı, yapılmadı.
+- **Değişiklik:**
+  - Core ve CRM `backend/.env` için `chown root:root` ve `chmod 600` uygulandı.
+  - CRM `.env` yedeği uygulama dizininden `/root/kyrox-env-backups/` (0700) altına taşındı. Core yedeği zaten oradaydı.
+  - Yedeklerin ikisi de 0600 ve token içermiyor (token öncesi kopyalar).
+  - Git çalışma kopyaları temiz: Core 0, CRM 0 değişiklik.
+- **Yetkisiz yerel kullanıcı testi** (`runuser -u nobody`: `test -r` ve 0 bayt `head -c 0` açma denemesi; içerik okunmadı):
+
+| Dosya | Önce | Sonra |
+|---|---|---|
+| Core `backend/.env` | 644 root:root — nobody **okunabilir / açıldı** | 600 root:root — okunamaz / reddedildi |
+| CRM `backend/.env` | 644 root:root — nobody **okunabilir / açıldı** | 600 root:root — okunamaz / reddedildi |
+| Core yedeği (`/root/kyrox-env-backups/`) | 600 — okunamaz / reddedildi | 600 — okunamaz / reddedildi (dizin 0700) |
+| CRM yedeği | 600 (CRM `backend/` altında) — okunamaz | 600, `/root/kyrox-env-backups/` altında — okunamaz |
+
+- **Rotasyon nedeni:** E-014 token'ı yaklaşık bir saat boyunca 0644 dosyada duruyordu.
+- **Rotasyon yöntemi:**
+  - Yeni değer sunucuda `secrets.token_urlsafe(48)` ile üretildi (64 karakter). İki dosyadaki tek satır yerinde değiştirildi; sahiplik ve izin korundu, rotasyon sonrası yine 0600 root:root.
+  - Kanıt yalnız sha256 ilk 8 karakteri karşılaştırmasıdır: yeni değer iki tarafta eşit ve eskisinden farklı.
+  - Eski ve yeni header'lar `/dev/shm`'deki 0600 geçici dosyalardan verildi ve silindi.
+  - Servisler sırayla yeniden başlatıldı. Core health 200; dört servis active.
+- **Rotasyon doğrulaması:** Sunucu içi, rastgele var olmayan organization UUID'si. Purge geçerli token ile çağrılmadı.
+
+| Kontrol | Sonuç |
+|---|---|
+| snapshot: eksik / yanlış / sabit varsayılan | 401 / 401 / 401 |
+| snapshot: **eski (E-014) token** | **401** |
+| snapshot: yeni token | 404 (kimlik geçti, org yok) |
+| purge: eksik / yanlış / sabit varsayılan / eski token | 401 / 401 / 401 / 401 |
+| CRM istemcisi → Core snapshot | 404; CRM token uzunluğu 64, `dev-insecure` değil |
+
+- **Durum:** F-C7 KABUL EDİLDİ (canlı) korunuyor. F-V3 → Core ve CRM için düzeltildi (canlı doğrulandı); **Stand `.env` 0644 ve HS256 anahtar paylaşımı açık**.
+- **Kalan / doğrulanmayan:**
+  - Drive'daki şifresiz yedekler (F-V5) eski `.env` kopyalarını içeriyor. Bu kopyalarda lifecycle token yok, ama diğer sırlar var.
+  - Servislerin root olmayan kullanıcıya taşınması (F-V2) yapılmadı.
+  - Diğer sırların rotasyonu bu işlemde yapılmadı.
 
 ## 7. Kaynaklar ve bakım
 
