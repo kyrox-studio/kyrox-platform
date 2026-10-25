@@ -24,7 +24,7 @@ Do not treat documentation, chat history, local conventions or tool-specific rul
 
 ## Ortak güvenlik girişi
 
-Yeni proje ve mevcut değişiklikler için [Güvenlik Kuralları, Yol Haritası ve Kanıt Kaydı](standards/security/SECURITY_PROGRAM.md) okunur. Güvenlik kontrolü/bulgusu burada tek kayıtla izlenir; uygulanabilir kural çakışması, eksik test veya kanıt teslimattan önce bildirilir. Otomatik denetimin mevcut sınırı aynı belgede açıklanır.
+Yeni proje ve mevcut değişiklikler için [Güvenlik Kuralları, Yol Haritası ve Kanıt Kaydı](standards/security/SECURITY_PROGRAM.md) okunur. Güvenlik kontrolü/bulgusu burada tek kayıtla izlenir; uygulanabilir kural çakışması, eksik test veya kanıt teslimattan önce bildirilir. Otomatik denetimin mevcut sınırı aynı belgede açıklanır. Uçtan uca güvenlik ve karar ↔ kod uyum denetimi için tekrar çalıştırılabilir prosedür: [kyrox-security-audit skill'i](.claude/skills/kyrox-security-audit/SKILL.md).
 
 ## How to decide what to read
 
