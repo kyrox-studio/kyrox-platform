@@ -527,4 +527,6 @@ Başlangıç girdisi: kullanıcının 2026-10-25 tarihli `KYROX_SECURITY_CONTROL
 
 Dış doğrulama çerçevesi: [OWASP ASVS 5.0.0](https://github.com/OWASP/ASVS/tree/v5.0.0/5.0). ASVS eşlemesi henüz tamamlanmadı; OWASP uyumluluğu veya sertifikası iddia edilmez. Top 10 tek başına bu kontrol kataloğunun kabul ölçütü değildir.
 
+Tekrar denetim prosedürü (envanter, 6 kapsam, karar ↔ kod uyum taraması, kayıt biçimi): [kyrox-security-audit skill'i](../../.claude/skills/kyrox-security-audit/SKILL.md); kurallar bu belgede kalır, skill yalnız yürütme adımlarını taşır.
+
 Yeni güvenlik işi burada SEC/F/E kimliğiyle izlenir; proje yol haritası yalnız ilgili kayda link verir. Testler ve CI mekanizmaları sahip kod deposunda kalır. Büyük log/rapor kanıtı kopyalanmaz; commit'e bağlı test/CI/artefakt referansı verilir. Davranış değişince ilgili kanıt yeniden değerlendirilir; eski PASS süresiz güvenlik garantisi değildir.
