@@ -233,7 +233,7 @@ Kimlik önekleri: **F-C** Core, **F-R** CRM, **F-S** Stand, **F-B** tarayıcı/d
 
 | Kimlik / SEC | Akış | Kod | İzole kanıt | Canlı yapılandırma | Risk / durum | Eksik |
 |---|---|---|---|---|---|---|
-| **F-C7** SEC-04/01 | Core `GET /organizations/{id}/lifecycle-snapshot`, `POST /organizations/{id}/retained-audit-evidence/purge`; çağıran: CRM `integrations/kyrox_core/lifecycle.py`, `audit_retention.py` (organization-closure: terminal closure, artifact cleanup, evidence retention) | `product_lifecycle_routes.py:require_product_lifecycle_credential` ayar yoksa `config.py` public varsayılanını karşılaştırıyordu; CRM `config.py:kyrox_core_product_lifecycle_token` aynı public varsayılanı gönderiyor | Public değerle snapshot 200 (Core `3051d2e`, TestClient) | Core ve CRM süreç ortamında ve `.env`'lerde lifecycle anahtarı **yok** → her iki taraf public değerle çalışıyor (CANLI yapılandırma). Core `/kyrox-core/` nginx üzerinden dışa açık. nginx access log'unda bu yollara çağrı yok; CRM çağrıları iç adresten gidebileceği için bu, çağrı olmadığının kanıtı değil. | **P1 — KABUL EDİLDİ (canlı), E-014 (§6.7)**: token canlıda ayarlandı, #45 merge `91f9d41` ve deploy edildi; eski varsayılan/yanlış/eksik 401, geçerli kabul. [kyrox-studio/kyrox-core#45](https://github.com/kyrox-studio/kyrox-core/pull/45) head `9446556`: varsayılan yok; tanımsız/kısa/`dev-insecure` → 503, yanlış → 401; 9 yeni test main'de FAIL, dalda PASS; tam suite 469 passed (yerel) ve CI [run 40193613457](https://github.com/kyrox-studio/kyrox-core/actions/runs/40193613457) 469 passed (lint adımı yine "ruff not installed", F-005). | CRM tarafında public varsayılanı göndermeyi reddetme (ayrı CRM işi); token tanımsızken 503 canlıda denenmedi (CI'da kanıtlı) |
+| **F-C7** SEC-04/01 | Core `GET /organizations/{id}/lifecycle-snapshot`, `POST /organizations/{id}/retained-audit-evidence/purge`; çağıran: CRM `integrations/kyrox_core/lifecycle.py`, `audit_retention.py` (organization-closure: terminal closure, artifact cleanup, evidence retention) | `product_lifecycle_routes.py:require_product_lifecycle_credential` ayar yoksa `config.py` public varsayılanını karşılaştırıyordu; CRM `config.py:kyrox_core_product_lifecycle_token` aynı public varsayılanı gönderiyor | Public değerle snapshot 200 (Core `3051d2e`, TestClient) | Core ve CRM süreç ortamında ve `.env`'lerde lifecycle anahtarı **yok** → her iki taraf public değerle çalışıyor (CANLI yapılandırma). Core `/kyrox-core/` nginx üzerinden dışa açık. nginx access log'unda bu yollara çağrı yok; CRM çağrıları iç adresten gidebileceği için bu, çağrı olmadığının kanıtı değil. | **P1 — KABUL EDİLDİ (canlı), E-014 (§6.7)**: token canlıda ayarlandı, #45 merge `91f9d41` ve deploy edildi; eski varsayılan/yanlış/eksik 401, geçerli kabul. [kyrox-studio/kyrox-core#45](https://github.com/kyrox-studio/kyrox-core/pull/45) head `9446556`: varsayılan yok; tanımsız/kısa/`dev-insecure` → 503, yanlış → 401; 9 yeni test main'de FAIL, dalda PASS; tam suite 469 passed (yerel) ve CI [run 40193613457](https://github.com/kyrox-studio/kyrox-core/actions/runs/40193613457) 469 passed (lint adımı yine "ruff not installed", F-005). | CRM tarafı [kyrox-studio/kyrox-fair-crm#364](https://github.com/kyrox-studio/kyrox-fair-crm/pull/364) merge ve canlıda (E-017). Token tanımsızken Core 503 canlıda denenmedi (CI'da kanıtlı) |
 
 #### Core — kimlik, oturum, yetki (SHA `3051d2e`; izole = gerçek login/JWT/session zinciri, SQLite)
 
@@ -331,7 +331,7 @@ Olumlu: gerçek `kyrox-backup.sh` + `kyrox-restore.sh --deneme` izole Docker'da 
 ### 6.6 Öncelikli düzeltme sırası ve kararlar
 
 **Kod (her biri ayrı dal, mevcut testler gevşetilmeden, regresyon testiyle):**
-1. F-C7 lifecycle fail-closed — Core [kyrox-studio/kyrox-core#45](https://github.com/kyrox-studio/kyrox-core/pull/45) merge ve canlıda (E-014). Kalan: CRM'in public varsayılanı göndermeyi reddetmesi.
+1. F-C7 lifecycle fail-closed — Core [kyrox-studio/kyrox-core#45](https://github.com/kyrox-studio/kyrox-core/pull/45) merge ve canlıda (E-014). CRM tarafı [kyrox-studio/kyrox-fair-crm#364](https://github.com/kyrox-studio/kyrox-fair-crm/pull/364) merge `791a7d3` ve canlıda (E-017).
 2. Core oturum (güvenli kapsam): F-C3, F-C4, F-C4b, F-C9, F-C10 — [kyrox-studio/kyrox-core#46](https://github.com/kyrox-studio/kyrox-core/pull/46) merge `da11f2c`, canlıda (E-016); head `9b4a08a`: 17 yeni test (production benzeri commit/rollback) main'de 16 FAIL, dalda PASS; F-C9 için API 409 eklendi; tam suite 486 passed (yerel, main birleştirilmiş). Kalan: F-C11 (canlı adım 4 veya ayar).
 3. CRM: F-B1 (sandbox + sanitize), F-B2 (IP/yönlendirme allowlist), F-R1, F-B3, F-B4, F-R4, F-R3, F-R2 varsayılanı.
 4. Stand: F-001 (attachment + nosniff + CSP sandbox veya rasterize — meşru logo/görsel işlevini koruyarak), F-002 (piksel sınırı + thread'de decode), F-003 (akışlı okuma sınırı), F-S4, F-S5.
@@ -384,7 +384,7 @@ Kapanış için: düzeltme commit'i, kalıcı negatif test, CI kanıtı ve gerek
 - **Deploy:** `/opt/kyrox/kyrox-core` temiz çalışma kopyasında `0a4fe17` → `91f9d41` fast-forward (8 dosya: kod, test, `.env.example`, SEC kaydı; bağımlılık veya migration değişikliği yok), yalnız `kyrox-core` restart. Merge commit `91f9d415d7bb86ea07dd431478ab76e78b0c94b0`, PR head `9446556` CI [run 40193613457](https://github.com/kyrox-studio/kyrox-core/actions/runs/40193613457) 469 passed.
 - **Durum:** F-C7 → **KABUL EDİLDİ (canlı)**: kod (fail-closed), negatif testler (CI), canlı yapılandırma ve canlı ret/kabul doğrulaması aynı kayıtta.
 - **Canlıda doğrulanmayanlar:** Token tanımsızken 503 davranışı canlıda denenmedi (token kaldırılmadı); CI testleriyle kanıtlı. CRM organization-closure akışının gerçek bir kapanışla uçtan uca çalışması denenmedi (veri değiştirir).
-- **Kalan risk (E-014 anında):** Token, 0644 izinli `.env` dosyalarına yazıldı; bu nedenle E-015'te izinler düzeltildi ve token yenilendi. CRM token tanımsızsa public varsayılanı göndermeye hazır kod taşıyordu (Core artık reddediyor); CRM tarafı düzeltmesi E-015 sonrası ayrı PR.
+- **Kalan risk (E-014 anında):** Token, 0644 izinli `.env` dosyalarına yazıldı; bu nedenle E-015'te izinler düzeltildi ve token yenilendi. CRM token tanımsızsa public varsayılanı göndermeye hazır kod taşıyordu (Core artık reddediyor); CRM tarafı E-017 ile kapandı.
 
 ### 6.8 Çalıştırılan canlı değişiklik ve kanıt E-015 — Core/CRM `.env` izinleri ve lifecycle token rotasyonu (F-V3 kısmi, F-C7)
 
@@ -471,6 +471,32 @@ Kapanış için: düzeltme commit'i, kalıcı negatif test, CI kanıtı ve gerek
   - F-C3, F-C4, F-C4b, F-C9 → **CANLIDA DEPLOY**: kod, CI testi ve yüklü kod doğrulandı. Davranış testleri canlıda yapılmadı, çünkü refresh tekrar kullanımı, kullanıcı pasifleştirme ve son Super Admin'i kaldırma denemesi veri değiştirir; sonuncusu başarısız olsaydı platform yöneticisiz kalırdı.
 - **Kabul için kalan:** İzole Postgres ortamında Core + tetikleyici ile bu dört senaryo; veya kullanıcı onayıyla canlıda ayrılmış bir test hesabıyla pasifleştirme → token 401 (son Super Admin senaryosu canlıda denenmez).
 - **Yeni davranış değil, mevcut kararın uygulanması:** Pasifleştirme, silme ve yönetici kaynaklı değişiklikte oturumların düşmesi önceden kararlaştırılmıştı. Karar şu belgelerde: `archive/kyrox-core/designs/IDENTITY_PLATFORM_DESIGN.md` ("Deactivating a user invalidates sessions", "admin suspend → revoke tokens") ve ADR-0003 ("token-validity checks are not bypassed"). Core'un kullanıcı genelinde oturum iptali (CORE-03) yalnız self-service parola değişimi ve reset'e bağlıydı; yönetici yolları bağlı değildi. #46 bu eksik bağlantıyı tamamladı. Kararın canlı kaynağı artık `PRODUCT_INTEGRATION_GUIDE` §5'tir; arşiv belgesi tek dayanak bırakılmadı.
+
+### 6.10 Çalıştırılan canlı değişiklik ve kanıt E-017 — CRM lifecycle credential fail-closed (#364)
+
+- **Kaynak:** [kyrox-studio/kyrox-fair-crm#364](https://github.com/kyrox-studio/kyrox-fair-crm/pull/364), head `0350064f8c4ba0306f1969863979e5d54bff5d92`. Merge commit `791a7d31752298d8bace9d23ce51709195f1e585`.
+- **CI:** Beş zorunlu kontrol success: Feature Contract / Applicability, Backend Quality Check, Frontend, System Behavior Map, prod-path-e2e.
+  - [Development Standard Gate run 40198109005](https://github.com/kyrox-studio/kyrox-fair-crm/actions/runs/40198109005)
+  - [Prod-Path E2E run 40198109141](https://github.com/kyrox-studio/kyrox-fair-crm/actions/runs/40198109141)
+- **Yerel:** 9 yeni test main'de FAIL, dalda PASS. Tam backend 2265 passed / 9 skipped (`backend/` dizininden). Contract gate PASS (157).
+- **Kod:**
+  - `kyrox_core_product_lifecycle_token` varsayılanı `None`.
+  - `configured_product_lifecycle_token` tanımsız, 32 karakterden kısa veya `dev-insecure` değeri reddeder.
+  - Lifecycle ve retained-audit istemcileri bu durumda Core'a istek atmadan mevcut "unavailable" hatasını verir. Değer log'a yazılmaz.
+- **Deploy:** Yalnız CRM backend.
+  - `/opt/kyrox/kyrox-fair-crm` temiz çalışma kopyasında `9e9b20cb` → `791a7d31` fast-forward. 11 dosya: backend 3, test, contract/validator, CI; frontend, migration, bağımlılık veya deploy betiği değişikliği yok.
+  - Yalnız `fair-crm-backend` ve `fair-crm-mail-worker` yeniden başlatıldı; frontend build edilmedi. nginx, systemd, `.env` değişmedi.
+- **Canlı doğrulama (veri değiştirmeden):**
+
+| Kontrol | Sonuç |
+|---|---|
+| CRM backend `/docs` | 200; dört servis active |
+| CRM ayarındaki token geçerli sayılıyor mu | evet (değer yazdırılmadı) |
+| CRM istemcisi → Core snapshot (rastgele var olmayan org) | 404 (kimlik geçti) |
+| CRM istemcisi, kısa token ile | Core'a istek atılmadan `OrganizationLifecycleUnavailableError` |
+| Restart sonrası CRM log Traceback | 0 |
+
+- **Durum:** F-C7 her iki tarafta kapandı: Core reddeder (E-014), CRM varsayılan göndermez (E-017). Token tanımsız CRM'in canlı davranışı denenmedi (token kaldırılmadı); CI testleriyle kanıtlı.
 
 ## 7. Kaynaklar ve bakım
 
