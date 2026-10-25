@@ -22,6 +22,10 @@ Do not treat documentation, chat history, local conventions or tool-specific rul
    - [ecosystem/STATUS.md](ecosystem/STATUS.md)
    - [ecosystem/ROADMAP.md](ecosystem/ROADMAP.md)
 
+## Ortak güvenlik girişi
+
+Yeni proje ve mevcut değişiklikler için [Güvenlik Kuralları, Yol Haritası ve Kanıt Kaydı](standards/security/SECURITY_PROGRAM.md) okunur. Güvenlik kontrolü/bulgusu burada tek kayıtla izlenir; uygulanabilir kural çakışması, eksik test veya kanıt teslimattan önce bildirilir. Otomatik denetimin mevcut sınırı aynı belgede açıklanır.
+
 ## How to decide what to read
 
 - **Reusable behavior across products** → `standards/` first.

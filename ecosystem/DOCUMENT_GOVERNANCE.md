@@ -63,6 +63,10 @@ Decision test: **Would another KYROX product reasonably use this same rule?** Ye
 | Core current state | `projects/kyrox-core/PROJECT_STATUS.md` |
 | Core integration contract | `projects/kyrox-core/integrations/PRODUCT_INTEGRATION_GUIDE.md` |
 
+## Tek güvenlik kaydı
+
+Güvenlik kuralları, ortak kontrol kimlikleri, güvenlik yol haritası, bulgular ve kanıt dizininin ana kaynağı [SECURITY_PROGRAM.md](../standards/security/SECURITY_PROGRAM.md) dosyasıdır. Mevcut ayrıntı standartları ve onaylı ADR'ler bu kaynaktan bağlanır; ürünlerde paralel güvenlik planları oluşturulmaz. Kod/test/CI kanıtları sahip depoda kalır.
+
 ## Precedence and overlap
 
 1. One topic has one normative source.
