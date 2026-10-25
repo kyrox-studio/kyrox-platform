@@ -46,6 +46,10 @@ If the same rule appears in more than one place, that is a documentation defect:
 | [ecosystem/](ecosystem/) | Cross-repo governance, workflow, strategy, status and roadmap |
 | [archive/](archive/) | Historical/superseded material; never normative |
 
+## Web ve ürünler için yayına hazırlık
+
+[Web ve Ürünler — Yayına Hazırlık](ecosystem/WEB_LAUNCH_CHECKLIST.md): Kyrox web sitesi, Fair-CRM ve Fair-Stand için basitten zora, tek tek ilerlenen kontrol ve iş listesi.
+
 ## Important shared standards
 
 - [CRUD & UI Authorization Standard](standards/ui/CRUD_UI_AUTHORIZATION_STANDARD.md) — reusable CRUD permission semantics and UI visibility/action rules.
