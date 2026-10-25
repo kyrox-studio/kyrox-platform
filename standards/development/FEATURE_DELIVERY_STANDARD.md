@@ -22,6 +22,10 @@ Applicability of each gate is governed by [FEATURE_APPLICABILITY_STANDARD.md](FE
 
 Cross-repository SaaS sequencing and current platform/product ownership constraints are defined in [../../ecosystem/SAAS_ROADMAP.md](../../ecosystem/SAAS_ROADMAP.md). The roadmap does not replace this delivery standard; it determines strategic priority while this file defines binding delivery/acceptance semantics.
 
+## Security entry for all projects and changes
+
+Apply the project-independent [Security Program](../security/SECURITY_PROGRAM.md) for new projects and changes. Gate 0 records affected SEC IDs, REQUIRED/N/A reasons, evidence and unresolved findings in the existing delivery contract. Applicable conflicts, missing mandatory tests/evidence or failing security checks block acceptance. The program is the single security backlog/evidence index; do not duplicate it per feature. Its automation roadmap is not a claim that a new CI validator already exists.
+
 # PART I — DESIGN CONTRACT
 
 ## Gate 0 — Delivery Contract

@@ -247,3 +247,7 @@ Requirement
 ```
 
 Product extensions may define exact feature-contract paths, product permission names and runtime topology; they must not redefine these shared semantics.
+
+## Shared security applicability
+
+For new-project baselines and changed behavior/configuration/dependencies, classify the controls in [SECURITY_PROGRAM.md](../security/SECURITY_PROGRAM.md). Record affected SEC IDs and explicit REQUIRED/N/A reasons through the existing feature/change contract and link unresolved findings to that single record. A new project assesses the full catalog; an existing change assesses affected paths and dependencies. Applicable evidence gaps cannot be converted into N/A or treated as accepted merely because ordinary CI is green. Automated SEC-ID enforcement remains planned until the owning repository implements and verifies it.

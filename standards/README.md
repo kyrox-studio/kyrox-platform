@@ -10,6 +10,10 @@ Before reading a product-specific standard, check this index and read every shar
 
 ## Index
 
+### Security
+
+- [Ortak Güvenlik Programı](security/SECURITY_PROGRAM.md) — proje bağımsız kurallar, yeni proje/değişiklik değerlendirmesi, tek güvenlik yol haritası, bulgular ve kanıt dizini.
+
 ### Development / feature delivery
 
 - [Feature Delivery Standard](development/FEATURE_DELIVERY_STANDARD.md) — canonical design → ownership/security → backend → UI → test/runtime → deployment/DoD execution order.
