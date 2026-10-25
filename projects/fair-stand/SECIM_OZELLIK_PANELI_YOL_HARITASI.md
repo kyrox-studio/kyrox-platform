@@ -1,8 +1,8 @@
 # Fair Stand — Seçime Göre Özellik Paneli Yol Haritası
 
-**Tarih:** 2026-10-24  
-**Durum:** 1. adım ve 2. adımın işlevsel kısmı yerelde uygulandı (2026-10-24, kod PR #340; auto-merge açık, GitHub CI bekleniyor); 3. adım (görsel düzen) bekliyor. Uygulama özeti ve doğrulama: [PROJECT_STATUS.md](PROJECT_STATUS.md).  
-**Son yerel doğrulama:** 1.515 birim, 198 backend, 242/242 Chromium E2E; build ve change-contract başarılı. 0084/0085 yerel DB’de uygulandı. Vitrin gövde rengi, Lightbox/Mesh normal tık ve kısa pencerede açıklama taşması giderildi; ayrıntı PROJECT_STATUS kaydındadır.
+**Kod karşılaştırması:** 2026-10-25, Fair Stand `main` / `ac18bc1a` (PR #340 ve #341 sonrası).
+**Durum:** Ortak panel ve seçim girişleri kodda mevcut. Canlı varyant seçimi ve desteklenen düzenlenebilir ölçü alanları da panelde. Görsel düzen / erişilebilirlik kabulü açık.
+**Okuma kuralı:** `[x]` kodda mevcut davranışı, `[ ]` kalan doğrulama veya uygulamayı gösterir. Bu belge düzenlemesinde testler yeniden çalıştırılmadı; geçmiş koşu sonuçları [PROJECT_STATUS.md](PROJECT_STATUS.md) içindedir. Kodda bulunması, bütün görsel veya dokunmatik kabul senaryolarının kapandığı anlamına gelmez.
 
 **Sıralama:** Önce işlev ve mevcut davranışların korunması; görsel düzenleme en son.
 
@@ -16,13 +16,13 @@ Sağ tık işlemleri ve seçimin desteklediği özellikler ortak bir panelde sun
 
 ## Mevcut uygulama dayanağı
 
-2026-10-24 yerel çalışma ağacı okundu. Katalog / Ekle penceresine ilişkin devam eden yerel değişiklikler var; bu belge onları inceleyip kabul eden bir audit veya canlı yayın kaydı değildir. Uygulama başında güncel taban tekrar doğrulanacak.
+Karşılaştırma mevcut kaynak kod ve depodaki regresyon senaryoları üzerinden yapıldı; katalog/Ekle çalışması artık bekleyen yerel değişiklik olarak anlatılmıyor.
 
 | Mevcut sahip | Panel çalışmasındaki rolü |
 |---|---|
 | `src/scene3d.js` | Seçim, hit testi, panel / modül ayrımı, `getSelectionContext`, `buildModuleContext`, sağ tık, uzun basma ve çoklu seçim |
 | `src/selectionToolbar.js` | Korunacak seçim araç çubuğu, Çoklu panel / Çoklu modül; ⋯ kaldırıldı |
-| `src/moduleContextMenu.js` | Taşınacak sağ tık komutları, görünürlük koşulları ve mevcut Ekle penceresi |
+| `src/moduleContextMenu.js` | Ortak Özellikler paneli, komut uygunluğu, varyant/ölçü alanları ve Ekle penceresi |
 | `src/itemCapabilities.js` | Item yüzey yetenekleri: renk, görsel, cam, Lightbox ve Mesh |
 | `src/main.js` | Mevcut işlem bağlantıları, renk / görsel kontrolleri, ürün özel işlemleri ve uygulama yetkileri |
 | `src/moduleGroups.js`, `src/moduleLock.js` | Grup ve kilit kuralları |
@@ -52,22 +52,21 @@ Bu adımda sade, mevcut ortak bileşenleri kullanan bir panel yeterlidir. Son re
 
 **Açılma kararı (kullanıcı kararı, 2026-10-24):** Panel öğeye / yüzeye **tek tıkla** (dokunmada tek dokunuşla) açılır; referans BoothDesign'daki gibi sahnenin sağında, seçimin başlığıyla. Sağ tık ve uzun basma aynı paneli açmaya devam eder. Sürükleme, kamera hareketi, sağ tuşla çevirme ve kopya yerleştirme paneli açmaz; boş alana tık paneli kapatır. Mevcut araç çubuğu (Döndür, Kopyala, Sil, Çoklu panel / modül) korunur; ⋯ kullanıcı kararıyla kaldırılmıştır.
 
-- [ ] Tüm girişler aynı güncel seçim bağlamına bağlansın.
-- [ ] Tek tık / çift tık ayrımı, sürükleme eşiği ve kamera hareketi bozulmasın.
-- [ ] Panel üzerindeki tık, yazı girişi ve kaydırma sahne seçimini veya kamerayı tetiklemesin.
-- [ ] Çoklu öğe seçimi varken sağ tık seçimi tek öğeye düşürmesin; komşuya kayan sağ tık için mevcut koruma taşınsın.
-- [ ] Çoklu panel içinde sağ tık toplu yüzey hedefini kaybetmesin. Seçim dışındaki sağ tık davranışı mevcut kuralla karşılaştırılıp ayrıca test edilsin; panel geçişi gerekçesiyle sessizce değiştirilmesin.
+- [x] Tüm girişler aynı güncel seçim bağlamına bağlansın.
+- [x] Tek tık / çift tık ayrımı, sürükleme eşiği ve kamera hareketi bozulmasın.
+- [x] Panel üzerindeki tık, yazı girişi ve kaydırma sahne seçimini veya kamerayı tetiklemesin.
+- [x] Çoklu öğe seçimi varken sağ tık seçimi tek öğeye düşürmesin; komşuya kayan sağ tık için mevcut koruma taşınsın.
+- [x] Çoklu panel içinde sağ tık toplu yüzey hedefini kaybetmesin. Seçim dışındaki sağ tık davranışı mevcut kuralla karşılaştırılıp ayrıca test edilsin; panel geçişi gerekçesiyle sessizce değiştirilmesin.
 
 ### 1.2 Tek öğe / yüzey yetenekleri
 
-- [ ] Panel başlığında gerçek öğe adı, varsa ölçüsü ve seçilen yüzey gösterilsin; öğe ile yüzey birbirine karıştırılmasın.
-- [ ] Renk destekleniyorsa renk kartelası / mevcut renk kontrolleri gösterilsin.
-- [ ] Görsel destekleniyorsa mevcut arşiv / yükleme, Doldur, Sığdır, Kaldır ve uygun görsel ölçülendirme işlemleri gösterilsin.
-- [ ] Cam, Metal Separatör, Lightbox, Mesh ve bunların mevcut dönüşüm / birlikte kullanım kuralları korunsun.
-- [ ] Raf altı ışığı, Lightbox ışığı, arka yüze panel, dikme boyu, profil boyu ve boyutlandırma gibi mevcut özel işlemler yalnız geçerli hedefte gösterilsin.
-- [ ] TV gibi çok yüzeyli öğelerde gövde yeteneği ekrana, ekran yeteneği bütün ürüne genellenmesin; mevcut yüzey ayrımı gösterilsin.
-- [ ] Sabit ölçü bilgi olarak gösterilsin; yalnız mevcut ürün kurallarının değiştirmeye izin verdiği ölçüler düzenlenebilsin. Yeni serbest ölçü veya kaydırıcı kuralı eklenmesin.
-- [ ] Item'ın desteklemediği özellik gösterilmesin. Desteklediği ama o anda kullanılamayan işlem, mevcut durumu koruyarak anlaşılır gerekçeyle pasif gösterilsin.
+- [x] Panel başlığında gerçek öğe adı, varsa ölçüsü ve seçilen yüzey gösterilsin; öğe ile yüzey birbirine karıştırılmasın.
+- [x] Renk destekleniyorsa renk kartelası / mevcut renk kontrolleri gösterilsin.
+- [x] Görsel destekleniyorsa mevcut arşiv / yükleme, Doldur, Sığdır, Kaldır ve uygun görsel ölçülendirme işlemleri gösterilsin.
+- [x] Cam, Metal Separatör, Lightbox, Mesh ve bunların mevcut dönüşüm / birlikte kullanım kuralları korunsun.
+- [x] Raf altı ışığı, Lightbox ışığı, arka yüze panel, dikme boyu, profil boyu ve boyutlandırma gibi mevcut özel işlemler yalnız geçerli hedefte gösterilsin.
+- [x] TV gibi çok yüzeyli öğelerde gövde yeteneği ekrana, ekran yeteneği bütün ürüne genellenmesin; mevcut yüzey ayrımı gösterilsin.
+- [x] Item'ın desteklemediği özellik gösterilmesin. Desteklediği ama o anda kullanılamayan işlem, mevcut durumu koruyarak anlaşılır gerekçeyle pasif gösterilsin.
 
 ### 1.3 Sağ tık komutlarının eksiksiz taşınması
 
@@ -80,56 +79,65 @@ Bu adımda sade, mevcut ortak bileşenleri kullanan bir panel yeterlidir. Son re
 | Çoklu öğe | Seçilenleri kilitle, kilidi aç, sil ve mevcut grup seçenekleri |
 | Grup | Oluştur, gruba ekle, adlandır, kilitle, çoğalt, üyeyi çıkar, çöz, seçilen grupları çöz ve grubu sil; mevcut uygunluk koşullarıyla |
 
-- [ ] Uygulama başlangıcında sağ tıkta bulunan bütün action'lar listeye karşı kontrol edilsin; yerel Ekle çalışmasındaki son değişiklikler envantere dahil edilsin.
-- [ ] Her panel kontrolü mevcut işlem fonksiyonuna yönlensin. Yeni menü için paralel boyama, silme, ekleme, kilit veya BOM mantığı yazılmasın.
-- [ ] Çubuktaki Döndür / Kopyala / Sil düğmeleri doğrudan çalışmaya devam etsin; kullanıcı bu işlemler için panel açmaya zorlanmasın.
-- [ ] İlk adımın sonunda sağ tık eski bağımsız menü yerine ortak paneli açsın. Geçiş sırasında eski menü karşılaştırma için geçici tutulabilir; kalıcı iki farklı işlem sistemi oluşmasın.
+- [x] Mevcut komut aileleri ortak panelde: temel öğe, Ekle…, özel yüzey, ürün ölçüsü, çoklu seçim ve grup. Kod sahibi `src/moduleContextMenu.js`; bu liste gelecekte eklenecek komutların kendiliğinden kabulü değildir.
+- [x] Her panel kontrolü mevcut işlem fonksiyonuna yönlensin. Yeni menü için paralel boyama, silme, ekleme, kilit veya BOM mantığı yazılmasın.
+- [x] Çubuktaki Döndür / Kopyala / Sil düğmeleri doğrudan çalışmaya devam etsin; kullanıcı bu işlemler için panel açmaya zorlanmasın.
+- [x] İlk adımın sonunda sağ tık eski bağımsız menü yerine ortak paneli açsın. Geçiş sırasında eski menü karşılaştırma için geçici tutulabilir; kalıcı iki farklı işlem sistemi oluşmasın.
 
 ### 1.4 Çoklu panel
 
-- [ ] Başlıkta panel sayısı ve gerekiyorsa kaç öğeye ait olduğu gösterilsin.
-- [ ] Ctrl/Cmd ile mevcut dikdörtgen seçimi, farklı modüllere yayılan seçim, köşe ve ön / arka yüz kuralları korunsun.
-- [ ] Banko gibi yüzleri tek tek seçilen ürünlerde mevcut özel seçim davranışı korunsun; her yüzey dikdörtgen panel gibi ele alınmasın.
-- [ ] Parmak taraması / dokunma ile Çoklu panel modu aynı seçim kümesini panele iletsin; parmak kalkınca modun kapanması seçimi silmesin.
-- [ ] Ortak özellikler bütün seçimin yeteneklerinden hesaplanarak sunulsun; yalnız son tıklanan panelin yeteneğine göre kontrol açılmasın.
-- [ ] Panel açılınca ilk öğenin değeri diğerlerine kendiliğinden uygulanmasın.
-- [ ] Her hedefin kabul etmediği toplu işlem gizlensin veya açık gerekçeyle pasif olsun; kullanıcıdan habersiz yalnız bazı yüzeylere uygulanmasın.
-- [ ] Görsel / Lightbox / Mesh / Metal Separatör için mevcut aynı düzlem, tam dikdörtgen ve birleşim doğrulamaları aynen kullanılsın. Geçersiz seçimde neden belirtilsin.
-- [ ] Birleşik görselin hedefleri ve yüzey kaydı korunsun; kopya gruptaki düzenleme kaynak gruba yazılmasın.
+- [x] Başlıkta panel sayısı ve gerekiyorsa kaç öğeye ait olduğu gösterilsin.
+- [x] Ctrl/Cmd ile mevcut dikdörtgen seçimi, farklı modüllere yayılan seçim, köşe ve ön / arka yüz kuralları korunsun.
+- [x] Banko gibi yüzleri tek tek seçilen ürünlerde mevcut özel seçim davranışı korunsun; her yüzey dikdörtgen panel gibi ele alınmasın.
+- [x] Parmak taraması / dokunma ile Çoklu panel modu aynı seçim kümesini panele iletsin; parmak kalkınca modun kapanması seçimi silmesin.
+- [x] Ortak özellikler bütün seçimin yeteneklerinden hesaplanarak sunulsun; yalnız son tıklanan panelin yeteneğine göre kontrol açılmasın.
+- [x] Panel açılınca ilk öğenin değeri diğerlerine kendiliğinden uygulanmasın.
+- [x] Her hedefin kabul etmediği toplu işlem gizlensin veya açık gerekçeyle pasif olsun; kullanıcıdan habersiz yalnız bazı yüzeylere uygulanmasın.
+- [x] Görsel / Lightbox / Mesh / Metal Separatör için mevcut aynı düzlem, tam dikdörtgen ve birleşim doğrulamaları aynen kullanılsın. Geçersiz seçimde neden belirtilsin.
+- [x] Birleşik görselin hedefleri ve yüzey kaydı korunsun; kopya gruptaki düzenleme kaynak gruba yazılmasın.
 
 ### 1.5 Çoklu modül ve grup
 
-- [ ] Çoklu öğe seçimi ile isimli grup ayrı bağlamlar olarak gösterilsin. Birden fazla öğe seçmek kendiliğinden grup oluşturmasın.
-- [ ] Öğenin tamamı seçiliyken Ctrl/Cmd + tık ve Çoklu modül düğmesiyle ekle / çıkar davranışı korunsun.
-- [ ] Başlıkta öğe sayısı, varsa grup bilgisi ve kilitli öğe sayısı gösterilsin.
-- [ ] Mevcut toplu kilitleme, kilit açma, silme ve grup işlemleri taşınsın; desteklenmeyen toplu döndürme, kopyalama veya boyutlandırma bu çalışma adına icat edilmesin.
-- [ ] Seçimde kilitli öğe varsa mevcut atomik toplu silme kuralı korunsun; kilitsiz parçaların bir kısmı sessizce silinmesin.
-- [ ] Grup kilidi ve öğenin kendi kilidi ayrımı korunsun. Kilit, mevcut kurallar izin veriyorsa renk / görsel işlemlerini gereksiz yere kapatmasın.
-- [ ] Grup üyesi yüzey düzenlemesi ile bütün gruba uygulanacak işlem açıkça ayırt edilsin.
-- [ ] Tek öğenin mavi, grup / çoklu öğenin ortak turuncu kesik çerçevesi korunsun. Çoklu panelin yüzey seçimi göstergeleriyle karıştırılmasın.
-- [ ] Bekleyen Grup aç / kapat ve grup toplam ölçüleri bu geçişte yapılmış kabul edilmesin; ayrı kapsamda kalsın.
+- [x] Çoklu öğe seçimi ile isimli grup ayrı bağlamlar olarak gösterilsin. Birden fazla öğe seçmek kendiliğinden grup oluşturmasın.
+- [x] Öğenin tamamı seçiliyken Ctrl/Cmd + tık ve Çoklu modül düğmesiyle ekle / çıkar davranışı korunsun.
+- [x] Başlıkta öğe sayısı, varsa grup bilgisi ve kilitli öğe sayısı gösterilsin.
+- [x] Mevcut toplu kilitleme, kilit açma, silme ve grup işlemleri taşınsın; desteklenmeyen toplu döndürme, kopyalama veya boyutlandırma bu çalışma adına icat edilmesin.
+- [x] Seçimde kilitli öğe varsa mevcut atomik toplu silme kuralı korunsun; kilitsiz parçaların bir kısmı sessizce silinmesin.
+- [x] Grup kilidi ve öğenin kendi kilidi ayrımı korunsun. Kilit, mevcut kurallar izin veriyorsa renk / görsel işlemlerini gereksiz yere kapatmasın.
+- [x] Grup üyesi yüzey düzenlemesi ile bütün gruba uygulanacak işlem açıkça ayırt edilsin.
+- [x] Tek öğenin mavi, grup / çoklu öğenin ortak turuncu kesik çerçevesi korunsun. Çoklu panelin yüzey seçimi göstergeleriyle karıştırılmasın.
+- [x] Grup aç / kapat ve grup toplam ölçüleri bu geçişte eklenmedi; ayrı kapsamda kalıyor.
 
 ### 1.6 Panelin durumu ve güvenli işlem hedefi
 
-- [ ] Seçim değişimi, kopyalama modu, silme, grup çözme, geri al / ileri al ve proje açma sonrası panel güncel seçimden beslensin.
-- [ ] Eski mesh / öğe referansına yazılmasın; gecikmeli görsel yükleme veya ölçü penceresinin hedefi kimlik üzerinden doğrulansın. Hedef yoksa işlem uygulanmasın.
-- [ ] Panelin açılması, kapanması veya Basit / Gelişmiş geçişi tasarım verisine ve undo geçmişine yazmasın.
-- [ ] Kopyalama sırasında Kopyalamayı bitir kontrolü ve Esc önceliği korunsun. Panelin kapanması kopya yerleştirme hedefini değiştirmesin.
-- [ ] Metin alanında Delete, Ctrl+A, Ctrl+Z gibi kısayollar sahneyi etkilemesin; ölçü / görsel pencereleri ve Esc iptali çakışmasın.
-- [ ] Item yeteneği, kilit ve etkili kullanıcı yetkisi ayrı değerlendirilsin. Basit / Gelişmiş modu yetkilendirme yerine kullanılmasın.
+- [x] Seçim değişimi, kopyalama modu, silme, grup çözme, geri al / ileri al ve proje açma sonrası panel güncel seçimden beslensin.
+- [x] Eski mesh / öğe referansına yazılmasın; gecikmeli görsel yükleme veya ölçü penceresinin hedefi kimlik üzerinden doğrulansın. Hedef yoksa işlem uygulanmasın.
+- [x] Panelin açılması, kapanması veya Basit / Gelişmiş geçişi tasarım verisine ve undo geçmişine yazmasın.
+- [x] Kopyalama sırasında Kopyalamayı bitir kontrolü ve Esc önceliği korunsun. Panelin kapanması kopya yerleştirme hedefini değiştirmesin.
+- [x] Metin alanında Delete, Ctrl+A, Ctrl+Z gibi kısayollar sahneyi etkilemesin; ölçü / görsel pencereleri ve Esc iptali çakışmasın.
+- [x] Item yeteneği, kilit ve etkili kullanıcı yetkisi ayrı değerlendirilsin. Basit / Gelişmiş modu yetkilendirme yerine kullanılmasın.
 
-### 1. Adım kabulü
+### İşlevsel uygulama ve kalan kabul ayrımı
 
-Normal tık / çift tık araç çubuğu yerinde kalacak; sağ tık ve uzun basma aynı paneli açacak. Tek yüzey, tek öğe, çoklu panel, çoklu modül ve grup bağlamları mevcut işlemlerle çalışmadan bu adım kapanmayacak. Ürün yetenekleri ve toplu işlem uygunluğu ilk adımın parçasıdır; görsel aşamaya ertelenmeyecek.
+Normal tık / çift tık araç çubuğu korunmuş; tek tık, sağ tık ve uzun basma ortak paneli kullanıyor. Tek yüzey, tek öğe, çoklu panel, çoklu modül ve grup bağlamlarının kod yolları mevcut. Aşağıdaki açık doğrulamalar ve 3. adımın görsel/erişilebilirlik kabulü ayrıca kapatılmalı; kaynak incelemesi bunların yerine geçmez.
+
+## Sonradan eklenen mevcut işlevler
+
+- [x] Ürün ailesinin desteklediği varyantlar panelde seçilir; DB/katalog verisi kullanılır (`describeModuleVariants`, `describeVariantChoices`, 0086).
+- [x] Kutu blok, ışıklı strafor ve tül ölçüleri; dikme/profil boy seçenekleri; uygun görselin ölçüsü mevcut sınırlarla panelde düzenlenir (`describeDimensionFields`). Bu, her ürün için serbest boyutlandırma değildir.
+- [x] Vitrin gövdesi renk kontrolü sunta Item yeteneği üzerinden açılır; cam raflara aynı renk uygulanmaz (0085).
+- [x] Seçim açıklaması korunur; uzun içerik panel içinde kayar. Editör yeniden açıldığında eski seçim çubuğu temizlenir.
+
+**Kullanıcı kararları:** Çoklu panel için fazladan işlem hedefi satırı ve Lightbox/Mesh için yeni “Karışık renk” işi bu yol haritasından çıkarıldı. Genel sabit ürün ölçülerini salt bilgi olarak ekleme denemesi iptal edildi; mevcut düzenlenebilir ölçülerle karıştırılmayacak ve açık iş sayılmayacak.
 
 ## 2. Adım — İşlevsel kabul ve geçiş temizliği
 
-- [ ] Eski menü / renk-görsel alanı ile yeni panel arasında işlev karşılaştırması tamamlanıp artık kullanılmayan arayüz ve olay bağları temizlensin; çalışan kontroller kopyalanıp iki ayrı kaynak bırakılmasın.
-- [ ] Mevcut katalog Ekle… akışı, 0082/0083 ile yürüyen ürün ailesi ölçü seçimi, desteklenen ekleme hedefleri ve hata bildirimleri korunmuş olsun. Bu migration'lar bu panel işi için yeniden oluşturulmasın.
-- [ ] Basit / Gelişmişte aynı seçim bağlamı ve desteklenen işlemler doğrulansın. Görsel hiyerarşi veya hangi kontrolün ayrıntılarda duracağı son tasarımda belirlensin; ürünün yeteneği moda göre değişmesin.
+- [x] Eski menü / renk-görsel alanı ile yeni panel arasında işlev karşılaştırması tamamlanıp artık kullanılmayan arayüz ve olay bağları temizlensin; çalışan kontroller kopyalanıp iki ayrı kaynak bırakılmasın.
+- [x] Mevcut katalog Ekle… akışı, 0082/0083 ile yürüyen ürün ailesi ölçü seçimi, desteklenen ekleme hedefleri ve hata bildirimleri korunmuş olsun. Bu migration'lar bu panel işi için yeniden oluşturulmasın.
+- [x] Basit / Gelişmişte aynı seçim bağlamı ve desteklenen işlemler doğrulansın. Görsel hiyerarşi veya hangi kontrolün ayrıntılarda duracağı son tasarımda belirlensin; ürünün yeteneği moda göre değişmesin.
 - [ ] Büyük seçimlerde ve sahne sürüklemesinde panel güncellemesi gereksiz sahne kurulumuna veya her karede tam arayüz üretimine neden olmasın.
 - [ ] Renk, görsel, özel yüzey, ölçü, silme ve grup işlemlerinin mevcut undo / redo, autosave, revizyon ve kayıt-açma akışlarıyla eşliği doğrulansın.
-- [ ] Panel görünürlüğü ve genişliği proje şemasına veya BOM'a eklenmesin. Item master, organization kapsamı ve backend yetkileri değişmesin.
+- [x] Panel görünürlüğü ve genişliği proje şemasına veya BOM'a eklenmiyor. Yetki/organization modeli bu arayüz çalışmasıyla değişmiyor; katalog yetenek düzeltmeleri ayrı 0084/0085 migration'larıyla yapıldı.
 
 ### Test matrisi
 
@@ -148,11 +156,11 @@ Normal tık / çift tık araç çubuğu yerinde kalacak; sağ tık ve uzun basma
 
 **Doğrulama:** Ortak bağlam ve action uygunluğu için anlamlı unit testleri; gerçek Chromium'da tek tık, çift tık, sağ tık, çoklu panel, çoklu modül, grup ve dokunmatik E2E. Uygulama deposunun change-contract, tam unit, build ve tam E2E kapıları geçmeden işlevsel kabul verilmez. Yeni panelin insan/AI kullanım açıklaması kılavuzda güncellenir.
 
-İlgili mevcut regresyon başlangıçları: `e2e/double-click-select.spec.mjs`, `e2e/selection-toolbar.spec.mjs`, `e2e/module-group.spec.mjs`, `e2e/module-lock.spec.mjs`, `e2e/color-image-capability.spec.mjs`, `e2e/grouped-image-direction.spec.mjs`, `e2e/panel-sweep.spec.mjs`; dikdörtgen seçim için `test/rectSelection.test.js`. Uygulama başında son dosya / kapsam değişiklikleri tekrar doğrulanacak.
+İlgili mevcut regresyon başlangıçları: `e2e/double-click-select.spec.mjs`, `e2e/selection-toolbar.spec.mjs`, `e2e/module-group.spec.mjs`, `e2e/module-lock.spec.mjs`, `e2e/color-image-capability.spec.mjs`, `e2e/grouped-image-direction.spec.mjs`, `e2e/panel-sweep.spec.mjs`; dikdörtgen seçim için `test/rectSelection.test.js`. Ek kanıtlar: `e2e/selection-property-panel.spec.mjs`, `e2e/variant-snap-fit.spec.mjs`, `e2e/shelf-width-variant.spec.mjs` ve `test/selectionSurfaceSummary.test.js`. Test dosyasının bulunması bu incelemede yeni bir başarılı koşu iddiası değildir.
 
 ## 3. Adım — Görsel düzenleme
 
-**Ön koşul:** İlk iki adımın işlevsel kabulü tamamlanmış olacak.
+**Mevcut:** Sağda kaydırılabilir kart, başlık/alt başlık, kilit notu, ikonlar, renk/görsel alanları ve dar ekran CSS'i var. Aşağıdaki maddeler bu temelin son görsel ve erişilebilirlik kabulüdür; sıfırdan başlanacak işler değildir.
 
 - [ ] Panelin konumu ve boyutu gerçek kullanım üzerinden belirlensin; masaüstünde sağ panel ve mobilde alttan açılan panel değerlendirilsin.
 - [ ] Seçili öğe / yüzey / grup başlığı, bölüm sırası, boş durum ve kilit açıklaması tasarlansın.
