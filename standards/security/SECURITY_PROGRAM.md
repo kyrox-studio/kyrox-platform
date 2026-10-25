@@ -284,7 +284,7 @@ Kimlik önekleri: **F-C** Core, **F-R** CRM, **F-S** Stand, **F-B** tarayıcı/d
 |---|---|---|---|---|
 | **F-V1** SEC-05 | Compose/bootstrap tek `postgres` rolü; `bootstrap-server.sh` uzak SUPERUSER rolü ve `ufw allow 15432` oluşturabiliyor | Core, CRM, Stand, migration ve yedek aynı `postgres` rolü (SUPERUSER+BYPASSRLS, tek giriş rolü); 5 URL'de aynı parola; CRM üç DB'nin superuser URL'sini taşıyor. 15432 kuralı ve uzak rol şu an yok. 5432 yalnız 127.0.0.1 | **P0** | Rol ayrımı için mimari plan (§6.6) |
 | F-V2 SEC-04 | Deploy şablonu `DEPLOY_SERVICE_USER` root'a düşüyor | 4 servis `User=root`, sertleştirme yok; Stand `project-assets` 0777 | P1 | — |
-| F-V3 SEC-04 | — | Core/CRM/Stand backend `.env` 0644; HS256 anahtarı 3 serviste aynı. **E-015:** Core ve CRM `.env` 0600 root:root, nobody okuyamıyor (canlı doğrulandı) | P1 — Core/CRM kısmı düzeltildi | Stand `.env` izni; HS256 ayrımı (F-C8) |
+| F-V3 SEC-04 | — | Core/CRM/Stand backend `.env` 0644; HS256 anahtarı 3 serviste aynı. **E-015:** Core ve CRM `.env` 0600 root:root, nobody okuyamıyor (canlı doğrulandı). **E-018:** Stand `.env` 0600 root:root, nobody okuyamıyor (canlı doğrulandı) | P1 — dosya izni kısmı üç serviste düzeltildi | HS256 ayrımı (F-C8); Stand `.env` sırları 0644 döneminde okunabilirdi, rotasyon yapılmadı |
 | F-V4 SEC-04/11 | — | SSH `PermitRootLogin yes`, `PasswordAuthentication yes`, fail2ban yok; 24 saatte 11 başarısız deneme; son 7 gün tüm başarılı girişler publickey | P1 | — |
 | F-V5 SEC-12/04 | `kyrox-backup.sh` şifrelemesiz | Drive'a şifresiz: 3 PG + MariaDB dump, tüm `.env`'ler, 4 TLS privkey; rclone `scope=drive` (tam Drive), değişmez kopya yok | P1 | — |
 | F-V6 SEC-12 | `kyrox-restore.sh` `docker rm -f` `-v`'siz | 16.10 tatbikatından 6 sahipsiz volume (~3,1 GB); içerik okunmadı, ilişki zaman/dizin yapısından | P1 | Volume içeriğinin silinmeden önce sahibince doğrulanması |
@@ -497,6 +497,29 @@ Kapanış için: düzeltme commit'i, kalıcı negatif test, CI kanıtı ve gerek
 | Restart sonrası CRM log Traceback | 0 |
 
 - **Durum:** F-C7 her iki tarafta kapandı: Core reddeder (E-014), CRM varsayılan göndermez (E-017). Token tanımsız CRM'in canlı davranışı denenmedi (token kaldırılmadı); CI testleriyle kanıtlı.
+
+### 6.11 Kullanıcı deploy'u sonrası kontrol ve kanıt E-018 — Stand `.env` izni (F-V3)
+
+- **Deploy (kullanıcı, 2026-10-25 17:27):** `deploy-all.sh` çalıştırıldı.
+  - Sonuç: Core `da11f2c`, CRM `791a7d31`, Stand `06f205bf`. Migration'lar head'de, `check-server.sh` "Final: HEALTHY".
+  - systemd unit'leri yeniden yazıldı ve dört servis yeniden başladı.
+- **Deploy sonrası salt okunur kontrol:**
+  - Core/CRM `.env` hâlâ 0600 ve nobody okuyamıyor (deploy izni geri açmadı).
+  - Lifecycle token tablosu (E-015) ve oturum/JWT tablosu (E-016) aynı sonuçlarla tekrarlandı. Core log'unda Traceback 0.
+- **Değişiklik:** `/opt/kyrox/kyrox-fair-stand/backend/.env` için `chown root:root` ve `chmod 600`.
+  - `fair-stand` `User=root` ve `.env`'yi yalnız `EnvironmentFile` olarak okuyor.
+  - Stand altında başka `.env` yedeği yok (yalnız `.env.example`). Git temiz. Servis yeniden başlatılmadı; active, health 200.
+
+| Stand `backend/.env` | Önce | Sonra |
+|---|---|---|
+| İzin / sahip | 644 root:root | 600 root:root |
+| nobody `test -r` / 0 bayt açma | okunabilir / açıldı | okunamaz / reddedildi |
+
+- **Deploy çıktısından kayda geçen gözlemler** (değişiklik yapılmadı):
+  - **F-G2:** `pip install -r` sürüm yükseltmiyor. Canlıda PyJWT 2.13.0 (Core, CRM) ve Pillow 12.3.0 (Stand) duruyor.
+  - **F-C8:** `check-server.sh` "JWT_SECRET_KEY match between Core, Fair CRM, and Fair Stand" kontrolünü OK sayıyor. Anahtar ayrımı kararı bu kontrolün de değişmesini gerektirir.
+  - **R-1:** Her deploy production Core'da `dev@example.com` kullanıcısını tüm `fair_crm.*` yetkileriyle owner/admin olarak oluşturur veya günceller (`seed_core_dev_identity.py`). Bilinçli karar mı olduğu belgede yok; karar sahibine soruldu.
+- **Kalan:** Stand `.env` sırları 0644 döneminde yerel kullanıcılarca okunabilirdi. Sistemde login kabuğu olan tek kullanıcı root olduğu için pratik etki sınırlı. Rotasyon bu işlemde yapılmadı (diğer sırlar toplu değiştirilmez).
 
 ## 7. Kaynaklar ve bakım
 
