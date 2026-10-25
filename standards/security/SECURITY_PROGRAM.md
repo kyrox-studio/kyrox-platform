@@ -83,7 +83,7 @@ Sadece test dosyası görmek PASS değildir. Sadece mock ile yetki kontrolü ger
 | 2 | SEC-04/05/06/07/08/14/21: sır, DB, girdi, dosya ve dış URL | Somut yüzey envanteri, negatifler ve bulgu düzeltmeleri; meşru dosya/entegrasyon regresyonları geçer | İlk dosya bulguları aşağıda |
 | 3 | SEC-09/10/11/12/13: pipeline, bağımlılık, TLS, yedek, audit | Tarama kapsamı ve zorunluluk kanıtı; ayrı restore ortamında başarı; maskelenmiş canlı yapılandırma kontrolü | Açık |
 | 4 | SEC-15/16/17/18/19/20/22: tarayıcı, kötüye kullanım, hata ve işler | Uygulanabilir koşulların negatifleri; proxy ve uygulama birlikte doğrulanır | Açık |
-| 5 | Yeni proje/değişiklik için otomatik uygunluk denetimi | Sahip repo mevcut contract/verify/CI akışında eksik uygulanabilir kontrol/test/kanıt için başarısız olur; yanlış N/A ve yeni yüzey regresyon testleri var | KISMİ — CRM main'de, CI pozitif/negatif kanıtlı (E-010); Core main'de, CI pozitif/negatif kanıtlı (E-012); Stand PR'da (E-011). Required check/branch protection doğrulanmadı |
+| 5 | Yeni proje/değişiklik için otomatik uygunluk denetimi | Sahip repo mevcut contract/verify/CI akışında eksik uygulanabilir kontrol/test/kanıt için başarısız olur; yanlış N/A ve yeni yüzey regresyon testleri var | KISMİ — CRM main'de, CI pozitif/negatif kanıtlı (E-010); Core (E-012) ve Stand (E-011) main'de, CI pozitif/negatif kanıtlı. Required check/branch protection doğrulanmadı |
 
 Somut yüksek etkili bulgu bulunduğunda dalga sırası onu bekletmez. Canlı saldırı, yük testi, restore veya yapılandırma değişikliği bu belgenin varlığıyla otomatik yapılmaz; izole test ve açık operasyon kapsamı kullanılır.
 
@@ -103,7 +103,7 @@ Yeni paralel test sistemi kurulmayacak. Sahip deponun mevcut feature/change cont
 | Depo | Mevcut mekanizma | SEC bağlantısı | Durum |
 |---|---|---|---|
 | Fair CRM | `scripts/validate_feature_contracts.py` + `.kyrox/features/*.json`; CI `development-standard.yml` → "Feature Contract / Applicability" | Contract'ta `security.controls`. PR diff'inde eklenen/değişen veya material değişikliği kapsayan contract'ta zorunlu; REQUIRED → çözümlenen test referansı, N/A → reddedilen kalıplar dışı ≥20 karakter gerekçe; `permissions`/`runtime_authorization` → SEC-01, `tenant_isolation` → SEC-02 REQUIRED. Dokunulmayan 155 eski contract muaf. | **CI'da çalışıyor, main'de** — E-010 |
-| Fair Stand | `.github/change-contract.json` + `scripts/verify-change-contract.mjs` (CI "Change contract gate") | `impact.security = affected` → `security.controls` zorunlu, aynı REQUIRED/N/A kuralları; `not-applicable` iken REQUIRED yasak. Path duvarı `backend/` ve güvenlik dosyalarında `security`'yi zaten zorunlu kılar. | PR açık — E-011 |
+| Fair Stand | `.github/change-contract.json` + `scripts/verify-change-contract.mjs` (CI "Change contract gate") | `impact.security = affected` → `security.controls` zorunlu, aynı REQUIRED/N/A kuralları; `not-applicable` iken REQUIRED yasak. Path duvarı `backend/` ve güvenlik dosyalarında `security`'yi zaten zorunlu kılar. | **CI'da çalışıyor, main'de** — E-011 |
 | Core | Mevcut pytest/CI; `.kyrox/security-controls.json` + `backend/tests/test_security_controls_registry.py` | Proje düzeyi SEC-01…22 kaydı; kanıtı eksik REQUIRED kontrol yalnız açık `gap` ile yazılabilir; `backend/app` altındaki her yüzey kayıtlı olmalı (yeni modül sınıflanmadan FAIL). Sığ checkout nedeniyle diff zorunluluğu yok. | **CI'da çalışıyor, main'de** — E-012 |
 
 ## 5. İlk kaynak kanıtları — 2026-10-25
@@ -154,7 +154,7 @@ Aşağıdaki yollar belirtilen kod deposunun köküne göredir.
 - Ortam: Yerel Windows, Node 22 (`npm ci`); 2026-10-25.
 - Komut/sonuç: `npm test` → **1532/1532**; `npm run syntax:check` → 0; yeni dosya 15 test (eksik/bilinmeyen kontrol, gerekçesiz/reddedilen N/A, testsiz REQUIRED, not-applicable+REQUIRED, bozuk/kapsam dışı/tanımsız Python referansı FAIL; CLI bozuk referans → exit 1, security bloğu yok → exit 1, geçerli → exit 0); `CHANGE_GATE_BASE=origin/main npm run contract:verify` → accepted.
 - Gerçek CI negatif: geçici draft PR [kyrox-studio/kyrox-fair-stand#344](https://github.com/kyrox-studio/kyrox-fair-stand/pull/344), [job 121157742297](https://github.com/kyrox-studio/kyrox-fair-stand/actions/runs/40189656223/job/121157742297): bozuk SEC-10 referansı → "Security control test references do not resolve", exit 1. PR kapatıldı, dal silindi.
-- Gerçek CI pozitif: [run 40189603070](https://github.com/kyrox-studio/kyrox-fair-stand/actions/runs/40189603070) — sonuç aşağıda.
+- Gerçek CI pozitif: [run 40189603070](https://github.com/kyrox-studio/kyrox-fair-stand/actions/runs/40189603070) head `0278868` → success. #342 main'e girince `.github/change-contract.json` çakıştı; main birleştirildi (head `bc28de5c0d553616cec00d043ca1410c59960906`, yerelde gate accepted, `npm test` 1545/1545) ve [run 40191723793](https://github.com/kyrox-studio/kyrox-fair-stand/actions/runs/40191723793) → **success**: "Change contract accepted: security-sec-controls", Catalog API pytest 200 passed, E2E 244 passed. Main merge commit `06f205bfa261fced43627ccceef5416ebd79b52f`.
 - Sınır: `impact.security = not-applicable` beyanının doğruluğunu gate kanıtlamaz; yalnız path duvarının zorladığı dosyalarda yanlış beyan engellenir. Güvenlik iddiası yok.
 - Not: Platform F-00x numaraları Stand'in kendi audit F-00x numaralarıyla aynı değildir (Stand F-004/005/006/009 kapalı gate bulgularıdır).
 
