@@ -470,7 +470,7 @@ Kapanış için: düzeltme commit'i, kalıcı negatif test, CI kanıtı ve gerek
   - F-C10 → **KABUL EDİLDİ (canlı)**.
   - F-C3, F-C4, F-C4b, F-C9 → **CANLIDA DEPLOY**: kod, CI testi ve yüklü kod doğrulandı. Davranış testleri canlıda yapılmadı, çünkü refresh tekrar kullanımı, kullanıcı pasifleştirme ve son Super Admin'i kaldırma denemesi veri değiştirir; sonuncusu başarısız olsaydı platform yöneticisiz kalırdı.
 - **Kabul için kalan:** İzole Postgres ortamında Core + tetikleyici ile bu dört senaryo; veya kullanıcı onayıyla canlıda ayrılmış bir test hesabıyla pasifleştirme → token 401 (son Super Admin senaryosu canlıda denenmez).
-- **Davranış değişikliği:** Yönetici bir kullanıcının parolasını, e-postasını, durumunu ya da Super Admin bayrağını değiştirdiğinde veya kullanıcıyı sildiğinde, o kullanıcı tüm cihazlardan çıkış yapar.
+- **Yeni davranış değil, mevcut kararın uygulanması:** Pasifleştirme, silme ve yönetici kaynaklı değişiklikte oturumların düşmesi önceden kararlaştırılmıştı. Karar şu belgelerde: `archive/kyrox-core/designs/IDENTITY_PLATFORM_DESIGN.md` ("Deactivating a user invalidates sessions", "admin suspend → revoke tokens") ve ADR-0003 ("token-validity checks are not bypassed"). Core'un kullanıcı genelinde oturum iptali (CORE-03) yalnız self-service parola değişimi ve reset'e bağlıydı; yönetici yolları bağlı değildi. #46 bu eksik bağlantıyı tamamladı. Kararın canlı kaynağı artık `PRODUCT_INTEGRATION_GUIDE` §5'tir; arşiv belgesi tek dayanak bırakılmadı.
 
 ## 7. Kaynaklar ve bakım
 
