@@ -209,10 +209,10 @@ Durumlar §3'tedir. "TEST GEÇTİ (izole)" kabul değildir; "CANLI" yalnız yap�
 | 07 | N/A (upload yok) | BULGU AÇIK (F-R1) | BULGU AÇIK (F-001, F-002, F-003) | nginx 256m: CANLI |
 | 08 | KOD VAR | KOD VAR; F-R1 | BULGU AÇIK (F-S6) | — |
 | 09 | BULGU AÇIK (F-G2, F-005) | BULGU AÇIK (F-G2; npm 0 açık) | BULGU AÇIK (F-G2 Pillow) | — |
-| 10 | BULGU AÇIK (F-005) | BULGU AÇIK (F-G3) | KOD VAR (E-011 PR'da) | BULGU AÇIK (F-G3) |
+| 10 | BULGU AÇIK (F-005) | BULGU AÇIK (F-G3, F-G4) | KOD VAR; E-011 main'de, main ruleset `verify` strict, bypass yok (GitHub API, E-019) | BULGU AÇIK (F-G3, F-G5) |
 | 11 | DOĞRULANMADI (STARTTLS) | DOĞRULANMADI | DOĞRULANMADI | HTTPS yönlendirme, TLS≥1.2, sertifika geçerli: CANLI |
 | 12 | — | KOD VAR; izole restore TEST GEÇTİ (E-013) | — | BULGU AÇIK (F-V5, F-V6, F-V7) |
-| 13 | KOD VAR; R-3 | KOD VAR (audit best-effort) | DOĞRULANMADI | BULGU AÇIK (DB/auditd log yok, F-V9) |
+| 13 | BULGU AÇIK (F-C13; R-3 genişledi) | KOD VAR (audit best-effort) | BULGU AÇIK (F-S8) | BULGU AÇIK (DB/auditd log yok, F-V9) |
 | 14 | N/A | BULGU AÇIK (F-B1, F-B4) | BULGU AÇIK (F-001); frontend innerHTML 25 kullanım güvenli (izole) | — |
 | 15 | N/A (bearer) | KOD VAR (HttpOnly/Secure/SameSite=lax, izole prod ayarı; canlı Set-Cookie görülmedi) | N/A (bearer) | — |
 | 16 | BULGU AÇIK (F-004) | BULGU AÇIK (F-004) | BULGU AÇIK (F-002, F-003) | nginx `limit_req` yok: CANLI (F-004) |
@@ -286,7 +286,7 @@ Kimlik önekleri: **F-C** Core, **F-R** CRM, **F-S** Stand, **F-B** tarayıcı/d
 | F-V2 SEC-04 | Deploy şablonu `DEPLOY_SERVICE_USER` root'a düşüyor | 4 servis `User=root`, sertleştirme yok; Stand `project-assets` 0777 | P1 | — |
 | F-V3 SEC-04 | — | Core/CRM/Stand backend `.env` 0644; HS256 anahtarı 3 serviste aynı. **E-015:** Core ve CRM `.env` 0600 root:root, nobody okuyamıyor (canlı doğrulandı). **E-018:** Stand `.env` 0600 root:root, nobody okuyamıyor (canlı doğrulandı) | P1 — dosya izni kısmı üç serviste düzeltildi | HS256 ayrımı (F-C8); Stand `.env` sırları 0644 döneminde okunabilirdi, rotasyon yapılmadı |
 | F-V4 SEC-04/11 | — | SSH `PermitRootLogin yes`, `PasswordAuthentication yes`, fail2ban yok; 24 saatte 11 başarısız deneme; son 7 gün tüm başarılı girişler publickey | P1 | — |
-| F-V5 SEC-12/04 | `kyrox-backup.sh` şifrelemesiz | Drive'a şifresiz: 3 PG + MariaDB dump, tüm `.env`'ler, 4 TLS privkey; rclone `scope=drive` (tam Drive), değişmez kopya yok | P1 | — |
+| F-V5 SEC-12/04 | `kyrox-backup.sh` şifrelemesiz | Drive'a şifresiz: 3 PG + MariaDB dump, tüm `.env`'ler, 4 TLS privkey; rclone `scope=drive` (tam Drive), değişmez kopya yok. **E-019:** WordPress DB'si ile web form talepleri ve iki AI sağlayıcı API anahtarı da bu yedekte (F-V13) | P1 | — |
 | F-V6 SEC-12 | `kyrox-restore.sh` `docker rm -f` `-v`'siz | 16.10 tatbikatından 6 sahipsiz volume (~3,1 GB); içerik okunmadı, ilişki zaman/dizin yapısından | P1 | Volume içeriğinin silinmeden önce sahibince doğrulanması |
 | F-V7 SEC-12 | Tatbikat yalnız tablo sayısı karşılaştırıyor | RPO/RTO kararı yok, tatbikat zamanlanmamış (son 16.10, elle) | P1 | **Karar** |
 | F-V8 SEC-17 | Uygulama ve nginx şablonunda başlık yok | HSTS, CSP, nosniff, frame-ancestors, Referrer-Policy yok; `Server: nginx/1.24.0` | P2 | Meşru gömme/paylaşma akışlarıyla uyum testi |
@@ -299,8 +299,8 @@ Olumlu canlı gözlemler: 5432/8000/8001/8002/8090 yalnız 127.0.0.1; ufw/iptabl
 
 | Kimlik / SEC | Kod / CI | İzole / tarama | Canlı / GitHub | Risk | Eksik |
 |---|---|---|---|---|---|
-| F-G2 SEC-09 | Sürüm kilidi yok; deploy `pip install -r` `--upgrade`'siz (`common.sh`) → canlı eski kalıyor, CI farklı sürüm test ediyor | `pip-audit` canlı venv: Core/CRM PyJWT 2.13.0 (15 kayıt, 1 kritik, 6 yüksek; düzeltme 2.14/2.15 minor); Stand Pillow 12.3.0 (37 kayıt, 4 kritik, 22 yüksek; düzeltme 13.0 **major**); certifi kritik (3 venv). Taze kurulum 0 açık | Canlı venv sürümleri | P1 | Pillow major için onay; kilit dosyası kararı |
-| F-G1 SEC-04/10 | — | Git geçmişi regex taraması: gerçek sır yok (51 aday tek tek; gitleaks/trufflehog kurulmadı); canlı dist'te sır yok | 4 public depoda secret scanning ve push protection kapalı; Core/CRM/Stand Dependabot alerts kapalı; org 2FA zorunlu değil | P1 | Ayar değişikliği kullanıcı onayıyla |
+| F-G2 SEC-09 | Sürüm kilidi yok; deploy `pip install -r` `--upgrade`'siz (`common.sh`) → canlı eski kalıyor, CI farklı sürüm test ediyor | `pip-audit` canlı venv: Core/CRM PyJWT 2.13.0 (15 kayıt, 1 kritik, 6 yüksek; düzeltme 2.14/2.15 minor); Stand Pillow 12.3.0 (37 kayıt, 4 kritik, 22 yüksek; düzeltme 13.0 **major**); certifi kritik (3 venv). Taze kurulum 0 açık | Canlı venv sürümleri | P1 — **kodda düzeltildi, canlıda bekliyor**: alt sınırlar Core [#47](https://github.com/kyrox-studio/kyrox-core/pull/47) `3348d7f`, CRM [#365](https://github.com/kyrox-studio/kyrox-fair-crm/pull/365) `ae5dbc7d`, Stand [#345](https://github.com/kyrox-studio/kyrox-fair-stand/pull/345) `3d212ed5` (Pillow 13 kullanıcı onayıyla) main'de; deploy edilmedi | Deploy sonrası canlı venv sürümleri; kilit dosyası kararı |
+| F-G1 SEC-04/10 | — | Git geçmişi regex taraması: gerçek sır yok (51 aday tek tek; gitleaks/trufflehog kurulmadı); canlı dist'te sır yok | **6 public depoda** (E-019 düzeltmesi: web ve brand dahil) secret scanning, push protection ve Dependabot security updates kapalı; org 2FA zorunlu değil | P1 | Ayar değişikliği kullanıcı onayıyla |
 | F-G3 SEC-10 | Python bağımlılık taraması hiçbir CI'da yok; CRM CI'da npm audit yok (**E-006'daki "CRM development-standard.yml audit" ifadesi yanlış**); `prod-path-e2e.yml` `head_ref` shell'e giriyor; action'lar SHA ile sabit değil; çoğu workflow'da `permissions` yok (repo varsayılanı read) | — | Web main ruleset'inde PR/zorunlu kontrol yok | P1/P2 | Branch protection/required check tüm depolarda |
 | F-005 SEC-09/10 | Core'da ruff atlanıyor, dependency audit yok | Bugünkü CI log'unda yine "ruff not installed" | — | P1 | — |
 
@@ -310,9 +310,9 @@ Olumlu: gerçek `kyrox-backup.sh` + `kyrox-restore.sh --deneme` izole Docker'da 
 
 | Kimlik | Risk | Neden doğrulanmadı | Nasıl doğrulanır |
 |---|---|---|---|
-| R-1 SEC-01 | Canlı Core DB'de `trg_identity_users_default_owner_super_admin` var (CANLI metadata): `dev@example.com` ile eklenen satır Super Admin olur | Core API yollarında rol atama tetikleyicisi satırı engelledi; CRM/Stand seed yolları canlıda incelenmedi | Seed/bootstrap yollarının canlıda çalışıp çalışmadığı; tetikleyicinin kaldırılması (karar) |
-| R-2 SEC-03 | Access TTL 15 gün, session süresiz, her login önceki oturumları kapatıyor (ADR: 15 dk, çok cihaz) | Ürün kararı | Karar sonrası test |
-| R-3 SEC-13 | Core `audit-events` permission istemiyor; ip/user_agent istemciden | Ürünlerin çağrı biçimi doğrulanmadı | Çağıran envanteri |
+| R-1 SEC-01 | Canlı Core DB'de `trg_identity_users_default_owner_super_admin` var (CANLI metadata): `dev@example.com` ile eklenen satır Super Admin olur | Core API yollarında rol atama tetikleyicisi satırı engelledi; CRM/Stand seed yolları canlıda incelenmedi | Seed yolu: **kodda düzeltildi, canlıda bekliyor** — CRM [#365](https://github.com/kyrox-studio/kyrox-fair-crm/pull/365) `ae5dbc7d` dev seed'i create-only yaptı (kullanıcı kararı: yalnız DB'de yoksa oluştur); deploy edilmedi. Tetikleyicinin kaldırılması (karar) açık |
+| R-2 SEC-03 | Access TTL 15 gün, **refresh TTL 15 gün (ADR-0003: 30 gün, E-019 K-CORE-04)**, session süresiz, her login önceki oturumları kapatıyor (ADR: 15 dk, çok cihaz) | Ürün kararı | Karar sonrası test |
+| R-3 SEC-13 | Core `audit-events` permission istemiyor; ip/user_agent istemciden; **yalnız `identity.organization.*` rezerve — org kullanıcısı `identity.password.*` gibi sahte Core güvenlik olayı yazabilir (E-019 K-CORE-09)** | Ürünlerin çağrı biçimi doğrulanmadı | Çağıran envanteri |
 | R-CRM-1 SEC-02 | `customer_field_grouping.py:_load_fair_metadata` org filtresiz tüm tenant katılım satırlarını okuyor | Sızıntı görülmedi; iki org'lu Postgres testi gerekiyor | İzole Postgres negatif testi |
 | R-CRM-2 SEC-22 | Job/run ID'leri için yabancı-ID testi eksik | Zaman | İzole negatif |
 | R-ROL | Normal kullanıcı / OrganizationAdmin rol matrisi CRM ve Stand'de gerçek Core ile koşulmadı | Testler mock | Core + ürün birlikte izole ortamda |
@@ -475,7 +475,7 @@ Kapanış için: düzeltme commit'i, kalıcı negatif test, CI kanıtı ve gerek
 ### 6.10 Çalıştırılan canlı değişiklik ve kanıt E-017 — CRM lifecycle credential fail-closed (#364)
 
 - **Kaynak:** [kyrox-studio/kyrox-fair-crm#364](https://github.com/kyrox-studio/kyrox-fair-crm/pull/364), head `0350064f8c4ba0306f1969863979e5d54bff5d92`. Merge commit `791a7d31752298d8bace9d23ce51709195f1e585`.
-- **CI:** Beş zorunlu kontrol success: Feature Contract / Applicability, Backend Quality Check, Frontend, System Behavior Map, prod-path-e2e.
+- **CI:** Beş kontrol success: Feature Contract / Applicability, Backend Quality Check, Frontend (bu üçü zorunlu), System Behavior Map, prod-path-e2e (zorunlu değil — E-019 düzeltmesi, F-G4).
   - [Development Standard Gate run 40198109005](https://github.com/kyrox-studio/kyrox-fair-crm/actions/runs/40198109005)
   - [Prod-Path E2E run 40198109141](https://github.com/kyrox-studio/kyrox-fair-crm/actions/runs/40198109141)
 - **Yerel:** 9 yeni test main'de FAIL, dalda PASS. Tam backend 2265 passed / 9 skipped (`backend/` dizininden). Contract gate PASS (157).
@@ -520,6 +520,166 @@ Kapanış için: düzeltme commit'i, kalıcı negatif test, CI kanıtı ve gerek
   - **F-C8:** `check-server.sh` "JWT_SECRET_KEY match between Core, Fair CRM, and Fair Stand" kontrolünü OK sayıyor. Anahtar ayrımı kararı bu kontrolün de değişmesini gerektirir.
   - **R-1:** Her deploy production Core'da `dev@example.com` kullanıcısını tüm `fair_crm.*` yetkileriyle owner/admin olarak oluşturur veya günceller (`seed_core_dev_identity.py`). Bilinçli karar mı olduğu belgede yok; karar sahibine soruldu.
 - **Kalan:** Stand `.env` sırları 0644 döneminde yerel kullanıcılarca okunabilirdi. Sistemde login kabuğu olan tek kullanıcı root olduğu için pratik etki sınırlı. Rotasyon bu işlemde yapılmadı (diğer sırlar toplu değiştirilmez).
+
+### 6.12 Karar ↔ kod uyum denetimi ve kanıt E-019 (kyrox-security-audit skill'i, ilk çalıştırma)
+
+- **Yöntem:** [kyrox-security-audit skill'i](../../.claude/skills/kyrox-security-audit/SKILL.md) adım 4 (karar ↔ kod/canlı). Dört paralel alt ajan çalıştı: Core, CRM, Stand, ekosistem/sunucu/CI/web.
+  - Adım 3'ün altı güvenlik kapsamı E-013'te tarandığı için yeniden koşulmadı; yalnız yeni bulgu veya durum değişikliği kaydedildi.
+  - Bu kayıtta hiçbir bulgu düzeltilmedi ve canlıya dokunulmadı. Kullanıcı kararı: rapor tamamlanınca bulgular toplu ele alınacak.
+- **Kaynak SHA:** platform `0e08998`, Core `3348d7f`, CRM `791a7d31`, Stand `06f205bf`, Web `22e763f`.
+  - Ayrık worktree'lerde salt okunur çalışıldı.
+  - Sonradan main'e giren CRM `ae5dbc7d` (#365) ve Stand `3d212ed5` (#345) yalnız bağımlılık ve seed değişikliği içerir; aşağıdaki bulguları etkilemez.
+- **Canlı:** Core `da11f2cb`, CRM `791a7d31`, Stand `06f205bf`, Web `22e763f5`; üç DB'nin migration head'i kodla aynı (salt okunur; sır, satır verisi ve kişisel veri okunmadı).
+  - Core alt ajanının canlı `pg_proc` okuma denemesi araç izin denetiminde reddedildi; Core'un canlı sütunu DOĞRULANMADI.
+- **İzole testler:**
+  - Core: 486 passed (SQLite) ve geçici Postgres (`alembic upgrade head` → `20261012_0073`, konteyner silindi).
+  - CRM: 2270 passed / 4 skipped; Core mock'lu route ↔ permission envanteri (249 path+method, iki modda).
+  - Stand: backend 200 passed, `npm test` 1545/1545.
+  - Denetim testleri depoya eklenmedi.
+- **Kimlikler:** Güvenlik etkili yeni bulgular F- önekiyle; karar uyumsuzlukları `K-<PROJE>-<n>` ile (skill [finding-format](../../.claude/skills/kyrox-security-audit/references/finding-format.md)). Durumlar: ÇELİŞİYOR, KISMİ, BELGEDE EKSİK, BELGELER ÇELİŞİYOR, DOĞRULANMADI.
+
+#### Yeni güvenlik bulguları
+
+| Kimlik / SEC | Akış | Kod | İzole kanıt | Canlı | Risk / durum | Eksik doğrulama |
+|---|---|---|---|---|---|---|
+| **F-V11** SEC-04/12 | CRM uygulama içi DB yedekleri | `backend/app/shared/database_backup/engine.py` dump'ı `docker cp` ile yazıyor; `chmod`/umask yok | — | `/opt/kyrox/kyrox-fair-crm/backups/` 0755; içindeki 3 tam dump (fair_crm 108 MB, kyrox_core, fair_stand) 0644 root:root. `nobody` üçünü de açabildi (`test -r` + `head -c 0`, içerik okunmadı) (CANLI) | **P1 — BULGU AÇIK**. Core dump'ı parola hash'lerini ve oturum tablolarını içerir. E-015'teki "yedekler 0600" kanıtı yalnız `/var/backups/kyrox`'u kapsıyordu | Düzeltme kodda (izin) + canlıda |
+| **F-R6** SEC-02 | Scraper adapter fuar listesi | `AdapterLinkedFairService._aggregate_runs_by_fair_name` run geçmişini `organization_id` filtresi olmadan okuyor; `GET /scraper/adapters/{adapter}/fairs` | Org A, org B'nin fuar adını ve `input_url`'ünü gördü (izole, mock Core) | DOĞRULANMADI (DB satırı okunmadı) | **P1 — BULGU AÇIK**. CONSTITUTION §5 bunu "system fair gelince düzeltilecek bilinen ihlal" diye yazmış; system fair merge edildi ama düzeltilmedi. P0.1 "Certified DONE" iddiası bu yol için geçersiz | İki org'lu negatif test; canlıda etkilenen satır var mı |
+| **F-C12** SEC-01/22 | Permission kilidi (ADR-0005 §6) | Migration `20260816_0055`, `identity_apply_permission_lifecycle()`: aktif olmayan her durumda (`locked` dahil) `identity_role_permissions` satırlarını siliyor; sonraki hiçbir migration değiştirmiyor | İzole Postgres: 4 grant → kilit → 0. Unlock → yalnız `organization_admin` geri geldi; şablon, türetilmiş ve özel roller grant'ı kalıcı kaybetti. Mevcut test `test_super_admin_template_derive_sync_and_permission_lock` yalnız SQLite'ta (trigger yok) geçiyor | DOĞRULANMADI (canlıda kilitli izin olup olmadığı okunmadı) | **P1 — BULGU AÇIK** (karar ÇELİŞİYOR: ADR-0005 "lock keeps role grants") | Canlıda daha önce kilitlenip açılan izin var mı; PG üzerinde regresyon testi |
+| **F-C13** SEC-13 | Core güvenlik audit olayları (ADR-0004) | Login (başarılı/başarısız), logout, refresh reuse, signup, kullanıcı oluşturma/güncelleme/silme/geri yükleme, rol atama/geri alma, Super Admin bayrağı için audit yok; `user_management/*.py` ve `authentication/routes.py` içinde audit çağrısı 0. `role_management` audit'i AuditService'i atlıyor, 2 segmentli action ve boş `session_id` (K-CORE-06) | grep + kod | — | **P1 — BULGU AÇIK**; §6.2 SEC-13 Core hücresi güncellendi | PG'de audit yazma hatası davranışı |
+| **F-C14** SEC-02/13 | Organization silme (ADR-0006 §10, OL08-07) | `DeleteOrganizationUseCase` `X-Kyrox-Expected-Suspension-Updated-At` başlığı yoksa ACTIVE org'u da koşulsuz tombstone'luyor. Aynı istekte korunan önekler dışındaki tüm audit satırları geri dönüşsüz siliniyor | `test_super_admin_can_delete_organization_and_transition_is_audited` başlıksız ACTIVE silmeyi 204 bekliyor ve geçiyor | DOĞRULANMADI (koşulsuz yolu çağıran var mı) | **P1 — BULGU AÇIK** (KISMİ: koşullu yol uyuyor) | Canlı access log'da başlıksız `DELETE /organizations/` (yalnız metadata) |
+| **F-V12** SEC-12 | Sunucu restore'u (OL10-C/E) | `scripts/server/backup/kyrox-restore.sh`: üç DB'ye `pg_restore --create --clean`, ardından servisleri başlatıyor; Core lifecycle reconciliation, 30 gün yaş ve provenance kontrolü yok | Kod okuması | — | **P1 — BULGU AÇIK**. Felaket kurtarma için istisna kararı yok. Kapanmış veya askıdaki bir org'un verisi reconciliation'sız canlıya dönebilir | İzole Docker'da askıdaki org içeren sentetik yedekten restore |
+| **F-V13** SEC-04, gizlilik | kyrox-web (ADR-0011) | `tema/kyrox/inc/form.php` `POST /wp-json/kyrox/v1/talep` → `kyrox_talep` kaydı + SMTP | — | `kyrox_talep` 2 kayıt; SMTP dolu. `ai-provider-for-google` ve `ai-provider-for-openai` etkin; API anahtarları `wp_options`'ta dolu (`length>0`; değer okunmadı); WordPress DB'si gecelik şifresiz Drive yedeğinde (CANLI) | **P1 — BULGU AÇIK**. ADR "veri saklamaz, dış hizmet yok, sırlar `.env`'de" diyor; canlı tersi. Belgeler de çelişiyor (ADR-0011 ↔ web README ↔ WEB_LAUNCH_CHECKLIST 16) | Kayıtlar gerçek ziyaretçi mi; AI anahtarları kullanılıyor mu |
+| **F-G4** SEC-10 | CRM `main` ruleset (QUALITY_GATE §12) | Zorunlu kontroller yalnız 3; `System Behavior Map / Zero New Findings` ve `prod-path-e2e` zorunlu değil ve yalnız PR'da koşuyor | — | `gh api …/rules/branches/main` (CANLI GitHub ayarı) | **P1 — BULGU AÇIK**. Son 25 PR'da ikisi de yeşildi; ihlal yok ama engel de yok. E-017 metni düzeltildi | — |
+| **F-S8** SEC-13 | Stand audit (ADR-0004) | `backend/app` içinde audit satırı 0. Super Admin katalog/ayar mutasyonları (43 admin route), proje silme, maliyet değişimi ve canlı paylaşım kaydedilmiyor | grep | — | **P1 — BULGU AÇIK**; §6.2 SEC-13 Stand hücresi güncellendi | Hangi olaylar zorunlu (karar) |
+| **F-S9** SEC-08/22 | Stand admin Item bileşimi (ITEM_CATALOG_ARCHITECTURE §8, ITEM_CONTRACT §10) | `admin_items._replace_components` yalnız A→A'yı reddediyor; `assert_acyclic_components` yalnız seed'de çağrılıyor | İzole: `audit_a`→`audit_b` ve `audit_b`→`audit_a` PUT'larının ikisi de 200. Frontend `itemBom.resolveLines` "Cyclic Item composition" hatası veriyor | — | **P1 — BULGU AÇIK** (Super Admin aktör; global katalog). O Item'ı kullanan bütün organizasyonlarda BOM bozulur | Tarayıcıda üretim listesi etkisi |
+| **F-G5** SEC-10 | kyrox-brand | Ruleset ve branch protection yok | — | `gh api …/rulesets` → `[]`: `main` silinebilir, force-push açık (CANLI GitHub ayarı) | **P2 — BULGU AÇIK** | — |
+| **F-R7** işlev / SEC-01 | CRM toplu e-posta önizleme | `preview_bulk_email_operation.py`, Core `0051` ile kaldırılmış `fair_crm.fair_emails.preview` kodunu soruyor; FE önizlemeyi `fair_emails.read` ile açıyor | İzole: OrgAdmin yetki setiyle `ForbiddenError`. Mevcut testler her şeye izin veren mock ile koştuğu için yakalanmadı | DOĞRULANMADI | **P1 — BULGU AÇIK** (işlev kırık): `POST /operations/bulk-email/preview` Super Admin dışında 403; önizleme gönderimin ön koşulu | Gerçek Core zinciriyle |
+
+#### Karar ↔ kod uyumsuzlukları (K-)
+
+Yalnız uyumsuz satırlar; tam liste ve kanıtlar alt ajan raporlarındaydı (depoya eklenmedi). UYUYOR: Core 17, CRM 8+, Stand 18, ekosistem 17 karar.
+
+| Kimlik | Kaynak | Uyumsuzluk | Durum | Öncelik |
+|---|---|---|---|---|
+| K-CORE-01 | ADR-0005 §6 | Kilit grant'ları siliyor → F-C12 | ÇELİŞİYOR | P1 |
+| K-CORE-02 | ADR-0004 | Asgari güvenlik audit olayları yok → F-C13 | ÇELİŞİYOR | P1 |
+| K-CORE-03 | ADR-0006 §10 | Koşulsuz org silme → F-C14 | KISMİ | P1 |
+| K-CORE-04 | ADR-0003 #4 | Refresh TTL 15 gün (ADR 30) → R-2'ye eklendi | ÇELİŞİYOR | P2 |
+| K-CORE-05 | ADR-0005 §1 | `deleted_users._assert_deleted_user_admin` yetkiyi rol slug'ından (`organization_admin`) veriyor | ÇELİŞİYOR | P2 |
+| K-CORE-06 | ADR-0004 | role_management audit'i AuditService'i atlıyor; action adları ve `session_id` hatalı | ÇELİŞİYOR | P2 |
+| K-CORE-07 | ADR-0005 §5–6 | Sync/lifecycle önizlemesinde kullanıcı ve izin listesi yok; audit'te diff yok | KISMİ | P2 |
+| K-CORE-08 | ADR-0005 §2 | Super Admin'in OrganizationAdmin paketini düzenleyeceği API yok | KISMİ | P2 |
+| K-CORE-09 | ADR-0004, Guide §7 | Core olay önekleri rezerve değil → R-3 genişledi | KISMİ | P2 |
+| K-CORE-10 | Core decisions/0002 | user/role route'ları ORM'e doğrudan erişiyor (katman ihlali) | ÇELİŞİYOR | P2 |
+| K-CORE-11 | ADR-0002 ↔ OL09-B | Core FAIR CRM'e HTTP sinyali atıyor ve FAIR öneki taşıyor; ADR değişmemiş | BELGELER ÇELİŞİYOR | P2 |
+| K-CORE-12 | ADR-0006 | ADR "Super Admin `organization_id` NULL" diyor; kod ve CHANGELOG tersi | BELGELER ÇELİŞİYOR | P2 |
+| K-CORE-13 | Core PROJECT_STATUS | "reactivation endpoint yok" ve "0069" yanlış; #43–#47 ile OL-08/09 yüzeyleri yok; "Audit: Implemented" KISMİ | ÇELİŞİYOR / BELGEDE EKSİK | P2 |
+| K-CORE-14 | PRODUCT_INTEGRATION_GUIDE | Var olmayan membership/invite uçları; yanlış permission kodları (`enqueue`/`send` → `execute`); çok sayıda route yok; "yerel JWT doğrulama" ADR-0003 ile çelişiyor (F-C8'e not) | ÇELİŞİYOR | P2 |
+| K-CORE-15 | ADR-0003 | Tablo "reset deferred", Consequences "implemented" | BELGELER ÇELİŞİYOR | P2 |
+| K-CORE-16 | ADR-0004 ↔ OL09-D/OL08-F | Append-only kuralı ile kabul edilmiş retention silmesi çelişiyor | BELGELER ÇELİŞİYOR | P2 |
+| K-CORE-17 | Core CHANGELOG | #23–#47 teslimatları yok | BELGEDE EKSİK | P2 |
+| K-CRM-01 | CONSTITUTION §5 | Scraper org sızıntısı → F-R6 | ÇELİŞİYOR | P1 |
+| K-CRM-02 | Core 0051 permission birleştirmesi | Önizleme kaldırılmış kodu soruyor → F-R7 | ÇELİŞİYOR | P1 |
+| K-CRM-03 | CRUD_UI_AUTHORIZATION / RBAC | Dashboard RBAC'sız; activities/customers read yetkisi olmayan aktivite ve müşteri özetini görüyor. Karar yalnız migration docstring'inde ve feature contract'ta | BELGEDE EKSİK | P2 |
+| K-CRM-04/05 | PERMISSION_SCOPE_GOVERNANCE, TODO_MODULE_DECISIONS, AUTH_RBAC_HANDOVER, DEVELOPMENT_STANDARD | SYSTEM listesinde `admin.backups.delete` ve `identity.organizations.reactivate` eksik; Core 0048–0054 birleştirmeleri belgelerde yok; eski kodlar (`.archive`, `backups.download`, rol matrisi v1) duruyor | BELGEDE EKSİK / ÇELİŞİYOR | P2 |
+| K-CRM-06 | Core 0048–0054 | Kullanıcıya gösterilen hata mesajlarında geri çekilmiş permission slug'ları | ÇELİŞİYOR | P2 |
+| K-CRM-08 | Role matrix | `customers.execute`, `operations.update`, `cost_catalog.*` matriste ve testlerde yok | KISMİ | P2 |
+| K-CRM-09 | Org bağlamı | Core org araması başarısızsa FE sabit varsayılan org'a düşüyor | ÇELİŞİYOR | P2 |
+| K-CRM-10 | FRONTEND_UI_MASTER_STANDARD | `window.confirm` 7 yerde (DataOperations yıkıcı işlem dahil); PROJECT_STATUS "UI governance 0 ihlal" diyor, gate yakalamıyor | ÇELİŞİYOR | P2 |
+| K-CRM-11 | Liste sayfalama sözleşmesi | Kayıtlı istisnası olmayan sapmalar | KISMİ | P2 |
+| K-CRM-12 | Export yetkisi | Export uçlarında `execute` / `read` karışık | KISMİ | P2 |
+| K-CRM-13 | TENANT_ISOLATION_SYSTEM_TEST_STANDARD | Registry modül düzeyinde kanıt istiyor; F-R6 bu yüzden gate'ten geçti | KISMİ | P2 |
+| K-CRM-14 | PERMISSION_SCOPE_GOVERNANCE | Rol editörü listeyi `permission_scope` değil `is_assignable` ile süzüyor | KISMİ | P2 |
+| K-STAND-01 | ITEM_CONTRACT §10 | Döngülü bileşim kabul → F-S9 | ÇELİŞİYOR | P1 |
+| K-STAND-02 | OL08-D imha matrisi | Stand verisi (projeler, revizyonlar, görseller + disk, maliyet, şablon) kapanış matrisinde yok; Stand'de lifecycle tüketicisi yok; CRM müşterisi silinince `customer_id` sarkık | BELGEDE EKSİK | P1 |
+| K-STAND-03 | ADR-0004 | Stand audit yok → F-S8 | ÇELİŞİYOR | P1 |
+| K-STAND-04 | ITEM_CATALOG_ARCHITECTURE | Kullanımdaki Item koşulsuz arşivleniyor; aktif reçeteler "Unknown Item" | KISMİ | P2 |
+| K-STAND-05 | DATABASE_RELATIONSHIP_STANDARD | Standart 2 FK istisnasına izin veriyor; kodda 4 istisna daha var ve test bunları kodlaştırıyor | ÇELİŞİYOR + BELGELER ÇELİŞİYOR | P2 |
+| K-STAND-06 | SEC-08, GROUP_LOCK | Proje yapısı yalnız istemcide doğrulanıyor → F-S6 kapsamı genişledi | KISMİ | P2 |
+| K-STAND-07 | Stand ROADMAP "Production dataset", ITEM_CONTRACT | BOM JS'inde sabit ürün haritaları (`baseRunBom.js`, `relationshipBom.js`) | KISMİ | P2 |
+| K-STAND-08 | Veri saklama | Revizyon saklama 3 ve fiziksel silme hiçbir belgede yok | BELGEDE EKSİK | P2 |
+| K-STAND-09 | — | Canlı paylaşım güvenlik modeli belgede yok | BELGEDE EKSİK | P2 |
+| K-STAND-10 | ROADMAP_PHASE_5_6 §6.2 ↔ PROJECT_STATUS | Fiyat sahipliği belgeler arasında farklı; satış fiyatı boşsa 0.00 saklanıyor | BELGELER ÇELİŞİYOR | P2 |
+| K-STAND-11 | PERMISSION_SCOPE_GOVERNANCE | `projects.create/update/delete` ve `cost_items.*` listelenmemiş | BELGEDE EKSİK | P2 |
+| K-STAND-12…17 | Stand PROJECT_STATUS, OPEN_WORK, GROUP_LOCK, ITEM_CATALOG, AGENTS.md, SYSTEM_CHANGE_GATE §9 | Otomatik kayıt, silme onayı, bayat durum iddiaları (#336–#343 main'de ve canlıda ama "gönderilmedi" yazıyor), migration head (belge 0059/0064/0067, kod 0086), Stand'de kalan kanonik belgeler, PR-only CI | BELGELER ÇELİŞİYOR | P2 |
+| K-ECO-05 | `deploy-all.sh` başlığı, SERVER_DEPLOY | Deploy `.env`'lere anahtar ekliyor (Stand'e Core JWT'si, CRM'e peer DB URL'leri); yeni `.env` 0644 doğuyor → E-015/E-018 düzeltmesi betiğe işlenmedi | KISMİ | P2 |
+| K-ECO-06 | OL10-A | Elle alınan dump'lar (`pg_dumpall` dahil, 12 öğe) budanmıyor; ilk 30 gün aşımı 2026-11-14 | KISMİ | P2 |
+| K-ECO-07 | DOCUMENT_GOVERNANCE | CRM'de `scripts/server/DEPLOY.md` ve `backup/README.md` insan belgesi; platformda sunucu yedeği/DR belgesi yok | ÇELİŞİYOR + BELGEDE EKSİK | P2 |
+| K-ECO-08/09/10 | SERVER_DEPLOY, NGINX_SSL_CONFIGURATION, STATUS | Stand yok, SSH 22 (canlı 25416); eski IP ve 64m limit (canlı 45.43.154.39, 256m); STATUS "deploy pending" | BELGELER ÇELİŞİYOR | P2 |
+| K-ECO-12 | ADR-0011 | `tasarim/` hâlâ duruyor (ADR "tema yayına girince kaldırılır") | BELGELER ÇELİŞİYOR | P2 |
+| K-ECO-13 | ADR-0011 kaynak sınırı | Docker konteynerlerinde bellek tavanı yok | KISMİ | P2 |
+| K-ECO-14 | `apply-nginx-upload-limit.sh` | `sed -i` yedekten önce; `nginx -t` hatasında satır geri alınmıyor; gzip tüm sitelere ekleniyor | KISMİ | P2 |
+| K-ECO-15/16 | ADR-0008, QUALITY_GATE §10 | Stand'in ayrı `deploy.sh`'ı farklı `.env` davranışı taşıyor ve belgesiz; deploy/backup/restore betiklerinin testi yok | BELGEDE EKSİK | P2 |
+| K-ECO-17/18/19 | ADR-0001, ADR-0010, DOCUMENT_GOVERNANCE | ADR-0001 amendment'sız; CRM favicon brand'den farklı (DOĞRULANMADI); Stand'de ~611 Markdown | BELGELER ÇELİŞİYOR / KISMİ | P2 |
+
+#### Mevcut kayıtlarda durum değişikliği (bu değişiklikle uygulandı)
+
+- **§6.2 matrisi:**
+  - SEC-13 Core → BULGU AÇIK (F-C13).
+  - SEC-13 Stand → BULGU AÇIK (F-S8).
+  - SEC-10 Stand → E-011 main'de; main ruleset GitHub API ile doğrulandı.
+  - SEC-10 CRM/sunucu → F-G4 ve F-G5 eklendi.
+- **F-G1:** Kapalı ayarlar 6 public depoda (4 değil).
+- **F-G2 ve R-1:** Kodda düzeltildi, canlıda bekliyor (Core #47, CRM #365, Stand #345 main'de; deploy edilmedi).
+- **F-V5:** Drive'daki yedek WordPress form talepleri ve AI anahtarlarını da içeriyor.
+- **R-2:** Refresh TTL eklendi.
+- **R-3:** Rezerve olmayan Core önekleri eklendi.
+- **E-017:** "Beş zorunlu kontrol" ifadesi düzeltildi.
+- **Değişmeyenler:** F-001…F-003, F-S4…F-S7 (Stand backend'i `ac18bc1a`'dan beri değişmedi), F-V2, F-V7, F-V10.
+
+#### Karar bekleyenler (önce eski karar arandı; yok veya çelişkili)
+
+| # | Konu | Öneri |
+|---|---|---|
+| D-1 | kyrox-web formu ve AI eklentileri (F-V13) | ADR-0011'i form + saklama süresi + aydınlatma ile güncelle; AI eklentileri kullanılmıyorsa kaldır ve anahtarları sağlayıcıda iptal et |
+| D-2 | Sunucu restore'u ↔ OL10 (F-V12) ve yedek/DR belgesinin yeri | Restore sonrası reconciliation bitmeden CRM trafiği açılmasın; platformda tek DR belgesi. Felaket istisnası seçilecekse yazılı karar |
+| D-3 | CRM zorunlu kontrolleri (F-G4) | SBM ruleset'e eklensin; `prod-path-e2e` her PR'da koşsun, kapsam dışında N/A raporlasın, zorunlu olsun |
+| D-4 | kyrox-brand koruması ve kapsamı (F-G5) | deletion + non_fast_forward ruleset; sosyal şablonlar ADR-0010'a eklensin |
+| D-5 | kyrox-web `tasarim/` (K-ECO-12) | ADR-0011 "tasarım kaynağı repoda kalır" diye güncellensin |
+| D-6 | Sunucu operasyon betiklerinin sahibi | CRM deposu REPOSITORY_STRATEGY'de sahip olarak yazılsın |
+| D-7 | Core → ürün sinyali (K-CORE-11) | ADR-0002'ye amendment; ikinci ürün gelince genelleştir |
+| D-8 | Super Admin `organization_id` (K-CORE-12) | ADR-0006 koda göre düzeltilsin |
+| D-9 | Koşulsuz org silme (F-C14) | Başlık zorunlu, yalnız koşullu tombstone |
+| D-10 | Refresh TTL (K-CORE-04, R-2 ile) | ADR'deki access 15 dk + refresh 30 gün |
+| D-11 | Core tenant-isolation registry | Standart Core'a da uygulansın |
+| D-12 | Stand verisinin org kapanışında imhası (K-STAND-02) | OL08-D'ye Stand sınıfları; Stand Core lifecycle'ı tüketsin; `customer_id` kuralı |
+| D-13 | Stand FK istisnaları (K-STAND-05) | 4 istisna standarda yazılsın |
+| D-14 | Fiyat sahipliği ve eksik fiyat (K-STAND-10) | As-built Stand sahipliği belgeye; boş satış fiyatı NULL/`unpriced` |
+| D-15 | Stand revizyon saklama (K-STAND-08) | "Son 3" belgelensin |
+| D-16 | Kullanımdaki Item arşivi (K-STAND-04) | Aktif reçetede çocuksa 409 |
+| D-17 | Canlı paylaşım modeli (K-STAND-09) | Mevcut model belgelensin; TURN için kısa ömürlü credential |
+| D-18 | Stand audit olayları ve öneki (F-S8) | Asgari: admin mutasyonları + proje silme; Core audit API, `fair_stand.*` |
+| D-19 | Stand belge yönetişimi (K-STAND-16) | AGENTS.md'ye Stand'de kalan kanonik dosyaların listesi |
+| D-20 | CRM dashboard RBAC (K-CRM-03) | Kartlar ilgili read yetkisine göre süzülsün |
+| D-21 | CRM export yetkisi (K-CRM-12) | Tüm export/download uçları modülün `execute` yetkisine |
+| D-22 | CRM liste sayfalama (K-CRM-11) | Küçük yönetim listeleri belgelenmiş istisna, büyüyebilenler sayfalı |
+| D-23 | F-R6 düzeltmesinde system run'lar | Yalnız görünür system fair'e bağlıysa göster, ham URL gösterme |
+
+#### Doğrulanamayanlar
+
+- **Canlı Core:** `identity_apply_permission_lifecycle` tanımı ve kilitli izin sayısı; koşulsuz silmeyi çağıran var mı; OL09-B sinyal token'ı tanımlı mı. Canlı okuma izin denetiminde reddedildi; kullanıcı onayıyla salt okunur katalog sorgusuyla doğrulanabilir.
+- **F-R6 canlı etkisi:** DB satırı okunmadı.
+- **Gerçek Core zinciri:** CRM ve Stand system-scope reddi, F-R7 (testler Core'u mock'luyor).
+- **Diğer:**
+  - Testler: CRM FE testleri ve Stand E2E koşulmadı.
+  - Web: WordPress ve eklentilerin güncelliği, AI anahtarlarının kullanımı, form kayıtlarının gerçek ziyaretçi mi test mi olduğu, site haritasının arama motorlarına gönderilmesi.
+  - Yedek: uygulama içi 30 gün budamanın canlıda çalışması (ilk gözlem 2026-11-17 sonrası).
+  - F-V12'nin izole restore ile gösterilmesi.
+
+#### Öncelikli ele alma sırası (öneri; kullanıcı toplu karar verecek)
+
+1. **F-V11:** Dump izinleri (kod + canlı chmod).
+2. **F-R6:** Scraper org sızıntısı.
+3. **F-C12:** Kilit trigger'ı; canlı etkisi önce salt okunur doğrulanır.
+4. **F-R7:** Önizleme permission kodu.
+5. **F-S9:** Döngü reddi.
+6. **F-C14:** Koşulsuz org silme (D-9 ile).
+7. **F-V13:** Web, D-1 ile.
+8. **F-C13 ve F-S8:** Audit olayları (D-18 ile).
+9. **F-V12:** Restore ↔ OL10 (D-2 ile).
+10. **F-G4 ve F-G5:** Ruleset'ler (D-3, D-4).
+11. **Belge eşitleme:** K-CORE-13/14/15/17, K-CRM-04/05, K-STAND-11…17, K-ECO-07…10. Platform PR'ı; karar gerektirmez.
+12. **Kalan K-…P2 kod işleri.**
 
 ## 7. Kaynaklar ve bakım
 
