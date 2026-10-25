@@ -239,15 +239,15 @@ Kimlik önekleri: **F-C** Core, **F-R** CRM, **F-S** Stand, **F-B** tarayıcı/d
 
 | Kimlik / SEC | Akış | Kod | İzole kanıt | Canlı | Risk | Eksik |
 |---|---|---|---|---|---|---|
-| F-C3 SEC-03 | Refresh rotasyonu | `refresh_session.py:RefreshSessionUseCase.execute` reuse'da iptal edip hata fırlatıyor; `db/session.py:get_db` rollback → iptal kalıcı değil (org-suspended dalı da aynı) | Eski refresh 401 ama session aktif, `reuse_detected_at` boş, yeni çift çalışıyor; güvenli beklenti testi FAIL | — | P1 — **DÜZELTME PR'DA** [kyrox-studio/kyrox-core#46](https://github.com/kyrox-studio/kyrox-core/pull/46) | PR CI; Postgres'te HTTP tekrarı |
-| F-C4 SEC-03 | Yönetici parola değişimi/pasifleştirme/silme | `user_management/routes.py:update_user/delete_user` `RevokeAllUserSessionsUseCase` çağırmıyor | Parola değişiminden sonra eski access ve refresh çalışıyor; pasif kullanıcıya `user-management/context` ve `GET /organizations` 200 | — | P1 — **DÜZELTME PR'DA** #46 | PR CI |
-| F-C4b SEC-03/01 | Super Admin istisnası | `guards.py:is_super_admin`, `authorization_service.check_permission` bayrağı status/deleted bakmadan okuyor | Pasif+silinmiş Super Admin'in eski token'ı `/system/settings` ve yabancı org listesi 200 | — | P1 — **DÜZELTME PR'DA** #46 (oturum iptaliyle; aktif Super Admin bypass semantiği değişmedi). **Karar (kullanıcı, 2026-10-25):** kullanıcı pasife alındığı anda token düşer; Super Admin dahil. `PRODUCT_INTEGRATION_GUIDE` §5'teki "account authorization state" ifadesi ADR-0003'e uyacak şekilde düzeltildi | #46 merge + deploy ve canlı doğrulama |
+| F-C3 SEC-03 | Refresh rotasyonu | `refresh_session.py:RefreshSessionUseCase.execute` reuse'da iptal edip hata fırlatıyor; `db/session.py:get_db` rollback → iptal kalıcı değil (org-suspended dalı da aynı) | Eski refresh 401 ama session aktif, `reuse_detected_at` boş, yeni çift çalışıyor; güvenli beklenti testi FAIL | — | P1 — **CANLIDA DEPLOY (E-016)**: kod + CI testi; canlı davranış testi veri değiştireceği için yapılmadı | Canlıda refresh tekrar kullanımı senaryosu (izole ortamda Postgres ile tekrar) |
+| F-C4 SEC-03 | Yönetici parola değişimi/pasifleştirme/silme | `user_management/routes.py:update_user/delete_user` `RevokeAllUserSessionsUseCase` çağırmıyor | Parola değişiminden sonra eski access ve refresh çalışıyor; pasif kullanıcıya `user-management/context` ve `GET /organizations` 200 | — | P1 — **CANLIDA DEPLOY (E-016)**: kod + CI testi; canlı davranış testi veri değiştireceği için yapılmadı | Canlıda pasifleştirme sonrası token düşmesi (kontrollü test hesabıyla) |
+| F-C4b SEC-03/01 | Super Admin istisnası | `guards.py:is_super_admin`, `authorization_service.check_permission` bayrağı status/deleted bakmadan okuyor | Pasif+silinmiş Super Admin'in eski token'ı `/system/settings` ve yabancı org listesi 200 | — | P1 — **CANLIDA DEPLOY (E-016)** #46 (oturum iptaliyle; aktif Super Admin bypass semantiği değişmedi). **Karar (kullanıcı, 2026-10-25):** kullanıcı pasife alındığı anda token düşer; Super Admin dahil. `PRODUCT_INTEGRATION_GUIDE` §5'teki "account authorization state" ifadesi ADR-0003'e uyacak şekilde düzeltildi | Canlıda pasif Super Admin token düşmesi (kontrollü test hesabıyla) |
 | F-C1 SEC-01 | Kullanıcı yönetimi | `update_user` korumalı rol (OrganizationAdmin) taşıyan hedefin parola/e-posta/status'ünü `identity.users.update` ile değiştirmeye izin veriyor | Editor, OrgAdmin parolasını değiştirip onunla giriş yaptı ve pasifleştirdi | — | P1 | **Ürün kararı** (§6.5) |
 | F-C2 SEC-01 | Rol yönetimi | `update_organization_role_permissions` kendi rolüne yetki eklemeye izin veriyor; `identity.roles.assign` hiçbir route'ta istenmiyor | Editor rolüne `users.delete` ekleyip OrgAdmin'i sildi; `roles.assign`'sız rol atadı | — | P1 | **Ürün kararı** |
 | F-C5 SEC-04 | Yapılandırma | `JWT_SECRET_KEY`, `CORE_IDENTITY_ACTION_TOKEN_SECRET_KEY` public varsayılanlı; `ENVIRONMENT` hiçbir yerde okunmuyor; başlangıç guard'ı yok; access TTL 15 gün (ADR 15 dk) | Varsayılan sırlar testle gösterildi | Core `ENVIRONMENT=development` (davranış değiştirmiyor); JWT anahtarı `.env`'de tanımlı (CANLI, anahtar adı) | P1 | Canlı JWT ve action-token değerlerinin public varsayılandan farklı olduğu hash ile doğrulanmadı |
 | F-C8 SEC-04 | JWT paylaşımı | HS256, `iss/aud/kid` yok; session süresiz | Anahtarla görülen bir `sid`'den 10 yıllık Super Admin token'ı 200; claim eklemek yetki vermiyor | HS256 anahtarı Core/CRM/Stand'de aynı (CANLI, hash) | P1 | **Mimari karar** (ayrı anahtar / asimetrik + JWKS) |
-| F-C9 SEC-01 | Son Super Admin (ADR-0003, kullanıcı kararıyla teyit 2026-10-25) | **Düzeltme:** ilk denetim notu ("kodda koruma yok") eksikti. Migration `20260814_0042`/`0045` PostgreSQL tetikleyicisi `trg_identity_users_protect_last_super_admin` (advisory lock ile) son aktif Super Admin'in pasif/yetkisiz/silinmesini engelliyor. API katmanında kontrol yoktu; tetikleyici hatası 500 dönüyordu | Denetim testi SQLite'ta koştu (tetikleyici yok), bu yüzden kaldırma başarılı göründü. #46: API 409 + 3 test (main'de FAIL, dalda PASS) | Canlı DB'de tetikleyici var (CANLI metadata) | P2 — **DÜZELTME PR'DA** #46 (temiz 409; değişmez kural zaten DB'de) | Postgres'te tetikleyici + API birlikte test edilmedi |
-| F-C10 SEC-20 | JWT çözme | `decode_access_token` eksik `exp`'te KeyError | Geçerli imzalı eksik claim → 500 (erişim açılmıyor) | — | P2 — **DÜZELTME PR'DA** #46 | PR CI |
+| F-C9 SEC-01 | Son Super Admin (ADR-0003, kullanıcı kararıyla teyit 2026-10-25) | **Düzeltme:** ilk denetim notu ("kodda koruma yok") eksikti. Migration `20260814_0042`/`0045` PostgreSQL tetikleyicisi `trg_identity_users_protect_last_super_admin` (advisory lock ile) son aktif Super Admin'in pasif/yetkisiz/silinmesini engelliyor. API katmanında kontrol yoktu; tetikleyici hatası 500 dönüyordu | Denetim testi SQLite'ta koştu (tetikleyici yok), bu yüzden kaldırma başarılı göründü. #46: API 409 + 3 test (main'de FAIL, dalda PASS) | Canlı DB'de tetikleyici var (CANLI metadata) | P2 — **CANLIDA DEPLOY (E-016)**: API 409 kodu yüklü, canlı tetikleyici etkin (	genabled=O), aktif Super Admin sayısı ≥1 | Canlıda deneme yapılmadı (başarısızlık son Super Admin'i kapatırdı); Postgres'te tetikleyici + API birlikte izole test |
+| F-C10 SEC-20 | JWT çözme | `decode_access_token` eksik `exp`'te KeyError | Geçerli imzalı eksik claim → 500 (erişim açılmıyor) | — | P2 — **KABUL EDİLDİ (canlı), E-016**: deploy öncesi 6 eksik-claim durumu canlıda 500, sonrası 401 | — |
 | F-C11 SEC-17/20 | OpenAPI | `create_app` docs/openapi kapatmıyor | 200 | `/kyrox-core/docs`, `openapi.json` dışa 200 (CANLI) | P2 | — |
 | F-C6 SEC-03/16 | Login/signup | Status kontrolü parola doğrulamasından önce | Pasif 403 / bilinmeyen 401; signup 409 | — | P2 | Zamanlama farkı ölçülmedi |
 | F-004 SEC-16 | Login/reset/forgot/change | Rate limit/lockout kodu yok | 25–30 yanlış login sonrası doğru parola 200; forgot 20×202 | nginx'te `limit_req` yok (CANLI) → "upstream sınır" ihtimali çürüdü | P1 | **Ürün kararı** (limit/lockout dengesi) |
@@ -332,7 +332,7 @@ Olumlu: gerçek `kyrox-backup.sh` + `kyrox-restore.sh --deneme` izole Docker'da 
 
 **Kod (her biri ayrı dal, mevcut testler gevşetilmeden, regresyon testiyle):**
 1. F-C7 lifecycle fail-closed — Core [kyrox-studio/kyrox-core#45](https://github.com/kyrox-studio/kyrox-core/pull/45) merge ve canlıda (E-014). Kalan: CRM'in public varsayılanı göndermeyi reddetmesi.
-2. Core oturum (güvenli kapsam): F-C3, F-C4, F-C4b, F-C10 — [kyrox-studio/kyrox-core#46](https://github.com/kyrox-studio/kyrox-core/pull/46) head `9b4a08a`: 17 yeni test (production benzeri commit/rollback) main'de 16 FAIL, dalda PASS; F-C9 için API 409 eklendi; tam suite 486 passed (yerel, main birleştirilmiş). Kalan: F-C11 (canlı adım 4 veya ayar).
+2. Core oturum (güvenli kapsam): F-C3, F-C4, F-C4b, F-C9, F-C10 — [kyrox-studio/kyrox-core#46](https://github.com/kyrox-studio/kyrox-core/pull/46) merge `da11f2c`, canlıda (E-016); head `9b4a08a`: 17 yeni test (production benzeri commit/rollback) main'de 16 FAIL, dalda PASS; F-C9 için API 409 eklendi; tam suite 486 passed (yerel, main birleştirilmiş). Kalan: F-C11 (canlı adım 4 veya ayar).
 3. CRM: F-B1 (sandbox + sanitize), F-B2 (IP/yönlendirme allowlist), F-R1, F-B3, F-B4, F-R4, F-R3, F-R2 varsayılanı.
 4. Stand: F-001 (attachment + nosniff + CSP sandbox veya rasterize — meşru logo/görsel işlevini koruyarak), F-002 (piksel sınırı + thread'de decode), F-003 (akışlı okuma sınırı), F-S4, F-S5.
 5. CI: F-G3/F-005 (pip-audit, ruff kurulumu, `permissions`, `head_ref` env üzerinden), PyJWT yükseltmesi (minor).
@@ -432,6 +432,45 @@ Kapanış için: düzeltme commit'i, kalıcı negatif test, CI kanıtı ve gerek
   - Drive'daki şifresiz yedekler (F-V5) eski `.env` kopyalarını içeriyor. Bu kopyalarda lifecycle token yok, ama diğer sırlar var.
   - Servislerin root olmayan kullanıcıya taşınması (F-V2) yapılmadı.
   - Diğer sırların rotasyonu bu işlemde yapılmadı.
+
+### 6.9 Çalıştırılan canlı değişiklik ve kanıt E-016 — Core oturum ve son Super Admin düzeltmeleri (#46)
+
+- **Karar dayanağı:** Kullanıcı 2026-10-25'te teyit etti: kullanıcı pasife alındığı anda token düşer, Super Admin dahil; son Super Admin kendini silemez veya kapatamaz (ADR-0003). `PRODUCT_INTEGRATION_GUIDE` §5 bu karara göre düzeltildi.
+- **Kaynak:** [kyrox-studio/kyrox-core#46](https://github.com/kyrox-studio/kyrox-core/pull/46), head `9b4a08ad8930d6696b768a0f1e8929e7ee028360`.
+  - CI: [run 40198905185](https://github.com/kyrox-studio/kyrox-core/actions/runs/40198905185) Backend CI success.
+  - Merge commit: `da11f2cb79877bc692efa9923301686bca493597`.
+  - Yerel: 486 passed; yeni 17 test main'de 16 FAIL.
+- **Deploy:** Yalnız Core.
+  - `/opt/kyrox/kyrox-core` temiz çalışma kopyasında `91f9d41` → `da11f2c` fast-forward. Değişen 7 dosya kod, test ve SEC kaydı; bağımlılık veya migration değişikliği yok.
+  - Yalnız `kyrox-core` yeniden başlatıldı. Health 200; `kyrox-core`, `fair-crm-backend`, `fair-crm-mail-worker`, `fair-stand` active.
+  - nginx, systemd, `.env`, diğer depolar değişmedi.
+- **Doğrulama yöntemi (veri değiştirmeden):**
+  - Sunucu içinden `127.0.0.1:8000`.
+  - Sahte token'lar sunucuda, mevcut imza anahtarıyla, rastgele ve var olmayan kullanıcı/oturum kimlikleriyle imzalandı. Anahtar ve token değerleri yazdırılmadı. Hiçbir oturum açılmadı, kullanıcı değiştirilmedi.
+
+| Kontrol | Önce (`91f9d41`) | Sonra (`da11f2c`) |
+|---|---|---|
+| Geçerli imzalı token, `exp` / `iat` / `sid` / `jti` / `email` / `sub` eksik (F-C10) | **500** (6/6) | 401 (6/6) |
+| Geçerli imzalı, tüm claim'ler, var olmayan oturum | 401 | 401 |
+| Geçerli imzalı, bozuk `sub` | 401 | 401 |
+| Yanlış anahtarla imzalı | 401 | 401 |
+| `/system/settings` (Super Admin ucu), var olmayan oturum | 401 | 401 |
+| `/auth/refresh`, bilinmeyen token | 401 | 401 |
+| `kyrox-core` log, restart sonrası Traceback/ERROR | (önce ölçümündeki 500'ler log'da) | 0 / 0 |
+| Lifecycle regresyonu (E-014/E-015 tablosu) | — | aynı: varsayılan/yanlış/eksik 401, geçerli 404, CRM istemcisi 404 |
+
+- **Çalışan kodda yüklü korumalar (dosya araması):**
+  - Refresh reddinden önce iptal kalıcılığı (`_persist_revocation_before_rejecting` 2 dal; iki composition root'ta `persist_revocation=db.commit`).
+  - `update_user` / `delete_user` oturum iptali (2).
+  - Son Super Admin API kontrolü (2).
+  - Claim zorunluluğu (1).
+  - Süreç başlangıcı dosya zamanıyla aynı (16:52:12).
+- **DB durumu:** `trg_identity_users_protect_last_super_admin` etkin (`tgenabled=O`); aktif ve silinmemiş Super Admin sayısı ≥ 1 (sayı yazılmadı).
+- **Durum:**
+  - F-C10 → **KABUL EDİLDİ (canlı)**.
+  - F-C3, F-C4, F-C4b, F-C9 → **CANLIDA DEPLOY**: kod, CI testi ve yüklü kod doğrulandı. Davranış testleri canlıda yapılmadı, çünkü refresh tekrar kullanımı, kullanıcı pasifleştirme ve son Super Admin'i kaldırma denemesi veri değiştirir; sonuncusu başarısız olsaydı platform yöneticisiz kalırdı.
+- **Kabul için kalan:** İzole Postgres ortamında Core + tetikleyici ile bu dört senaryo; veya kullanıcı onayıyla canlıda ayrılmış bir test hesabıyla pasifleştirme → token 401 (son Super Admin senaryosu canlıda denenmez).
+- **Davranış değişikliği:** Yönetici bir kullanıcının parolasını, e-postasını, durumunu ya da Super Admin bayrağını değiştirdiğinde veya kullanıcıyı sildiğinde, o kullanıcı tüm cihazlardan çıkış yapar.
 
 ## 7. Kaynaklar ve bakım
 
