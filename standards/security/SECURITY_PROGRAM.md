@@ -299,7 +299,7 @@ Olumlu canlı gözlemler: 5432/8000/8001/8002/8090 yalnız 127.0.0.1; ufw/iptabl
 
 | Kimlik / SEC | Kod / CI | İzole / tarama | Canlı / GitHub | Risk | Eksik |
 |---|---|---|---|---|---|
-| F-G2 SEC-09 | Sürüm kilidi yok; deploy `pip install -r` `--upgrade`'siz (`common.sh`) → canlı eski kalıyor, CI farklı sürüm test ediyor | `pip-audit` canlı venv: Core/CRM PyJWT 2.13.0 (15 kayıt, 1 kritik, 6 yüksek; düzeltme 2.14/2.15 minor); Stand Pillow 12.3.0 (37 kayıt, 4 kritik, 22 yüksek; düzeltme 13.0 **major**); certifi kritik (3 venv). Taze kurulum 0 açık | Canlı venv sürümleri | P1 — **canlıda düzeltildi (E-020)**: alt sınırlar Core [#47](https://github.com/kyrox-studio/kyrox-core/pull/47) `3348d7f`, CRM [#365](https://github.com/kyrox-studio/kyrox-fair-crm/pull/365) `ae5dbc7d`, Stand [#345](https://github.com/kyrox-studio/kyrox-fair-stand/pull/345) `3d212ed5` (Pillow 13 kullanıcı onayıyla) main'de ve canlıda: PyJWT 2.15.1, certifi 2026.10.23 (üç venv), Pillow 13.0.0 (Stand) | Kilit dosyası ve CI'da pip-audit kararı (bir sonraki CVE yine elle alt sınır gerektirir) |
+| F-G2 SEC-09 | Sürüm kilidi yok; deploy `pip install -r` `--upgrade`'siz (`common.sh`) → canlı eski kalıyor, CI farklı sürüm test ediyor | `pip-audit` canlı venv: Core/CRM PyJWT 2.13.0 (15 kayıt, 1 kritik, 6 yüksek; düzeltme 2.14/2.15 minor); Stand Pillow 12.3.0 (37 kayıt, 4 kritik, 22 yüksek; düzeltme 13.0 **major**); certifi kritik (3 venv). Taze kurulum 0 açık | Canlı venv sürümleri | P1 — **canlıda düzeltildi (E-020); otomatik deploy yaması + haftalık tarama canlıda (E-022)**: alt sınırlar Core [#47](https://github.com/kyrox-studio/kyrox-core/pull/47) `3348d7f`, CRM [#365](https://github.com/kyrox-studio/kyrox-fair-crm/pull/365) `ae5dbc7d`, Stand [#345](https://github.com/kyrox-studio/kyrox-fair-stand/pull/345) `3d212ed5` (Pillow 13 kullanıcı onayıyla) main'de ve canlıda: PyJWT 2.15.1, certifi 2026.10.23 (üç venv), Pillow 13.0.0 (Stand) | Çözüldü (E-022): deploy aynı-major yamaları otomatik uygular, haftalık salt okunur tarama ve CI uyarısı; major yükseltmeler PR ister |
 | F-G1 SEC-04/10 | — | Git geçmişi regex taraması: gerçek sır yok (51 aday tek tek; gitleaks/trufflehog kurulmadı); canlı dist'te sır yok | **6 public depoda** (E-019 düzeltmesi: web ve brand dahil) secret scanning, push protection ve Dependabot security updates kapalı; org 2FA zorunlu değil | P1 | Ayar değişikliği kullanıcı onayıyla |
 | F-G3 SEC-10 | Python bağımlılık taraması hiçbir CI'da yok; CRM CI'da npm audit yok (**E-006'daki "CRM development-standard.yml audit" ifadesi yanlış**); `prod-path-e2e.yml` `head_ref` shell'e giriyor; action'lar SHA ile sabit değil; çoğu workflow'da `permissions` yok (repo varsayılanı read) | — | Web main ruleset'inde PR/zorunlu kontrol yok | P1/P2 | Branch protection/required check tüm depolarda |
 | F-005 SEC-09/10 | Core'da ruff atlanıyor, dependency audit yok | Bugünkü CI log'unda yine "ruff not installed" | — | P1 | — |
@@ -310,7 +310,7 @@ Olumlu: gerçek `kyrox-backup.sh` + `kyrox-restore.sh --deneme` izole Docker'da 
 
 | Kimlik | Risk | Neden doğrulanmadı | Nasıl doğrulanır |
 |---|---|---|---|
-| R-1 SEC-01 | Canlı Core DB'de `trg_identity_users_default_owner_super_admin` var (CANLI metadata): `dev@example.com` ile eklenen satır Super Admin olur | Core API yollarında rol atama tetikleyicisi satırı engelledi; CRM/Stand seed yolları canlıda incelenmedi | Seed yolu: **canlıda düzeltildi (E-020)** — CRM [#365](https://github.com/kyrox-studio/kyrox-fair-crm/pull/365) `ae5dbc7d` dev seed'i create-only yaptı (kullanıcı kararı: yalnız DB'de yoksa oluştur); canlı deploy çıktısı "Existing user left unchanged". Tetikleyicinin kaldırılması (karar) açık |
+| R-1 SEC-01 | Canlı Core DB'de `trg_identity_users_default_owner_super_admin` var (CANLI metadata): `dev@example.com` ile eklenen satır Super Admin olur | Core API yollarında rol atama tetikleyicisi satırı engelledi; CRM/Stand seed yolları canlıda incelenmedi | Seed yolu: **canlıda düzeltildi (E-020)**; tetikleyici canlıda kaldırıldı (E-022) → **kapandı** — CRM [#365](https://github.com/kyrox-studio/kyrox-fair-crm/pull/365) `ae5dbc7d` dev seed'i create-only yaptı (kullanıcı kararı: yalnız DB'de yoksa oluştur); canlı deploy çıktısı "Existing user left unchanged". Tetikleyicinin kaldırılması (karar) açık |
 | R-2 SEC-03 | Access TTL 15 gün, **refresh TTL 15 gün (ADR-0003: 30 gün, E-019 K-CORE-04)**, session süresiz, her login önceki oturumları kapatıyor (ADR: 15 dk, çok cihaz) | Ürün kararı | Karar sonrası test |
 | R-3 SEC-13 | Core `audit-events` permission istemiyor; ip/user_agent istemciden; **yalnız `identity.organization.*` rezerve — org kullanıcısı `identity.password.*` gibi sahte Core güvenlik olayı yazabilir (E-019 K-CORE-09)** | Ürünlerin çağrı biçimi doğrulanmadı | Çağıran envanteri |
 | R-CRM-1 SEC-02 | `customer_field_grouping.py:_load_fair_metadata` org filtresiz tüm tenant katılım satırlarını okuyor | Sızıntı görülmedi; iki org'lu Postgres testi gerekiyor | İzole Postgres negatif testi |
@@ -542,8 +542,8 @@ Kapanış için: düzeltme commit'i, kalıcı negatif test, CI kanıtı ve gerek
 
 | Kimlik / SEC | Akış | Kod | İzole kanıt | Canlı | Risk / durum | Eksik doğrulama |
 |---|---|---|---|---|---|---|
-| **F-V11** SEC-04/12 | CRM uygulama içi DB yedekleri | `backend/app/shared/database_backup/engine.py` dump'ı `docker cp` ile yazıyor; `chmod`/umask yok | — | `/opt/kyrox/kyrox-fair-crm/backups/` 0755; içindeki 3 tam dump (fair_crm 108 MB, kyrox_core, fair_stand) 0644 root:root. `nobody` üçünü de açabildi (`test -r` + `head -c 0`, içerik okunmadı) (CANLI) | **P1 — BULGU AÇIK**. Core dump'ı parola hash'lerini ve oturum tablolarını içerir. E-015'teki "yedekler 0600" kanıtı yalnız `/var/backups/kyrox`'u kapsıyordu | Düzeltme kodda (izin) + canlıda |
-| **F-R6** SEC-02 | Scraper adapter fuar listesi | `AdapterLinkedFairService._aggregate_runs_by_fair_name` run geçmişini `organization_id` filtresi olmadan okuyor; `GET /scraper/adapters/{adapter}/fairs` | Org A, org B'nin fuar adını ve `input_url`'ünü gördü (izole, mock Core) | DOĞRULANMADI (DB satırı okunmadı) | **P1 — BULGU AÇIK**. CONSTITUTION §5 bunu "system fair gelince düzeltilecek bilinen ihlal" diye yazmış; system fair merge edildi ama düzeltilmedi. P0.1 "Certified DONE" iddiası bu yol için geçersiz | İki org'lu negatif test; canlıda etkilenen satır var mı |
+| **F-V11** SEC-04/12 | CRM uygulama içi DB yedekleri | `backend/app/shared/database_backup/engine.py` dump'ı `docker cp` ile yazıyor; `chmod`/umask yok | — | `/opt/kyrox/kyrox-fair-crm/backups/` 0755; içindeki 3 tam dump (fair_crm 108 MB, kyrox_core, fair_stand) 0644 root:root. `nobody` üçünü de açabildi (`test -r` + `head -c 0`, içerik okunmadı) (CANLI) | **P1 — CANLIDA DÜZELTİLDİ (izin) + KOD CANLIDA (E-021, deploy E-022)**: canlıda dizinler 0700, 3 dump + 2 restore log 0600, `nobody` okunabilir 5 → 0; kod [kyrox-studio/kyrox-fair-crm#367](https://github.com/kyrox-studio/kyrox-fair-crm/pull/367) `fe9a567` yeni dosyaları 0600/0700 oluşturur | Deploy sonrası yeni bir uygulama yedeğinin 0600 oluştuğunun canlıda gözlenmesi |
+| **F-R6** SEC-02 | Scraper adapter fuar listesi | `AdapterLinkedFairService._aggregate_runs_by_fair_name` run geçmişini `organization_id` filtresi olmadan okuyor; `GET /scraper/adapters/{adapter}/fairs` | Org A, org B'nin fuar adını ve `input_url`'ünü gördü (izole, mock Core) | DOĞRULANMADI (DB satırı okunmadı) | **P1 — KODDA DÜZELTİLDİ, canlıya deploy edildi (E-021, deploy E-022)**: run geçmişi çağıran şirketle sınırlı; sistem run'ları (NULL) şirket listesinde yok (kullanıcı kararı: sistem ve kullanıcı fuarları ayrı) — [kyrox-studio/kyrox-fair-crm#367](https://github.com/kyrox-studio/kyrox-fair-crm/pull/367) `fe9a567`; 3 izolasyon testi main'de FAIL, dalda PASS | CRM deploy; canlı maruziyet sayımı (salt okunur aggregate sorgusu izin denetiminde reddedildi) |
 | **F-C12** SEC-01/22 | Permission kilidi (ADR-0005 §6) | Migration `20260816_0055`, `identity_apply_permission_lifecycle()`: aktif olmayan her durumda (`locked` dahil) `identity_role_permissions` satırlarını siliyor; sonraki hiçbir migration değiştirmiyor | İzole Postgres: 4 grant → kilit → 0. Unlock → yalnız `organization_admin` geri geldi; şablon, türetilmiş ve özel roller grant'ı kalıcı kaybetti. Mevcut test `test_super_admin_template_derive_sync_and_permission_lock` yalnız SQLite'ta (trigger yok) geçiyor | DOĞRULANMADI (canlıda kilitli izin olup olmadığı okunmadı) | **P1 — BULGU AÇIK** (karar ÇELİŞİYOR: ADR-0005 "lock keeps role grants") | Canlıda daha önce kilitlenip açılan izin var mı; PG üzerinde regresyon testi |
 | **F-C13** SEC-13 | Core güvenlik audit olayları (ADR-0004) | Login (başarılı/başarısız), logout, refresh reuse, signup, kullanıcı oluşturma/güncelleme/silme/geri yükleme, rol atama/geri alma, Super Admin bayrağı için audit yok; `user_management/*.py` ve `authentication/routes.py` içinde audit çağrısı 0. `role_management` audit'i AuditService'i atlıyor, 2 segmentli action ve boş `session_id` (K-CORE-06) | grep + kod | — | **P1 — BULGU AÇIK**; §6.2 SEC-13 Core hücresi güncellendi | PG'de audit yazma hatası davranışı |
 | **F-C14** SEC-02/13 | Organization silme (ADR-0006 §10, OL08-07) | `DeleteOrganizationUseCase` `X-Kyrox-Expected-Suspension-Updated-At` başlığı yoksa ACTIVE org'u da koşulsuz tombstone'luyor. Aynı istekte korunan önekler dışındaki tüm audit satırları geri dönüşsüz siliniyor | `test_super_admin_can_delete_organization_and_transition_is_audited` başlıksız ACTIVE silmeyi 204 bekliyor ve geçiyor | DOĞRULANMADI (koşulsuz yolu çağıran var mı) | **P1 — BULGU AÇIK** (KISMİ: koşullu yol uyuyor) | Canlı access log'da başlıksız `DELETE /organizations/` (yalnız metadata) |
@@ -653,7 +653,7 @@ Yalnız uyumsuz satırlar; tam liste ve kanıtlar alt ajan raporlarındaydı (de
 | D-20 | CRM dashboard RBAC (K-CRM-03) | Kartlar ilgili read yetkisine göre süzülsün |
 | D-21 | CRM export yetkisi (K-CRM-12) | Tüm export/download uçları modülün `execute` yetkisine |
 | D-22 | CRM liste sayfalama (K-CRM-11) | Küçük yönetim listeleri belgelenmiş istisna, büyüyebilenler sayfalı |
-| D-23 | F-R6 düzeltmesinde system run'lar | Yalnız görünür system fair'e bağlıysa göster, ham URL gösterme |
+| D-23 | F-R6 düzeltmesinde system run'lar | **KARAR VERİLDİ (kullanıcı, 2026-10-26):** sistem run'ları (`organization_id` NULL, ör. Super Admin TOBB taraması) bilinçli olarak NULL; sistem ve kullanıcı fuarları ayrı. Şirket kullanıcısının adaptör listesinde gösterilmez (#367) |
 
 #### Doğrulanamayanlar
 
@@ -668,8 +668,8 @@ Yalnız uyumsuz satırlar; tam liste ve kanıtlar alt ajan raporlarındaydı (de
 
 #### Öncelikli ele alma sırası (öneri; kullanıcı toplu karar verecek)
 
-1. **F-V11:** Dump izinleri (kod + canlı chmod).
-2. **F-R6:** Scraper org sızıntısı.
+1. **F-V11:** Dump izinleri (kod + canlı chmod). — Canlı izin düzeltildi, kod #367 canlıda (E-021, E-022).
+2. **F-R6:** Scraper org sızıntısı. — Kod #367 canlıda (E-021, E-022); canlı maruziyet sayımı yapılmadı.
 3. **F-C12:** Kilit trigger'ı; canlı etkisi önce salt okunur doğrulanır.
 4. **F-R7:** Önizleme permission kodu.
 5. **F-S9:** Döngü reddi.
@@ -698,9 +698,94 @@ Yalnız uyumsuz satırlar; tam liste ve kanıtlar alt ajan raporlarındaydı (de
 
 - **Durum:** F-G2 → canlıda düzeltildi (bu üç paket için). R-1 seed yolu → canlıda düzeltildi.
 - **Kalan:**
-  - Kilit dosyası ve CI'da `pip-audit` kararı açık.
+  - Kilit dosyası ve CI'da `pip-audit` kararı açık. → E-022 ile çözüldü: deploy'da otomatik aynı-major yama, haftalık tarama, CI uyarısı.
   - Dev tetikleyicisinin (`trg_identity_users_default_owner_super_admin`) kaldırılması karar bekliyor.
   - Deploy login smoke testi dev kullanıcısına bağlı: hesap kapatılır ya da parolası değişirse deploy bilinçli olarak durur.
+
+### 6.14 Çalıştırılan değişiklik ve kanıt E-021 — F-V11 yedek izinleri, F-R6 scraper izolasyonu
+
+#### F-V11 — canlı izin düzeltmesi (2026-10-26)
+
+- **Kapsam:** Değişen yalnız `/opt/kyrox/kyrox-fair-crm/backups`, `data`, `data/restore_uploads` ve `data/restore_logs` dizinleri ile içlerindeki dosyaların sahiplik ve izinleri.
+  - Dosya içeriği okunmadı ve değişmedi; servis yeniden başlatılmadı.
+  - CRM servisleri `User=root` olduğundan gerekli okuyucu yalnız root.
+
+| Kontrol | Önce | Sonra |
+|---|---|---|
+| Dizinler (`backups`, `data`, `restore_uploads`, `restore_logs`) | 0755 root:root | 0700 root:root |
+| 3 tam dump (fair_crm 108 MB, kyrox_core, fair_stand) | 0644 | 0600 |
+| 2 restore log | 0644 | 0600 |
+| `nobody` ile okunabilir dosya (`test -r`, içerik okunmadı) | 5 | 0 |
+| `nobody` ile `backups/` listeleme | — | reddedildi |
+| Dump ad + boyut özeti (sha256 ilk 8) | `e062975f` | `e062975f` (değişmedi) |
+| Git çalışma kopyası / servisler | temiz / active | temiz / active |
+
+#### F-V11 ve F-R6 — kod düzeltmesi
+
+- **PR:** [kyrox-studio/kyrox-fair-crm#367](https://github.com/kyrox-studio/kyrox-fair-crm/pull/367).
+  - Son head: `25baf4c34955379f70c291087f15eb866cfc1ad9` (main #366 ile güncellendi).
+  - Merge: `fe9a56798d94ac1070e6d84f2d3a6a7f62d4e8d5`.
+  - CI: beş kontrol success — [Development Standard Gate run 40267404687](https://github.com/kyrox-studio/kyrox-fair-crm/actions/runs/40267404687), [Prod-Path E2E run 40267404673](https://github.com/kyrox-studio/kyrox-fair-crm/actions/runs/40267404673).
+  - Feature contract `backup-perms-and-scraper-isolation`: SEC-02/04/12 REQUIRED.
+- **F-V11 kodu:** `database_backup/paths.py`'ye `ensure_private_dir`, `ensure_private_data_subdir` ve `restrict_private_file` eklendi (0700/0600). Bunlar şu yerlere bağlandı: `pg_dump_plain` ve `pg_dump_custom`, `ensure_backups_dir`, CLI, `backup_job_runner` (universal data package dahil her format), restore dump yükleme ve restore log dosyaları (`data/` üst dizini dahil).
+- **F-R6 kodu:** `AdapterLinkedFairService._aggregate_runs_by_fair_name` artık `ScraperRunHistoryModel.organization_id == organization_id` filtresi uyguluyor.
+  - Gerçek run yazıcılarının hepsi `organization_id` dolduruyor (şirket fuarı → şirket, sistem fuarı → NULL).
+  - **Karar (kullanıcı, 2026-10-26):** Sistem run'larının NULL olması bilinçli; sistem ve kullanıcı fuarları ayrı tutulur. D-23 bu kararla kapandı.
+- **İzole kanıt:**
+
+| Test | main (`ae5dbc7d`) | Dal |
+|---|---|---|
+| 3 izolasyon testi: yabancı şirket run'ı (ad + URL), sistem run'ı, kendi run'ı yabancının yanında | **3 failed** (sızıntı) | 3 passed |
+| Sahte dump senaryosu, umask 022, Linux konteyneri (`python:3.12-slim`) | dump **0644**, dizin **0755** | dump **0600**, dizin **0700** |
+| `test_database_backup_private_permissions.py` (5 test, POSIX) | — (yardımcılar yok) | 5 passed (Linux) |
+| Tam backend (yerel Windows, `backend/`) | — | 2277 passed, 9 skipped; tek hata API fixture'ıydı, aynı şekilde düzeltildi; scraper takımı 379 passed |
+
+- **Test değişikliği notu:** Mevcut fixture'lardaki run'lara sahip olan `organization_id` eklendi; bu run'lar şirketin kendi run'larını temsil ediyor. Beklentiler değişmedi, gevşetme yok.
+- **Canlı durum:**
+  - F-V11: Mevcut dosyalar canlıda korundu. Yeni yedeklerin 0600 oluşması CRM deploy'undan sonra gözlenecek.
+  - F-R6: Sızıntı CRM deploy'una kadar canlıda açık. Canlı maruziyet sayımı (salt okunur aggregate sorgusu) araç izin denetiminde reddedildi; **DOĞRULANMADI**.
+- **Deploy notu:** CRM main artık #365 (dev seed create-only, PyJWT/certifi), #366 (deploy'da otomatik aynı-major bağımlılık yaması) ve #367'yi birlikte taşıyor. Canlı CRM `791a7d31`'de. Deploy kullanıcının `deploy-all.sh` akışıyla yapılmalı; bu kayıtta deploy yapılmadı.
+
+#### Skill keşfi (kyrox-security-audit)
+
+- **Sorun:** Claude Code, başlatılan dizinin altındaki `.claude/skills` klasörlerini ancak o alt klasörde bir dosyaya dokunulunca yüklüyor. Belgelerin desteklediği symlink için bu Windows hesabının yetkisi yok (Geliştirici Modu kapalı).
+- **Kullanıcı kararı:** Yönlendirici skill. `Kyrox/.claude/skills/kyrox-security-audit/SKILL.md` aynı `description`'ı taşıyor; gövdesi yalnız asıl dosyaya yönlendiriyor. Prosedür kopyalanmadı; tek kaynak `kyrox-platform/.claude/skills/kyrox-security-audit/` olarak kalıyor. Yönlendirici depo dışında (Kyrox kökü git deposu değil).
+- **Doğrulama:** `Kyrox` ana klasöründe yeni açılan bir oturumda skill listede göründü. Base directory `Kyrox\.claude\skills\kyrox-security-audit`; yönlendirici asıl `SKILL.md`'yi ve 3 `references` dosyasını okudu. Denetim başlatılmadı.
+- **Platform ana kopyası:** `kyrox-platform` ana kopyası, tamamen merge edilmiş eski `docs/web-yayina-hazirlik` dalındaydı. Kullanıcı onayıyla main'e alındı (`git reset --keep origin/main`; tek yerel commit `9f74427` upstream'de squash ile mevcut). Yönlendirici, ana kopya main'de olduğu sürece çalışır.
+
+### 6.15 Kullanıcı deploy'u sonrası kanıt E-022 — otomatik bağımlılık yaması, haftalık tarama, dev tetikleyicisinin kaldırılması (F-G2, R-1)
+
+> Numara notu: §6.13 E-020 (paket alt sınırları, create-only seed) ile skill oturumunun F-V11/F-R6 kaydı aynı numarayla main'e girmişti; ikincisi §6.14 E-021 olarak yeniden numaralandı.
+
+- **Kaynak (hepsi CI yeşil, auto-merge):**
+  - [kyrox-studio/kyrox-fair-crm#366](https://github.com/kyrox-studio/kyrox-fair-crm/pull/366) `337133c5`: `scripts/server/security/pip_audit_patch.py`, `kyrox-dependency-audit.sh`, `kyrox-dependency-audit.service/.timer`, `deploy-all.sh` `patch_python_dependencies`, CI uyarısı. 12 birim testi; izole uçtan uca: PyJWT 2.13.0 → 2.15.0 yamalandı, Pillow 12.3.0 "37x no fix within major 12" raporlandı. İlk sürümde düzeltmesiz tek açığın diğer 14 düzeltilebilir açığı engellediği bu denemede görülüp düzeltildi.
+  - [kyrox-studio/kyrox-core#48](https://github.com/kyrox-studio/kyrox-core/pull/48) `fb1150d`: migration `20261026_0074` `trg_identity_users_default_owner_super_admin` ve fonksiyonunu kaldırır; mevcut satırlara dokunmaz. İzole PostgreSQL 16 ve CI PostgreSQL adımında 5/5 test (atlanmadı). Tam suite 490 passed.
+  - [kyrox-studio/kyrox-fair-stand#346](https://github.com/kyrox-studio/kyrox-fair-stand/pull/346) `7703337e`: CI'da engellemeyen `pip-audit` uyarısı.
+- **Politika (kullanıcı kararı 2026-10-26):**
+  - Deploy, açığı olan paketi kurulu major içinde düzeltilebilen tüm açıkları kapatan en düşük sürüme yükseltir.
+  - Yalnız yeni major'da düzelen ya da düzeltmesi olmayan açıklar raporlanır; otomatik major yükseltme yok.
+  - Haftalık tarama salt okunurdur. CI uyarısı işi durdurmaz.
+- **Canlı deploy (kullanıcı, 2026-10-26):** Core `fb1150d`, CRM `fe9a5679` (#366 + #367), Stand `7703337e`; üç çalışma kopyası temiz.
+- **Salt okunur doğrulama:**
+
+| Kontrol | Sonuç |
+|---|---|
+| pip-audit araç venv'i `/opt/kyrox/.tools/pip-audit` | var, pip-audit 2.10.1; uygulama venv'lerinde pip-audit yok |
+| Deploy denetim raporları `/var/log/kyrox/dependency-audit` (0750 root) | `2026-10-26-0718-deploy-{kyrox-core,fair-crm,fair-stand}.json`; üçünde `patch_mode=True`, yamalanacak 0, manuel 0 (audit çalıştı ve açık bulmadı) |
+| `kyrox-dependency-audit.timer` | enabled + active; sonraki çalışma Pzt 2026-11-02 04:00; service inactive, son sonuç success |
+| Core alembic | `20261026_0074` |
+| `trg_identity_users_default_owner_super_admin` / fonksiyonu | 0 / 0 (kalktı) |
+| `trg_identity_users_protect_last_super_admin` | 1 (son Super Admin koruması yerinde) |
+| `dev@example.com` | active, super_admin=true, silinmemiş (migration ve seed dokunmadı) |
+| Servisler / `.env` izinleri | dördü active; üç `.env` 0600 |
+| Paketler | PyJWT 2.15.1, Pillow 13.0.0 |
+
+- **Durum:**
+  - F-G2: otomasyon canlıda. Kilit dosyası kararı artık gerekli değil; çözüm deploy anına bağlı otomatik yama ve haftalık rapor. Major yükseltmeler yine PR ister.
+  - R-1: tetikleyici canlıda kaldırıldı; seed yolu E-020'de kapanmıştı → **R-1 kapandı.**
+- **Kalan:**
+  - Haftalık taramanın ilk gerçek çalışması 2026-11-02'de gözlenecek.
+  - Otomatik yamanın bir paketi gerçekten yükselttiği canlı örnek henüz yok, çünkü canlıda açık yoktu. Bu davranış izole uçtan uca testle kanıtlı.
 
 ## 7. Kaynaklar ve bakım
 
