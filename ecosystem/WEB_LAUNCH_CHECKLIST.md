@@ -12,7 +12,7 @@
 - Bu dosya çapraz ürün takip listesidir. Ürünlerin teknik yol haritaları ve ortak standartlar kendi kaynaklarında kalır; burada yeniden kopyalanmaz.
 - Başlangıç incelemesi yerel kod ve belgelere dayanır. Canlı form teslimi, güncel mobil kullanım ve performans henüz bu çalışma kapsamında doğrulanmadı.
 
-**Güncel durum:** Web paketi ve gerçek Elikon sahneli V3 yayımlandı; 26 Ekim'de SEO/paylaşım kontrolü tamamlandı. 08–11 tamamlandı. CRM/Stand uygulama depolarındaki önceki yerel değişiklikler henüz gönderilmedi veya dağıtılmadı; kalan kutular bu yüzden açık. Sonraki ana başlık 12; uygulama değişikliklerinin toplu kabulü ayrıca bekliyor. Madde başına ayrı dal/commit/push açılmaz.
+**Güncel durum:** Web paketi ve gerçek Elikon sahneli V3 yayımlandı; 26 Ekim'de SEO/paylaşım kontrolü ve depolama/dış servis temel envanteri tamamlandı. 08–12 tamamlandı. CRM/Stand uygulama depolarındaki önceki yerel değişiklikler henüz gönderilmedi veya dağıtılmadı; kalan kutular bu yüzden açık. Sonraki ana başlık 13; uygulama değişikliklerinin toplu kabulü ayrıca bekliyor. Madde başına ayrı dal/commit/push açılmaz.
 
 ## Basitten zora iş listesi
 
@@ -28,7 +28,7 @@
 - [x] **09 — Fair-CRM tanıtım sayfası:** Mevcut özellikler, kullanım akışı ve giriş/iletişim bağlantılarıyla `/fuar-crm/` yayımlandı. Gerçek olmayan ekran görüntüsü eklenmedi.
 - [x] **10 — Fair-Stand tanıtım sayfası:** Mevcut V2 tasarımı korunarak gerçek Elikon sahneli V3, `/fuar-stand/` adresinde yayımlandı.
 - [x] **11 — Tanıtım sayfalarının SEO ve paylaşımı:** İki üründe tutarlı başlık/açıklama, temiz canonical, özel 1200 × 630 PNG, OG/Twitter açıklamaları, WebPage/BreadcrumbList ve canlı sitemap/llms.txt doğrulandı.
-- [ ] **12 — Çerez ve dış servis envanteri:** Oturum, depolama, font, analiz ve diğer dış bağlantıların fiilî kullanımını çıkar.
+- [x] **12 — Çerez ve dış servis envanteri:** [Temel envanter ve kanıt](WEB_STORAGE_AND_SERVICES.md) kaydedildi. Beş anonim ekran canlı incelendi; oturum sonrası depolama kaynak koduyla listelendi. Oturumlu davranış ve saklama sürelerindeki açıklar belgede belirtilir; tercih yönetimi henüz uygulanmadı.
 - [ ] **13 — Gizlilik ve kullanım metinleri:** Envantere ve gerçek veri akışlarına göre gizlilik, veri kullanımı ve kullanım koşulları içeriklerini tamamla; ilgili ekranlardan erişilebilir yap.
 - [ ] **14 — Çerez tercihleri:** Envanter sonucuna göre gereken tercih yönetimini uygula; gerekli olmayan servislerin tercih öncesi davranışını doğrula.
 - [ ] **15 — Ölçümleme:** Amaç ve veri kapsamını belirleyerek ziyaret ve ürün kullanım ölçümünü kur; gerçek olaylarla doğrula.
@@ -49,6 +49,8 @@
 - [Ortak arayüz ve erişilebilirlik standardı](../standards/ui/UI_FOUNDATION_STANDARD.md)
 
 ## Tamamlanan işler
+
+**26 Ekim 2026 — Depolama ve dış servisler (12):** [Envanter](WEB_STORAGE_AND_SERVICES.md) ve değer/token içermeyen [tarayıcı kanıtı](evidence/web-storage-20261026.json) eklendi. Tanıtım sayfalarında çerez gözlenmedi; Stand tanıtımında yalnız model CacheStorage kaydı görüldü. CRM girişindeki Google Fonts istekleri ve WordPress test çerezi doğrulandı. Oturum/tercih/proje kayıtları kaynak kodundan, 15 günlük yenileme çerezi ve SMTP/STUN ayarları sunucunun yalnız ilgili yapılandırma alanlarından kaydedildi. Hesaba giriş, form gönderimi veya canlı paylaşım yapılmadı; bu akışlar canlı doğrulanmış sayılmaz. Talep/günlük/yedek saklama süreleri açık karar olarak 13. maddeye taşındı. Bu teslim envanterdir; gizlilik metni, çerez tercih sistemi veya analiz kurulumu değildir. SaaS etkisi: yalnız belge/kanıt; organizasyon izolasyonu, yetki, ürün sahipliği ve çalışma zamanı davranışı değiştirilmedi.
 
 **26 Ekim 2026 — SEO ve paylaşım (11):** [Web PR #12](https://github.com/kyrox-studio/kyrox-web/pull/12) üç CI kontrolü yeşilken birleştirilip `0d279cb3594002f2080c54aa1fa964df5e37939f` olarak yayımlandı. Başlıklar kullanıcı kararıyla `Kyrox Studio | Fuar CRM` ve `Kyrox Studio | Stand Konfiguratör`. CRM'ye markalı ürün kartı, Stand'a gerçek Elikon sahnesinin PNG paylaşım görseli eklendi. Görsel alt metni/türü, Twitter alanları ve ürün sayfası/yol şeması tamamlandı. Fiyat, puan veya yorum uydurulmadı; yazılım zengin sonucu vaat edilmez. [Open Graph standardı](https://ogp.me/) esas alındı. `node tasarim/scripts/check-product-seo.mjs` statik ve `--live` kontrolleri başarılı: tekil/tutarlı metalar, UTM'li URL'de temiz canonical, gerçek 1200 × 630 PNG, WebPage/BreadcrumbList, indekslemeye açıklık, iki ürünün sitemap ve llms.txt'de yer alması. İlk yayın isteğinde eski PHP önbelleği görüldü; yenilendikten sonra canlı kontrol geçti. Search Console üzerinden gerçek indekslenme/Google'da sıralama bu kabulün parçası değildir ve doğrulanmış sayılmaz.
 

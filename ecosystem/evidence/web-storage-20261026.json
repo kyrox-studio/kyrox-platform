@@ -1,0 +1,318 @@
+[
+  {
+    "url": "https://kyrox.studio/",
+    "origins": [
+      "https://kyrox.studio"
+    ],
+    "thirdParty": [],
+    "cookies": [],
+    "storage": {
+      "localStorage": [],
+      "sessionStorage": [],
+      "indexedDB": [],
+      "cacheStorage": []
+    },
+    "requests": [
+      {
+        "origin": "https://kyrox.studio",
+        "path": "/",
+        "type": "document"
+      },
+      {
+        "origin": "https://kyrox.studio",
+        "path": "/wp-content/themes/kyrox/assets/css/fonts.css",
+        "type": "stylesheet"
+      },
+      {
+        "origin": "https://kyrox.studio",
+        "path": "/wp-content/themes/kyrox/assets/css/site.css",
+        "type": "stylesheet"
+      },
+      {
+        "origin": "https://kyrox.studio",
+        "path": "/wp-content/themes/kyrox/assets/css/blog.css",
+        "type": "stylesheet"
+      },
+      {
+        "origin": "https://kyrox.studio",
+        "path": "/wp-content/themes/kyrox/assets/js/anasayfa.js",
+        "type": "script"
+      },
+      {
+        "origin": "https://kyrox.studio",
+        "path": "/wp-content/themes/kyrox/assets/img/kyrox-ikon.svg",
+        "type": "image"
+      },
+      {
+        "origin": "https://kyrox.studio",
+        "path": "/wp-content/themes/kyrox/assets/img/kyrox-yazi.svg",
+        "type": "image"
+      },
+      {
+        "origin": "https://kyrox.studio",
+        "path": "/wp-content/themes/kyrox/assets/fonts/archivo-latin.woff2",
+        "type": "font"
+      },
+      {
+        "origin": "https://kyrox.studio",
+        "path": "/wp-content/themes/kyrox/assets/fonts/inter-latin.woff2",
+        "type": "font"
+      },
+      {
+        "origin": "https://kyrox.studio",
+        "path": "/wp-content/themes/kyrox/assets/fonts/inter-latin-ext.woff2",
+        "type": "font"
+      },
+      {
+        "origin": "https://kyrox.studio",
+        "path": "/wp-content/themes/kyrox/assets/fonts/archivo-latin-ext.woff2",
+        "type": "font"
+      }
+    ]
+  },
+  {
+    "url": "https://kyrox.studio/fuar-crm/",
+    "origins": [
+      "https://kyrox.studio"
+    ],
+    "thirdParty": [],
+    "cookies": [],
+    "storage": {
+      "localStorage": [],
+      "sessionStorage": [],
+      "indexedDB": [],
+      "cacheStorage": []
+    },
+    "requests": [
+      {
+        "origin": "https://kyrox.studio",
+        "path": "/fuar-crm/",
+        "type": "document"
+      },
+      {
+        "origin": "https://kyrox.studio",
+        "path": "/wp-content/themes/kyrox/assets/css/fonts.css",
+        "type": "stylesheet"
+      },
+      {
+        "origin": "https://kyrox.studio",
+        "path": "/wp-content/themes/kyrox/assets/css/site.css",
+        "type": "stylesheet"
+      },
+      {
+        "origin": "https://kyrox.studio",
+        "path": "/wp-content/themes/kyrox/assets/css/blog.css",
+        "type": "stylesheet"
+      },
+      {
+        "origin": "https://kyrox.studio",
+        "path": "/wp-content/themes/kyrox/assets/img/kyrox-ikon.svg",
+        "type": "image"
+      },
+      {
+        "origin": "https://kyrox.studio",
+        "path": "/wp-content/themes/kyrox/assets/img/kyrox-yazi.svg",
+        "type": "image"
+      },
+      {
+        "origin": "https://kyrox.studio",
+        "path": "/wp-content/themes/kyrox/assets/fonts/archivo-latin.woff2",
+        "type": "font"
+      },
+      {
+        "origin": "https://kyrox.studio",
+        "path": "/wp-content/themes/kyrox/assets/fonts/inter-latin.woff2",
+        "type": "font"
+      },
+      {
+        "origin": "https://kyrox.studio",
+        "path": "/wp-content/themes/kyrox/assets/fonts/inter-latin-ext.woff2",
+        "type": "font"
+      },
+      {
+        "origin": "https://kyrox.studio",
+        "path": "/wp-content/themes/kyrox/assets/fonts/archivo-latin-ext.woff2",
+        "type": "font"
+      }
+    ]
+  },
+  {
+    "url": "https://kyrox.studio/fuar-stand/",
+    "origins": [
+      "https://kyrox.studio"
+    ],
+    "thirdParty": [],
+    "cookies": [],
+    "storage": {
+      "localStorage": [],
+      "sessionStorage": [],
+      "indexedDB": [],
+      "cacheStorage": [
+        {
+          "name": "kyrox-stand-scenes-v1",
+          "entries": [
+            "/wp-content/themes/kyrox/assets/stand-v3/elikon.glb"
+          ]
+        }
+      ]
+    },
+    "requests": [
+      {
+        "origin": "https://kyrox.studio",
+        "path": "/fuar-stand/",
+        "type": "document"
+      },
+      {
+        "origin": "https://kyrox.studio",
+        "path": "/wp-content/themes/kyrox/assets/css/fonts.css",
+        "type": "stylesheet"
+      },
+      {
+        "origin": "https://kyrox.studio",
+        "path": "/wp-content/themes/kyrox/assets/stand-v3/colors.css",
+        "type": "stylesheet"
+      },
+      {
+        "origin": "https://kyrox.studio",
+        "path": "/wp-content/themes/kyrox/assets/stand-v3/styles-v3.css",
+        "type": "stylesheet"
+      },
+      {
+        "origin": "https://kyrox.studio",
+        "path": "/wp-content/themes/kyrox/assets/stand-v3/logo.svg",
+        "type": "image"
+      },
+      {
+        "origin": "https://kyrox.studio",
+        "path": "/wp-content/themes/kyrox/assets/stand-v3/elikon-cover.webp",
+        "type": "image"
+      },
+      {
+        "origin": "https://kyrox.studio",
+        "path": "/wp-content/themes/kyrox/assets/stand-v3/interactions-v3.js",
+        "type": "script"
+      },
+      {
+        "origin": "https://kyrox.studio",
+        "path": "/wp-content/themes/kyrox/assets/fonts/inter-latin-ext.woff2",
+        "type": "font"
+      },
+      {
+        "origin": "https://kyrox.studio",
+        "path": "/wp-content/themes/kyrox/assets/fonts/inter-latin.woff2",
+        "type": "font"
+      },
+      {
+        "origin": "https://kyrox.studio",
+        "path": "/wp-content/themes/kyrox/assets/fonts/archivo-latin.woff2",
+        "type": "font"
+      },
+      {
+        "origin": "https://kyrox.studio",
+        "path": "/wp-content/themes/kyrox/assets/fonts/archivo-latin-ext.woff2",
+        "type": "font"
+      },
+      {
+        "origin": "https://kyrox.studio",
+        "path": "/wp-content/themes/kyrox/assets/stand-v3/project-1.webp",
+        "type": "image"
+      },
+      {
+        "origin": "https://kyrox.studio",
+        "path": "/wp-content/themes/kyrox/assets/stand-v3/project-2.webp",
+        "type": "image"
+      },
+      {
+        "origin": "https://kyrox.studio",
+        "path": "/wp-content/themes/kyrox/assets/stand-v3/viewer.js",
+        "type": "script"
+      },
+      {
+        "origin": "https://kyrox.studio",
+        "path": "/wp-content/themes/kyrox/assets/stand-v3/elikon.glb",
+        "type": "fetch"
+      }
+    ]
+  },
+  {
+    "url": "https://fuar.kyrox.studio/login",
+    "origins": [
+      "https://fuar.kyrox.studio",
+      "https://fonts.googleapis.com",
+      "https://fonts.gstatic.com"
+    ],
+    "thirdParty": [
+      "https://fonts.googleapis.com",
+      "https://fonts.gstatic.com"
+    ],
+    "cookies": [],
+    "storage": {
+      "localStorage": [],
+      "sessionStorage": [],
+      "indexedDB": [],
+      "cacheStorage": []
+    },
+    "requests": [
+      {
+        "origin": "https://fuar.kyrox.studio",
+        "path": "/login",
+        "type": "document"
+      },
+      {
+        "origin": "https://fonts.googleapis.com",
+        "path": "/css2",
+        "type": "stylesheet"
+      },
+      {
+        "origin": "https://fuar.kyrox.studio",
+        "path": "/assets/index-DK4CDiw6.js",
+        "type": "script"
+      },
+      {
+        "origin": "https://fuar.kyrox.studio",
+        "path": "/assets/rolldown-runtime-COiEfhsA.js",
+        "type": "script"
+      },
+      {
+        "origin": "https://fuar.kyrox.studio",
+        "path": "/assets/standDimensions-B0nv7nzQ.js",
+        "type": "script"
+      },
+      {
+        "origin": "https://fuar.kyrox.studio",
+        "path": "/assets/index-DdN4FG-j.css",
+        "type": "stylesheet"
+      },
+      {
+        "origin": "https://fonts.gstatic.com",
+        "path": "/s/inter/v20/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7.woff2",
+        "type": "font"
+      },
+      {
+        "origin": "https://fonts.gstatic.com",
+        "path": "/s/inter/v20/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa25L7SUc.woff2",
+        "type": "font"
+      },
+      {
+        "origin": "https://fuar.kyrox.studio",
+        "path": "/logo-full.png",
+        "type": "image"
+      }
+    ]
+  },
+  {
+    "url": "https://kyrox.studio/wp-login.php",
+    "scope": "Yalnız yönetici giriş ekranı; giriş yapılmadı.",
+    "cookies": [
+      {
+        "name": "wordpress_test_cookie",
+        "domain": "kyrox.studio",
+        "path": "/",
+        "httpOnly": true,
+        "secure": true,
+        "sameSite": "Lax",
+        "expires": -1
+      }
+    ]
+  }
+]
