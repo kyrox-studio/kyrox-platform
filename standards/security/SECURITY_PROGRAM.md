@@ -299,7 +299,7 @@ Olumlu canlı gözlemler: 5432/8000/8001/8002/8090 yalnız 127.0.0.1; ufw/iptabl
 
 | Kimlik / SEC | Kod / CI | İzole / tarama | Canlı / GitHub | Risk | Eksik |
 |---|---|---|---|---|---|
-| F-G2 SEC-09 | Sürüm kilidi yok; deploy `pip install -r` `--upgrade`'siz (`common.sh`) → canlı eski kalıyor, CI farklı sürüm test ediyor | `pip-audit` canlı venv: Core/CRM PyJWT 2.13.0 (15 kayıt, 1 kritik, 6 yüksek; düzeltme 2.14/2.15 minor); Stand Pillow 12.3.0 (37 kayıt, 4 kritik, 22 yüksek; düzeltme 13.0 **major**); certifi kritik (3 venv). Taze kurulum 0 açık | Canlı venv sürümleri | P1 — **kodda düzeltildi, canlıda bekliyor**: alt sınırlar Core [#47](https://github.com/kyrox-studio/kyrox-core/pull/47) `3348d7f`, CRM [#365](https://github.com/kyrox-studio/kyrox-fair-crm/pull/365) `ae5dbc7d`, Stand [#345](https://github.com/kyrox-studio/kyrox-fair-stand/pull/345) `3d212ed5` (Pillow 13 kullanıcı onayıyla) main'de; deploy edilmedi | Deploy sonrası canlı venv sürümleri; kilit dosyası kararı |
+| F-G2 SEC-09 | Sürüm kilidi yok; deploy `pip install -r` `--upgrade`'siz (`common.sh`) → canlı eski kalıyor, CI farklı sürüm test ediyor | `pip-audit` canlı venv: Core/CRM PyJWT 2.13.0 (15 kayıt, 1 kritik, 6 yüksek; düzeltme 2.14/2.15 minor); Stand Pillow 12.3.0 (37 kayıt, 4 kritik, 22 yüksek; düzeltme 13.0 **major**); certifi kritik (3 venv). Taze kurulum 0 açık | Canlı venv sürümleri | P1 — **canlıda düzeltildi (E-020)**: alt sınırlar Core [#47](https://github.com/kyrox-studio/kyrox-core/pull/47) `3348d7f`, CRM [#365](https://github.com/kyrox-studio/kyrox-fair-crm/pull/365) `ae5dbc7d`, Stand [#345](https://github.com/kyrox-studio/kyrox-fair-stand/pull/345) `3d212ed5` (Pillow 13 kullanıcı onayıyla) main'de ve canlıda: PyJWT 2.15.1, certifi 2026.10.23 (üç venv), Pillow 13.0.0 (Stand) | Kilit dosyası ve CI'da pip-audit kararı (bir sonraki CVE yine elle alt sınır gerektirir) |
 | F-G1 SEC-04/10 | — | Git geçmişi regex taraması: gerçek sır yok (51 aday tek tek; gitleaks/trufflehog kurulmadı); canlı dist'te sır yok | **6 public depoda** (E-019 düzeltmesi: web ve brand dahil) secret scanning, push protection ve Dependabot security updates kapalı; org 2FA zorunlu değil | P1 | Ayar değişikliği kullanıcı onayıyla |
 | F-G3 SEC-10 | Python bağımlılık taraması hiçbir CI'da yok; CRM CI'da npm audit yok (**E-006'daki "CRM development-standard.yml audit" ifadesi yanlış**); `prod-path-e2e.yml` `head_ref` shell'e giriyor; action'lar SHA ile sabit değil; çoğu workflow'da `permissions` yok (repo varsayılanı read) | — | Web main ruleset'inde PR/zorunlu kontrol yok | P1/P2 | Branch protection/required check tüm depolarda |
 | F-005 SEC-09/10 | Core'da ruff atlanıyor, dependency audit yok | Bugünkü CI log'unda yine "ruff not installed" | — | P1 | — |
@@ -310,7 +310,7 @@ Olumlu: gerçek `kyrox-backup.sh` + `kyrox-restore.sh --deneme` izole Docker'da 
 
 | Kimlik | Risk | Neden doğrulanmadı | Nasıl doğrulanır |
 |---|---|---|---|
-| R-1 SEC-01 | Canlı Core DB'de `trg_identity_users_default_owner_super_admin` var (CANLI metadata): `dev@example.com` ile eklenen satır Super Admin olur | Core API yollarında rol atama tetikleyicisi satırı engelledi; CRM/Stand seed yolları canlıda incelenmedi | Seed yolu: **kodda düzeltildi, canlıda bekliyor** — CRM [#365](https://github.com/kyrox-studio/kyrox-fair-crm/pull/365) `ae5dbc7d` dev seed'i create-only yaptı (kullanıcı kararı: yalnız DB'de yoksa oluştur); deploy edilmedi. Tetikleyicinin kaldırılması (karar) açık |
+| R-1 SEC-01 | Canlı Core DB'de `trg_identity_users_default_owner_super_admin` var (CANLI metadata): `dev@example.com` ile eklenen satır Super Admin olur | Core API yollarında rol atama tetikleyicisi satırı engelledi; CRM/Stand seed yolları canlıda incelenmedi | Seed yolu: **canlıda düzeltildi (E-020)** — CRM [#365](https://github.com/kyrox-studio/kyrox-fair-crm/pull/365) `ae5dbc7d` dev seed'i create-only yaptı (kullanıcı kararı: yalnız DB'de yoksa oluştur); canlı deploy çıktısı "Existing user left unchanged". Tetikleyicinin kaldırılması (karar) açık |
 | R-2 SEC-03 | Access TTL 15 gün, **refresh TTL 15 gün (ADR-0003: 30 gün, E-019 K-CORE-04)**, session süresiz, her login önceki oturumları kapatıyor (ADR: 15 dk, çok cihaz) | Ürün kararı | Karar sonrası test |
 | R-3 SEC-13 | Core `audit-events` permission istemiyor; ip/user_agent istemciden; **yalnız `identity.organization.*` rezerve — org kullanıcısı `identity.password.*` gibi sahte Core güvenlik olayı yazabilir (E-019 K-CORE-09)** | Ürünlerin çağrı biçimi doğrulanmadı | Çağıran envanteri |
 | R-CRM-1 SEC-02 | `customer_field_grouping.py:_load_fair_metadata` org filtresiz tüm tenant katılım satırlarını okuyor | Sızıntı görülmedi; iki org'lu Postgres testi gerekiyor | İzole Postgres negatif testi |
@@ -620,7 +620,7 @@ Yalnız uyumsuz satırlar; tam liste ve kanıtlar alt ajan raporlarındaydı (de
   - SEC-10 Stand → E-011 main'de; main ruleset GitHub API ile doğrulandı.
   - SEC-10 CRM/sunucu → F-G4 ve F-G5 eklendi.
 - **F-G1:** Kapalı ayarlar 6 public depoda (4 değil).
-- **F-G2 ve R-1:** Kodda düzeltildi, canlıda bekliyor (Core #47, CRM #365, Stand #345 main'de; deploy edilmedi).
+- **F-G2 ve R-1:** Kodda düzeltildi; canlı kanıt E-020 (§6.13).
 - **F-V5:** Drive'daki yedek WordPress form talepleri ve AI anahtarlarını da içeriyor.
 - **R-2:** Refresh TTL eklendi.
 - **R-3:** Rezerve olmayan Core önekleri eklendi.
@@ -680,6 +680,27 @@ Yalnız uyumsuz satırlar; tam liste ve kanıtlar alt ajan raporlarındaydı (de
 10. **F-G4 ve F-G5:** Ruleset'ler (D-3, D-4).
 11. **Belge eşitleme:** K-CORE-13/14/15/17, K-CRM-04/05, K-STAND-11…17, K-ECO-07…10. Platform PR'ı; karar gerektirmez.
 12. **Kalan K-…P2 kod işleri.**
+
+### 6.13 Kullanıcı deploy'u sonrası kanıt E-020 — paket alt sınırları ve create-only dev seed (F-G2, R-1)
+
+- **Deploy (kullanıcı, `deploy-all.sh`, 2026-10-26):** Core `3348d7f`, CRM `ae5dbc7d`, Stand `3d212ed5`. Migration'lar head'de, `check-server.sh` "Final: HEALTHY", login ve admin backups smoke PASS.
+- **Seed çıktısı:** "Existing user left unchanged: dev@example.com" ve "behavior: create-only; existing user is never changed".
+- **Salt okunur kontrol:**
+
+| Kontrol | Sonuç |
+|---|---|
+| PyJWT (Core / CRM / Stand) | 2.15.1 / 2.15.1 / 2.15.1 |
+| certifi (Core / CRM / Stand) | 2026.10.23 (üçü) |
+| Pillow (Stand) | 13.0.0 |
+| `dev@example.com` | status active, silinmemiş (deploy değiştirmedi) |
+| Core / CRM / Stand `backend/.env` | 600 root:root; nobody okuyamıyor (deploy izni geri açmadı) |
+| Servisler | dört servis active |
+
+- **Durum:** F-G2 → canlıda düzeltildi (bu üç paket için). R-1 seed yolu → canlıda düzeltildi.
+- **Kalan:**
+  - Kilit dosyası ve CI'da `pip-audit` kararı açık.
+  - Dev tetikleyicisinin (`trg_identity_users_default_owner_super_admin`) kaldırılması karar bekliyor.
+  - Deploy login smoke testi dev kullanıcısına bağlı: hesap kapatılır ya da parolası değişirse deploy bilinçli olarak durur.
 
 ## 7. Kaynaklar ve bakım
 
