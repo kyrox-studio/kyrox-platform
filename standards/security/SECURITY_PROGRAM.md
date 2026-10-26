@@ -881,6 +881,28 @@ Kaynak: Stand main ve canlı `16dd30f2`. Bulgu dosyalarını düzelten bir commi
   - ADR-0003'e Stand 10 sn önbellek kabul notu (F-S5).
   - CRM `backup/README.md:85` cümlesinin risk kararına bağlanması (F-V5).
 
+### 6.17 Düzeltme turu E-024 — karar gerektirmeyen P1'ler (2026-10-26)
+
+Not: Haftalık kullanım limiti %99'a geldiği için bu kayıt kısa tutuldu. CRM PR'ı yazım anında açıktı. Asıl bulgu satırlarının öncelik sütunları tek tek değiştirilmedi; güncel öncelik ve durum aşağıdaki tablodadır ve §6.3/§6.12/§6.16'nın önüne geçer.
+
+| Bulgu | Durum | Kanıt |
+|---|---|---|
+| F-C12 | **KODDA DÜZELTİLDİ, deploy bekliyor** — [kyrox-core#49](https://github.com/kyrox-studio/kyrox-core/pull/49) merge `dfdac99`, migration `20261026_0075` | Kilit artık grant'ları silmiyor, kilit açılınca erişim dönüyor; inactive tüm grant'ları siliyor; kilitli izinle yeni atama reddediliyor. Regresyon testi gerçek PostgreSQL'de, CI'da koşuyor (run 40293645944): main'de FAIL, dalda 5/5 PASS. Tam pytest 494 passed. Kilit sırasında daha önce silinmiş grant'lar geri getirilmedi (karar) |
+| F-002 + F-003 | **KODDA DÜZELTİLDİ, deploy bekliyor** — [kyrox-fair-stand#348](https://github.com/kyrox-studio/kyrox-fair-stand/pull/348) merge `f3953ad` | Pillow varsayılanı 89,5 MP üstü görsel çözümlenmeden 400; global ayar değiştirilmiyor; decode thread'de; yükleme 64 KB parçalarla, sınır+1 baytta kesiliyor. 7 regresyon testi main'de FAIL, dalda PASS; 54 MP gerçek JPEG kabul. Backend 208, `npm test` 1546; CI `verify` run 40293777936. Karar: `max_image_upload_mb` üst sınırı yok; disk tavanı nginx 256m |
+| F-R7, F-B1, F-B2 | **PR AÇIK, merge bekliyor** — [kyrox-fair-crm#373](https://github.com/kyrox-studio/kyrox-fair-crm/pull/373) (`cc43a038`) | Önizleme izin kodu `fair_emails.read`; teklif önizleme iframe'i `sandbox=""`; website zenginleştirme ve scraper için IP/yönlendirme kontrolü. Merge ve CI sonucu bu kayıtta yok; sonraki kayıtta işlenecek |
+
+**Güncel öncelikler (E-023 önerileri uygulanmış hali):**
+- **P0 kalmadı:** F-V1 → P1.
+- **P1 → P2:** F-C14, F-V6, F-G4, F-001, F-S9, F-R1, F-R7.
+- **Kapalı:** F-C3, F-C4, F-C4b, F-C9, F-C10, F-C7, F-V3, F-V11, F-R6, F-G2.
+- **Kodda kapalı, deploy bekliyor:** F-C12, F-002, F-003.
+
+**Hâlâ açık P1'ler:**
+- **Core:** F-C1, F-C2, F-C5, F-C8, F-C13, F-004 (login).
+- **CRM:** F-B1, F-B2 (#373 merge'e kadar).
+- **Stand:** F-S8, K-STAND-02.
+- **Sunucu/CI:** F-V1, F-V2, F-V4, F-V5, F-V7, F-V12, F-V13, F-G1, F-G3/F-005 kalan kısmı.
+
 ## 7. Kaynaklar ve bakım
 
 Başlangıç girdisi: kullanıcının 2026-10-25 tarihli `KYROX_SECURITY_CONTROLS_PRIORITY_DRAFT.md` taslağı; taslak ayrı bir bağlayıcı kaynak değildir. Bu belge mevcut onaylı standartlarla ilişkilendirilmiş ana güvenlik kaydıdır.
