@@ -831,9 +831,23 @@ Yalnız uyumsuz satırlar; tam liste ve kanıtlar alt ajan raporlarındaydı (de
 
 - **Yeni gözlem (P2, CRM):** CRM `frontend/.env` içindeki `VITE_DEV_BYPASS_TOKEN` değeri canlı `dist`'teki 1 dosyada duruyor ve backend'deki bypass token'ıyla aynı. Backend `APP_ENV=production`, `FAIR_CRM_DEV_BYPASS_CORE=false` olduğu için şu an etkisiz. E-013'teki "canlı dist'te sır yok" ifadesi bu ayrıntıyla birlikte okunmalı. Yeni kimlik: **F-R8**.
 
-#### CRM ve Stand
+#### Stand
 
-Bu iki kapsamın hükümleri, alt ajanlar bitince bu bölüme eklenecek.
+Kaynak: Stand main ve canlı `16dd30f2`. Bulgu dosyalarını düzelten bir commit yok.
+
+| Kimlik | Hüküm | Bugünkü kanıt | Öncelik |
+|---|---|---|---|
+| F-001 | KAPSAM DÜZELTİLMELİ | Headless Chromium 151: script'li SVG doğrudan belge olarak veya blob URL'si yeni sekmede açılınca aynı origin'de çalışıyor ve localStorage'daki CRM `accessToken`'ını okuyabiliyor. `<img>` ve DOMParser (SVGLoader) yolunda çalışmıyor. Uygulama blob'u hiçbir yerde üst düzey açmıyor; görsel sağ tık menüsü uygulamanın kendi menüsü; canlıda doğrudan URL 422/401. Bugün uygulama içinden tetiklenmiyor, saklanmış ama etkinleşmemiş risk. **Not:** attachment + nosniff + CSP blob yolunu kapatmıyor; düzeltme sunucuda SVG temizleme veya reddetme olmalı | P1 → **P2** önerisi |
+| F-002 | DOĞRULANDI | Pillow 13.0.0, 1 GB sınırlı kap: 1,17 MB PNG kabı OOM ile öldürdü; 292 KB dosya 781 MB kullandı ve olay döngüsünü 1,7 sn kilitledi. Canlıda servis tek süreç, root, bellek sınırı yok | P1 |
+| F-003 | KAPSAM DÜZELTİLMELİ | Bellek artışı yalnız yetkili (`projects.update`) istekte: 250 MB yüklemede RSS 49 → 307 MB. Yetkisiz istek 401, RSS sabit. F-002 ile tek iş | P1 (F-002 ile) |
+| F-S8 | DOĞRULANDI | Stand'de audit yok; Core'a audit gönderen yol yok (Core `audit-events`'i yalnız CRM kullanıyor). Sayı düzeltmesi: "43 admin route" yerine bugün `routes.py`'de 33 admin mutasyonu, toplam 47 mutasyon route'u | P1 |
+| F-S9 | DOĞRULANDI | 2'li ve 3'lü döngü PUT'ları 200; DB'de engelleyen tetikleyici yok. Yapabilen yalnız Super Admin (system-scope, atanamaz). Etki o Item'ı kullanan projelerin Üretim Listesi; "bütün organizasyonlarda BOM bozulur" ifadesi abartılı | P1 → **P2** önerisi |
+| K-STAND-02 | DOĞRULANDI | OL08-D açıkça yalnız FAIR CRM verisini kapsıyor; OL ve ADR belgelerinde Stand yok; Stand'de lifecycle tüketicisi yok; `customer_id` FK'siz | P1 |
+| F-S5 | DOĞRULANDI (bilinçli tasarım) | 10 sn olumlu önbellek kod yorumunda performans kararı olarak açıklanıyor, ADR'de kayıt yok; ADR-0003 iptalin süre dolmadan geçerli olmasını istiyor. Önbellek testleri 9/9 | P2 — ADR'ye kabul notu gerekir |
+
+#### CRM
+
+Bu kapsamın hükümleri, alt ajan bitince bu bölüme eklenecek.
 
 ## 7. Kaynaklar ve bakım
 
