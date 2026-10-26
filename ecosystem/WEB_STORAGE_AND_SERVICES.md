@@ -3,6 +3,8 @@
 **Tarih:** 26 Ekim 2026. **Sahip:** Codex; yayına hazırlık 12. madde.  
 **Amaç:** Gizlilik içerikleri ve sonraki tercih/ölçümleme işleri için mevcut teknik kullanımı kaydetmek.
 
+**Sonraki form doğrulaması:** 26 Ekim'de [yayına hazırlık 16. maddesi](WEB_LAUNCH_CHECKLIST.md#tamamlanan-işler) kapsamında tek gerçek web talebi, özel kayıt ve alıcının INBOX teslimi doğrulandı; kontrollü hata yolları geçti ve deneme kayıtları temizlendi. Aşağıdaki ilk anonim incelemede “form gönderilmedi” ifadesi o incelemenin sınırıdır. Form/SMTP kontrolü artık bu kanıta sahiptir; WhatsApp'a gerçek mesaj gönderimi veya diğer uygulama/veri yaşam döngüsü işleri bu sonuçla kapanmaz. Kullanıcının şu an reklamı olmadığı için reklam ölçümlemesi beklemededir.
+
 ## İncelemenin sınırı
 
 Ana sayfa, iki ürün tanıtımı, CRM giriş ve WordPress giriş ekranı temiz Chromium oturumlarında incelendi. Form gönderilmedi, hesaba giriş yapılmadı, canlı ekran paylaşımı başlatılmadı. Oturum sonrası kayıtlar kaynak koduyla sınıflandırıldı; bunların tamamı canlı oturumda gözlenmiş sayılmaz. Saklanan değerler, tokenlar, parolalar veya gerçek kullanıcı oturumu okunmadı/kaydedilmedi.
