@@ -847,7 +847,39 @@ Kaynak: Stand main ve canlı `16dd30f2`. Bulgu dosyalarını düzelten bir commi
 
 #### CRM
 
-Bu kapsamın hükümleri, alt ajan bitince bu bölüme eklenecek.
+- **Kaynak:** CRM main `50b2557e`.
+- **İzin kodları:** Gerçek Core izin kodları geçici Postgres'e Core alembic head `0074` uygulanarak çıkarıldı: OrgAdmin'in 106 kodu ve rol şablonları. Konteyner silindi.
+
+| Kimlik | Hüküm | Bugünkü kanıt | Öncelik |
+|---|---|---|---|
+| F-B1 | DOĞRULANDI | Gerçek Chromium: sandbox'sız `srcdoc` script'i localStorage'daki token'ı okudu ve üst sayfayı değiştirdi; `sandbox=""` ile çalışmadı. Şablon düzenleme izni OrgAdmin'in yanında `create_update_user` ve `full_user` rol şablonlarında da var → kiracı içinde düşük yetkili kullanıcıdan OrgAdmin'e yükseltme (kiracılar arası değil) | P1 |
+| F-B2 | DOĞRULANDI | İzole sonda: 127.0.0.1 ve localhost'a gidildi, başka porta 302 izlendi. Erişim `scraper.execute` (OrgAdmin, `full_user`). Yarı kör SSRF: gövde dönmüyor ama çıkarılan iletişim bilgileri müşteriye yazılıyor ve run log'u HTTP durum kodunu gösteriyor. Canlı ağ etkisi doğrulanmadı | P1 |
+| F-R1 | KAPSAM DÜZELTİLMELİ | İçerik doğrulaması gerçekten yok. Ama asset ucu Bearer istediği için doğrudan açılmıyor ve logo yalnız `<img>` içinde gösteriliyor. Tek vektör blob URL'nin yeni sekmede açılması; yükleyen zaten F-B1 yetkisinde, ek etki yok | P1 → **P2** önerisi |
+| F-R7 | DOĞRULANDI (işlev hatası) | Gerçek OrgAdmin kod kümesiyle: fuar sayfası `/preview` 200 ve `/preview-recipients` 200; `/operations/bulk-email/preview` 403. Super Admin Core'da atlıyor. Güvenlik açığı değil, fail-closed işlev hatası; toplu mail fuar sayfasından çalışıyor | P1 → **P2** önerisi |
+| F-B3 | DOĞRULANDI | Yabancı Origin'den başlıksız logout 204 ve Core oturumu iptal; etki yalnız zorla çıkış | P2 |
+| F-R4 | KAPSAM DÜZELTİLMELİ | Model-validator hatası 500 ve log traceback'inde SMTP parolası düz metin görünüyor (SEC-04 yönü güçlendi). "JSON olmayan gövde 500" iddiası artık geçersiz, bugün 422 | P2 (log sırrı nedeniyle izlenmeli) |
+| F-R6, F-V11 | ZATEN DÜZELTİLMİŞ | `fe9a567` main'de ve canlıda (E-021/E-022); servis testleri 8 passed. F-V11 izin testleri Windows'ta atlandığı için bu turda yalnız kod okumasıyla; Linux kanıtı E-021'de | kapalı |
+
+#### Turun özeti
+
+- **Toplam:** 4 kapsamda yaklaşık 40 bulgu yeniden doğrulandı.
+  - Yanlış alarm: **0**.
+  - Zaten düzeltilmiş: 8 (F-C3, F-C4, F-C4b, F-C9, F-V3, F-G2, F-R6, F-V11).
+  - Kapsamı düzeltilmesi gereken: 9 (F-C8, F-004, F-C14, F-V12, F-G3/F-005, F-001, F-003, F-R1, F-R4).
+- **Öncelik düşürme önerileri:**
+  - F-V1: P0 → P1.
+  - F-C14, F-V6, F-G4, F-001, F-S9, F-R1, F-R7: P1 → P2.
+- **Hâlâ P1 olan doğrulanmış açıklar:**
+  - Core: F-C1, F-C2, F-C5, F-C8, F-C12, F-C13, F-004 (yalnız login).
+  - CRM: F-B1, F-B2.
+  - Stand: F-002 + F-003, F-S8, K-STAND-02.
+  - Sunucu/CI: F-V1, F-V2, F-V4, F-V5, F-V7, F-V12, F-V13, F-G1, F-G3/F-005 kalan kısmı.
+- **Karar gerektirmeden düzeltilebilecek ilk adaylar:** F-B1 (iframe `sandbox`), F-C12 (tetikleyici migration'ı), F-002 + F-003 (piksel ve okuma sınırı), F-B2 (IP ve yönlendirme kontrolü), F-R7 (tek satır izin kodu).
+- **Belge etkisi** (karar sahibinin onayıyla ayrıca):
+  - ADR-0011 satır 59 ve 62, web gerçeğiyle çelişiyor (F-V13, D-1).
+  - OL08-D / ADR-0006'ya Stand kapsam notu (K-STAND-02, D-12).
+  - ADR-0003'e Stand 10 sn önbellek kabul notu (F-S5).
+  - CRM `backup/README.md:85` cümlesinin risk kararına bağlanması (F-V5).
 
 ## 7. Kaynaklar ve bakım
 
