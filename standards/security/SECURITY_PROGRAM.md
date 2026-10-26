@@ -787,6 +787,68 @@ Yalnız uyumsuz satırlar; tam liste ve kanıtlar alt ajan raporlarındaydı (de
   - Haftalık taramanın ilk gerçek çalışması 2026-11-02'de gözlenecek.
   - Otomatik yamanın bir paketi gerçekten yükselttiği canlı örnek henüz yok, çünkü canlıda açık yoktu. Bu davranış izole uçtan uca testle kanıtlı.
 
+### 6.16 Yeniden doğrulama turu E-023 — açık P0/P1 bulgularının hükmü (2026-10-26)
+
+- **Neden:** Bazı bulgular abartılı veya yanlış çıktı (F-C9 yanlış alarmdı; F-R7'nin kapsamı abartılıydı). Bu yüzden açık P0/P1 bulgular bugünkü main üzerinde sıfırdan yeniden doğrulandı.
+  - Yeni tarama yapılmadı; düzeltme yapılmadı; canlıda yalnız salt okunur bakıldı.
+- **Kaynak:** Core `fb1150d`, CRM `50b2557e`, Stand `16dd30f2`, Web `0d279cb`; ayrık worktree'ler.
+- **İzole ortam:** Core senaryoları gerçek `create_app()`, üretimdeki `get_db` ve geçici Postgres (head `20261026_0074`) ile koşuldu; mock yok, her senaryo taze DB'de. Konteyner silindi.
+- **Canlı:** Sır değeri basılmadı; yalnız ad, uzunluk ve sha8 kullanıldı. GitHub'a yalnız GET atıldı.
+- **Hüküm türleri:** DOĞRULANDI, KAPSAM DÜZELTİLMELİ, YANLIŞ ALARM, ZATEN DÜZELTİLMİŞ, DOĞRULANAMADI.
+- **Kural:** Bu tablo §6.3 ve §6.12 satırlarının önüne geçer. Öncelik değişiklikleri burada önerilir; satırlar düzeltme işiyle birlikte güncellenir.
+
+#### Core
+
+| Kimlik | Hüküm | Bugünkü kanıt | Öncelik |
+|---|---|---|---|
+| F-C1 | DOĞRULANDI | Editor (`users.update`) OrgAdmin'in parolasını değiştirdi (200) ve onunla giriş yaptı (200); e-postasını değiştirip pasifleştirdi. Korumalı rol / SA verme ve SA parolası 403 | P1 |
+| F-C2 | DOĞRULANDI | Editor kendi rolüne `users.delete` ekleyip OrgAdmin'i sildi (204); atanabilir 105 org yetkisinin hepsini kendine verdi; `roles.assign` hiçbir yerde istenmiyor. Tavan: `assign_protected` ve system yetkileri 403 | P1 |
+| F-C5 | DOĞRULANDI | `ENVIRONMENT=production` + varsayılan sırlarla açılış, health 200; açılışta sır kontrolü yok; `ENVIRONMENT` hiçbir yerde okunmuyor. Access 15 gün (ADR 15 dk), refresh 15 gün (ADR 30 gün) → R-2 | P1 |
+| F-C8 | KAPSAM DÜZELTİLMELİ | Anahtarla imzalanan 10 yıllık SA token'ı 200; ancak hedef kullanıcının **aktif bir oturumunun `sid`'i gerekiyor**, uyumsuz/rastgele `sid` 401. Oturumun süresi yok | P1 |
+| F-004 | KAPSAM DÜZELTİLMELİ | Login: 30 yanlıştan sonra doğru parola 200 (**P1**). Forgot: hesap başına 60 sn bekleme, 20 istekte 1 token (**P2**). Reset token'ı brute-force için pratik değil. Login sınırı `KNOWN_DEFERRED.md` L15'te bilinçli ertelenmiş | Login P1, forgot/reset P2 |
+| F-C12 | DOĞRULANDI (Postgres) | 6 rolde tanımlı izin → kilit → 0 grant → kilit açılınca yalnız `organization_admin`; özel rollü üye 403. ADR-0005 ve kod yorumu (`26b79b3`) "grant korunur" diyor | P1 |
+| F-C13 | DOĞRULANDI | Login (başarılı/başarısız), logout, kullanıcı oluşturma, rol atama, pasifleştirme, silme ve SA verme sonrası `audit_logs` 0 satır. role_management action'ı 2 segmentli, `session_id` NULL | P1 |
+| F-C14 | KAPSAM DÜZELTİLMELİ | SA aktif org'u başlıksız sildi (204), korunmayan audit satırları silindi. Tetikleyebilen yalnız Super Admin (OrgAdmin 403). **Çağıran var:** CRM `OrganizationsPage.tsx` → `api/organizations.ts:deleteOrganization` başlıksız `DELETE` | P1 → **P2** önerisi |
+| F-C3, F-C4, F-C4b, F-C9 | ZATEN DÜZELTİLMİŞ (#46) | Gerçek Postgres zinciriyle: reuse ve halef token 401 + session iptal; yönetici parola değişimi ve pasifleştirme sonrası eski token 401; pasif SA token 401; son SA API'de 409 ve doğrudan SQL'de tetikleyici; iki SA paralel pasifleştirmede 1 aktif SA kalıyor. Hedefli testler 42 passed | kapalı |
+
+#### Sunucu, DB, yedek, CI, web
+
+| Kimlik | Hüküm | Bugünkü kanıt (canlı salt okunur) | Öncelik |
+|---|---|---|---|
+| F-V1 | DOĞRULANDI | Tek superuser rol, 5 URL'de aynı parola; migration ve yedek aynı rol. Etkiyi sınırlayanlar: 5432 yalnız 127.0.0.1, scram; compose'daki `postgres` parolası canlıda reddediliyor; servisler zaten root (ek risk SQLi senaryosuyla sınırlı) | P0 → **P1** önerisi |
+| F-V2 | DOĞRULANDI | 4 unit `User=root`, sertleştirme yok | P1 |
+| F-V3 | ZATEN DÜZELTİLMİŞ | Core/CRM/Stand `.env` 0600 root:root (E-015, E-018) | kapalı |
+| F-V4 | DOĞRULANDI | root parolası tanımlı (`passwd -S` = P) + parola doğrulaması açık → anahtarsız root girişi mümkün; 24 saatte 15 başarısız deneme, fail2ban yok; 7 günde 211 başarılı girişin hepsi publickey | P1 |
+| F-V5 | DOĞRULANDI | Şifresiz Drive yedeği, tam Drive yetkisi; ayrıca `--drive-use-trash=false` → sunucu ele geçerse Drive yedekleri geri dönüşsüz silinebilir | P1 |
+| F-V6 | DOĞRULANDI | 6 sahipsiz volume (~3,1 GB; 3 PG18, 3 MariaDB), yalnız root; OL10-A 30 günü 2026-11-15'te aşıyor | P1 → **P2** önerisi |
+| F-V7 | DOĞRULANDI | Platformda RPO/RTO kararı yok (grep); tatbikat zamanlanmamış | P1 |
+| F-V12 | KAPSAM DÜZELTİLMELİ | Asıl sorun doğrulandı: `kyrox-restore.sh` reconciliation yapmıyor ve `restore_maintenance.lock` koymuyor (OL10-C/E, OL10_RUNTIME_ACCEPTANCE §7). "30 gün yaş kontrolü yok" kısmı pratikte etkisiz: sihirbaz yalnız 3 günlük yerel ve 14 günlük Drive yedeklerini listeliyor | P1 |
+| F-V13 | DOĞRULANDI | ADR-0011 satır 59 ve 62 canlıyla çelişiyor; 2 talep kaydı (2026-10-15, büyük olasılıkla test); iki AI anahtarı `wp_options`'ta düz metin | P1 |
+| F-G1 | DOĞRULANDI | 6 public depoda secret scanning, push protection ve Dependabot security updates kapalı; Dependabot alerts yalnız web'de açık; org 2FA zorunlu değil | P1 |
+| F-G2 | ZATEN DÜZELTİLMİŞ | Canlı venv'ler yamalı sürümlerde (E-020, E-022) | kapalı |
+| F-G3 / F-005 | KAPSAM DÜZELTİLMELİ | "Python taraması hiçbir CI'da yok" **artık yanlış**: pip-audit Core #48, CRM #366 ve Stand #346'da var (uyarı modunda). Açık kalanlar: Core'da ruff atlanıyor (F-005); CRM'de npm audit ve Python lint yok; `prod-path-e2e.yml:57` `head_ref` shell'e giriyor; 25 `uses:` SHA ile sabit değil. "Web ruleset'inde PR/zorunlu kontrol yok" alt iddiası bulgu değil: QUALITY_GATE §12 satır 159 web/brand'i sahip kararıyla kapsam dışı bırakıyor | P1 (kalan kısım) |
+| F-G4 | DOĞRULANDI | CRM ruleset 3 zorunlu kontrol; ihlal yok. `prod-path-e2e` yol filtreli olduğu için doğrudan zorunlu yapılamıyor | P1 → **P2** önerisi |
+
+- **Yeni gözlem (P2, CRM):** CRM `frontend/.env` içindeki `VITE_DEV_BYPASS_TOKEN` değeri canlı `dist`'teki 1 dosyada duruyor ve backend'deki bypass token'ıyla aynı. Backend `APP_ENV=production`, `FAIR_CRM_DEV_BYPASS_CORE=false` olduğu için şu an etkisiz. E-013'teki "canlı dist'te sır yok" ifadesi bu ayrıntıyla birlikte okunmalı. Yeni kimlik: **F-R8**.
+
+#### Stand
+
+Kaynak: Stand main ve canlı `16dd30f2`. Bulgu dosyalarını düzelten bir commit yok.
+
+| Kimlik | Hüküm | Bugünkü kanıt | Öncelik |
+|---|---|---|---|
+| F-001 | KAPSAM DÜZELTİLMELİ | Headless Chromium 151: script'li SVG doğrudan belge olarak veya blob URL'si yeni sekmede açılınca aynı origin'de çalışıyor ve localStorage'daki CRM `accessToken`'ını okuyabiliyor. `<img>` ve DOMParser (SVGLoader) yolunda çalışmıyor. Uygulama blob'u hiçbir yerde üst düzey açmıyor; görsel sağ tık menüsü uygulamanın kendi menüsü; canlıda doğrudan URL 422/401. Bugün uygulama içinden tetiklenmiyor, saklanmış ama etkinleşmemiş risk. **Not:** attachment + nosniff + CSP blob yolunu kapatmıyor; düzeltme sunucuda SVG temizleme veya reddetme olmalı | P1 → **P2** önerisi |
+| F-002 | DOĞRULANDI | Pillow 13.0.0, 1 GB sınırlı kap: 1,17 MB PNG kabı OOM ile öldürdü; 292 KB dosya 781 MB kullandı ve olay döngüsünü 1,7 sn kilitledi. Canlıda servis tek süreç, root, bellek sınırı yok | P1 |
+| F-003 | KAPSAM DÜZELTİLMELİ | Bellek artışı yalnız yetkili (`projects.update`) istekte: 250 MB yüklemede RSS 49 → 307 MB. Yetkisiz istek 401, RSS sabit. F-002 ile tek iş | P1 (F-002 ile) |
+| F-S8 | DOĞRULANDI | Stand'de audit yok; Core'a audit gönderen yol yok (Core `audit-events`'i yalnız CRM kullanıyor). Sayı düzeltmesi: "43 admin route" yerine bugün `routes.py`'de 33 admin mutasyonu, toplam 47 mutasyon route'u | P1 |
+| F-S9 | DOĞRULANDI | 2'li ve 3'lü döngü PUT'ları 200; DB'de engelleyen tetikleyici yok. Yapabilen yalnız Super Admin (system-scope, atanamaz). Etki o Item'ı kullanan projelerin Üretim Listesi; "bütün organizasyonlarda BOM bozulur" ifadesi abartılı | P1 → **P2** önerisi |
+| K-STAND-02 | DOĞRULANDI | OL08-D açıkça yalnız FAIR CRM verisini kapsıyor; OL ve ADR belgelerinde Stand yok; Stand'de lifecycle tüketicisi yok; `customer_id` FK'siz | P1 |
+| F-S5 | DOĞRULANDI (bilinçli tasarım) | 10 sn olumlu önbellek kod yorumunda performans kararı olarak açıklanıyor, ADR'de kayıt yok; ADR-0003 iptalin süre dolmadan geçerli olmasını istiyor. Önbellek testleri 9/9 | P2 — ADR'ye kabul notu gerekir |
+
+#### CRM
+
+Bu kapsamın hükümleri, alt ajan bitince bu bölüme eklenecek.
+
 ## 7. Kaynaklar ve bakım
 
 Başlangıç girdisi: kullanıcının 2026-10-25 tarihli `KYROX_SECURITY_CONTROLS_PRIORITY_DRAFT.md` taslağı; taslak ayrı bir bağlayıcı kaynak değildir. Bu belge mevcut onaylı standartlarla ilişkilendirilmiş ana güvenlik kaydıdır.
