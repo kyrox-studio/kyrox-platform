@@ -12,7 +12,7 @@
 - Bu dosya çapraz ürün takip listesidir. Ürünlerin teknik yol haritaları ve ortak standartlar kendi kaynaklarında kalır; burada yeniden kopyalanmaz.
 - Başlangıç incelemesi yerel kod ve belgelere dayanır. Canlı form teslimi, güncel mobil kullanım ve performans henüz bu çalışma kapsamında doğrulanmadı.
 
-**Güncel durum:** Web paketi ve gerçek Elikon sahneli V3, kullanıcının açık yayın talebiyle 25 Ekim 2026'da yayımlandı. 08–10 tamamlandı. CRM/Stand uygulama depolarındaki önceki yerel değişiklikler henüz gönderilmedi veya dağıtılmadı; kalan kutular bu yüzden açık. Sonraki ana başlık 11; uygulama değişikliklerinin toplu kabulü ayrıca bekliyor. Madde başına ayrı dal/commit/push açılmaz.
+**Güncel durum:** Web paketi ve gerçek Elikon sahneli V3 yayımlandı; 26 Ekim'de SEO/paylaşım kontrolü tamamlandı. 08–11 tamamlandı. CRM/Stand uygulama depolarındaki önceki yerel değişiklikler henüz gönderilmedi veya dağıtılmadı; kalan kutular bu yüzden açık. Sonraki ana başlık 12; uygulama değişikliklerinin toplu kabulü ayrıca bekliyor. Madde başına ayrı dal/commit/push açılmaz.
 
 ## Basitten zora iş listesi
 
@@ -27,7 +27,7 @@
 - [x] **08 — Sık sorulan sorular:** Altı soru-cevap, panel yönetimi, aynı içerikten FAQPage ve llms.txt; ana sayfada yayımlandı.
 - [x] **09 — Fair-CRM tanıtım sayfası:** Mevcut özellikler, kullanım akışı ve giriş/iletişim bağlantılarıyla `/fuar-crm/` yayımlandı. Gerçek olmayan ekran görüntüsü eklenmedi.
 - [x] **10 — Fair-Stand tanıtım sayfası:** Mevcut V2 tasarımı korunarak gerçek Elikon sahneli V3, `/fuar-stand/` adresinde yayımlandı.
-- [ ] **11 — Tanıtım sayfalarının SEO ve paylaşımı:** Başlık, açıklama, canonical, paylaşım görseli ve site haritası kapsamını doğrula.
+- [x] **11 — Tanıtım sayfalarının SEO ve paylaşımı:** İki üründe tutarlı başlık/açıklama, temiz canonical, özel 1200 × 630 PNG, OG/Twitter açıklamaları, WebPage/BreadcrumbList ve canlı sitemap/llms.txt doğrulandı.
 - [ ] **12 — Çerez ve dış servis envanteri:** Oturum, depolama, font, analiz ve diğer dış bağlantıların fiilî kullanımını çıkar.
 - [ ] **13 — Gizlilik ve kullanım metinleri:** Envantere ve gerçek veri akışlarına göre gizlilik, veri kullanımı ve kullanım koşulları içeriklerini tamamla; ilgili ekranlardan erişilebilir yap.
 - [ ] **14 — Çerez tercihleri:** Envanter sonucuna göre gereken tercih yönetimini uygula; gerekli olmayan servislerin tercih öncesi davranışını doğrula.
@@ -49,6 +49,8 @@
 - [Ortak arayüz ve erişilebilirlik standardı](../standards/ui/UI_FOUNDATION_STANDARD.md)
 
 ## Tamamlanan işler
+
+**26 Ekim 2026 — SEO ve paylaşım (11):** [Web PR #12](https://github.com/kyrox-studio/kyrox-web/pull/12) üç CI kontrolü yeşilken birleştirilip `0d279cb3594002f2080c54aa1fa964df5e37939f` olarak yayımlandı. Başlıklar kullanıcı kararıyla `Kyrox Studio | Fuar CRM` ve `Kyrox Studio | Stand Konfiguratör`. CRM'ye markalı ürün kartı, Stand'a gerçek Elikon sahnesinin PNG paylaşım görseli eklendi. Görsel alt metni/türü, Twitter alanları ve ürün sayfası/yol şeması tamamlandı. Fiyat, puan veya yorum uydurulmadı; yazılım zengin sonucu vaat edilmez. [Open Graph standardı](https://ogp.me/) esas alındı. `node tasarim/scripts/check-product-seo.mjs` statik ve `--live` kontrolleri başarılı: tekil/tutarlı metalar, UTM'li URL'de temiz canonical, gerçek 1200 × 630 PNG, WebPage/BreadcrumbList, indekslemeye açıklık, iki ürünün sitemap ve llms.txt'de yer alması. İlk yayın isteğinde eski PHP önbelleği görüldü; yenilendikten sonra canlı kontrol geçti. Search Console üzerinden gerçek indekslenme/Google'da sıralama bu kabulün parçası değildir ve doğrulanmış sayılmaz.
 
 **26 Ekim 2026 — Otomatik 3D ve önbellek:** Kullanıcı kararıyla V3 artık düğme beklemeden açılır. Sürümlü Elikon GLB'si CacheStorage'da tutulur; önbellek kapalıysa normal HTTP indirmesine dönülür. İlk açılışta kapak korunur, ağ hatasında yeniden deneme vardır. Otomatik yükleme klavye odağını almaz. [Web PR #11](https://github.com/kyrox-studio/kyrox-web/pull/11) CI yeşilken birleştirilip `af7578a7297f295d2f7471acbad1a2a1ffe63581` olarak yayımlandı. Yerel ve canlı Chromium: otomatik açılış, ikinci ziyarette **0 model ağ isteği**, önbellek kullanılamaması, hata/yeniden deneme ve gerçek dönüş başarılı; tarayıcı hatası yok. 25 Ekim kaydındaki isteğe bağlı yükleme davranışı bu kararla değişmiştir.
 
