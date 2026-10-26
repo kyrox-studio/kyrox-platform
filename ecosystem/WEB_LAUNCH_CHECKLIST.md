@@ -11,6 +11,7 @@
 - Tamamlanan maddenin altına tarih, yapılan değişiklik ve kısa doğrulama kanıtı eklenir. Uygulanmayan madde gerekçesiyle belirtilir.
 - Bu dosya çapraz ürün takip listesidir. Ürünlerin teknik yol haritaları ve ortak standartlar kendi kaynaklarında kalır; burada yeniden kopyalanmaz.
 - Başlangıç incelemesi yerel kod ve belgelere dayanır. Canlı form teslimi, güncel mobil kullanım ve performans henüz bu çalışma kapsamında doğrulanmadı.
+- **26 Ekim kullanıcı kararı:** Web, CRM ve Stand için uçtan uca veri/oturum/aktarımı doğrulanmadan ilgili iş kapanmaz. [Açık eksikler ve kapanış koşulları](WEB_STORAGE_AND_SERVICES.md#açık-eksikler-ve-kapanış-koşulları--26-ekim-2026) Codex tarafından takip edilir. Şimdilik KYROX STUDIO marka adı kullanılacak; resmî veri sorumlusu kimliği ve son hukuki inceleme açık kalır. Gizlilik/kullanım belgeleri WordPress panelinden düzenlenebilir olacak; bu altyapı ve metin yayını henüz tamamlanmadı.
 
 **Güncel durum:** Web paketi ve gerçek Elikon sahneli V3 yayımlandı; 26 Ekim'de SEO/paylaşım kontrolü ve depolama/dış servis temel envanteri tamamlandı. 08–12 tamamlandı. Bekleyen uygulama paketi güncel ana dallarla karşılaştırılıp [CRM PR #368](https://github.com/kyrox-studio/kyrox-fair-crm/pull/368) ve [Stand PR #347](https://github.com/kyrox-studio/kyrox-fair-stand/pull/347) olarak gönderildi; ikisinde auto-merge etkinleştirildi. Canlı uygulama dağıtımı yapılmadığından kalan kutular açık. Sonraki ana başlık 13; uygulama değişikliklerinin canlı kabulü ayrıca bekliyor. Madde başına ayrı dal/commit/push açılmaz.
 

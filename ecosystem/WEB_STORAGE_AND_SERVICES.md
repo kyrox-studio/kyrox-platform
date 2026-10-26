@@ -61,4 +61,24 @@ Amaç sütunu teknik kullanımdır; tercih/izin uygulamasının kararı 13–14.
 - Analiz ve reklam pikseli henüz kurulmadı. 15. maddede seçilecek sağlayıcı, olaylar, aktarılacak alanlar ve saklama süreleri bu envantere eklenmeden “envanter güncel” sayılmaz.
 - Oturumlu CRM/Stand işlemleri ve canlı paylaşımın davranış doğrulaması yapılırsa bu kayda kanıt eklenir. Bu belge yeni bir güvenlik bulgu defteri oluşturmaz: [ortak güvenlik programı](../standards/security/SECURITY_PROGRAM.md).
 
-Takip: [Web ve Ürünler — Yayına Hazırlık](WEB_LAUNCH_CHECKLIST.md).
+## Açık eksikler ve kapanış koşulları — 26 Ekim 2026
+
+Kullanıcı kararı: Web, CRM ve Stand birlikte uçtan uca incelenecek. Kaynak kodu envanteri veya tek bir başarılı giriş, tüm veri akışlarının kabulü değildir. Aşağıdaki işler açık kalır; sahip Codex'tir. Doğrulanmış güvenlik açığı bulunursa ayrı bir bulgu defteri açılmaz, ortak güvenlik programına kaydedilir.
+
+| Açık iş | Kapanış için gereken kanıt |
+|---|---|
+| CRM oturum yaşam döngüsü | Gerçek Core/CRM kimliğiyle giriş, yenileme, süre dolumu, çıkış ve iptal; önce/sonra cookie ve tarayıcı depolaması, eski oturumun reddi. Token değerleri kanıta yazılmaz. |
+| CRM verisi ve yetkiler | Yetkili başarı yanında yetkisiz/başka organizasyon erişiminin reddi; gerçek API ve ekranda sonuç. Yerel başarılı Standlar giriş kontrolü bu kapsamın tamamını kapatmaz. |
+| Stand proje/görsel verisi | Oluşturma, kaydetme, yeniden açma, senkronizasyon, silme ve hata durumlarında IndexedDB/localStorage ile sunucu kayıtlarının eşliği; başka organizasyon ve yetkisiz erişim negatifleri. |
+| Canlı Stand paylaşımı | Paylaşımı başlatma/izleme/sonlandırma, bağlantı süresi ve iptali; gerçek STUN/WebRTC/WebSocket hedefleri ve veri kapsamı. Tanıtım GLB önbelleği bu akışın kanıtı değildir. |
+| Form ve dış aktarım | Form → özel WordPress kaydı → SMTP teslimi ve hata yolu; WhatsApp'a tıklamayla aktarılan alanlar; Google Fonts ve diğer dış isteklerin gerekli/isteğe bağlı tetiklenmesi. Kontrollü deneme ve kayıt temizliği ayrıca planlanır. |
+| Saklama ve silme | Talep, uygulama kaydı, günlük, yedek ve yerel önbellek için gerçek süre/ölçüt, sorumlu ve silme davranışı; sırf metne süre yazılarak tamamlanmaz. |
+| Gizlilik ve kullanım metinleri | Web ziyaretçisi ve CRM/Stand kullanıcısı için gerçek amaç, veri, alıcı, hukuki sebep ve başvuru yolu eşleştirmesi; form/giriş/ürün ekranlarından erişim. WordPress yönetici oturumu ayrıca sınıflandırılır. |
+| Tercihler ve ileride analiz/reklam | Gerekli olmayan akışların tercih öncesi çalışmaması; kabul/ret/geri alma ve sonraki ziyaret doğrulaması. Yeni piksel/servis eklenirse envanter ve metinler birlikte güncellenir. |
+| Son hukuki inceleme | Gerçek işletme/veri sorumlusu kimliği, işleyen/sorumlu rolleri, aktarım ve saklama kararları üzerinden ayrıca yapılacak. Teknik kontroller hukuki uygunluk onayı olarak raporlanmaz. |
+
+**Metin yönetimi için kullanıcı kararı:** Şimdilik marka adı **KYROX STUDIO** kullanılacak. Bu, resmî veri sorumlusu unvanının doğrulandığı anlamına gelmez; gerçek kimlikle güncelleme açık iştir. Belgeler WordPress panelinden düzenlenebilir kalacak, tema güncellemesi yönetici düzenlemelerini ezmeyecek. İçeriğin hazırlanması, düzenlenebilir sayfaların kurulması ve yayının doğrulanması henüz tamamlanmadı.
+
+Öncelik: Önce teknik veri akışlarını ve açık eksikleri görünür tutarak ilerle; doğrulanmayan alana tamamlandı/güvenli/uygun işareti koyma. Son hukuki inceleme ayrı kapanış adımıdır, mevcut teknik eksikleri ortadan kaldırmaz.
+
+Takip: [Web ve Ürünler — Yayına Hazırlık](WEB_LAUNCH_CHECKLIST.md), özellikle 13–14, 16 ve 20–21. maddeler.
