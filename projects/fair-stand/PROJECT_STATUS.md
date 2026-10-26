@@ -2,12 +2,24 @@
 
 | Alan | Değer |
 |------|--------|
-| Son doğrulama | **2026-10-24** |
+| Son doğrulama | **2026-10-26** (yerel editör paketi; canlı kabul ayrı) |
 | Implementation deposu | `kyrox-studio/kyrox-fair-stand` |
 | Hosted backend | Fair Stand FastAPI (`:8002`) / PostgreSQL `fair_stand` |
 | Item master | İlişkisel PostgreSQL; catalog bootstrap API |
 | Category master | `fair_stand_categories` |
 | Catalog | Yalnız Item projeksiyonu |
+
+## 2026-10-26 — Kompakt kart, dönüş ve ahşap ayak paketi (CI bekliyor)
+
+[Stand #350](https://github.com/kyrox-studio/kyrox-fair-stand/pull/350), kaynak `4eec7970`: içerik yüksekliğinde kart; −45/−15/+15/+45 düğmeleri ve mevcut açı; yan yana Kopyala/Sil; belirgin Kilitli düğmesi; kart üstünden gerçek seçimi kaldırma. Sahnede çoklu panel/modül korunur. Düğmeler Shift+R ile ortak açı imlecini kullanır; reddedilen ara açı bir sonraki basışı durdurmaz. Sıkıştırılmış GLB'nin ahşap ayak maskesi özgün varlık koordinatlarında hesaplanır: takım, tekli ve çiftli ayrı ayrı kontrol edildi.
+
+Yerel 0087 migration tanımlı Item dönüş adımlarını 15° yapar; NULL alt parçalar, varsayılan yönler ve kayıtlı müşteri proje açıları korunur. Önceki değerler downgrade için tutulur. Yerel DB 0087; bu paket üretime deploy edilmedi, son doğrulanmış üretim head'i 0086. Işık/pozlama denemeleri kullanıcı isteğiyle tamamen geri alındı; bu paket ilk ışık davranışını değiştirmez. Serbest sürükleme/kenar snap'i ve zorunlu strafor desteği henüz uygulanmadı.
+
+Doğrulama: **1547 Node testi**, **209 backend testi**, build/syntax/change-contract PASS; değişen akışlara ait **43 Chromium senaryosu PASS**. Eski sentetik dokunmalar native touch olaylarına taşındı ve ilgili iki senaryo ayrıca PASS; beklenti atlama veya çakışma kontrolü gevşetme yok. Test kataloğu 15°'ye güncellendi; kopyanın 180° beklentisi 12×15° ile korunur. Migration tek-head/geri dönüş testi vardır. Tam GitHub E2E #350'de çalışır; auto-merge açık, birleşme ve canlı kabul henüz tamamlandı sayılmaz. Fiziksel telefon/gerçek müşteri projesi kabulü ayrı açıktır.
+
+[CRM #374](https://github.com/kyrox-studio/kyrox-fair-crm/pull/374), kaynak `ad9e88f9`: mode-aware yerel FAIR_STAND_ROOT seçimi, varsayılan kardeş depo ve süreç ortamı önceliğini korur. Makine yolu/.env.local commit edilmedi. **685 frontend testi**, entegre build ve feature-contract PASS; 5173 gerçek güncel modül kaynağı doğrulandı. CRM backend/yetki değişikliği yok.
+
+Ayrıntı ve kullanıcı kararları: [Seçim kartı yol haritası](SECIM_OZELLIK_PANELI_YOL_HARITASI.md). Aşağıdaki tarihli kayıtlar tarihsel teslimlerdir; bu bölüm yeni kart/çubuk yerleşimi için önceliklidir.
 
 ## 2026-10-24 — Özellikler paneli, katalog ve vitrin rengi (yerel)
 
