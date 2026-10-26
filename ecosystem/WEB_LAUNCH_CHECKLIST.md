@@ -50,6 +50,8 @@
 
 ## Tamamlanan işler
 
+**26 Ekim 2026 — Otomatik 3D ve önbellek:** Kullanıcı kararıyla V3 artık düğme beklemeden açılır. Sürümlü Elikon GLB'si CacheStorage'da tutulur; önbellek kapalıysa normal HTTP indirmesine dönülür. İlk açılışta kapak korunur, ağ hatasında yeniden deneme vardır. Otomatik yükleme klavye odağını almaz. [Web PR #11](https://github.com/kyrox-studio/kyrox-web/pull/11) CI yeşilken birleştirilip `af7578a7297f295d2f7471acbad1a2a1ffe63581` olarak yayımlandı. Yerel ve canlı Chromium: otomatik açılış, ikinci ziyarette **0 model ağ isteği**, önbellek kullanılamaması, hata/yeniden deneme ve gerçek dönüş başarılı; tarayıcı hatası yok. 25 Ekim kaydındaki isteğe bağlı yükleme davranışı bu kararla değişmiştir.
+
 **25 Ekim 2026 — Web yayını:** [Web PR #10](https://github.com/kyrox-studio/kyrox-web/pull/10) üç CI kontrolü yeşilken ana dala birleştirildi. Sunucu tam olarak `42a6c816662ebe370ee3c536f4a52489c7a733d3` commit'ine ilerletildi. Önce WordPress DB ve eski tema yedeği `/opt/kyrox/backups/web-v3-20261025-01a172db` altında alındı. Mevcut sayfalar korunarak yalnız eksik Fuar CRM / Stand Konfiguratör sayfaları oluşturuldu; diğer uygulama servisleri dağıtılmadı.
 
 - Canlı adresler: [Stand V3](https://kyrox.studio/fuar-stand/), [Fuar CRM tanıtımı](https://kyrox.studio/fuar-crm/), [ana sayfa SSS](https://kyrox.studio/#sss).
