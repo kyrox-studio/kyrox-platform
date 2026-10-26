@@ -913,6 +913,47 @@ Kaynak: Stand main ve canlı `16dd30f2`. Bulgu dosyalarını düzelten bir commi
 - Bu teslimde yerel testler tekrar koşturulmadı; yukarıdaki commit'e bağlı CI sonuçları, kod incelemesi ve canlı deploy kabulü kullanıldı. Canlı güvenlik senaryolarının tamamı veya Stand düzenle/kaydet/yeniden aç/BOM akışı tekrar denenmiş sayılmaz; SPA host HTTP 301 yalnız yönlendirme kanıtıdır.
 - **Açık işler korunur:** Core F-C1/F-C2/F-C5/F-C8/F-C13/F-004; Stand F-S8/K-STAND-02; E-024'te listelenen sunucu/CI işleri ve diğer açık P2 bulguları. Eski bölümler tarihsel kanıttır; bu kayıt yalnız yukarıdaki bekleyen birleşme/dağıtım durumlarını günceller.
 
+### 6.19 Düzeltme turu E-026 — Core ve Stand P1'leri (2026-10-27)
+
+- **Kural:** Her düzeltmeden önce açığın düzeltme öncesi kodda çağrı zinciriyle (dosya:satır) var olduğu doğrulandı; başka bir katman zaten koruyorsa düzeltme yazılmadı. Her regresyon testi düzeltmesiz FAIL, düzeltmeyle PASS.
+- **Canlı:** Bu turda canlıya dokunulmadı. Canlı E-025 hâlinde: Core `dfdac99`, CRM `4d0d0c2f`, Stand `6355ffb4`, üç servis active (2026-10-27 salt okunur).
+
+#### Core — [kyrox-core#50](https://github.com/kyrox-studio/kyrox-core/pull/50) (dal `fix/security-p1-core-batch`; CI Backend başarılı; birleşme bekliyor)
+
+| Bulgu | Düzeltme öncesi kanıt | Düzeltme | Regresyon testi |
+|---|---|---|---|
+| F-C1 | `user_management/routes.py` update/delete yalnız Super Admin hedefini koruyordu | Hiyerarşi kuralı tek yerde (`role_management/privilege.py`): hedefin izinleri aktörünkünün alt kümesi değilse 403; eşit OrgAdmin'ler birbirini yönetebilir (ADR-0005) | `test_privilege_hierarchy.py` (`test_editor_cannot_take_over_or_disable_org_admin`, `test_delete_holder_cannot_delete_more_privileged_user`) |
+| F-C2 | `role_management/routes.py` yalnız `identity.roles.update` istiyordu; `identity.roles.assign` (migration 0046) hiçbir yerde istenmiyordu | Rol atama `identity.roles.assign` ister; aktör kendinde olmayan izni hiçbir role veremez, aşan rolü atayamaz. Migration `0076`: `users.create`/`users.update` taşıyan rollere ve OrgAdmin'e `identity.roles.assign` (yalnız INSERT) | `test_privilege_hierarchy.py` (5 test), `test_migration_0076_*` |
+| F-C5 | `ENVIRONMENT` okunmuyordu; varsayılan anahtarlar; açılışta kontrol yok | `ENVIRONMENT=production` iken boş/kısa/varsayılan/aynı anahtar veya `DEBUG=true` ile açılış reddi; refresh varsayılanı 30 gün | `test_runtime_settings_guard.py` (12) |
+| F-C8 | Oturumun süresi yoktu; JWT exp üst sınırı yoktu | Migration `0077`: `identity_sessions.expires_at` (mevcutlar `created_at + 30 gün`); süresi dolan oturum reddi; iat→exp access süresi + 60 sn'yi aşarsa red | `test_session_absolute_expiry.py`, `test_migration_0077_*` |
+| F-C13 | Giriş/çıkış ve kullanıcı uçlarında audit çağrısı yoktu; rol action adları 2 segmentli, `session_id` NULL | ADR-0004 adlarıyla `identity.user.*`, `identity.role.*`, `identity.permission.*`, `identity.user.login`/`logout`; `session_id` dolu; sır yazılmaz | `test_identity_admin_audit.py`, `test_login_throttle_and_audit.py::test_sign_in_events_are_audited_without_secrets` |
+| F-004 (login) | `login.py` her denemede parola doğruluyordu, sayaç yoktu | Migration `0078`: DB tabanlı sınır (hesap+IP 15 dk'da 5, hesap 10 hata → 15 dk kilit; IP sayacı kapalı, CRM tek IP); kilitte hesap varlığı sızmaz (429) | `test_login_throttle_and_audit.py` (5) |
+
+- **Sonuç:** Tam pytest 534 passed, 5 skipped (Postgres); Postgres adımı 0074–0078 19 passed. Alembic head (dal) `20261027_0078`.
+- **Açık kalan:** Access süresi 15 gün kaldı (R-2): Stand 401'de refresh yapmıyor (`projectRemote.js`, `groupTemplateRemote.js`, `mountFairStand.js`; CRM `FairStandPage.tsx` token'ı açılışta bir kez verir) ve CRM'de `access_token_expire_days ge=15` kısıtı var. `ACCESS_TOKEN_EXPIRE_MINUTES` ayarı hazır. CRM/Stand token'larını paylaşılan HS256 anahtarıyla yerelde doğruluyor; Core'daki süre sınırı onları kapsamıyor. Parola sıfırlama ve kayıt sınırı (P2), F-C6 dokunulmadı.
+- **Deploy notları:** 0077 nedeniyle 30 günden eski oturumlar biter. Canlıda `ENVIRONMENT` production değil; production'a geçmeden `JWT_SECRET_KEY` ve `CORE_IDENTITY_ACTION_TOKEN_SECRET_KEY` (≥32, farklı) uzunluk/sha8 ile kontrol edilmeli. CRM girişleri tek IP'den geldiği için pratikte hesap başına 5 hatada kilit; CRM giriş ekranında 429 mesajı bir kez denenmeli.
+
+#### Stand — [kyrox-fair-stand#351](https://github.com/kyrox-studio/kyrox-fair-stand/pull/351) (dal `fix/security-p1-stand-batch`; birleşme bekliyor)
+
+- **F-S8 / D-18:** 33 admin mutasyonu ve proje silme Core `audit-events`'e `fair_stand.<kaynak>.<fiil>` olarak, DB commit'inden sonra gider. Test `test_core_audit.py` (13); bağlantılar geri alınınca FAIL. Backend pytest 220 passed, `contract:verify` kabul.
+  - **Karar (kullanıcı, 2026-10-27):** Audit best-effort kalır (log + devam, CRM ile aynı; ADR-0004 Super Admin gerilimi bilinçli kabul).
+  - **Karar (kullanıcı, 2026-10-27):** Sistem kataloğu olayları Core'da organizasyonsuz uç olmadığı için isteğin organizasyonuna `metadata.scope=system_catalog` ile yazılır.
+  - **Açık (Core, R-3):** `audit-events` izin istemiyor; kullanıcı `fair_stand.*` olayını sahte yazabilir.
+- **K-STAND-02 / D-12 — kısmi:**
+  - **Askıdaki organizasyon zaten korunuyor, ayrı kapı eklenmedi.** Zincir: Stand `require_permission` → Core `POST /organizations/{id}/authorization/check` → `sqlalchemy_permission_checker.py` `OrganizationModel.status == ACTIVE` şartı. Core #50'ye bu davranışın testi eklendi (`test_sqlalchemy_permission_checker_evaluates_user_role_graph`). Stand'de kullanıcısız arka plan işi yalnız bellekteki canlı paylaşım temizleyicisi (`main.py`). Önce eklenen lifecycle snapshot kapısı aynı korumayı tekrarladığı, paylaşılan lifecycle credential'ını (Core'da retained-audit purge ucunu da açar) Stand'e taşıdığı ve canlıda token yoksa yazmaları durduracağı için kullanıcı kararıyla kaldırıldı.
+  - **Belgelendi:** Stand tenant veri envanteri ve `customer_id` bağlantı kuralı Stand `docs/refactor/DATABASE.md`.
+  - **Açık:** Organizasyon kapanışında Stand verisi silinmiyor. CRM kapanışı (`organization_closure/application/product_cleanup.py`) yalnız CRM tablolarını siliyor; Stand hiç geçmiyor. Bu iş ve OL08-D'ye Stand bölümü karar bekliyor. CRM müşterisi silinince Stand projesine ne olacağı da karar bekliyor.
+
+#### F-V1 — ek kanıt (2026-10-27, canlı salt okunur; düzeltme bekletiliyor)
+
+- `kyrox-db`'de `postgres` dışında rol yok (superuser); `kyrox_core`, `fair_crm`, `fair_stand` DB'leri ve tabloları (16/55/28) `postgres`'e ait; aktif bağlantıların hepsi `postgres`. Superuser gerektiren eklenti, SECURITY DEFINER fonksiyon veya event trigger yok.
+- CRM `shared/database_backup` Core ve Stand DB'lerine doğrudan bağlanıyor (`KYROX_CORE_DATABASE_URL`, `FAIR_STAND_DATABASE_URL`); destructive restore zaten sunucuda `run-restore-job.sh` ile çalışıyor. `deploy-all.sh` (satır 160–180) bağlantı başarısızsa `postgres` parolasını uygulamanın `DATABASE_URL`'ine göre yeniden ayarlıyor.
+- **Önerilen model (karar bekliyor):** uygulama başına sahip rol, CRM yedeği için salt okunur `kyrox_backup`, restore betiği `postgres` ile. Kullanıcı sunucu işlerini (F-V1…F-G3) şimdilik bekletti.
+
+**Güncel açık P1'ler:** Core'da #50 birleşip deploy edilene kadar F-C1, F-C2, F-C5, F-C8, F-C13, F-004 (login) dalda düzeltilmiş; Stand F-S8 #351'de; K-STAND-02 kapanış silme kısmı açık; sunucu/CI F-V1, F-V2, F-V4, F-V5, F-V7, F-V12, F-V13, F-G1, F-G3/F-005 kalan kısmı.
+
+**Belge etkisi (karar sahibinin onayıyla ayrıca):** ADR-0003 (access 15 gün gerekçesi, oturum mutlak bitişi, login kilidi), ADR-0004 (Core'un kullandığı action listesi), ADR-0005 (alt küme hiyerarşisi, `identity.roles.assign` zorunlu, 0076 grant'ı), ADR-0006 (Stand askıyı Core yetki kontrolüyle uygular), OL08-D (Stand veri sınıfları).
+
 ## 7. Kaynaklar ve bakım
 
 Başlangıç girdisi: kullanıcının 2026-10-25 tarihli `KYROX_SECURITY_CONTROLS_PRIORITY_DRAFT.md` taslağı; taslak ayrı bir bağlayıcı kaynak değildir. Bu belge mevcut onaylı standartlarla ilişkilendirilmiş ana güvenlik kaydıdır.
