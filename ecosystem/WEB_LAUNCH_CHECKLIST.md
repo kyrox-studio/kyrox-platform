@@ -30,7 +30,7 @@
 - [x] **10 — Fair-Stand tanıtım sayfası:** Mevcut V2 tasarımı korunarak gerçek Elikon sahneli V3, `/fuar-stand/` adresinde yayımlandı.
 - [x] **11 — Tanıtım sayfalarının SEO ve paylaşımı:** İki üründe tutarlı başlık/açıklama, temiz canonical, özel 1200 × 630 PNG, OG/Twitter açıklamaları, WebPage/BreadcrumbList ve canlı sitemap/llms.txt doğrulandı.
 - [x] **12 — Çerez ve dış servis envanteri:** [Temel envanter ve kanıt](WEB_STORAGE_AND_SERVICES.md) kaydedildi. Beş anonim ekran canlı incelendi; oturum sonrası depolama kaynak koduyla listelendi. Oturumlu davranış ve saklama sürelerindeki açıklar belgede belirtilir; tercih yönetimi henüz uygulanmadı.
-- [ ] **13 — Gizlilik ve kullanım metinleri:** Envantere ve gerçek veri akışlarına göre gizlilik, veri kullanımı ve kullanım koşulları içeriklerini tamamla; ilgili ekranlardan erişilebilir yap.
+- [ ] **13 — Gizlilik ve kullanım metinleri:** Genel web bilgilendirmesi ve düzenlenebilir üç WordPress sayfası yayımlandı; CRM/Stand bilgi bağlantıları ve yerel font paketi gönderildi. [Teslim ve kalan işler](WEB_STORAGE_AND_SERVICES.md#hemen-uygulanabilen-paket--26-ekim-2026). Resmî kimlik, faaliyete özel ayrıntılı aydınlatma, saklama kararları ve uygulama canlı kontrolü açık; tam kapanış değildir.
 - [ ] **14 — Çerez tercihleri:** Envanter sonucuna göre gereken tercih yönetimini uygula; gerekli olmayan servislerin tercih öncesi davranışını doğrula.
 - [ ] **15 — Ölçümleme:** Amaç ve veri kapsamını belirleyerek ziyaret ve ürün kullanım ölçümünü kur; gerçek olaylarla doğrula.
 - [ ] **16 — Web formunun canlı doğrulaması:** Talebin kaydı, yönetim panelinde görünmesi, e-posta teslimi ve hata durumlarını doğrula.
