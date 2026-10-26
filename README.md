@@ -50,6 +50,8 @@ If the same rule appears in more than one place, that is a documentation defect:
 
 [Web ve Ürünler — Yayına Hazırlık](ecosystem/WEB_LAUNCH_CHECKLIST.md): Kyrox web sitesi, Fair-CRM ve Fair-Stand için basitten zora, tek tek ilerlenen kontrol ve iş listesi.
 
+[Tarayıcı Depolaması ve Dış Servisler](ecosystem/WEB_STORAGE_AND_SERVICES.md): Canlı anonim ziyaret kanıtı, oturum/depolama kayıtları ve gizlilik metinlerine temel olacak servis envanteri.
+
 ## Important shared standards
 
 - [CRUD & UI Authorization Standard](standards/ui/CRUD_UI_AUTHORIZATION_STANDARD.md) — reusable CRUD permission semantics and UI visibility/action rules.
