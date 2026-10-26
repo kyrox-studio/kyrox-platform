@@ -883,25 +883,35 @@ Kaynak: Stand main ve canlı `16dd30f2`. Bulgu dosyalarını düzelten bir commi
 
 ### 6.17 Düzeltme turu E-024 — karar gerektirmeyen P1'ler (2026-10-26)
 
-Not: Haftalık kullanım limiti %99'a geldiği için bu kayıt kısa tutuldu. CRM PR'ı yazım anında açıktı. Asıl bulgu satırlarının öncelik sütunları tek tek değiştirilmedi; güncel öncelik ve durum aşağıdaki tablodadır ve §6.3/§6.12/§6.16'nın önüne geçer.
+İlk kayıt sırasında haftalık kullanım limiti %99'a yakındı ve CRM PR'ı açıktı. Durumlar 26 Ekim 2026 E-025 kod/CI/deploy doğrulamasıyla güncellendi. Asıl bulgu satırlarının öncelik sütunları tek tek değiştirilmedi; güncel durum bu bölüm ve E-025'te yer alır ve §6.3/§6.12/§6.16'nın önüne geçer.
 
 | Bulgu | Durum | Kanıt |
 |---|---|---|
-| F-C12 | **KODDA DÜZELTİLDİ, deploy bekliyor** — [kyrox-core#49](https://github.com/kyrox-studio/kyrox-core/pull/49) merge `dfdac99`, migration `20261026_0075` | Kilit artık grant'ları silmiyor, kilit açılınca erişim dönüyor; inactive tüm grant'ları siliyor; kilitli izinle yeni atama reddediliyor. Regresyon testi gerçek PostgreSQL'de, CI'da koşuyor (run 40293645944): main'de FAIL, dalda 5/5 PASS. Tam pytest 494 passed. Kilit sırasında daha önce silinmiş grant'lar geri getirilmedi (karar) |
-| F-002 + F-003 | **KODDA DÜZELTİLDİ, deploy bekliyor** — [kyrox-fair-stand#348](https://github.com/kyrox-studio/kyrox-fair-stand/pull/348) merge `f3953ad` | Pillow varsayılanı 89,5 MP üstü görsel çözümlenmeden 400; global ayar değiştirilmiyor; decode thread'de; yükleme 64 KB parçalarla, sınır+1 baytta kesiliyor. 7 regresyon testi main'de FAIL, dalda PASS; 54 MP gerçek JPEG kabul. Backend 208, `npm test` 1546; CI `verify` run 40293777936. Karar: `max_image_upload_mb` üst sınırı yok; disk tavanı nginx 256m |
-| F-R7, F-B1, F-B2 | **PR AÇIK, merge bekliyor** — [kyrox-fair-crm#373](https://github.com/kyrox-studio/kyrox-fair-crm/pull/373) (`cc43a038`) | Önizleme izin kodu `fair_emails.read`; teklif önizleme iframe'i `sandbox=""`; website zenginleştirme ve scraper için IP/yönlendirme kontrolü. Merge ve CI sonucu bu kayıtta yok; sonraki kayıtta işlenecek |
+| F-C12 | **BİRLEŞTİ, DEPLOY EDİLDİ (E-025)** — [kyrox-core#49](https://github.com/kyrox-studio/kyrox-core/pull/49) merge `dfdac99`, migration `20261026_0075` | Kilit artık grant'ları silmiyor, kilit açılınca erişim dönüyor; inactive tüm grant'ları siliyor; kilitli izinle yeni atama reddediliyor. Regresyon testi gerçek PostgreSQL'de, CI'da koşuyor (run 40293645944): main'de FAIL, dalda 5/5 PASS. Tam pytest 494 passed. Kilit sırasında daha önce silinmiş grant'lar geri getirilmedi (karar) |
+| F-002 + F-003 | **BİRLEŞTİ, DEPLOY EDİLDİ (E-025)** — [kyrox-fair-stand#348](https://github.com/kyrox-studio/kyrox-fair-stand/pull/348) merge `f3953ad` | Pillow varsayılanı 89,5 MP üstü görsel çözümlenmeden 400; global ayar değiştirilmiyor; decode thread'de; yükleme 64 KB parçalarla, sınır+1 baytta kesiliyor. 7 regresyon testi main'de FAIL, dalda PASS; 54 MP gerçek JPEG kabul. Backend 208, `npm test` 1546; CI `verify` run 40293777936. Karar: `max_image_upload_mb` üst sınırı yok; disk tavanı nginx 256m |
+| F-R7, F-B1, F-B2 | **BİRLEŞTİ, DEPLOY EDİLDİ (E-025)** — [kyrox-fair-crm#373](https://github.com/kyrox-studio/kyrox-fair-crm/pull/373) (`cc43a038`) | Önizleme izin kodu `fair_emails.read`; teklif önizleme iframe'i `sandbox=""`; website zenginleştirme ve scraper için IP/yönlendirme kontrolü. Merge `4d0d0c2f`, beş CI kontrolü başarılı; E-025 deploy doğrulaması aşağıdadır |
 
 **Güncel öncelikler (E-023 önerileri uygulanmış hali):**
 - **P0 kalmadı:** F-V1 → P1.
 - **P1 → P2:** F-C14, F-V6, F-G4, F-001, F-S9, F-R1, F-R7.
 - **Kapalı:** F-C3, F-C4, F-C4b, F-C9, F-C10, F-C7, F-V3, F-V11, F-R6, F-G2.
-- **Kodda kapalı, deploy bekliyor:** F-C12, F-002, F-003.
+- **Düzeltmesi birleşti ve deploy edildi (E-025):** F-C12, F-002, F-003, F-R7, F-B1, F-B2.
 
 **Hâlâ açık P1'ler:**
 - **Core:** F-C1, F-C2, F-C5, F-C8, F-C13, F-004 (login).
-- **CRM:** F-B1, F-B2 (#373 merge'e kadar).
+- **CRM:** Bu turun F-B1/F-B2 düzeltmeleri birleşti ve deploy edildi (E-025).
 - **Stand:** F-S8, K-STAND-02.
 - **Sunucu/CI:** F-V1, F-V2, F-V4, F-V5, F-V7, F-V12, F-V13, F-G1, F-G3/F-005 kalan kısmı.
+
+### 6.18 Birleşme ve canlı dağıtım doğrulaması E-025 (2026-10-26)
+
+- Kullanıcının isteğiyle E-024'teki bekleyen kayıtlar GitHub, kaynak kod ve canlı deploy raporuyla karşılaştırıldı. Yeni güvenlik denetimi veya canlı saldırı senaryosu çalıştırılmadı.
+- **Core #49:** merge `dfdac99`; Backend CI başarılı ([run 40293645944](https://github.com/kyrox-studio/kyrox-core/actions/runs/40293645944)). `20261026_0075_permission_lock_keeps_grants.py` trigger'ı kilitte grant'ları korur; inactive/organization kapsamından çıkışta siler. Eski trigger'ın daha önce sildiği grant'lar otomatik geri getirilmez.
+- **Stand #348:** merge `f3953adf`; CI verify başarılı ([run 40293777936](https://github.com/kyrox-studio/kyrox-fair-stand/actions/runs/40293777936)). `image_optimize.py` decode öncesi piksel sınırı; `project_routes.py` 64 KB parçalarla sınır+1 baytta kesme ve threadpool işleme kodu doğrulandı. Sonraki #349 merge `6355ffb4` bu kodu içerir; onun [tam CI'ı](https://github.com/kyrox-studio/kyrox-fair-stand/actions/runs/40319536433) da başarılıdır.
+- **CRM #373:** merge `4d0d0c2f`; Feature Contract, System Behavior Map, Frontend Tests/Build/UI Governance, Backend Quality Check ve prod-path-e2e başarılı ([gate](https://github.com/kyrox-studio/kyrox-fair-crm/actions/runs/40330821977), [E2E](https://github.com/kyrox-studio/kyrox-fair-crm/actions/runs/40330821987)). Kaynakta `preview_bulk_email_operation.py` izni `fair_crm.fair_emails.read`; `QuoteEditorPage.tsx` görünür iframe'i boş sandbox ile kullanır. Yazdırma iframe'i script izni içermez. `url_safety.py` kamuya açık olmayan IP'leri reddeder, her yönlendirmeyi doğrular; website fetcher/validator bu yardımcıları kullanır.
+- **Canlı deploy tamamlandı:** `ssh kyrox` üzerinden standart `deploy-all.sh`; Core `dfdac99`, CRM `4d0d0c2f`, Stand `6355ffb4`. Rapor: `Final: HEALTHY`, `Failed step: none`, `Status: deploy complete`. Migration head'leri Core `20261026_0075`, CRM `0098`, Stand `0086`; üç health, giriş, yetkili yedek API, katalog bootstrap, entegre frontend build ve nginx kontrolleri PASS. Veritabanları sıfırlanmadı; mevcut kullanıcı ve katalog korundu.
+- Bu teslimde yerel testler tekrar koşturulmadı; yukarıdaki commit'e bağlı CI sonuçları, kod incelemesi ve canlı deploy kabulü kullanıldı. Canlı güvenlik senaryolarının tamamı veya Stand düzenle/kaydet/yeniden aç/BOM akışı tekrar denenmiş sayılmaz; SPA host HTTP 301 yalnız yönlendirme kanıtıdır.
+- **Açık işler korunur:** Core F-C1/F-C2/F-C5/F-C8/F-C13/F-004; Stand F-S8/K-STAND-02; E-024'te listelenen sunucu/CI işleri ve diğer açık P2 bulguları. Eski bölümler tarihsel kanıttır; bu kayıt yalnız yukarıdaki bekleyen birleşme/dağıtım durumlarını günceller.
 
 ## 7. Kaynaklar ve bakım
 
