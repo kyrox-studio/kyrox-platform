@@ -7,7 +7,7 @@ Living status for KYROX Core. Ecosystem summary: [../../ecosystem/STATUS.md](../
 | Last verified | **2026-10-13** |
 | Repository mode | Stable platform baseline; fixes and reusable product-driven changes continue |
 | Active ecosystem milestone | M4 — FAIR CRM v1 |
-| Migration head in `main` | `20261026_0074` (drops the email-based default owner Super Admin trigger; production deployed 2026-10-26, see SECURITY_PROGRAM E-022) |
+| Migration head in `main` | `20261026_0075` (permission lock keeps role grants per ADR-0005; kyrox-core#49, not yet deployed — production is at `20261026_0074`, see SECURITY_PROGRAM E-022/E-024) |
 | Main CI | Core CI #84 green on P0.2 CORE-09 final certification head before merge |
 
 ## Product-driven extension merged — 2026-10-13
