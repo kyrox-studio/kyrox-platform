@@ -12,7 +12,7 @@ Potential future Core work, activated only by an explicit requirement:
 
 - email verification,
 - MFA,
-- login rate limiting / account lockout,
+- password-reset and signup rate limiting (login rate limiting / temporary lockout is delivered by kyrox-core#50, SECURITY_PROGRAM E-026),
 - device/session-management UX and policy hardening.
 
 The canonical identity/security architecture remains [ADR-0003](decisions/0003-identity-security-strategy.md).
