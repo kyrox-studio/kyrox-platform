@@ -8,6 +8,8 @@ Format: one version section per completed sprint milestone. Update this file aft
 
 ## Unreleased
 
+- **Canlıya alındı — 2026-10-27** — `deploy-all.sh` ile FAIR CRM `04412027` canlıda (önceki `33b4f47e`; #375–#379). Core `6e3abc3` ve Fair Stand `4d04f885` zaten günceldi. Migration head değişmedi: `0098_tobb_manual_date_revision`. Deploy aynı-major yaması: dnspython 2.8.0 → 2.9.0 (Core ve CRM venv). Health Core/Stand/CRM 200, login smoke ve post-deploy check geçti; dört servis aktif, `fuar.kyrox.studio` 200. Günlük: sunucuda `/var/log/kyrox-deploy-20261027-225142.log`.
+
 - **Git geçmişi yeniden yazıldı — 2026-10-27** — Kişisel veri içeren betik çıktıları (951 yol, `scripts/legacy/cleaned/*.json` dahil) bütün commit'lerden çıkarıldı; `main` `04412027`. Önceki SHA'lar eski geçmişe aittir, karşılıkları [ops/HISTORY_REWRITE_2026-10-27](ops/HISTORY_REWRITE_2026-10-27.md).
 
 - **Depo private; sunucu deploy key ile okur — merged 2026-10-27 (PR #379, eski `02b85bb6` → yeni `04412027`)** — `kyrox-fair-crm` private yapıldı. Canlı sunucunun remote'u `git@github-crm:kyrox-studio/kyrox-fair-crm.git` (salt-okunur deploy key, `~/.ssh/id_ed25519_crm`); `bootstrap-server.sh` varsayılanı ve `scripts/server/backup/README.md` boş sunucu adımları aynı yolu kullanır. Free planda private depoda `main` koruma kuralı uygulanmaz ve auto-merge açılamaz; Actions ayda 2.000 dakika.
