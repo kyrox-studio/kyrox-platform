@@ -104,4 +104,3 @@ All future adapters (CSV, XML, API, scraper, ERP) must implement the same `mappi
 | Sample builder | `backend/app/modules/imports/application/column_mapper.py` |
 | Preview API | `GET /api/v1/data-integration/imports/{batch_id}/mapping-preview` |
 | Wizard UI | `frontend/src/pages/ImportWizardPage.tsx` |
-| Preview component | `frontend/src/components/imports/MappingFieldPreview.tsx` |
