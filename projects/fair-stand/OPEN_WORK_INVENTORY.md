@@ -206,6 +206,8 @@ Kaynak: `kyrox-platform/projects/fair-crm/ROADMAP.md` + `backlog/*`
 | `SYSTEM_AUDIT_CHECKLIST.md` ikinci kopya | Yanıltıcı OPEN sayaçları |
 | `audit/FULL_SWEEP_STATE.md` | Tarihî mühür; güncel değil |
 | Eski `audit/evidence/*` OPEN satırları | Kapanmış bulguları OPEN gösterebilir |
+| `docs/items/audit/**`, `docs/items/current-system/**`, `ITEM_CONSOLIDATION_PLAN.md`, `ITEM_LIST.md`, `door_100_full_system_audit.md` | 2026-10-27'de Stand'den [archive/fair-stand/docs-items](../../archive/fair-stand/docs-items/README.md) altına taşındı (422 dosya, sha256 manifest); normatif değil |
+| `docs/items/definitions/*.md` içindeki "Bayat (2026-10-27 denetimi)" notları | Kodda karşılığı kalmamış adlar (ör. `moduleRecipes` tabloları, `connectorType`, `resolveConnectorBom`); satırlar güncel kodla yeniden doğrulanmalı |
 | `GROUP_LOCK` gövde metinleri | Bazı “açık kalan” cümleleri header tablodan geride kalabilir — header’a güven |
 | GitHub eski dallar (`ROG`, `RefactorItem`, `Version2`) | Aktif iş değil; ürün kodu değil (F-044 kapsam dışı) |
 
