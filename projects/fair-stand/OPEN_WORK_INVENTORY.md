@@ -208,6 +208,8 @@ Kaynak: `kyrox-platform/projects/fair-crm/ROADMAP.md` + `backlog/*`
 | Eski `audit/evidence/*` OPEN satırları | Kapanmış bulguları OPEN gösterebilir |
 | `docs/items/audit/**`, `docs/items/current-system/**`, `ITEM_CONSOLIDATION_PLAN.md`, `ITEM_LIST.md`, `door_100_full_system_audit.md` | 2026-10-27'de Stand'den [archive/fair-stand/docs-items](../../archive/fair-stand/docs-items/README.md) altına taşındı (422 dosya, sha256 manifest); normatif değil |
 | `docs/items/definitions/*.md` içindeki "Bayat (2026-10-27 denetimi)" notları | Kodda karşılığı kalmamış adlar (ör. `moduleRecipes` tabloları, `connectorType`, `resolveConnectorBom`); satırlar güncel kodla yeniden doğrulanmalı |
+| CRM git geçmişinde gerçek müşteri verisi | CRM #375 dosyaları `main`'den kaldırdı; eski commit'lerde duruyor ve **tüm kyrox-* depoları public**. Kalıcı çözüm görünürlük (private) veya geçmiş yeniden yazımı — kullanıcı kararı |
+| Kod haritası (yerel `kyrox-map`) SAHIPSIZ yanlış alarmı | Stand'de 268 adayın ~250'si yanlış alarm çıktı: tarayıcının çağırdığı `on*` callback'leri, test fake metotları, vite/alembic kancaları, nesne/callback ile çağrılan fonksiyonlar. Ölü kod listesi ad araması + okuma ile doğrulanmadan silinmez; CRM listesinden önce araç düzeltilecek |
 | `GROUP_LOCK` gövde metinleri | Bazı “açık kalan” cümleleri header tablodan geride kalabilir — header’a güven |
 | GitHub eski dallar (`ROG`, `RefactorItem`, `Version2`) | Aktif iş değil; ürün kodu değil (F-044 kapsam dışı) |
 

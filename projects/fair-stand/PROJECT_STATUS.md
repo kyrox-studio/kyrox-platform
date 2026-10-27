@@ -2,12 +2,20 @@
 
 | Alan | Değer |
 |------|--------|
-| Son doğrulama | **2026-10-26** (yerel editör paketi; canlı kabul ayrı) |
+| Son doğrulama | **2026-10-27** (ölü kod temizliği #353; canlı kabul ayrı) |
 | Implementation deposu | `kyrox-studio/kyrox-fair-stand` |
 | Hosted backend | Fair Stand FastAPI (`:8002`) / PostgreSQL `fair_stand` |
 | Item master | İlişkisel PostgreSQL; catalog bootstrap API |
 | Category master | `fair_stand_categories` |
 | Catalog | Yalnız Item projeksiyonu |
+
+## 2026-10-27 — Belge arşivi ve ölü kod temizliği
+
+[Stand #352](https://github.com/kyrox-studio/kyrox-fair-stand/pull/352) (merge `76720929`): `docs/items` tarihî audit/current-system belgeleri [platform arşivine](../../archive/fair-stand/docs-items/README.md) taşındı (422 dosya, sha256 manifest); iki betik `scripts/archive` altına alındı.
+
+[Stand #353](https://github.com/kyrox-studio/kyrox-fair-stand/pull/353) (merge `36e9fafa`): kod haritasında adı tanımı dışında depoda hiç geçmediği doğrulanan ölü kod silindi. Fonksiyonlar: `toastNotifications.js` `dismissToast`/`clearToasts`, `scene3d.js` `formatMeasureCm`/`createMeshBrandaAlphaMap`, `CostItemService.get_cost_item`, `test/wallHeightProjects.mjs` `buildWallHeightProjectStand`. Tek seferlik betikler: `scripts/export-catalog-seed.mjs` (artık olmayan CRM `catalog_seed_data.py` dosyasına yazıyordu), `scripts/strip-legacy-dimension-columns.mjs`, `scripts/screenshot-glb-compare.mjs`, `backend/scripts/ensure_db.py`, `backend/scripts/verify_dimension_backfill.py`. Davranış, şema ve Alembic head değişmez.
+
+Doğrulama: **1547 Node testi**, **220 backend testi**, build ve contract:verify PASS; hedefli Chromium `reload-restore` + `wall-media-items-contract` **6/6 PASS**.
 
 ## 2026-10-26 — Kompakt kart, dönüş ve ahşap ayak paketi (CI bekliyor)
 
