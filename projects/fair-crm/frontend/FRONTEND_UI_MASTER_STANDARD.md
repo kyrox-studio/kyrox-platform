@@ -391,7 +391,6 @@ Kesinlikle yasak:
 
 - Tam sayfa / panel / detay: `LoadingState` (`components/ui/LoadingState.tsx`); bağlama uygun mesaj (`uiLabels.loading*` / domain label).
 - Sunucu tabloları: `UniversalDataTable` + `ServerDataTableFrame` + `TableSkeleton`.
-- İsteğe bağlı sarmalayıcı: `InitialLoadGate` (aynı dosya).
 
 Mesaj bağlama göre özelleşebilir; **görsel loading pattern** ortak kalır (spinner + `loading-state` veya tablo skeleton).
 
