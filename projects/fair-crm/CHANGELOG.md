@@ -8,7 +8,9 @@ Format: one version section per completed sprint milestone. Update this file aft
 
 ## Unreleased
 
-- **Depo private; sunucu deploy key ile okur (PR #379)** — `kyrox-fair-crm` private yapıldı. Canlı sunucunun remote'u `git@github-crm:kyrox-studio/kyrox-fair-crm.git` (salt-okunur deploy key, `~/.ssh/id_ed25519_crm`); `bootstrap-server.sh` varsayılanı ve `scripts/server/backup/README.md` boş sunucu adımları aynı yolu kullanır. Free planda private depoda `main` koruma kuralı uygulanmaz ve auto-merge açılamaz; Actions ayda 2.000 dakika.
+- **Git geçmişi yeniden yazıldı — 2026-10-27** — Kişisel veri içeren betik çıktıları (951 yol, `scripts/legacy/cleaned/*.json` dahil) bütün commit'lerden çıkarıldı; `main` `04412027`. Önceki SHA'lar eski geçmişe aittir, karşılıkları [ops/HISTORY_REWRITE_2026-10-27](ops/HISTORY_REWRITE_2026-10-27.md).
+
+- **Depo private; sunucu deploy key ile okur — merged 2026-10-27 (PR #379, eski `02b85bb6` → yeni `04412027`)** — `kyrox-fair-crm` private yapıldı. Canlı sunucunun remote'u `git@github-crm:kyrox-studio/kyrox-fair-crm.git` (salt-okunur deploy key, `~/.ssh/id_ed25519_crm`); `bootstrap-server.sh` varsayılanı ve `scripts/server/backup/README.md` boş sunucu adımları aynı yolu kullanır. Free planda private depoda `main` koruma kuralı uygulanmaz ve auto-merge açılamaz; Actions ayda 2.000 dakika.
 
 - **Ölü kod temizliği, 2. tur — merged 2026-10-27 (PR #378, `0136d2af`)** — #377 sonrası yeniden üretilen haritada adı depoda hiç geçmeyen 19 tanım silindi: smtp get/list/delete/set-default use case'leri, operations run item mapper'ları ve sonuç tipleri, kullanılmayan `RestoreService` iskeleti, duplicate grup analiz tipleri, `MappingFieldPreview`, `getImportMatchStatus`/`formatMatchConfidence`, `isInitialAsyncLoad`. Boşalan 6 dosya silindi. Davranış değişikliği yok.
 
