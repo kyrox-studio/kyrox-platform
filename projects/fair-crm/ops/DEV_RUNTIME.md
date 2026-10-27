@@ -64,12 +64,13 @@ Kills listeners on Core `8000`, backend `8001`, and frontend `5173`–`5177`, th
 2. `docker compose up -d` (infra containers use `restart: unless-stopped`)
 3. Waits for PostgreSQL health (`kyrox-db`)
 4. Waits for Redis if the `redis` service exists in `docker-compose.yml` (skipped today)
-5. Starts **KYROX Core** only if `http://127.0.0.1:8000/api/v1/health` is not OK (sibling `../kyrox-core` or `KYROX_CORE_ROOT`)
-6. Starts Fair CRM backend only if `http://127.0.0.1:8001/health` is not OK
-7. Ensures PostgreSQL database `fair_stand`, runs Fair Stand alembic, then starts Fair Stand API only if `http://127.0.0.1:8002/health` is not OK (sibling `../kyrox-fair-stand` or `FAIR_STAND_ROOT`)
-8. Starts frontend only if `http://127.0.0.1:5173` is not OK
-9. Starts worker only if `scripts/dev/start-worker.ps1` exists (not configured in current sprint)
-10. Prints service URLs and `docker compose ps`
+5. Runs **KYROX Core** `alembic upgrade head` from the Core repository root (Fair CRM `DATABASE_URL` is unset for that run), then Fair CRM `alembic upgrade head`; each is verified at head or the script stops (`reset-dev.ps1` does the same)
+6. Starts **KYROX Core** only if `http://127.0.0.1:8000/api/v1/health` is not OK (sibling `../kyrox-core` or `KYROX_CORE_ROOT`)
+7. Starts Fair CRM backend only if `http://127.0.0.1:8001/health` is not OK
+8. Ensures PostgreSQL database `fair_stand`, runs Fair Stand alembic, then starts Fair Stand API only if `http://127.0.0.1:8002/health` is not OK (sibling `../kyrox-fair-stand` or `FAIR_STAND_ROOT`)
+9. Starts frontend only if `http://127.0.0.1:5173` is not OK
+10. Starts worker only if `scripts/dev/start-worker.ps1` exists (not configured in current sprint)
+11. Prints service URLs and `docker compose ps`
 
 ## URLs (direct service access)
 
@@ -193,7 +194,7 @@ scripts/dev/logs/frontend-5173.log
 - Sibling **kyrox-fair-stand** repo (`../kyrox-fair-stand`) or `FAIR_STAND_ROOT`
 - Python 3.12+ with `pip install -r backend/requirements.txt` (Fair CRM and Core)
 - Node.js 16+ with `npm install` in `frontend/`
-- Migrations applied: `alembic upgrade head` (Fair CRM); Core migrations via Core repo
+- Migrations: `dev-start.ps1` / `reset-dev.ps1` upgrade Core, Fair CRM and Fair Stand to head themselves
 - Optional: `FAIR_CRM_DEV_BYPASS_CORE` for UI-only work without real Core auth
 
 `setup-dev.ps1` bu maddelerin cogu icin kontrol ve kurulum adimlarini otomatiklestirir (Python/Node/PostgreSQL kurulumu haric).
