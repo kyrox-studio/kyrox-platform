@@ -8,6 +8,8 @@ Format: one version section per completed sprint milestone. Update this file aft
 
 ## Unreleased
 
+- **Gerçek müşteri verisi depodan kaldırıldı — merged 2026-10-27 (PR #375, `9d3f75de`)** — `scripts/legacy/reports`, `scripts/legacy/migration_reports`, `scripts/maintenance/reports`, `frontend/reports` ve `backend/foodist_*` / `detail_*` kazıma çıktıları (810 dosya; firma adı, telefon, e-posta, müşteri listesi ekran görüntüleri) silindi ve `.gitignore`'a eklendi. Veri DB'dedir; dosyalar betiklerin yeniden üretilebilir çıktısıdır. Foodist detay parser testi anonimleştirilmiş `backend/tests/modules/scraper/fixtures/foodist_detail_page.html` fixture'ını okur, aynı alanları doğrular. Dosyalar git geçmişinde durur; depo public (açık madde, Fair Stand OPEN_WORK_INVENTORY §5).
+
 - **TOBB controlled sync/review — merged 2026-10-13 (PR #342)** — ADR-040 adds durable independently decided date/metadata proposals, editable source mappings, manual preview/apply staleness guards, strict manual edition expiry checks, system jobs on existing execution/history infrastructure, bounded year retries, cancellation, detailed older-run access and Core-owned in-app notices. Actual Core authorization, concurrent PostgreSQL decisions, tenant relationship preservation and responsive browser workflows passed. Scheduler configuration is Monday 03:00 Europe/Istanbul with catch-up disabled; nothing was deployed. See project status for counts and verification limits.
 
 - **System fair scraper start** — A scraper operation can target a system fair. The run stores the official TOBB title without a 255-character cut. Fair pickers and the scraper summary show `display_name`.
