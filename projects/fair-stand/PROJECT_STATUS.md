@@ -2,12 +2,18 @@
 
 | Alan | Değer |
 |------|--------|
-| Son doğrulama | **2026-10-27** (ölü kod temizliği #353; canlı kabul ayrı) |
+| Son doğrulama | **2026-10-28** (Item belge temizliği #355/#356; canlı kabul ayrı) |
 | Implementation deposu | `kyrox-studio/kyrox-fair-stand` |
 | Hosted backend | Fair Stand FastAPI (`:8002`) / PostgreSQL `fair_stand` |
 | Item master | İlişkisel PostgreSQL; catalog bootstrap API |
 | Category master | `fair_stand_categories` |
 | Catalog | Yalnız Item projeksiyonu |
+
+## 2026-10-28 — Item belgelerinde bayat not temizliği
+
+[Stand #355](https://github.com/kyrox-studio/kyrox-fair-stand/pull/355) (merge `518d73c2`): `docs/items` içindeki 37 "Bayat (2026-10-27 denetimi)" notu kaldırıldı; işaret ettikleri satırlar güncel koda göre yeniden yazıldı (iç köşe `relationshipBom.js` `applyCornerPanelSwap`/`cornerSide`, tip davranışı `fair_stand_item_type`, takım BOM'u `resolveItemBom`). Konnektör tanımları `scripts/gen-item-definitions.py` ile seed ve kaynak koddan üretilir. Tarihî `ITEM_CAPABILITY_INVENTORY.md` [arşive](../../archive/fair-stand/docs-items/README.md) taşındı. `test/itemDocsRuntimeAlignment.test.js` kaldırılmış adları definitions ve contract belgelerinde yasaklar. Uygulama kodu değişmedi. Doğrulama: **1548 Node testi**, contract:verify PASS.
+
+[Stand #356](https://github.com/kyrox-studio/kyrox-fair-stand/pull/356): Item kuralları tek yerde. `ITEM_CONTRACT_CHECKLIST.md` birinci bölümü `ITEM_CONTRACT.md`'nin eski kopyasıydı (15+ kural iki yerde); yalnız checklist'te olan 6A oluşturma, 6B kalıcılık, 7A uzamsal ilişki/reflow kuralları sözleşmeye taşındı, checklist sözleşmeye bağlantı verir.
 
 ## 2026-10-27 — Dikme dikey taşıma (merge + deploy)
 
