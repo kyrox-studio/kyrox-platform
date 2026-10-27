@@ -43,6 +43,8 @@ docker compose ps
 
 ## Adım 3 — Veritabanı migration'ları
 
+`dev-start.ps1` ve `reset-dev.ps1` Core, Fair CRM ve Fair Stand migration'larını kendisi head'e taşır ve doğrular. Aşağıdaki komutlar yalnız betik kullanmadan elle kurulum içindir.
+
 **Core (zorunlu — permission catalog burada):**
 
 ```powershell
