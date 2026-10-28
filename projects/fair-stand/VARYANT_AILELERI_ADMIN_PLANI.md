@@ -1,6 +1,6 @@
 # Varyant Aileleri — Admin'den Yönetim Planı
 
-> Tarih: 2026-10-25 · Durum: **plan, kod yok** · Sıradaki oturumda ilk bakılacak iş.
+> Tarih: 2026-10-25 · Durum: **plan, kod yok**. Sırası: [ROADMAP.md](ROADMAP.md).
 > Önceki iş: `0086_variant_family_cards` (Vitrin, Raf, TV, Video Wall, Uzun Saksı tek kart; varyant Özellikler panelinde).
 
 ## Amaç

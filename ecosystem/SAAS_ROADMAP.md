@@ -145,7 +145,7 @@ Prove that organization boundaries hold across every current and future organiza
 
 ### Completion record
 
-FAIR CRM completed TI-01 through TI-09 on 2026-08-26. The final adversarial certification is FAIR CRM PR #84 with Development Standard Gate #268 and Prod-Path E2E #140 green; the canonical Platform Super Admin exception is separately certified by Core PR #11 / Core CI #54. Detailed evidence is retained in `projects/fair-crm/backlog/P0_1_TENANT_ISOLATION_CERTIFICATION.md`.
+FAIR CRM completed TI-01 through TI-09 on 2026-08-26. The final adversarial certification is FAIR CRM PR #84 with Development Standard Gate #268 and Prod-Path E2E #140 green; the canonical Platform Super Admin exception is separately certified by Core PR #11 / Core CI #54. Detailed evidence is retained in `archive/fair-crm/backlog/P0_1_TENANT_ISOLATION_CERTIFICATION.md`.
 
 ### Coverage
 
@@ -699,7 +699,7 @@ Do not copy this roadmap into `fair-crm` or `kyrox-core` code repositories.
 
 - [KYROX Workflow](WORKFLOW.md)
 - [Ecosystem Roadmap](ROADMAP.md)
-- [Known Deferred Work](KNOWN_DEFERRED.md)
+- [Core Roadmap (candidates)](../projects/kyrox-core/ROADMAP.md)
 - [P0.2 Identity / SaaS Onboarding Implementation Tracker](P0_2_IDENTITY_ONBOARDING_IMPLEMENTATION.md)
 - [P0.2 OL-05 Destructive Organization Authority Implementation Tracker](P0_2_OL_05_IMPLEMENTATION.md)
 - [P0.2 OL-06 Organization Reactivation Implementation Tracker](P0_2_OL_06_IMPLEMENTATION.md)

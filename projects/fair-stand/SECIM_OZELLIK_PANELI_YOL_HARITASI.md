@@ -2,7 +2,7 @@
 
 **Kod karşılaştırması:** 2026-10-25, Fair Stand `main` / `ac18bc1a` (PR #340 ve #341 sonrası).
 **Durum:** Ortak panel ve seçim girişleri kodda mevcut. Canlı varyant seçimi ve desteklenen düzenlenebilir ölçü alanları da panelde. Görsel düzen / erişilebilirlik kabulü açık.
-**Okuma kuralı:** `[x]` kodda mevcut davranışı, `[ ]` kalan doğrulama veya uygulamayı gösterir. Bu belge düzenlemesinde testler yeniden çalıştırılmadı; geçmiş koşu sonuçları [PROJECT_STATUS.md](PROJECT_STATUS.md) içindedir. Kodda bulunması, bütün görsel veya dokunmatik kabul senaryolarının kapandığı anlamına gelmez.
+**Okuma kuralı:** `[x]` kodda mevcut davranışı gösterir. Kalan doğrulama ve uygulama yalnız [ROADMAP.md](ROADMAP.md) § 2'dedir. Bu belge düzenlemesinde testler yeniden çalıştırılmadı; geçmiş koşu sonuçları [PROJECT_STATUS.md](PROJECT_STATUS.md) içindedir. Kodda bulunması, bütün görsel veya dokunmatik kabul senaryolarının kapandığı anlamına gelmez.
 
 **Sıralama:** Önce işlev ve mevcut davranışların korunması; görsel düzenleme en son.
 
@@ -10,10 +10,10 @@
 
 ### 26 Ekim 2026 — kullanıcı kararı ve sıradaki yerel paket
 
-- Tek tek uygulanacak, en sonunda toplu commit/push yapılacak; henüz canlı teslim değildir.
+- Tek tek uygulandı ve toplu gönderildi (Stand #350, CRM #374; 2026-10-27 deploy ile canlıda).
 - Özellikler kartının üstündeki **Seçimi kaldır ×**, yalnız kartı gizlemek yerine sahne seçimini, seçim çerçevesini, çoklu seçim modunu ve etkin kopyalama/yerleştirmeyi sonlandıracak. Çoklu panel/modül düğmeleri sahnedeki seçim çubuğunda korunacak.
 - Sonraki adımda Döndür/Kopyala/Sil karta taşınacak; göreli dönüş seçenekleri ±15°/±45°/±90°. Bu yeni karar aşağıdaki eski çubuk kapsamının ilgili işlem kısmının önüne geçer. Yerelde uygulandı: altı göreli açı düğmesi ve mevcut derece göstergesi; Kopyala ve Sil kartta, çoklu seçim sahne çubuğunda. Etkin kopyalamada dokunmatik çıkış için sahne çubuğunda yalnız Kopyalamayı bitir korunur.
-- Devamında editör ışığı dengesi, kenar/yüzey hizalaması ve hassas taşıma, straforun zorunlu destek yüzeyine bağlanması ele alınacak; henüz uygulanmadı.
+- Devamındaki işler (editör ışığı, hizalama ve hassas taşıma, strafor destek yüzeyi): [ROADMAP.md](ROADMAP.md) § 2.
 - İlk adım yerel kaynakta uygulandı: kart düğmesi gerçek seçim temizlemeye bağlı; dış clearSelection çağrısında eski seçili kimliğin görsel temizliğinden önce sıfırlanması kaldırıldı. Yerel Chromium'da üç özellik paneli ve iki kilit senaryosu geçti (son davranış değişikliği nedeniyle kilit mesajı doğrulaması seçim kaldırılmadan önce yapılıyor). Fiziksel telefon ve canlı CRM kabulü bu kayıtla tamamlanmaz. Değişiklikler henüz commit/push edilmedi.
 
 Sağ tık işlemleri ve seçimin desteklediği özellikler ortak bir panelde sunulacak. Her ürüne aynı ayarlar gösterilmeyecek. Item, seçilen yüzey, mevcut değerler, kilit ve işlem yetkisi birlikte değerlendirilecek.
@@ -143,8 +143,6 @@ Normal tık / çift tık araç çubuğu korunmuş; tek tık, sağ tık ve uzun b
 - [x] Eski menü / renk-görsel alanı ile yeni panel arasında işlev karşılaştırması tamamlanıp artık kullanılmayan arayüz ve olay bağları temizlensin; çalışan kontroller kopyalanıp iki ayrı kaynak bırakılmasın.
 - [x] Mevcut katalog Ekle… akışı, 0082/0083 ile yürüyen ürün ailesi ölçü seçimi, desteklenen ekleme hedefleri ve hata bildirimleri korunmuş olsun. Bu migration'lar bu panel işi için yeniden oluşturulmasın.
 - [x] Basit / Gelişmişte aynı seçim bağlamı ve desteklenen işlemler doğrulansın. Görsel hiyerarşi veya hangi kontrolün ayrıntılarda duracağı son tasarımda belirlensin; ürünün yeteneği moda göre değişmesin.
-- [ ] Büyük seçimlerde ve sahne sürüklemesinde panel güncellemesi gereksiz sahne kurulumuna veya her karede tam arayüz üretimine neden olmasın.
-- [ ] Renk, görsel, özel yüzey, ölçü, silme ve grup işlemlerinin mevcut undo / redo, autosave, revizyon ve kayıt-açma akışlarıyla eşliği doğrulansın.
 - [x] Panel görünürlüğü ve genişliği proje şemasına veya BOM'a eklenmiyor. Yetki/organization modeli bu arayüz çalışmasıyla değişmiyor; katalog yetenek düzeltmeleri ayrı 0084/0085 migration'larıyla yapıldı.
 
 ### Test matrisi
@@ -168,14 +166,7 @@ Normal tık / çift tık araç çubuğu korunmuş; tek tık, sağ tık ve uzun b
 
 ## 3. Adım — Görsel düzenleme
 
-**Mevcut:** Sağda kaydırılabilir kart, başlık/alt başlık, kilit notu, ikonlar, renk/görsel alanları ve dar ekran CSS'i var. Aşağıdaki maddeler bu temelin son görsel ve erişilebilirlik kabulüdür; sıfırdan başlanacak işler değildir.
-
-- [ ] Panelin konumu ve boyutu gerçek kullanım üzerinden belirlensin; masaüstünde sağ panel ve mobilde alttan açılan panel değerlendirilsin.
-- [ ] Seçili öğe / yüzey / grup başlığı, bölüm sırası, boş durum ve kilit açıklaması tasarlansın.
-- [ ] Renk kartelası, görsel alanı, ölçü seçenekleri, Ekle… ve grup işlemleri ortak bileşenlerle düzenlensin.
-- [ ] Basit / Gelişmiş ayrıntı hiyerarşisi son haline getirilsin; mevcut seçim araç çubuğu ve çoklu seçim düğmeleri korunsun.
-- [ ] Sahne, seçili öğe, Kaydet, görünüm küpü ve seçim çubuğu örtüşmeleri masaüstü / dar ekran / tablette kontrol edilsin.
-- [ ] Klavye odağı, ekran okuyucu etiketleri, kaydırma, dokunma hedefleri ve açık / kapalı panel davranışı doğrulansın.
+**Mevcut:** Sağda kaydırılabilir kart, başlık/alt başlık, kilit notu, ikonlar, renk/görsel alanları ve dar ekran CSS'i var. Aşağıdaki maddeler bu temelin son görsel ve erişilebilirlik kabulüdür; sıfırdan başlanacak işler değildir. Açık maddeler: [ROADMAP.md](ROADMAP.md) § 2.
 
 ## Kapsam dışında
 
@@ -193,4 +184,4 @@ Bu belge güncel yol haritasıdır; uygulama ve doğrulama durumu üstteki kayı
 
 **Ek düzeltme — tekli/çiftli/takım ahşap ayakları (26 Ekim, yerel):** Kullanıcı üç koltuk biçiminde ayakların ahşap görünmesini istedi. Yerel DB'de kullanılan ahşap rengi zaten `furniture_coffee_table_classic.default_color=0xa66b3d`; değişmedi. Sıkıştırılmış gerçek `bej_koltuk_1_ciftli_2_tekli.glb` konumları normalized INT16 ve node ölçek/ötelemesiyle saklanıyor, sabit ayak maskesi ise özgün varlık koordinatlarıyla tanımlıydı. `makeBeigeSofaBodyWhite` artık yalnız maske sınıflandırması için vertex koordinatlarını özgün varlık uzayına dönüştürür; çizilen geometri/model ölçüleri değişmez. Ortak fonksiyon takımın üç koltuğuna, tekli ve çiftliye uygulanır. Üç gerçek model/katalog Chromium senaryosunda her koltukta ahşap ve döşeme üçgenlerinin ayrı olduğu ve ahşap renginin a66b3d kaldığı doğrulandı; 6 mevcut mobilya sözleşme testi geçti. Işık değişikliği yok; commit/push/deploy yok.
 
-**Toplu gönderim — 26 Ekim 2026:** Kullanıcı commit/push istedi. Stand `4eec7970` [#350](https://github.com/kyrox-studio/kyrox-fair-stand/pull/350) ve CRM `ad9e88f9` [#374](https://github.com/kyrox-studio/kyrox-fair-crm/pull/374) gönderildi; auto-merge açık, CI/üretim durumu yukarıdaki Proje Durumu bölümünde ayrılır. Son kapsam Kopyala/Sil yan yana ve belirgin Kilitli durumunu da içerir. Önceki “commit/push yok” satırları ilgili ara adımın tarihsel durumudur. Son doğrulama: 1547 Node, 209 backend, 43 Chromium + native touch ile yenilenen iki test; CRM 685 test ve entegre build, sözleşme kapıları PASS. Hiçbir test atlanmadı; yalnız onaylı 15° kuralına ait veri/beklentiler ve değişen UI erişim noktaları güncellendi. Kilit mesajı seçimi kaldırmadan önce doğrulanır; kayıttaki kilit, silme/taşıma/dönüş retleri ve kopyada 180° sonucu aynen korunur. Işık kaynak/test farkı yok. Canlı deploy yapılmadı.
+**Toplu gönderim — 26 Ekim 2026:** Kullanıcı commit/push istedi. Stand `4eec7970` [#350](https://github.com/kyrox-studio/kyrox-fair-stand/pull/350) ve CRM `ad9e88f9` [#374](https://github.com/kyrox-studio/kyrox-fair-crm/pull/374) gönderildi; auto-merge açık, CI/üretim durumu yukarıdaki Proje Durumu bölümünde ayrılır. Son kapsam Kopyala/Sil yan yana ve belirgin Kilitli durumunu da içerir. Önceki “commit/push yok” satırları ilgili ara adımın tarihsel durumudur. Son doğrulama: 1547 Node, 209 backend, 43 Chromium + native touch ile yenilenen iki test; CRM 685 test ve entegre build, sözleşme kapıları PASS. Hiçbir test atlanmadı; yalnız onaylı 15° kuralına ait veri/beklentiler ve değişen UI erişim noktaları güncellendi. Kilit mesajı seçimi kaldırmadan önce doğrulanır; kayıttaki kilit, silme/taşıma/dönüş retleri ve kopyada 180° sonucu aynen korunur. Işık kaynak/test farkı yok. 2026-10-27 deploy ile canlıda.

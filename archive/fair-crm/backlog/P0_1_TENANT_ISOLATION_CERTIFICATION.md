@@ -1,3 +1,5 @@
+> **Arşiv (2026-10-28):** `projects/fair-crm/backlog/` altından taşındı. Tamamlanmış sertifika kaydı (2026-08-26); iş listesi değildir.
+
 # P0.1 Tenant Isolation Certification
 
 Status: **DONE**

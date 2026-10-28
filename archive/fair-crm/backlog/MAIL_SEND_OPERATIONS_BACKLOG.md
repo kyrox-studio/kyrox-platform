@@ -1,3 +1,5 @@
+> **Arşiv (2026-10-28):** `projects/fair-crm/backlog/` altından taşındı. Koda göre doğrulandı: sürekli worker ayrı systemd servisi (`fair-crm-mail-worker`) olarak çalışıyor. Hız sınırı, dağıtım, backoff, sağlayıcı politikası, izleme ve Core jobs maddeleri `projects/fair-crm/ROADMAP.md` § 3 içindedir.
+
 # Mail Send Operations — Faz 2 / Future Work Backlog
 
 **Status:** Backlog only — not scheduled, not in active development.

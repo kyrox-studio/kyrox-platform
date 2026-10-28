@@ -8,6 +8,8 @@ Format: one version section per completed sprint milestone. Update this file aft
 
 ## Unreleased
 
+- **Tek iş listesi — 2026-10-28** — FAIR CRM'in açık işleri [ROADMAP.md](ROADMAP.md) içinde satır olarak toplandı ve `122fdf9f` koduna göre doğrulandı. Tamamlanmış P0.1 / P0.2 / OL bölümleri ROADMAP'ten çıktı (geçmişleri bu dosyada ve ekosistem izleyicilerinde). Koda göre kapanmış bulunan backlog belgeleri arşive taşındı: `EMAIL_COMMUNICATION_PREFERENCES` (webhook, Contact/Customer izni, `EmailConsentPolicy` mevcut), `PROVIDER_MAILERSEND_REMAINING` (`provider_status`, webhook, hata politikası, `Retry-After` mevcut), `MAIL_SEND_OPERATIONS_BACKLOG` (sürekli worker ayrı servis), `P0_1_TENANT_ISOLATION_CERTIFICATION`, `SYSTEM_FAIR_CATALOG_IMPORT_IMPACT`. Açık kalanlar: müşteriyi pasife alma, operasyon duraklat/sürdür, mail hız sınırı / backoff / izleme, görevler Faz 3, WhatsApp/SMS, index ölçümü, MailerSend gerçek toplu gönderim kabulü.
+
 - **Canlıya alındı — 2026-10-28** — `deploy-all.sh` ile FAIR CRM `122fdf9f` (önceki `04412027`; #380), Core `1224fae` (önceki `6e3abc3`; #51) ve Fair Stand `b3f8cadd` (önceki `4d04f885`; #355, #356) canlıda. Migration head'ler değişmedi: CRM `0098_tobb_manual_date_revision`, Core `20261027_0078`, Stand `0088_upright_vertical_move`. Aynı-major yama çıkmadı. Health Core/Stand/CRM 200, login smoke, yedek API ve post-deploy check geçti; geri alma gerekmedi; beş servis aktif, `fuar.kyrox.studio` 200. Günlük: sunucuda `/var/log/kyrox-deploy-20261028-064005.log`.
 
 - **Ölü kod temizliği, 3. tur — merged 2026-10-28 (PR #380, `122fdf9f`)** — Aday tanımların her referansı hangi tanımın içinden geldiğine göre izlendi; referansları yalnız import/`__all__` satırlarında ya da başka ölü tanımların gövdesinde kalan 19 tanım silindi: smtp komut/sonuç sınıfları (5), `ScraperService`, TOBB sync dependency ve request şeması, `get_excel_adapter`, `parse_xlsx_rows`, `ExcelImportSourceAdapter`, `mark_skipped` (2), `link_operation` (2), scraper run history `get_latest_completed_for_fair`/`count_running_for_adapter` (repository + servis). Boşalan 4 dosya ve kullanılmayan 7 `mapping-*` CSS sınıfı silindi. Davranış değişmez. Kalan adayların adı canlı koddan çağrılıyor ya da çerçeve kancası. 2026-10-28'de canlıya alındı.
@@ -95,7 +97,7 @@ Format: one version section per completed sprint milestone. Update this file aft
 - Certified Platform Super Admin global scope through the Core DB-backed identity model; request body/query/header data cannot self-assert the bypass.
 - Final adversarial matrix adds mixed-organization bulk IDs, cross-organization source/target mutation, request-scope spoofing, missing organization context, direct contact/activity/cost-catalog foreign IDs and audit organization context.
 - Final FAIR CRM closure: PR #84; Development Standard Gate #268 and Prod-Path E2E #140 passed. Core Super Admin certification: Core PR #11 / Core CI #54.
-- Canonical evidence: [backlog/P0_1_TENANT_ISOLATION_CERTIFICATION.md](backlog/P0_1_TENANT_ISOLATION_CERTIFICATION.md)
+- Canonical evidence: [archive: P0_1_TENANT_ISOLATION_CERTIFICATION.md](../../archive/fair-crm/backlog/P0_1_TENANT_ISOLATION_CERTIFICATION.md)
 
 ### Bulk Email Wizard — Gönder + Operation Detail (step 4) — 2026-07-24
 

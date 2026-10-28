@@ -199,35 +199,6 @@ Core org-members entegrasyonu (org üye listesi, display name lookup) Faz 1 kaps
 
 ---
 
-## Sonraki Faz Notları
+## Sonraki faz
 
-İleride bu To-Do yapısından aşağıdaki iş akışlarına geçilecek:
-
-- Fuar bazlı müşteri arama listesi üretme
-- Arama işlem listesi
-- WhatsApp mesaj gönderimi
-- SMS gönderimi
-- Toplu mail gönderimi
-- Aktivite takibi
-- Müşteri detay ekranından To-Do / aksiyon güncelleme
-- Job / action engine
-
-Örnek gelecek kullanım:
-
-```text
-Bugün Intermob fuarındaki müşteriler aranacak.
-```
-
-Sistem daha sonra Intermob fuarına bağlı müşteri listesini çıkaracak, kullanıcı arama yaptıkça liste ilerleme durumunu güncelleyecek.
-
----
-
-## Proje Takip Dosyası Notu
-
-`FAIR_CRM_PROJECT.xlsx` dosyası bulunamadı veya güncellenemedi.
-
-Bu nedenle To-Do modülü kapsamı ve kararları şimdilik repo içindeki aşağıdaki dosyalarda takip ediliyor:
-
-- `docs/todo/TODO_MODULE_SCOPE.md`
-- `docs/todo/TODO_MODULE_TASKS.md`
-- `docs/todo/TODO_MODULE_decisions/DECISIONS.md`
+Fuar bazlı çalışma listesi, toplu mail, aktivite takibi ve job/action engine sonraki fazlarda uygulandı. Kalan işler (WhatsApp ve SMS gönderimi dahil) yalnız [ROADMAP.md](../ROADMAP.md) içindedir.

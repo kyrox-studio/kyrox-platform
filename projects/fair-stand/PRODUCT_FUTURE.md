@@ -2,7 +2,7 @@
 
 > Bu belge, mevcut README'nin görevi olmayan fakat **kaybolmaması gereken gelecek ürün fikirlerini ve veri ihtiyaçlarını** toplar.
 >
-> Bu maddelerin burada bulunması tamamlandıkları anlamına gelmez. Aktif geliştirme sırası `fair-stand` deposundaki `ROADMAP.md` ve `ROADMAP_PHASE_4.md` ile bu ağaçtaki [ROADMAP_PHASE_5_6.md](ROADMAP_PHASE_5_6.md) tarafından belirlenir.
+> Bu maddelerin burada bulunması tamamlandıkları anlamına gelmez. İş sırası ve durum yalnız [ROADMAP.md](ROADMAP.md) içindedir.
 
 ## Kaynak
 
