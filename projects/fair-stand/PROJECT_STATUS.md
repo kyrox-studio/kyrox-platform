@@ -13,6 +13,10 @@
 
 Fair Stand'in açık, ertelenmiş ve karar bekleyen bütün işleri [ROADMAP.md](ROADMAP.md) içinde satır olarak toplandı; satırlar Fair Stand `main` `b3f8cadd` koduna göre doğrulandı. `OPEN_WORK_INVENTORY.md` (ikinci özet kopya) silindi. Kullanılabilirlik, seçim paneli, performans ve Item-first belgelerindeki açık madde listeleri ROADMAP'e taşındı; bu belgeler artık teşhis, kural ve mevcut davranışı tutar. Fair Stand deposundaki `RELEASE_HARDENING_ROADMAP.md` [arşive](../../archive/fair-stand/RELEASE_HARDENING_ROADMAP.md) taşındı, `docs/refactor/PERFORMANCE_ROADMAP.md` yönlendirmesi silindi; `PENDING_ITEM_DECISIONS.md` kararların gerekçe ve yasaklarını tutar, durum ve sırayı tutmaz. Koda göre kapanmış bulunanlar: `syncWallLengthFromSetup` kodda yok; 0073–0075 canlıda (prod head `0088`); lisans kararı F-043 ile verildi; `public/` altında referanssız model/doku yok.
 
+## 2026-10-29 — Uçtan uca ölü kod
+
+Yalnız testten çağrılan 9 tanım ve yalnız onları test eden 10 test (`karolajTileQuantityForRectangles`/`FromCells`, `detectEndToEndJoints`, `applyRelativePose`, `stampLockGroupIdOnParts`, `partFromChildRecord`, `describeRectSelection`, `hasPlacementFeedbackPointer`, `reconcileWallModules`), `scene3d` içindeki kullanılmayan `roundedRectShape`, `main.js`'teki ortak `formatMeters`'ın yerel kopyası, src/test kullanılmayan importları, `style.css`'te 5 kullanılmayan sınıf ve `scripts/video-wall-build-trigger.txt` silindi. Davranış değişmez. Kullanıcı kararı bekleyen: `scripts/install-server.sh` (çağrılmıyor; `test/hygieneGates.test.js` iki testi içeriğini doğruluyor).
+
 ## 2026-10-28 — Çağrılmayan betikler
 
 [Stand #358](https://github.com/kyrox-studio/kyrox-fair-stand/pull/358): `backend/scripts/copy_from_fair_crm.py`, `scripts/sync_catalog_seed_dimensions_from_dump.py` (tek seferlik taşıma) ve `scripts/sync-item-docs-whd-from-seed.py` (belgeleri `scripts/gen-item-definitions.py` üretir) silindi. `scripts/install-server.sh` da çağrılmıyor (Stand CRM `deploy-all.sh` ile yayınlanır) ama `test/hygieneGates.test.js` içeriğini doğruladığı için kullanıcı kararına kadar duruyor. npm ve Python paketlerinin hepsi kullanılıyor.
