@@ -19,7 +19,7 @@ All human-readable standards, architecture, decisions, product rules, status, ro
 | Core-only behavior | `projects/kyrox-core/` | Extend shared standards; do not copy them |
 | Live ecosystem status | `ecosystem/STATUS.md` | Summary only |
 | Live project status | `projects/<name>/PROJECT_STATUS.md` | Current truth |
-| Future work | `ecosystem/ROADMAP.md` or `projects/<name>/ROADMAP.md` | Plans only |
+| Future work | `ecosystem/ROADMAP.md` or `projects/<name>/ROADMAP.md` | **One work list per project:** every open, deferred or decision-pending item is a row in that project's `ROADMAP.md`; detail documents keep design/decisions, never a second open-item list |
 | Historical/superseded material | `archive/` | Never normative |
 | Machine-readable CI/runtime contracts | Application repo when technically required | Not human documentation |
 | Marka varlıkları (logo dosyaları, renk token'ları) | `kyrox-brand` repository | Ürünler buradan kopyalar; marka kuralları `standards/brand/` altındadır ([ADR-0010](decisions/0010-brand-repository.md)) |

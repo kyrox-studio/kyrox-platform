@@ -1,3 +1,5 @@
+> **Arşiv (2026-10-28):** `projects/fair-crm/backlog/` altından taşındı. Koda göre doğrulandı: MailerSend `activity.unsubscribed` / `activity.spam_complaint` webhook'u (`email_webhooks`), Contact ve Customer e-posta izni, izin kapatma aktivitesi ve merkezi `EmailConsentPolicy` mevcut. Açık kalan tek madde (§5 müşteriyi pasife alma) `projects/fair-crm/ROADMAP.md` içindedir.
+
 # E-Posta ve İletişim Tercihleri Backlog
 
 ## Amaç

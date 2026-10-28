@@ -178,15 +178,13 @@ Ekle / sil / taşı = tek modül grubu; `disposeWall` yalnız stand tipi / hard 
 
 ## 5. Doğrulama kapısı
 
+Kalan ölçümler ve P4: [ROADMAP.md](ROADMAP.md) § 6.
+
 - [x] Ölçüm: 0 / 5 / 20 görselli projede ilk ve ikinci açılış süresi kayıtlı (2026-10-19, § 1.1)  
 - [x] Yarım sahne gösterilmez: yükleme ekranı sahne dolana kadar (2026-10-19, P0-Y)  
-- [ ] Proje 0 görsel: açılış &lt; 1 sn  
-- [ ] Proje 20 görsel: 2. açılış &lt; 1.5 sn; gereksiz asset GET yok  
 - [x] Modeller sıkıştırılmış; görünüm eskisiyle aynı (2026-10-19, #298)  
 - [x] Editörde gölge/spot ışık kapalı, Render Al'da açık (kalite profili yerine; 2026-10-19)  
-- [ ] `rebuildWall` aynı frame coalesce — ertelendi (yenileme 7–15 ms; 2026-10-19)  
 - [x] Orbit: akıcı his (gölge ve spot ışık editörde yok; kullanıcı onayı 2026-10-19)  
-- [ ] 30 modül: hâlâ full yol varsa `buildWall` &lt; 500 ms  
 - [x] gzip + statik önbellek canlıda (2026-10-19)
 
 **Ölçek (ops, P4+):** 50 eşzamanlı bootstrap + 20 eşzamanlı proje açma p95 hedefe uyum; asset CDN / rate limit.

@@ -1,3 +1,5 @@
+> **Arşiv (2026-10-28):** `projects/fair-crm/backlog/` altından taşındı. Tarihî araştırma; içindeki beş karar kabul edildi ve kanonik kurallara taşındı.
+
 # Fuar kataloğu + scraper + import etki raporu
 
 Status: **Historical research**. The five decisions that were open in this note are accepted. Do not implement from this file. Canonical rules: Constitution §5, [ADR-037](../decisions/DECISIONS.md), [ADR-012](../decisions/DECISIONS.md), [ADR-017](../decisions/DECISIONS.md), [IMPORT_ARCHITECTURE.md](../import/IMPORT_ARCHITECTURE.md), [PERMISSION_SCOPE_GOVERNANCE.md](../PERMISSION_SCOPE_GOVERNANCE.md), [BACKGROUND_JOB_STANDARD.md](../../../standards/jobs/BACKGROUND_JOB_STANDARD.md).

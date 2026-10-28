@@ -1,3 +1,5 @@
+> **Arşiv (2026-10-28):** `projects/fair-crm/backlog/` altından taşındı. Koda göre doğrulandı: MSO `provider_status`, MailerSend webhook'u, unsubscribe, sağlayıcı hata politikasıyla hesabı pasife alma (`error_policy.py`) ve `Retry-After` mevcut. Açık kalan madde (§6 küçük gerçek toplu gönderim kabulü) `projects/fair-crm/ROADMAP.md` içindedir.
+
 # Provider / MailerSend Kalan İşler
 
 ## Mevcut durum

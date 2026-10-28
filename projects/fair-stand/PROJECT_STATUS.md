@@ -9,6 +9,10 @@
 | Category master | `fair_stand_categories` |
 | Catalog | Yalnız Item projeksiyonu |
 
+## 2026-10-28 — Tek iş listesi
+
+Fair Stand'in açık, ertelenmiş ve karar bekleyen bütün işleri [ROADMAP.md](ROADMAP.md) içinde satır olarak toplandı; satırlar Fair Stand `main` `b3f8cadd` koduna göre doğrulandı. `OPEN_WORK_INVENTORY.md` (ikinci özet kopya) silindi. Kullanılabilirlik, seçim paneli, performans ve Item-first belgelerindeki açık madde listeleri ROADMAP'e taşındı; bu belgeler artık teşhis, kural ve mevcut davranışı tutar. Fair Stand deposundaki `RELEASE_HARDENING_ROADMAP.md` [arşive](../../archive/fair-stand/RELEASE_HARDENING_ROADMAP.md) taşındı, `docs/refactor/PERFORMANCE_ROADMAP.md` yönlendirmesi silindi; `PENDING_ITEM_DECISIONS.md` kararların gerekçe ve yasaklarını tutar, durum ve sırayı tutmaz. Koda göre kapanmış bulunanlar: `syncWallLengthFromSetup` kodda yok; 0073–0075 canlıda (prod head `0088`); lisans kararı F-043 ile verildi; `public/` altında referanssız model/doku yok.
+
 ## 2026-10-28 — Item belgelerinde bayat not temizliği
 
 [Stand #355](https://github.com/kyrox-studio/kyrox-fair-stand/pull/355) (merge `518d73c2`): `docs/items` içindeki 37 "Bayat (2026-10-27 denetimi)" notu kaldırıldı; işaret ettikleri satırlar güncel koda göre yeniden yazıldı (iç köşe `relationshipBom.js` `applyCornerPanelSwap`/`cornerSide`, tip davranışı `fair_stand_item_type`, takım BOM'u `resolveItemBom`). Konnektör tanımları `scripts/gen-item-definitions.py` ile seed ve kaynak koddan üretilir. Tarihî `ITEM_CAPABILITY_INVENTORY.md` [arşive](../../archive/fair-stand/docs-items/README.md) taşındı. `test/itemDocsRuntimeAlignment.test.js` kaldırılmış adları definitions ve contract belgelerinde yasaklar. Uygulama kodu değişmedi. Doğrulama: **1548 Node testi**, contract:verify PASS.

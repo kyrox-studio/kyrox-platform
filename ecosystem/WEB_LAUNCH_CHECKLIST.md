@@ -44,7 +44,7 @@
 
 - [Web deposu ve kurulum bilgileri](https://github.com/kyrox-studio/kyrox-web/blob/main/README.md)
 - [Fair-CRM yol haritası](../projects/fair-crm/ROADMAP.md)
-- [Fair-Stand açık iş haritası](../projects/fair-stand/OPEN_WORK_INVENTORY.md)
+- [Fair-Stand iş listesi](../projects/fair-stand/ROADMAP.md)
 - [Fair-Stand kanonik bulgu defteri](https://github.com/kyrox-studio/kyrox-fair-stand/blob/main/audit/FINDINGS.md)
 - [Ortak güvenlik programı](../standards/security/SECURITY_PROGRAM.md)
 - [Ortak arayüz ve erişilebilirlik standardı](../standards/ui/UI_FOUNDATION_STANDARD.md)

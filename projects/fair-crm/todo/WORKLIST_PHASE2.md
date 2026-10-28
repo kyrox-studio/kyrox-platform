@@ -4,7 +4,9 @@
 
 Bu doküman, FAIR CRM Görevler / To-Do modülü Faz 2 kapsamını netleştirmek ve ileride aynı yerden devam edebilmek için hazırlanmıştır.
 
-Faz 1 tamamlandı. Faz 2 konusu:
+**Durum:** Faz 1 ve Faz 2 uygulandı (`todos` modülü, `worklist_routes`; kabul 2026-07-22, [CHANGELOG](../CHANGELOG.md)). Bu belge Faz 2 kurallarını tutar; Faz 3 adayları (§ 7) yalnız [ROADMAP.md](../ROADMAP.md) içinde iş olarak izlenir.
+
+Faz 2 konusu:
 
 > Görevten müşteri bazlı çalışma listesi oluşturma.
 

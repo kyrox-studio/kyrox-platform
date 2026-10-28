@@ -50,7 +50,13 @@ Indicative ecosystem direction, subject to explicit planning/ADR decisions:
 - deliver deferred Core capabilities when actual product demand requires them,
 - add future KYROX products without duplicating shared standards or platform infrastructure.
 
-Deferred platform items: [KNOWN_DEFERRED.md](KNOWN_DEFERRED.md).
+Deferred and candidate Core items: [projects/kyrox-core/ROADMAP.md](../projects/kyrox-core/ROADMAP.md).
+
+## Ecosystem work
+
+| Item | Status |
+|---|---|
+| CI gate for the code map (`kyrox-map`: dead code, unowned code, new unreachable routes) | Not built; the map runs locally and hourly on the developer machine, outside git |
 
 ## Related
 

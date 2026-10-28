@@ -10,6 +10,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### Changed
+
+- **Tek iş listesi (2026-10-28)** — `ecosystem/KNOWN_DEFERRED.md` Core [ROADMAP.md](ROADMAP.md) içine birleştirildi (aday işler ve bekleyen sahiplik kararları tek tabloda); tamamlanmış in-app bildirim ve P0.2 kimlik bölümleri ROADMAP'ten çıktı. Adayların hiçbiri Core kodunda yok (2026-10-28, `1224fae`).
+
 ### Removed
 
 - **Ölü kod (PR #51, merge `1224fae`, 2026-10-28)** — Adı tanımı dışında depoda hiç geçmeyen ya da yalnız başka ölü tanımlardan çağrılan 11 tanım silindi: identity `get_login_use_case`, `get_refresh_session_use_case`, `get_authorization_context`, `PermissionGroupRepository.list_by_module` (port + SQLAlchemy uygulaması); jobs `JobAccessDeniedError`, `InvalidJobTransitionError`, `JobHandlerNotFoundError`, `JobAlreadyTerminalError`; notifications `get_dispatch_notification_use_case`, `get_notification_channel_registry`. Davranış değişmedi; pytest 534 passed. 2026-10-28'de canlıya alındı (canlı head `20261027_0078`).

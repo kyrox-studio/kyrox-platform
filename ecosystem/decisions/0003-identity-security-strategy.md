@@ -25,8 +25,8 @@ Adopt the following **Identity Security Strategy** for KYROX Core:
 | 7 | Token revocation | **Supported** |
 | 8 | Logout | **Revoke refresh token** for the session |
 | 9 | Multi-device sessions | **Supported** |
-| 10 | Email verification | **Required** before full activation — *implementation deferred; see KNOWN_DEFERRED* |
-| 11 | Password reset | **Token-based** — *implementation deferred; see KNOWN_DEFERRED* |
+| 10 | Email verification | **Required** before full activation — *implementation deferred; see [Core roadmap](../../projects/kyrox-core/ROADMAP.md)* |
+| 11 | Password reset | **Token-based** — implemented (CORE-07) |
 | 12 | MFA | **Planned for future** |
 | 13 | Secrets management | **Environment-based** initially; secret manager later |
 | 14 | JWT claims (access token, as-built) | `sub`, `email`, `sid`, `exp`, `iat`, `jti` |
@@ -76,7 +76,7 @@ Only an existing active Platform Super Admin may set or clear another user's `is
 
 ### Negative / deferred
 
-- Email verification remains required by strategy but is deferred in implementation ([KNOWN_DEFERRED.md](../KNOWN_DEFERRED.md)). Password reset is implemented.
+- Email verification remains required by strategy but is deferred in implementation ([Core roadmap](../../projects/kyrox-core/ROADMAP.md)). Password reset is implemented.
 - Access tokens are checked against the server-side session. A revoked or inactive session rejects the token before expiry. There is no separate token denylist.
 
 ## Related
