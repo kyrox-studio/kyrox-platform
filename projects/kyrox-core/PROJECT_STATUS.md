@@ -4,10 +4,10 @@ Living status for KYROX Core. Ecosystem summary: [../../ecosystem/STATUS.md](../
 
 | Field | Value |
 |-------|-------|
-| Last verified | **2026-10-13** |
+| Last verified | **2026-10-28** (canlı `1224fae`, migration head `20261027_0078`) |
 | Repository mode | Stable platform baseline; fixes and reusable product-driven changes continue |
 | Active ecosystem milestone | M4 — FAIR CRM v1 |
-| Migration head in `main` | `20261026_0075` (permission lock keeps role grants per ADR-0005; kyrox-core#49; production head verified `20261026_0075` on 2026-10-26, see SECURITY_PROGRAM E-025). Open kyrox-core#50 moves the head to `20261027_0078` (0076 roles.assign grants, 0077 session `expires_at`, 0078 login throttle; SECURITY_PROGRAM E-026) |
+| Migration head in `main` | `20261026_0075` (permission lock keeps role grants per ADR-0005; kyrox-core#49; production head verified `20261026_0075` on 2026-10-26, see SECURITY_PROGRAM E-025) → `20261027_0078` (kyrox-core#50, merge `6e3abc3`: 0076 roles.assign grants, 0077 session `expires_at`, 0078 login throttle; SECURITY_PROGRAM E-026); production head verified `20261027_0078` on 2026-10-28 |
 | Main CI | Core CI #84 green on P0.2 CORE-09 final certification head before merge |
 
 ## Product-driven extension merged — 2026-10-13

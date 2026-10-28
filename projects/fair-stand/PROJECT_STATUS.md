@@ -2,7 +2,7 @@
 
 | Alan | Değer |
 |------|--------|
-| Son doğrulama | **2026-10-28** (Item belge temizliği #355/#356; canlı kabul ayrı) |
+| Son doğrulama | **2026-10-28** (Item belge temizliği #355/#356; canlı `b3f8cadd`, migration head `0088_upright_vertical_move`) |
 | Implementation deposu | `kyrox-studio/kyrox-fair-stand` |
 | Hosted backend | Fair Stand FastAPI (`:8002`) / PostgreSQL `fair_stand` |
 | Item master | İlişkisel PostgreSQL; catalog bootstrap API |

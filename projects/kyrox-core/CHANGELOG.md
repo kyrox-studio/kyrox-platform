@@ -12,7 +12,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Removed
 
-- **Ölü kod (PR #51, merge `1224fae`, 2026-10-28)** — Adı tanımı dışında depoda hiç geçmeyen ya da yalnız başka ölü tanımlardan çağrılan 11 tanım silindi: identity `get_login_use_case`, `get_refresh_session_use_case`, `get_authorization_context`, `PermissionGroupRepository.list_by_module` (port + SQLAlchemy uygulaması); jobs `JobAccessDeniedError`, `InvalidJobTransitionError`, `JobHandlerNotFoundError`, `JobAlreadyTerminalError`; notifications `get_dispatch_notification_use_case`, `get_notification_channel_registry`. Davranış değişmedi; pytest 534 passed. Canlıya alınmadı.
+- **Ölü kod (PR #51, merge `1224fae`, 2026-10-28)** — Adı tanımı dışında depoda hiç geçmeyen ya da yalnız başka ölü tanımlardan çağrılan 11 tanım silindi: identity `get_login_use_case`, `get_refresh_session_use_case`, `get_authorization_context`, `PermissionGroupRepository.list_by_module` (port + SQLAlchemy uygulaması); jobs `JobAccessDeniedError`, `InvalidJobTransitionError`, `JobHandlerNotFoundError`, `JobAlreadyTerminalError`; notifications `get_dispatch_notification_use_case`, `get_notification_channel_registry`. Davranış değişmedi; pytest 534 passed. 2026-10-28'de canlıya alındı (canlı head `20261027_0078`).
 
 ### Fixed
 
