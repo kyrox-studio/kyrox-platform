@@ -12,6 +12,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Removed
 
+- **Uçtan uca ölü kod (2026-10-29)** — Yalnız testten çağrılan 7 tanım ve yalnız onları test eden testler (`User.can_authenticate`, `Permission.matches_code`, `PermissionModule.platform_modules`/`is_platform_module`, `UserRole.assert_effective`, `Organization.can_accept_members`, `SuperAdminPolicy` ve `AuthorizationService`'teki kullanılmayan kurucu parametresi; Super Admin kuralı serviste satır içi zaten uygulanıyor); 40 kullanılmayan import. Platform API route'ları (lifecycle, jobs, notifications, settings) frontend çağırmasa da ürün/operatör sözleşmesi olarak tutuldu.
 - **Kullanılmayan dosya (PR #52, 2026-10-28)** — Hiçbir yerden çağrılmayan `scripts/seed_fair_crm_dev_identity.py` silindi (CRM kendi `scripts/seed_core_dev_identity.py` betiğini kullanır); CI'da var olmayan `backend/pyproject.toml` için kurulum satırı kaldırıldı. Paketlerin hepsi kullanılıyor.
 
 ### Changed
