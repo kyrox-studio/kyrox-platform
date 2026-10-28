@@ -10,6 +10,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### Removed
+
+- **Kullanılmayan dosya (PR #52, 2026-10-28)** — Hiçbir yerden çağrılmayan `scripts/seed_fair_crm_dev_identity.py` silindi (CRM kendi `scripts/seed_core_dev_identity.py` betiğini kullanır); CI'da var olmayan `backend/pyproject.toml` için kurulum satırı kaldırıldı. Paketlerin hepsi kullanılıyor.
+
 ### Changed
 
 - **Tek iş listesi (2026-10-28)** — `ecosystem/KNOWN_DEFERRED.md` Core [ROADMAP.md](ROADMAP.md) içine birleştirildi (aday işler ve bekleyen sahiplik kararları tek tabloda); tamamlanmış in-app bildirim ve P0.2 kimlik bölümleri ROADMAP'ten çıktı. Adayların hiçbiri Core kodunda yok (2026-10-28, `1224fae`).
