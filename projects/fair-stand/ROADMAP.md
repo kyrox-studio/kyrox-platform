@@ -19,6 +19,8 @@ Kurallar:
 | Dikme sahne kesiti | `upright_*` sahnede 8 × 8, profiller 10 × 10; sahne dikmeyi profil kesitiyle çiziyor. Dikme kayıtları profille eşitlenecek mi | — |
 | Görsel seçimi iki yol | Özellikler panelinde arşivden seçme ve yeni yükleme nasıl sunulacak | — |
 | Hazır stand tasarımları | İlk adım `autoFurniture.js` (sabit mobilya takımı); birden çok hazır tasarım arasından seçim ve sihirbaz bağlantısı açık | — |
+| Paket ve Ahşap stand sistemleri | Kullanıcı kararı 2026-10-29: Maxima / Paket / Ahşap üç sistem; sihirbazın ilk adımı sistem seçimi, Paket hazır paketleri gösterir (yukarıdaki "Hazır stand tasarımları" bu akışa bağlanır). Açık: Paket ve Ahşap duvar yapısı (yükseklik, panel genişliği, kalınlık, malzeme, BOM), paket tanımlarının nereden yönetileceği, proje içinde sistem değişebilir mi | — |
+| Sihirbaz ilk adımı yalnız Maxima aktifken | Paket/Ahşap "Yakında" pasif kart mı, yoksa tek aktif sistemde adım atlanır mı | — |
 | Proje–organizasyon kuralları | Proje `organization_id` ile çalışıyor; paylaşım ve varsayılan org ayrı karar | PENDING E.1 |
 
 ## 2. Editör ve kullanım
@@ -30,6 +32,9 @@ Kurallar:
 | Grup aç / kapat (Faz 3b) | Karar 2026-10-18; kod yok | [GROUP_LOCK_ROADMAP.md](GROUP_LOCK_ROADMAP.md) |
 | "Raf ev sahibi duvar" (grup Faz 6) | Plan | [GROUP_LOCK_ROADMAP.md](GROUP_LOCK_ROADMAP.md) |
 | Grup dış sınır ölçüleri | Açık | [KULLANILABILIRLIK_YOL_HARITASI.md](KULLANILABILIRLIK_YOL_HARITASI.md) |
+| Stand sistemi altyapısı (Maxima / Paket / Ahşap) | Plan 2026-10-29; kod yok. Sistem tablosu (aktif bilgisiyle; şimdilik yalnız Maxima), Item–sistem eşlemesi (eşleme yoksa Item bütün sistemlerde: zemin, ekstra ürünler), admin Item formunda sistem seçimi, proje payload'ında sistem (eski projeler Maxima), sihirbazın ilk adımı sistem seçimi, katalog seçili sisteme göre süzülür. Not: bugünkü `standType` yerleşimdir (Sırt Duvar / U / L / Ada), sistem değildir | — |
+| Müşterisiz Yeni Proje | Plan 2026-10-29; kod yok. CRM Stand Projeleri → Yeni Proje müşteri sormadan sahneyi açar; proje "Geçici bağ" (`UNASSIGNED_PROJECT_CUSTOMER_ID`) ile kaydedilir, müşteri mevcut atama penceresinden sonra bağlanır. Bugün müşteri üç yerde zorunlu: CRM müşteri seçme penceresi (`StandProjectsPage.tsx`), backend `create_project` (`customerId is required`), editör içe aktarma | — |
+| Zemine çizerek duvar | Plan 2026-10-29; kod yok. Zeminde çizgi çizilir (10 cm ve 0°/90° yapışma, uzunluk etiketi), çizgi `composeStraightWall` ile serbest (`wallId: 'free'`) panellere bölünür (depo duvarları gibi). Açık: çizilen duvarların köşe/T birleşimlerinin BOM'a yansıması | — |
 | Kurulu standın duvar yüksekliğini değiştirmek | Yükseklik yalnız "Sahneyi Oluştur"da seçilir; duvar/kapı/vitrin/kısa duvarların `resolveWallItemKeyForHeight` ile yerinde çevrilmesi, bağlı aksesuar/renk/görselin korunması yok | PENDING B.16 |
 | Kurulu standın genişlik/derinliğini değiştirmek | Bugün yeni sahne kurulur; yerinde yeniden boyutlandırma yok | [KULLANILABILIRLIK_YOL_HARITASI.md](KULLANILABILIRLIK_YOL_HARITASI.md) |
 | Bölgesel zemini sahneye bırakarak ekleme ve sürükleyerek taşıma | Bugün tek dikdörtgen `stand.floorArea`, X/Y girişi | [KULLANILABILIRLIK_YOL_HARITASI.md](KULLANILABILIRLIK_YOL_HARITASI.md) |
