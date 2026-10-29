@@ -15,11 +15,11 @@ Fair Stand'in açık, ertelenmiş ve karar bekleyen bütün işleri [ROADMAP.md]
 
 ## 2026-10-29 — Uçtan uca ölü kod
 
-Yalnız testten çağrılan 9 tanım ve yalnız onları test eden 10 test (`karolajTileQuantityForRectangles`/`FromCells`, `detectEndToEndJoints`, `applyRelativePose`, `stampLockGroupIdOnParts`, `partFromChildRecord`, `describeRectSelection`, `hasPlacementFeedbackPointer`, `reconcileWallModules`), `scene3d` içindeki kullanılmayan `roundedRectShape`, `main.js`'teki ortak `formatMeters`'ın yerel kopyası, src/test kullanılmayan importları, `style.css`'te 5 kullanılmayan sınıf ve `scripts/video-wall-build-trigger.txt` silindi. Davranış değişmez. Kullanıcı kararı bekleyen: `scripts/install-server.sh` (çağrılmıyor; `test/hygieneGates.test.js` iki testi içeriğini doğruluyor).
+Yalnız testten çağrılan 9 tanım ve yalnız onları test eden 10 test (`karolajTileQuantityForRectangles`/`FromCells`, `detectEndToEndJoints`, `applyRelativePose`, `stampLockGroupIdOnParts`, `partFromChildRecord`, `describeRectSelection`, `hasPlacementFeedbackPointer`, `reconcileWallModules`), `scene3d` içindeki kullanılmayan `roundedRectShape`, `main.js`'teki ortak `formatMeters`'ın yerel kopyası, src/test kullanılmayan importları, `style.css`'te 5 kullanılmayan sınıf ve `scripts/video-wall-build-trigger.txt` silindi. Davranış değişmez. Kullanıcı onayıyla [Stand #360](https://github.com/kyrox-studio/kyrox-fair-stand/pull/360): çağrılmayan `scripts/install-server.sh` ve `scripts/server/deploy.sh` ile yalnız install betiğini doğrulayan iki test silindi; deploy yalnız CRM `scripts/server/deploy-all.sh` ile yapılır (`scripts/server/systemd/fair-stand.service` kalır).
 
 ## 2026-10-28 — Çağrılmayan betikler
 
-[Stand #358](https://github.com/kyrox-studio/kyrox-fair-stand/pull/358): `backend/scripts/copy_from_fair_crm.py`, `scripts/sync_catalog_seed_dimensions_from_dump.py` (tek seferlik taşıma) ve `scripts/sync-item-docs-whd-from-seed.py` (belgeleri `scripts/gen-item-definitions.py` üretir) silindi. `scripts/install-server.sh` da çağrılmıyor (Stand CRM `deploy-all.sh` ile yayınlanır) ama `test/hygieneGates.test.js` içeriğini doğruladığı için kullanıcı kararına kadar duruyor. npm ve Python paketlerinin hepsi kullanılıyor.
+[Stand #358](https://github.com/kyrox-studio/kyrox-fair-stand/pull/358): `backend/scripts/copy_from_fair_crm.py`, `scripts/sync_catalog_seed_dimensions_from_dump.py` (tek seferlik taşıma) ve `scripts/sync-item-docs-whd-from-seed.py` (belgeleri `scripts/gen-item-definitions.py` üretir) silindi. npm ve Python paketlerinin hepsi kullanılıyor.
 
 ## 2026-10-28 — Item belgelerinde bayat not temizliği
 
