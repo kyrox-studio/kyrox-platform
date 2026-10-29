@@ -19,7 +19,7 @@ Kurallar:
 | Dikme sahne kesiti | `upright_*` sahnede 8 × 8, profiller 10 × 10; sahne dikmeyi profil kesitiyle çiziyor. Dikme kayıtları profille eşitlenecek mi | — |
 | Görsel seçimi iki yol | Özellikler panelinde arşivden seçme ve yeni yükleme nasıl sunulacak | — |
 | Hazır stand tasarımları | İlk adım `autoFurniture.js` (sabit mobilya takımı); birden çok hazır tasarım arasından seçim ve sihirbaz bağlantısı açık | — |
-| Paket ve Ahşap stand sistemleri | Kullanıcı kararı 2026-10-29: Maxima / Paket / Ahşap üç sistem; sihirbazın ilk adımı sistem seçimi, Paket hazır paketleri gösterir (yukarıdaki "Hazır stand tasarımları" bu akışa bağlanır). Açık: Paket ve Ahşap duvar yapısı (yükseklik, panel genişliği, kalınlık, malzeme, BOM), paket tanımlarının nereden yönetileceği, proje içinde sistem değişebilir mi | — |
+| Paket ve Ahşap stand sistemleri | Kullanıcı kararı 2026-10-29: Maxima / Paket / Ahşap üç stand sistemi; sihirbazın ilk adımı sistem seçimi. Paket stand = shell scheme sistemi (hazır tasarım değil): duvarlar 1 m, hepsi uzun tip panel. Hazır stand tasarımları ayrı iş, sonra yapılacak (yukarıdaki satır). Açık: Paket duvar yüksekliği, profil/bağlantı ve BOM; Ahşap duvar yapısı; proje içinde sistem değişebilir mi | — |
 | Sihirbaz ilk adımı yalnız Maxima aktifken | Paket/Ahşap "Yakında" pasif kart mı, yoksa tek aktif sistemde adım atlanır mı | — |
 | Proje–organizasyon kuralları | Proje `organization_id` ile çalışıyor; paylaşım ve varsayılan org ayrı karar | PENDING E.1 |
 
