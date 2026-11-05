@@ -60,8 +60,7 @@
 
 ### 1. Mesafeler, ölçüler ve sahne görünümü
 
-- [x] Taşırken öğeden standın dört kenarına çizilen mesafe çizgileri ve etiketleri basit modda varsayılan gizlensin.
-- [x] Seçili öğenin genişlik / derinlik / yükseklik ölçüleri ve zemine / tavana uzaklıkları varsayılan gizlensin.
+- [x] Taşırken öğeden standın dört kenarına çizilen mesafe çizgileri ve etiketleri ile seçili öğenin genişlik / derinlik / yükseklik ölçüleri ve zemine / tavana uzaklıkları yalnız **Ölçüleri göster** kutusuna bağlıdır; moddan bağımsızdır, varsayılan açıktır (`src/editorViewSettings.js`, Stand #342). 2026-10-23'teki "Basitte kapalı" kuralı #342 ile kalktı.
 - [x] Yerleştirme sırasında görünen zemin ızgarasının mevcut davranışı korunsun; basit mod veya ölçü kontrolü ızgarayı gizlemesin.
 - [x] İsteyen kullanıcı Gelişmiş moddaki **Ayarlar → Ölçüleri göster** ayarıyla ölçü yardımcılarını açıp kapatabilsin. Bu kontrol zemin ızgarasını etkilemesin (2026-10-23 kullanıcı kararı).
 - [x] Standın genel ölçüsü ve mevcut stand özeti görünür kalsın.
@@ -113,7 +112,7 @@ Açık işler: [ROADMAP.md](ROADMAP.md) § 2.
 - [x] Mod değiştirmek parçaları silmesin, sahneyi yeniden kurmasın veya tasarımı değiştirmesin.
 - [x] Gelişmişte hazırlanmış projenin yapısı Basit moda geçince korunsun. Mod geçişi yalnız kontrolleri ve yardımcı gösterimleri değiştirir; öğeleri veya bölgesel zeminleri kaldırmaz. Bu madde bilinen bir veri kaybı hatası değil, korunması gereken genel kuraldır.
 - [x] Mod seçimi yetki sistemiyle karıştırılmasın; bir kontrolün gizlenmesi güvenlik yetkisi sayılmasın.
-- [x] **Karar (2026-10-23):** Tek Basit / Gelişmiş seçici sol menünün üstünde yer alır. Basit varsayılan moddur. Ölçüler Basitte kapalı, Gelişmişte açık başlar; kullanıcı Gelişmiş → Ayarlar bölümünden değiştirebilir; Ayarlar Basit modda görünmez. Tercihler oturum boyunca mod başına ayrı korunur; sayfa yeniden açılınca varsayılanlara döner.
+- [x] **Karar (2026-10-23, #342 ile güncel):** Tek Basit / Gelişmiş seçici sol menünün üstünde yer alır. Basit varsayılan moddur. Ölçüler moddan bağımsızdır ve varsayılan açıktır; kullanıcı Gelişmiş → Ayarlar → Ölçüleri göster ile değiştirir; Ayarlar Basit modda görünmez. Tercih oturumluktur; sayfa yeniden açılınca varsayılana döner.
 
 ### Kod dayanakları
 

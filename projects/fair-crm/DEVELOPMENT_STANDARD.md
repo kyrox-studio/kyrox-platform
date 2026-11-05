@@ -27,7 +27,7 @@ Fair CRM module/domain owner
 Platform reusability decision (ADR-009)
 Fair CRM permission codes and organization/system scope
 OrganizationAdmin / Super Admin / default-role effects
-crm_ tables / organization_id ownership
+product tables (naming: CONSTITUTION §4) / organization_id ownership
 Core permission migration required?
 Fair CRM API endpoints under /api/v1
 Turkish UI route/menu/action surface
@@ -56,26 +56,13 @@ Fair CRM product decision: [ADR-009](decisions/DECISIONS.md).
 
 ## Permission / role details
 
-Fair CRM semantic permission family uses explicit actions such as:
-
-```text
-fair_crm.<module>.read
-fair_crm.<module>.create
-fair_crm.<module>.update
-fair_crm.<module>.archive
-fair_crm.<module>.delete
-fair_crm.<module>.execute
-fair_crm.<module>.approve
-fair_crm.<module>.export
-```
-
-Only actions that exist are declared. Scope/assignability/default-role/Super Admin/OrganizationAdmin behavior is owned by [PERMISSION_SCOPE_GOVERNANCE.md](PERMISSION_SCOPE_GOVERNANCE.md) and Core governance, not repeated here.
+Permission action names: [FEATURE_APPLICABILITY_STANDARD.md §3](FEATURE_APPLICABILITY_STANDARD.md#3-fair-crm-permission-examples). Scope/assignability/default-role/Super Admin/OrganizationAdmin behavior is owned by [PERMISSION_SCOPE_GOVERNANCE.md](PERMISSION_SCOPE_GOVERNANCE.md) and Core governance, not repeated here.
 
 UI visibility follows [CRUD & UI Authorization Standard](../../standards/ui/CRUD_UI_AUTHORIZATION_STANDARD.md).
 
 ## Fair CRM data / migration details
 
-- Product tables use the `crm_` prefix.
+- Table naming: [CONSTITUTION.md §4](CONSTITUTION.md#4-language-and-naming).
 - Organization-owned product records use `organization_id` where applicable.
 - Core identifiers stored in Fair CRM are logical IDs, never cross-database FKs.
 - Repository queries enforce organization scope on tenant-owned records; request-body organization IDs are not trusted as authorization context. Shared system-fair visibility is Constitution §5 and does not relax that child boundary.

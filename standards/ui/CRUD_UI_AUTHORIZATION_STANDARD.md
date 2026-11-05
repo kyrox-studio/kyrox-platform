@@ -116,7 +116,7 @@ Automated tests should cover both UI gating and backend denial for material auth
 
 A product-specific document should contain only what is unique to that product, for example:
 
-- Fair CRM `customer.merge` requires `fair_crm.customers.merge` and has domain-specific eligibility rules.
+- Fair CRM duplicate-customer group merge runs as a data operation, requires `fair_crm.admin.data_operations.execute` and has domain-specific eligibility rules.
 - A future inventory product might define `stock.adjust` with its own state constraints.
 
 Those documents must link to this standard and describe only the additional semantics.

@@ -102,7 +102,7 @@ Logodaki bakır açık zeminde yazı için fazla açıktır (kağıtta kontrast 
 | Metin ve arayüz | **Inter** | 400, 500, 600, 700 | Her yerde: web, ürünler, sunum, teklif, sosyal medya metni |
 | Başlık | **Archivo** | 800, genişlik `font-stretch: 112%`, büyük harf | Web sitesi, sunum ve sosyal medyada büyük başlıklar |
 
-- Logodaki `.studio` Inter Medium'dur. Fair CRM ve Fair Stand arayüzleri Inter kullanır; ürün arayüzlerinde başlık fontu kullanılmaz.
+- Logodaki `.studio` Inter Medium'dur. Fair CRM ve Fair Stand arayüzleri Inter'i kendi `public/fonts/` dosyalarından yükler (Google Fonts'a istek gitmez); ürün arayüzlerinde başlık fontu kullanılmaz. kyrox.studio teması Inter ve Archivo dosyalarını kendisi taşır.
 - Her iki font da Google Fonts'tan ücretsizdir ve Türkçe karakterleri tam destekler.
 - Archivo yalnızca 22 px ve üstünde kullanılır. Gövde metni, buton, form ve tabloda kullanılmaz.
 

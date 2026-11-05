@@ -552,6 +552,8 @@ Enrichment cancel standardı oturduktan sonra sırayla:
 
 Her modülde partial result ve rollback kuralı ayrıca netleştirilecektir.
 
+Koddaki durum: iptal ucu `POST /api/v1/scraper/runs/{run_id}/cancel` (scraper ve zenginleştirme), `POST /api/v1/operations/{operation_id}/cancel` (otomasyonlar, mail gönderim operasyonu dahil) ve `POST /api/v1/fairs/system/tobb/runs/{run_id}/cancel` için var. Import analyze, data operations, backup ve duplicate analysis için iptal ucu yok. Bölüm 2'deki ortak alanların hepsi yalnız `scraper_run_history`'de büyük ölçüde var (`job_scope` kolonu hiçbir iş tablosunda yok; system işler `organization_id = NULL` ile ayrılır); diğer iş tabloları alanların bir kısmını taşır.
+
 ---
 
 ## Karar

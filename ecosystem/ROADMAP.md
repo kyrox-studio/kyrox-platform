@@ -19,11 +19,11 @@ Goal: ship and harden the first KYROX product on the reusable Core platform.
 **Product status:** [projects/fair-crm/PROJECT_STATUS.md](../projects/fair-crm/PROJECT_STATUS.md)  
 **Product work queue:** [projects/fair-crm/ROADMAP.md](../projects/fair-crm/ROADMAP.md)
 
-M4 work is intentionally managed in the Fair CRM roadmap rather than duplicated here. Core changes during M4 are limited to fixes and reusable platform capabilities required by real product needs.
+M4 work is intentionally managed in the Fair CRM roadmap rather than duplicated here. Fair Stand work is managed in [projects/fair-stand/ROADMAP.md](../projects/fair-stand/ROADMAP.md). Core changes during M4 are limited to fixes and reusable platform capabilities required by real product needs.
 
 ### Marka
 
-ADR-0010, `kyrox-brand`'i Kyrox Studio logo dosyaları ve renk token'ları için marka varlıkları reposu olarak kabul eder. Marka kuralları [standards/brand/BRAND_STANDARD.md](../standards/brand/BRAND_STANDARD.md) dosyasındadır. Logo, renk paleti, yazı tipleri ve ses tonu tanımlandı. Instagram ve LinkedIn şablonları hazırlandı. kyrox.studio web sitesi ve blogu için `kyrox-web` reposu kabul edildi ([ADR-0011](decisions/0011-web-site-repository.md)). Site, yönetim paneli için WordPress'e taşınıyor: sıradaki adımlar onaylı tasarımın özel WordPress temasına çevrilmesi, Kyrox sunucusunda WordPress + MariaDB kurulumu (Docker, `/opt/kyrox/kyrox-web`), `kyrox.studio` DNS ve SSL, WordPress verisinin gecelik yedeğe eklenmesi.
+ADR-0010, `kyrox-brand`'i Kyrox Studio logo dosyaları ve renk token'ları için marka varlıkları reposu olarak kabul eder. Marka kuralları [standards/brand/BRAND_STANDARD.md](../standards/brand/BRAND_STANDARD.md) dosyasındadır. Logo, renk paleti, yazı tipleri ve ses tonu tanımlandı. Instagram ve LinkedIn şablonları hazırlandı. kyrox.studio web sitesi ve blogu için `kyrox-web` reposu kabul edildi ([ADR-0011](decisions/0011-web-site-repository.md)). Site özel WordPress temasıyla Kyrox sunucusunda (`/opt/kyrox/kyrox-web`, Docker WordPress + MariaDB) yayında ve gece yedeğine dahil; kurulum ve güncelleme [kyrox-web README](https://github.com/kyrox-studio/kyrox-web/blob/main/README.md)'dedir.
 
 ## Cross-cutting SaaS readiness program
 

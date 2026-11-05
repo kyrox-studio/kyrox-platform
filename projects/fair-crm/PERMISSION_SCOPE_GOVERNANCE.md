@@ -79,6 +79,7 @@ Current SYSTEM permissions:
 fair_crm.admin.backups.read
 fair_crm.admin.backups.create
 fair_crm.admin.backups.execute
+fair_crm.admin.backups.delete
 fair_crm.admin.fair_stand.catalog.read
 fair_crm.admin.fair_stand.catalog.create
 fair_crm.admin.fair_stand.catalog.update
@@ -94,9 +95,10 @@ identity.role_templates.read
 identity.role_templates.manage
 identity.organizations.delete
 identity.organizations.suspend
+identity.organizations.reactivate
 ```
 
-The list above is the seeded catalog. It is not the full set of accepted system operations. Catalog preview administration uses `fair_crm.admin.fair_stand.catalog.*`. The former `fair_crm.admin.fair_stand.previews.*` codes are removed.
+The list above is the seeded catalog (Core migrations `0055`, `0061`, `0065`, `0066`, `0068`, `0069`; previews dropped in `0072`). It is not the full set of accepted system operations. Catalog preview administration uses `fair_crm.admin.fair_stand.catalog.*`. The former `fair_crm.admin.fair_stand.previews.*` codes are removed.
 
 ## Accepted system operations not yet seeded
 

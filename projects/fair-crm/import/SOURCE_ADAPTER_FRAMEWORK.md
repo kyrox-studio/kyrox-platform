@@ -1,7 +1,7 @@
 # Universal Source Adapter Framework
 
 **Module:** Data Integration (`data_integration`)  
-**Status:** Sprint 09.2 — architecture + Excel adapter migration  
+**Status:** Implemented for Excel (`data_integration/application/adapters/excel_adapter.py`); other source types have no adapter  
 **Related:** [IMPORT_ARCHITECTURE.md](IMPORT_ARCHITECTURE.md), [decisions/DECISIONS.md](../decisions/DECISIONS.md) ADR-016, ADR-017
 
 Fair CRM is a **Universal Data Integration Platform**. Excel is the first source adapter; CSV, XML, REST API, scrapers, and ERP connectors follow the same contract without changing the Import Engine.
@@ -13,12 +13,9 @@ Fair CRM is a **Universal Data Integration Platform**. Excel is the first source
 ```text
 Data Integration
     Sources (adapters)
-        Excel Adapter          ← shipped (Sprint 09.1/09.2)
-        CSV Adapter            ← planned
-        XML Adapter            ← planned
-        REST API Adapter       ← planned
-        Scraper Adapters       ← one per fair site (TUYAP, IFM, …)
-        ERP Adapters           ← Logo, Mikro, Netsis, SAP
+        Excel Adapter          ← in code
+        Scraper Adapters       ← in code: TUYAP (new / old site), customer contact enrichment
+        CSV / XML / REST API / ERP adapters ← not written
 ```
 
 ---
@@ -80,15 +77,15 @@ Upload and sheet selection resolve adapters via registry — **not** hard-coded 
 
 ## Scraper adapter standard
 
-Each fair website is a **separate adapter**. Examples:
+Each fair website is a **separate adapter** (`backend/app/modules/scraper/adapters/`):
 
 | Adapter | Responsibility |
 |---------|----------------|
-| `TUYAPAdapter` | TUYAP URL structure, HTML parsing, pagination |
-| `IFMAdapter` | IFM site rules |
-| `FIstanbulAdapter` | F Istanbul exhibitor pages |
-| `ExpomedAdapter` | Expomed listing API/HTML |
-| `CNRAdapter` | CNR fair portal |
+| `TuyapNewAdapter` | Current TUYAP exhibitor site: URL structure, HTML parsing, pagination, detail pages |
+| `TuyapOldAdapter` | Old TUYAP site layout |
+| `CustomerContactEnrichmentAdapter` | Customer contact enrichment runs (not a fair site) |
+
+Other fair sites (IFM, F Istanbul, Expomed, CNR, …) have no adapter yet.
 
 Each scraper adapter knows:
 
@@ -127,20 +124,20 @@ Every scraper adapter exposes the same standard output field checkboxes in the U
 
 ### Standart output field'lar
 
-| Key | Typical UI label (TR) |
+| Key | UI label (`outputFieldDefinitions.ts`) |
 |-----|------------------------|
 | `customerName` | Firma Adı |
 | `phone` | Telefon |
 | `email` | E-posta |
 | `address` | Adres |
 | `website` | Website |
-| `hall` | Salon |
+| `hall` | Salon / Hall |
 | `stand` | Stand |
 | `instagram` | Instagram |
 | `facebook` | Facebook |
 | `linkedin` | LinkedIn |
 | `youtube` | YouTube |
-| `notes` | Notlar |
+| `notes` | Not |
 
 ### Reference implementation
 
@@ -170,9 +167,8 @@ Field mapping to CRM canonical fields remains in **Import Engine** (`ImportMappe
 
 1. Implement `SourceAdapter` under `application/adapters/<name>/`.
 2. Register in `get_source_adapter_registry()` with `file_extensions` or source type.
-3. Add frontend menu entry under **Veri Entegrasyonu → Sources** (when UX ships).
-4. Add adapter tests — lifecycle + registry resolution.
-5. **Do not modify** `ImportExecutor`, `DuplicateDetector`, or `MergeStrategy` unless adding a new cross-cutting rule.
+3. Add adapter tests — lifecycle + registry resolution.
+4. **Do not modify** `ImportExecutor`, `DuplicateDetector`, or `MergeStrategy` unless adding a new cross-cutting rule.
 
 ---
 
@@ -190,13 +186,3 @@ Field mapping to CRM canonical fields remains in **Import Engine** (`ImportMappe
 Dependencies flow **one way**: Adapter → Engine → Job. Engine never imports adapter implementations except via registry at application boundaries (upload, sheet select).
 
 ---
-
-## Sprint 09.2 Definition of Done
-
-- [x] `SourceAdapter` protocol and `SourceAdapterRegistry`
-- [x] Excel migrated to `ExcelSourceAdapter` on registry
-- [x] Upload / sheet selection use registry (no direct Excel coupling in use cases)
-- [x] Import Engine remains source-agnostic
-- [x] Architecture documented (this file + ADR-017)
-
-Future sprints add CSV, scraper, and ERP adapters by registration only.

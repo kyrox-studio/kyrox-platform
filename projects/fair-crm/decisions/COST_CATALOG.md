@@ -1,6 +1,6 @@
 # Maliyet Kataloğu — Ürün Kararı
 
-**Durum:** Tasarım kararı / henüz implement edilmedi  
+**Durum:** Bu faz uygulandı (`backend/app/modules/cost_catalog`, tablolar `crm_cost_categories` / `crm_cost_products`, ekran `/admin/cost-catalog` `CostCatalogPage.tsx`, yetkiler Core migration `0056`). USD → TL kuru henüz yok (aşağıda)  
 **Tarih:** 2026-08-17
 
 ## Amaç
@@ -34,7 +34,7 @@ Permission scope: **ORGANIZATION**.
 - Super Admin mevcut merkezi Super Admin bypass davranışıyla tam erişebilir.
 - Kategori ve ürünler için CRUD izinleri ayrı tutulacaktır.
 
-Planlanan permission kodları:
+Permission kodları (Core migration `20260817_0056`):
 
 ```text
 fair_crm.cost_catalog.categories.read
@@ -48,7 +48,7 @@ fair_crm.cost_catalog.products.update
 fair_crm.cost_catalog.products.delete
 ```
 
-Bu permission'ların tamamı `permission_scope = organization` olacaktır.
+Hepsi `permission_scope = organization`.
 
 ## Kategoriler
 
@@ -102,7 +102,7 @@ Gelecekte çizim sistemindeki bir modülün slug değeri ile katalog ürününü
 
 Ürün/hizmet oluşturulurken birim dropdown üzerinden seçilecektir.
 
-İlk konuşulan birim örnekleri:
+Kodda sabit birim listesi (`CostUnit`):
 
 - Adet
 - Kg
@@ -111,7 +111,7 @@ Gelecekte çizim sistemindeki bir modülün slug değeri ile katalog ürününü
 - Gün
 - Saat
 
-Gerekirse liste daha sonra genişletilebilir.
+Liste genişletilecekse kod (`api/schemas.py`) ve bu belge birlikte değişir.
 
 ## Para Birimi ve Kur
 
@@ -122,9 +122,9 @@ Gerekirse liste daha sonra genişletilebilir.
 
 para birimleri desteklenecektir.
 
-TL fiyat doğrudan kullanılacaktır.
+TL fiyat doğrudan kullanılır.
 
-USD fiyat girildiğinde sistem **güncel kuru çekip TL karşılığını kullanıcıya gösterecektir**.
+Hedef: USD fiyat girildiğinde sistem güncel kuru çekip TL karşılığını gösterir. **Kodda bu yok:** kur sağlayıcısı kararı verilmediği için ürün tablosunun "TL Karşılığı" sütunu USD ürünlerde "Kur bekleniyor" gösterir ve sayfada bunu söyleyen bilgi bandı çıkar.
 
 Örnek:
 

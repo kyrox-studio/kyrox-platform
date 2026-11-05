@@ -6,25 +6,7 @@ Human-readable rules, standards, architecture decisions, project documentation, 
 
 ## First read — humans and AI agents
 
-When you are given the KYROX ecosystem, **start with this repository**. Do not begin by inferring rules from application code or from tool-specific local rule files.
-
-Read in this order:
-
-1. [AGENTS.md](AGENTS.md) — universal human/AI entry and routing rules.
-2. [ecosystem/DOCUMENT_GOVERNANCE.md](ecosystem/DOCUMENT_GOVERNANCE.md) — where every kind of knowledge belongs and precedence rules.
-3. [standards/README.md](standards/README.md) — reusable standards shared by current and future products.
-4. Open the owning project tree only after the shared rules are known:
-   - Fair CRM → [projects/fair-crm/README.md](projects/fair-crm/README.md)
-   - KYROX Core → [projects/kyrox-core/README.md](projects/kyrox-core/README.md)
-5. For current state / planned work, read [ecosystem/STATUS.md](ecosystem/STATUS.md) and [ecosystem/ROADMAP.md](ecosystem/ROADMAP.md).
-
-## Core doctrine
-
-> **Humans and AI agents learn the system from `kyrox-platform`. Code repositories are implementation and verification layers.**
-
-A reusable rule belongs under `standards/`. A rule or fact that applies only to one product belongs under `projects/<product>/`. Cross-repository strategy and governance belongs under `ecosystem/`.
-
-If the same rule appears in more than one place, that is a documentation defect: keep one canonical source and replace the others with links or remove them.
+When you are given the KYROX ecosystem, **start with this repository** and follow the reading order in [AGENTS.md](AGENTS.md). Where each kind of knowledge belongs, the platform doctrine and precedence rules: [ecosystem/DOCUMENT_GOVERNANCE.md](ecosystem/DOCUMENT_GOVERNANCE.md).
 
 ## Repositories
 
@@ -35,16 +17,11 @@ If the same rule appears in more than one place, that is a documentation defect:
 | [kyrox-fair-crm](https://github.com/kyrox-studio/kyrox-fair-crm) | Fair CRM implementation, tests, migrations, CI and machine-readable feature contracts |
 | [kyrox-fair-stand](https://github.com/kyrox-studio/kyrox-fair-stand) | Fair Stand konfigüratörü, katalog API'si ve `fair_stand` veritabanı |
 | [kyrox-brand](https://github.com/kyrox-studio/kyrox-brand) | Marka varlıkları: logo dosyaları ve renk token'ları |
+| [kyrox-web](https://github.com/kyrox-studio/kyrox-web) | kyrox.studio WordPress teması ve sunucu kurulumu |
 
 ## Knowledge layout
 
-| Path | Purpose |
-|------|---------|
-| [standards/](standards/) | Reusable rules that should apply to more than one current/future product |
-| [projects/fair-crm/](projects/fair-crm/) | Fair CRM-only product/domain/UI/ops knowledge |
-| [projects/kyrox-core/](projects/kyrox-core/) | Core-only architecture/API/implementation knowledge |
-| [ecosystem/](ecosystem/) | Cross-repo governance, workflow, strategy, status and roadmap |
-| [archive/](archive/) | Historical/superseded material; never normative |
+`standards/`, `projects/<product>/`, `ecosystem/` and `archive/` are defined in the classification table of [DOCUMENT_GOVERNANCE.md](ecosystem/DOCUMENT_GOVERNANCE.md#classification-rule).
 
 ## Web ve ürünler için yayına hazırlık
 

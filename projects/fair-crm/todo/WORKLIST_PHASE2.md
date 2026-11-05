@@ -20,12 +20,14 @@ Faz 2 konusu:
 
 ## Faz 1 kapanış commitleri
 
-- `41f5154` docs: add organization-based todo module scope
-- `752126b` docs: add todo implementation plan and decisions
-- `9a375bc` feat: add todo backend crud foundation
-- `484c479` feat: add todo actions filters and role matrix
-- `e389458` feat: add todo frontend page and navigation
-- `646cc29` docs: mark todo phase 1 complete
+SHA'lar 2026-10-27 geçmiş yeniden yazımı sonrasıdır ([eşleme](../ops/HISTORY_REWRITE_2026-10-27_commit-map.tsv)).
+
+- `1315b50c` docs: add organization-based todo module scope
+- `b3027ef2` docs: add todo implementation plan and decisions
+- `dfaaa6ae` feat: add todo backend crud foundation
+- `731c8437` feat: add todo actions filters and role matrix
+- `86b599c2` feat: add todo frontend page and navigation
+- `a267c976` docs: mark todo phase 1 complete
 
 ---
 
@@ -490,6 +492,20 @@ Kaydetme sonrası:
 ---
 
 ## 3.4 Worklist API
+
+Uygulanan uçlar (`/api/v1`):
+
+| İş | Uç |
+|---|---|
+| Çalışma listesi | `GET /todos/{todo_id}/worklist` |
+| İlerleme | `GET /todos/{todo_id}/worklist/progress` |
+| Aktivite modalı verisi (3.5) | `GET /todos/{todo_id}/worklist/customers/{customer_id}/modal` |
+| Aktivite kaydı (3.6) | `POST /todos/{todo_id}/worklist/customers/{customer_id}/activities` |
+| Elle mail | `POST /todos/{todo_id}/worklist/customers/{customer_id}/manual-mail` |
+| Aktivite detayı (3.7) | `GET /activities/{activity_id}` |
+| Sonuç tanımları (3.2) | `GET`/`POST /todo-outcomes`, `GET`/`PATCH /todo-outcomes/{outcome_id}`, `POST /todo-outcomes/{outcome_id}/deactivate` |
+| Takipler | `GET /follow-ups` |
+
 
 Görev detayından çalışma listesi çekilebilmelidir.
 

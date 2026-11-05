@@ -18,4 +18,4 @@ Bu tarihten önceki belgelerde geçen CRM commit SHA'ları eski geçmişe aittir
 
 ## Açık
 
-GitHub, eski PR'ların `refs/pull/*/head` referanslarını ve önbelleği kendisi tutar; bunları yalnız GitHub Support siler. Talep kullanıcı tarafından gönderilir.
+GitHub'ın eski `refs/pull/*/head` referanslarını ve önbelleği silmesi (yalnız GitHub Support yapar) [ROADMAP.md](../ROADMAP.md) §5'tedir.

@@ -122,9 +122,9 @@ SHARED FAIR != SHARED ORGANIZATION SCRAPER RUN
 
 The shared system participant dataset is the system scraper handoff only. It is not a child row of an organization.
 
-Organization scraper runs must stay inside their organization. Aggregating scraper runs by fair name without `organization_id` violates this rule. `AdapterLinkedFairService._aggregate_runs_by_fair_name` is a known violation and must be corrected when system fairs are implemented. This constitution does not authorize that query.
+Organization scraper runs must stay inside their organization. Aggregating scraper runs by fair name without `organization_id` violates this rule; `AdapterLinkedFairService._aggregate_runs_by_fair_name` filters by `organization_id` (SECURITY_PROGRAM F-R6).
 
-Catalog identity is [ADR-038](decisions/DECISIONS.md). ADR-037's catalog-identity decision is superseded by that ADR. User-directed duplicate cleanup is [ADR-039](decisions/DECISIONS.md). Scraper field ownership is [ADR-017](decisions/DECISIONS.md). Import batch tenancy is [import/IMPORT_ARCHITECTURE.md](import/IMPORT_ARCHITECTURE.md). System job scope is [the background job standard](../../standards/jobs/BACKGROUND_JOB_STANDARD.md).
+Catalog identity is [ADR-038](decisions/DECISIONS.md). ADR-037's catalog-identity decision is superseded by that ADR. User-directed duplicate cleanup is [ADR-039](decisions/DECISIONS.md). Scraper field ownership is [ADR-017](decisions/DECISIONS.md). Import batch tenancy is [import/IMPORT_ARCHITECTURE.md](import/IMPORT_ARCHITECTURE.md). System job scope is [the background job standard](operations/BACKGROUND_JOB_STANDARD.md).
 
 Permission-scope details: [PERMISSION_SCOPE_GOVERNANCE.md](PERMISSION_SCOPE_GOVERNANCE.md).  
 Shared UI authorization semantics: [../../standards/ui/CRUD_UI_AUTHORIZATION_STANDARD.md](../../standards/ui/CRUD_UI_AUTHORIZATION_STANDARD.md).
@@ -161,7 +161,7 @@ Default list contract unless a module has an accepted exception:
 
 ```text
 page       = 1 (1-based)
-page_size  = 25 (1..100)
+page_size  = 25 (1..100); system backup lists use 20
 sort_order = asc|desc
 search     = module-dependent free-text search
 ```
@@ -223,7 +223,7 @@ FAIR CRM owns CRM-specific recipient resolution, templates/business context, exc
 
 Whether provider-neutral delivery infrastructure should be promoted to Core remains an explicit deferred ownership decision. Do not duplicate/move it silently.
 
-Related product backlog: [ROADMAP.md](ROADMAP.md) and `backlog/` specifications.
+Related product backlog: [ROADMAP.md](ROADMAP.md).
 
 ## 12. Frontend product profile
 

@@ -65,6 +65,20 @@ Enrichment Wizard
 → EnrichmentHandler
 ```
 
+Koddaki durum (`operations/domain/value_objects.py` `OperationType`, `type_registry.py`, handler sınıfları `operations/infrastructure/handlers/`):
+
+| Tip | Handler | Durum |
+|---|---|---|
+| `scraper` | `ScraperHandler` | Çalışıyor |
+| `bulk_email` | `BulkEmailHandler` | Çalışıyor |
+| `enrichment` | `EnrichmentHandler` | Çalışıyor |
+| `duplicate_check` | `DuplicateCheckHandler` | Çalışıyor |
+| `manual_task` | `ManualTaskHandler` | Çalışıyor |
+| `data_cleanup` | — | Yalnız tip tanımı (yer tutucu yetenekler), handler yok |
+| `whatsapp` | — | Yalnız tip tanımı, handler yok |
+| `reminder` | — | Yalnız tip tanımı, handler yok |
+| tekil e-posta (3.4) | — | Tip yok |
+
 Scraper ile email aynı wizard adımlarını paylaşmaz. Ortak olan kısım çalışma, status, progress, log, history, hata ve retry altyapısıdır.
 
 ---
@@ -200,7 +214,7 @@ Toplu Email'den farkı: kampanya / batch odaklı değil, **belirli müşteri vey
 
 ### Sistem davranışı
 
-- `EmailHandler` çalışır.
+- Kodda karşılığı yok: `OperationType` içinde tekil e-posta tipi ve `EmailHandler` bulunmaz.
 - Mail oluşturulur ve gönderilir.
 - Sonuç loglanır.
 - Activity / history kaydı oluşturulabilir.
@@ -237,7 +251,7 @@ Mevcut CRM verilerindeki bozuk, eksik, hatalı veya tutarsız kayıtları bulmak
 
 ### Sistem davranışı
 
-- `DataCleanupHandler` çalışır.
+- Kodda yalnız `data_cleanup` tip tanımı var; `DataCleanupHandler` yok. Tekrar kontrolü `duplicate_check` tipi ve `DuplicateCheckHandler` ile çalışır.
 - Kayıtlar taranır.
 - Problemler sınıflandırılır.
 - Temiz / problemli kayıt sayıları gösterilir.
@@ -269,7 +283,7 @@ Müşterilere sistem üzerinden WhatsApp mesajı göndermek veya WhatsApp tabanl
 
 ### Sistem davranışı
 
-- `WhatsAppHandler` çalışır.
+- Kodda yalnız `whatsapp` tip tanımı var; `WhatsAppHandler` ve gönderim yok (iş satırı: [ROADMAP.md](../ROADMAP.md)).
 - Telefon numarası doğrulanır.
 - Mesajlar gönderilir.
 - Her müşteri için gönderim sonucu tutulur.
@@ -306,7 +320,7 @@ Belirlenen koşul veya tarihe göre sistemin otomatik aksiyon üretmesi.
 
 ### Sistem davranışı
 
-- `ReminderHandler` çalışır.
+- Kodda yalnız `reminder` tip tanımı var; `ReminderHandler` yok.
 - Zaman / koşul kontrol edilir.
 - Şart gerçekleştiğinde tanımlanan aksiyon çalıştırılır.
 - Gerektiğinde **Todo oluşturulur**.

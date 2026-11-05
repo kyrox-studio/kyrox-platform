@@ -17,10 +17,10 @@
 
 ## Basitten zora iş listesi
 
-- [ ] **01 — Fair-Stand faviconu:** Bağımsız giriş ve CRM içinde açılan sürümün simgesini kontrol et; eksik tanımı marka varlıklarıyla tamamla.
-- [ ] **02 — Sekme başlıkları:** CRM ve Stand başlıklarını ürün adı ve marka ile tutarlı hale getir.
+- [ ] **01 — Fair-Stand faviconu:** Bağımsız giriş ve CRM içinde açılan sürümün simgesini kontrol et; eksik tanımı marka varlıklarıyla tamamla. Kodda: Stand `index.html` `stand-favicon.svg` + `stand-favicon.ico`, CRM `favicon.ico` tanımlı; canlı kontrol yok.
+- [ ] **02 — Sekme başlıkları:** CRM ve Stand başlıklarını ürün adı ve marka ile tutarlı hale getir. Kodda: CRM [#368](https://github.com/kyrox-studio/kyrox-fair-crm/pull/368) ve [#384](https://github.com/kyrox-studio/kyrox-fair-crm/pull/384) (2026-10-29) her rotaya ekrandaki sayfa başlığını verir, bilinmeyen rota yalnız marka; Stand editörü ve izleme sayfası `Kyrox Studio | Stand Konfiguratör`. #384 canlıda ve tarayıcıda doğrulanmadı.
 - [ ] **03 — Web ürün bağlantıları:** CRM ve Stand kartlarının doğru hedefe ulaştığını kontrol et.
-- [ ] **04 — CRM bulunamayan sayfa ekranı:** Bilinmeyen adreslerin sessizce dashboard'a düşmesi yerine anlaşılır hata ve dönüş bağlantısı sun.
+- [ ] **04 — CRM bulunamayan sayfa ekranı:** Bilinmeyen adreslerin sessizce dashboard'a düşmesi yerine anlaşılır hata ve dönüş bağlantısı sun. Kodda: CRM [#368](https://github.com/kyrox-studio/kyrox-fair-crm/pull/368) eşleşmeyen adresi `/not-found` (`NotFoundPage`, Dashboard'a dönüş) yapar; bilinmeyen `/admin/*` yolu Yedekler sayfasına düşer.
 - [ ] **05 — Görsel alt metinleri:** Anlam taşıyan görselleri açıklayıcı metin, dekoratif görselleri uygun boş alt metin açısından kontrol et.
   - **Canlı WordPress görselleri — sorumlu: Codex.** 25 Ekim 2026'da canlı medya API'si kontrol edildi: Ortam Kütüphanesi 0 kayıt döndü; düzenlenecek yüklenmiş görsel yok. Tema görselleri ve V3 proje görselleri kaynakta alt metin taşır. Yeni medya eklenirse içerik incelemesi Codex'in işidir; kullanıcıya devredilmez. CRM marka alt metinleri PR #368 içinde gönderildi; canlı uygulama kontrolü bekliyor.
 - [ ] **06 — Kırık bağlantılar:** Web ve uygulamalarda iç bağlantıları, dosyaları ve dış hedefleri tara; bulunan sorunları düzelt.

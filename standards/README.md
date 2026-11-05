@@ -23,6 +23,7 @@ Before reading a product-specific standard, check this index and read every shar
 ### Quality
 
 - [Quality Gate Standard](quality/QUALITY_GATE_STANDARD.md) — strict-green target, zero-new-regression semantics, monotonic legacy baseline, truthful completion reporting and CI/branch-protection boundaries.
+- [Tenant Isolation System Test Standard](quality/TENANT_ISOLATION_SYSTEM_TEST_STANDARD.md) — organization isolation system tests.
 
 ### UI / authorization
 
@@ -37,12 +38,9 @@ Before reading a product-specific standard, check this index and read every shar
 
 - [Backend Architecture Standards](backend/BACKEND_ARCHITECTURE_STANDARDS.md) — shared layered backend architecture and dependency direction.
 
-### Other shared areas
+### Database
 
-- `ai/` — shared AI/agent standards.
-- `database/` — shared database standards.
-- `git/` — shared Git/repository standards.
-- `jobs/` — shared background-job standards.
+- [Database Relationship Standard](database/DATABASE_RELATIONSHIP_STANDARD.md) — foreign-key referential actions.
 
 ## Ownership rule
 

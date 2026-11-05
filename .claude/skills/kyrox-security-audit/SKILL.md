@@ -21,10 +21,10 @@ Sınırları her alt ajana aynen ver: [references/rules.md](references/rules.md)
 
 ## 1. Kararları ve kuralları oku
 
-Okuma sırası ve öncelik [AGENTS.md](../../../AGENTS.md)'deki gibidir. Asgari:
+Okuma sırası [AGENTS.md](../../../AGENTS.md)'de, belge önceliği [DOCUMENT_GOVERNANCE.md](../../../ecosystem/DOCUMENT_GOVERNANCE.md#precedence-and-overlap)'dedir. Asgari:
 - `ecosystem/decisions/` (ADR'ler, `ADR_INDEX.md`), `ecosystem/DOCUMENT_GOVERNANCE.md`, `standards/` (özellikle security, quality, ui).
 - `projects/*/` — `PROJECT_STATUS.md`, `CHANGELOG.md`, `ROADMAP.md`, `integrations/` rehberleri, proje `decisions/`.
-- `archive/*/designs` — tarihsel karar bağlamı için okunur ama **canlı kural değildir** (AGENTS.md Precedence). Archive'daki bir karar canlı belgede yoksa bu bir "belgede eksik" bulgusudur, otomatik kural değildir.
+- `archive/*/designs` — tarihsel karar bağlamı için okunur ama **canlı kural değildir** (DOCUMENT_GOVERNANCE.md, Precedence and overlap). Archive'daki bir karar canlı belgede yoksa bu bir "belgede eksik" bulgusudur, otomatik kural değildir.
 - Kod depolarındaki makine sözleşmeleri: CRM `.kyrox/features/*.json`, Stand `.github/change-contract.json` ve `SYSTEM_*.md`, Core `.kyrox/security-controls.json`.
 
 Öncelik: ADR > shared standard > proje belgesi > entegrasyon rehberi > archive > sohbet geçmişi. Çelişki varsa hangisinin canlı olduğunu yaz.
@@ -63,6 +63,6 @@ Bu adım güvenlik taramasından ayrıdır, çünkü amacı "kod güvenli mi" de
 
 - Bulguları SECURITY_PROGRAM.md'ye mevcut düzene uyarak ekle: yeni E- kanıt bölümü, yeni F-/R-/K- satırları, matris ve düzeltme sırası güncellemesi. Her bulguda kod / izole / canlı kanıtı ayrı sütunlarda, kaynak SHA, test/komut, ortam, sonuç ve eksik doğrulama olsun ([references/finding-format.md](references/finding-format.md)).
 - "Kod var", "test geçti (izole)", "canlıda doğrulandı", "kabul edildi" ayrı durumlardır; kanıtsız PASS/DONE yazma. Kontrolleri, testleri veya kapıları gevşetme.
-- Platform deposunda ayrı worktree + dal + PR; kullanıcı tercihine göre auto-merge. Platform CI yalnız Markdown kabul eder ve depo içi linklerin çözülmesini ister.
+- Platform deposunda ayrı worktree + dal + PR; kullanıcı tercihine göre auto-merge. Platform CI uygulama kodu ve uygulama yapılandırma dosyası kabul etmez, depo içi linklerin çözülmesini ister.
 - Kod düzeltmesi bu skill'in işi değildir; kullanıcı ayrıca isterse her depo için ayrı dal/PR ve mevcut sıkı testlerle yapılır.
 - Kullanıcıya kısa Türkçe özet: en kritik yeni bulgular (öncelik sırasıyla), karar bekleyenler, doğrulanamayanlar ve nedeni.

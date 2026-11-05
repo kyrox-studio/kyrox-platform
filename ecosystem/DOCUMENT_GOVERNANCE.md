@@ -6,7 +6,7 @@ Single source of truth rules for all KYROX human- and AI-readable knowledge.
 
 > **Humans and AI agents learn the KYROX system from `kyrox-platform`. Application repositories are implementation and verification layers.**
 
-All human-readable standards, architecture, decisions, product rules, status, roadmap and operating instructions live in this repository. Application repositories (`kyrox-core`, `kyrox-fair-crm`, `kyrox-fair-stand`) contain code, tests, migrations, CI and machine-readable contracts required by implementation or verification; they must not become a second ecosystem documentation system.
+All human-readable standards, architecture, decisions, product rules, status, roadmap and operating instructions live in this repository. Application repositories (`kyrox-core`, `kyrox-fair-crm`, `kyrox-fair-stand`, `kyrox-web`, `kyrox-brand`) contain code, tests, migrations, CI and machine-readable contracts required by implementation or verification; they must not become a second ecosystem documentation system.
 
 ## Classification rule
 

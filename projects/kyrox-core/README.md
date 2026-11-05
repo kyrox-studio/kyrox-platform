@@ -1,6 +1,6 @@
 # KYROX Core
 
-Reusable SaaS backend platform for KYROX products. Provides identity, organization/membership, authorization, and shared platform services.
+Reusable SaaS backend platform for KYROX products. Provides identity, organization and user management, authorization, audit, settings, jobs and notifications.
 
 **Code repository:** `https://github.com/kyrox-studio/kyrox-core`  
 **Human/AI documentation:** this tree under `kyrox-platform`  

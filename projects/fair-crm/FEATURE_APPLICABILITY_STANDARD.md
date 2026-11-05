@@ -41,12 +41,11 @@ Examples:
 fair_crm.<module>.read
 fair_crm.<module>.create
 fair_crm.<module>.update
-fair_crm.<module>.archive
 fair_crm.<module>.delete
 fair_crm.<module>.execute
 ```
 
-Only actions that actually exist in the approved product behavior are declared. Background/scheduled work does not receive fake CRUD permissions.
+These five are the only permission actions in the Fair CRM catalog today; archiving uses `delete`. Only actions that actually exist in the approved product behavior are declared. Background/scheduled work does not receive fake CRUD permissions.
 
 Canonical permission scope rules: [PERMISSION_SCOPE_GOVERNANCE.md](PERMISSION_SCOPE_GOVERNANCE.md).  
 Canonical UI visibility rules: [../../standards/ui/CRUD_UI_AUTHORIZATION_STANDARD.md](../../standards/ui/CRUD_UI_AUTHORIZATION_STANDARD.md).
@@ -77,14 +76,7 @@ The exact integration contract is [integrations/INTEGRATION_WITH_CORE.md](integr
 
 ## 7. Fair CRM CI contract invariants
 
-Fair CRM tooling may enforce additional schema/path details, but it must preserve the shared invariants. In particular:
-
-- N/A requires a reason,
-- user-triggered protected work requires runtime authorization evidence,
-- organization-scoped backend/data work cannot mark tenant isolation N/A,
-- frontend-required work cannot silently omit applicable UI/visual checks,
-- permissions marked not required cannot carry hidden permission items,
-- system-scoped permissions follow Fair CRM/Core scope governance.
+`scripts/validate_feature_contracts.py` enforces the shared contract invariants ([shared §11](../../standards/development/FEATURE_APPLICABILITY_STANDARD.md#11-machine-readable-feature-contracts)) against `.kyrox/feature-contract.schema.json`, plus Fair CRM/Core permission-scope governance and `security.controls` classification.
 
 ## 8. Execution order
 

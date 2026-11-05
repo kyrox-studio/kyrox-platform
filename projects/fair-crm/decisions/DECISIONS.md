@@ -780,7 +780,7 @@ Customer phone, email, and website data moved to child tables (`crm_customer_pho
 
 **Status:** Accepted  
 **Date:** 2026-07-21  
-**Detail:** [frontend/RESPONSIVE_UI_STANDARD.md](../frontend/RESPONSIVE_UI_STANDARD.md)
+**Detail:** [FRONTEND_UI_MASTER_STANDARD.md](../frontend/FRONTEND_UI_MASTER_STANDARD.md) (history: [RESPONSIVE_UI_STANDARD_PRE_CONSOLIDATION.md](../../../archive/fair-crm/frontend/RESPONSIVE_UI_STANDARD_PRE_CONSOLIDATION.md))
 
 **Context:**
 
@@ -813,7 +813,7 @@ Sprint 04.5 delivered reusable UI primitives and Sprint 08.0/ADR-015/ADR-019 del
 
 **Consequences:**
 
-- Every new frontend screen must pass the Responsive UI Definition of Done in `CONSTITUTION.md` and `frontend/RESPONSIVE_UI_STANDARD.md`.
+- Every new frontend screen must pass the Responsive UI Definition of Done in `frontend/FRONTEND_UI_MASTER_STANDARD.md` §21.
 - New tables must use `UniversalDataTable` — width-responsive + dual pagination arrive without extra configuration.
 - Page-specific responsive table CSS/hacks are rejected.
 
@@ -913,13 +913,13 @@ Earlier roadmap wording implied a single shared Operation Wizard. Product clarif
 5. Execution reuses existing fair scraper job runner + handoff → Veri Entegrasyonu import batch. Scraper never writes CRM customers directly.
 6. `CustomerContactEnrichmentAdapter` is excluded from Scraper Wizard; enrichment remains a separate automation type.
 7. `scraper_run_history` remains the technical run/log store; Operation is the user-facing execution record, linked via `scraper_run_id` in run result metadata.
-8. Fair Detail “Scraper Çalıştır…” UI action is **removed**. User-facing scraper start is **Otomasyonlar → Web Scraper** only. Legacy `RunFairScraper` API may remain for internal/compat use until a separate cleanup; it is not exposed on Fair Detail.
+8. Fair Detail “Scraper Çalıştır…” UI action is **removed**. User-facing scraper start is **Otomasyonlar → Web Scraper** only. Legacy `RunFairScraper` API may remain for internal/compat use until a separate cleanup; it is not exposed on Fair Detail. **Code today:** Fair Detail shows the system-scraper action only for a Super Admin on a system fair (`FairDetailPage.tsx`, `RunFairScraperUseCase`); this is the System Fair scraper start system operation in [PERMISSION_SCOPE_GOVERNANCE.md](../PERMISSION_SCOPE_GOVERNANCE.md).
 
 **Consequences:**
 
 - Engine stays lifecycle-only; type rules live in `ScraperHandler`.
 - ROADMAP “ortak Operation Wizard” wording is superseded by per-type wizards for automation creation UX.
-- Points 3–5 apply to organization fairs. Starting a scraper for a system fair is a system job ([background job standard](../../../standards/jobs/BACKGROUND_JOB_STANDARD.md)); configuration ownership is ADR-017. An organization scraper run stays organization-scoped.
+- Points 3–5 apply to organization fairs. Starting a scraper for a system fair is a system job ([background job standard](../operations/BACKGROUND_JOB_STANDARD.md)); configuration ownership is ADR-017. An organization scraper run stays organization-scoped.
 
 ---
 

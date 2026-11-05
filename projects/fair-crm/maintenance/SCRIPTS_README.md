@@ -1,101 +1,22 @@
-# Maintenance Developer Toolkit
+# Maintenance scripts
 
-Internal developer/admin scripts for one-time database maintenance, analysis, and exports.
+`kyrox-fair-crm/scripts/maintenance/` holds internal developer tooling. These are not product features; they are not exposed in the API or UI. Run from the repository root.
 
-**These are not product features.** They are not exposed in the API or UI. Run only against the intended environment with a current backup when scripts modify data.
+## CI governance tools
 
-Run all commands from the project root:
+Run by `.github/workflows/development-standard.yml` (`refine_*` and `enrich_*` are imported by `compare_system_behavior_inventory.py`):
 
-```powershell
-cd kyrox-fair-crm
-python scripts/maintenance/<folder>/<script_name>.py
-```
+| Script | Purpose |
+|---|---|
+| `inventory_system_behavior.py` | Generate the static Fair CRM system-behavior inventory |
+| `refine_system_behavior_inventory.py` | Refine the raw inventory with stronger static evidence |
+| `enrich_backend_permission_evidence.py` | Enrich backend route permission evidence through dependency-provider imports |
+| `compare_system_behavior_inventory.py` | Fail when refined system-behavior findings regress against the comparison base |
+| `inventory_frontend_ui.py` | Scan `frontend/src` for shared vs local/non-standard UI usage |
+| `compare_frontend_ui_inventory.py` | Fail when a frontend change introduces new UI governance violations |
 
-## Output locations
+Their tests are `test_*.py` in the same folder. Standard: [SYSTEM_BEHAVIOR_MAP_STANDARD.md](../../../standards/development/SYSTEM_BEHAVIOR_MAP_STANDARD.md).
 
-| Directory | Purpose |
-|-----------|---------|
-| `scripts/maintenance/reports/` | Analysis Excel outputs |
-| `scripts/maintenance/exports/` | Duplicate export workbooks |
+## Cleanup
 
----
-
-## Analysis (`analysis/`)
-
-Read-only reports. No database changes.
-
-### `report_customer_duplicates.py`
-
-**Purpose:** Find duplicate customer groups across the full database.
-
-**When to use:** Master duplicate audit before merge planning or data cleanup.
-
-**Example:**
-
-```powershell
-python scripts/maintenance/analysis/report_customer_duplicates.py
-```
-
-**Output:** `scripts/maintenance/reports/customer_duplicates_<timestamp>.xlsx`
-
----
-
-## Exports (`exports/`)
-
-Read-only Excel exports for duplicate-group review.
-
-### `export_duplicate_group_customers.py`
-
-**Purpose:** Export all customers in duplicate groups with fair participation rows (one row per participation).
-
-**When to use:** Single workbook for duplicate review across all fairs.
-
-**Example:**
-
-```powershell
-python scripts/maintenance/exports/export_duplicate_group_customers.py
-```
-
-**Output:** `scripts/maintenance/exports/duplicate_group_customers_<timestamp>.xlsx`
-
----
-
-### `export_duplicate_groups_by_fair.py`
-
-**Purpose:** Same duplicate export split into one Excel file per fair plus `NO_FAIR.xlsx` and `SUMMARY.xlsx`.
-
-**When to use:** Fair-by-fair operator review of duplicate groups.
-
-**Example:**
-
-```powershell
-python scripts/maintenance/exports/export_duplicate_groups_by_fair.py
-```
-
-**Output:** `scripts/maintenance/exports/duplicate_groups_by_fair/` (`<fair_name>_<year>.xlsx`, `NO_FAIR.xlsx`, `SUMMARY.xlsx`)
-
----
-
-## Cleanup (`cleanup/`)
-
-**Destructive.** Modifies the database. Internal admin use only.
-
-### `delete_customers_without_fair.py`
-
-**Purpose:** Physically delete all customers with zero fair participations.
-
-**When to use:** One-time master DB cleanup after analysis and backup. No confirmation prompts — use with care.
-
-**Example:**
-
-```powershell
-python scripts/maintenance/cleanup/delete_customers_without_fair.py
-```
-
-**Output:** Console summary only (deleted / failed counts).
-
----
-
-## Shared paths
-
-`scripts/maintenance/_paths.py` defines `ROOT`, `REPORTS_DIR`, `EXPORTS_DIR`, and `bootstrap()` for backend imports and `.env` loading.
+`cleanup/delete_customers_without_fair.py` physically deletes every customer with no fair participation, without a confirmation prompt. It imports `scripts/maintenance/_paths.py`, which was removed in FAIR CRM PR #381, so the script does not run as it is. Nothing in the repository calls it.

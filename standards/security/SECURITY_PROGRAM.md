@@ -573,15 +573,15 @@ Yalnız uyumsuz satırlar; tam liste ve kanıtlar alt ajan raporlarındaydı (de
 | K-CORE-10 | Core decisions/0002 | user/role route'ları ORM'e doğrudan erişiyor (katman ihlali) | ÇELİŞİYOR | P2 |
 | K-CORE-11 | ADR-0002 ↔ OL09-B | Core FAIR CRM'e HTTP sinyali atıyor ve FAIR öneki taşıyor; ADR değişmemiş | BELGELER ÇELİŞİYOR | P2 |
 | K-CORE-12 | ADR-0006 | ADR "Super Admin `organization_id` NULL" diyor; kod ve CHANGELOG tersi | BELGELER ÇELİŞİYOR | P2 |
-| K-CORE-13 | Core PROJECT_STATUS | "reactivation endpoint yok" ve "0069" yanlış; #43–#47 ile OL-08/09 yüzeyleri yok; "Audit: Implemented" KISMİ | ÇELİŞİYOR / BELGEDE EKSİK | P2 |
-| K-CORE-14 | PRODUCT_INTEGRATION_GUIDE | Var olmayan membership/invite uçları; yanlış permission kodları (`enqueue`/`send` → `execute`); çok sayıda route yok; "yerel JWT doğrulama" ADR-0003 ile çelişiyor (F-C8'e not) | ÇELİŞİYOR | P2 |
+| K-CORE-13 | Core PROJECT_STATUS | "reactivation endpoint yok" ve "0069" yanlış; #43–#47 ile OL-08/09 yüzeyleri yok; "Audit: Implemented" KISMİ | BELGE DÜZELTİLDİ (MD turu 2026-10-30) | P2 |
+| K-CORE-14 | PRODUCT_INTEGRATION_GUIDE | Var olmayan membership/invite uçları; yanlış permission kodları (`enqueue`/`send` → `execute`); çok sayıda route yok; "yerel JWT doğrulama" ADR-0003 ile çelişiyor (F-C8'e not) | BELGE DÜZELTİLDİ (MD turu 2026-10-30; uç listesi OpenAPI'den) | P2 |
 | K-CORE-15 | ADR-0003 | Tablo "reset deferred", Consequences "implemented" | BELGELER ÇELİŞİYOR | P2 |
 | K-CORE-16 | ADR-0004 ↔ OL09-D/OL08-F | Append-only kuralı ile kabul edilmiş retention silmesi çelişiyor | BELGELER ÇELİŞİYOR | P2 |
 | K-CORE-17 | Core CHANGELOG | #23–#47 teslimatları yok | BELGEDE EKSİK | P2 |
 | K-CRM-01 | CONSTITUTION §5 | Scraper org sızıntısı → F-R6 | ÇELİŞİYOR | P1 |
 | K-CRM-02 | Core 0051 permission birleştirmesi | Önizleme kaldırılmış kodu soruyor → F-R7 | ÇELİŞİYOR | P1 |
 | K-CRM-03 | CRUD_UI_AUTHORIZATION / RBAC | Dashboard RBAC'sız; activities/customers read yetkisi olmayan aktivite ve müşteri özetini görüyor. Karar yalnız migration docstring'inde ve feature contract'ta | BELGEDE EKSİK | P2 |
-| K-CRM-04/05 | PERMISSION_SCOPE_GOVERNANCE, TODO_MODULE_DECISIONS, AUTH_RBAC_HANDOVER, DEVELOPMENT_STANDARD | SYSTEM listesinde `admin.backups.delete` ve `identity.organizations.reactivate` eksik; Core 0048–0054 birleştirmeleri belgelerde yok; eski kodlar (`.archive`, `backups.download`, rol matrisi v1) duruyor | BELGEDE EKSİK / ÇELİŞİYOR | P2 |
+| K-CRM-04/05 | PERMISSION_SCOPE_GOVERNANCE, TODO_MODULE_DECISIONS, AUTH_RBAC_HANDOVER, DEVELOPMENT_STANDARD | SYSTEM listesinde `admin.backups.delete` ve `identity.organizations.reactivate` eksik; Core 0048–0054 birleştirmeleri belgelerde yok; eski kodlar (`.archive`, `backups.download`, rol matrisi v1) duruyor | KISMİ — MD turu 2026-10-30: SYSTEM listesi tamamlandı, `.archive`/rol matrisi v1 kaldırıldı, AUTH_RBAC_HANDOVER arşivde; Core 0048–0054 birleştirmeleri hâlâ belgede yok | P2 |
 | K-CRM-06 | Core 0048–0054 | Kullanıcıya gösterilen hata mesajlarında geri çekilmiş permission slug'ları | ÇELİŞİYOR | P2 |
 | K-CRM-08 | Role matrix | `customers.execute`, `operations.update`, `cost_catalog.*` matriste ve testlerde yok | KISMİ | P2 |
 | K-CRM-09 | Org bağlamı | Core org araması başarısızsa FE sabit varsayılan org'a düşüyor | ÇELİŞİYOR | P2 |
@@ -604,13 +604,13 @@ Yalnız uyumsuz satırlar; tam liste ve kanıtlar alt ajan raporlarındaydı (de
 | K-STAND-12…17 | Stand PROJECT_STATUS, OPEN_WORK, GROUP_LOCK, ITEM_CATALOG, AGENTS.md, SYSTEM_CHANGE_GATE §9 | Otomatik kayıt, silme onayı, bayat durum iddiaları (#336–#343 main'de ve canlıda ama "gönderilmedi" yazıyor), migration head (belge 0059/0064/0067, kod 0086), Stand'de kalan kanonik belgeler, PR-only CI | BELGELER ÇELİŞİYOR | P2 |
 | K-ECO-05 | `deploy-all.sh` başlığı, SERVER_DEPLOY | Deploy `.env`'lere anahtar ekliyor (Stand'e Core JWT'si, CRM'e peer DB URL'leri); yeni `.env` 0644 doğuyor → E-015/E-018 düzeltmesi betiğe işlenmedi | KISMİ | P2 |
 | K-ECO-06 | OL10-A | Elle alınan dump'lar (`pg_dumpall` dahil, 12 öğe) budanmıyor; ilk 30 gün aşımı 2026-11-14 | KISMİ | P2 |
-| K-ECO-07 | DOCUMENT_GOVERNANCE | CRM'de `scripts/server/DEPLOY.md` ve `backup/README.md` insan belgesi; platformda sunucu yedeği/DR belgesi yok | ÇELİŞİYOR + BELGEDE EKSİK | P2 |
-| K-ECO-08/09/10 | SERVER_DEPLOY, NGINX_SSL_CONFIGURATION, STATUS | Stand yok, SSH 22 (canlı 25416); eski IP ve 64m limit (canlı 45.43.154.39, 256m); STATUS "deploy pending" | BELGELER ÇELİŞİYOR | P2 |
+| K-ECO-07 | DOCUMENT_GOVERNANCE | CRM'de `scripts/server/DEPLOY.md` ve `backup/README.md` insan belgesi; platformda sunucu yedeği/DR belgesi yok | KISMİ — `DEPLOY.md` platform SERVER_DEPLOY'a birleşti ve silindi (MD turu 2026-10-30); `backup/README.md` `kyrox-restore.sh`'tan bağlı olduğu için kaldı; platformda ayrı DR belgesi yok | P2 |
+| K-ECO-08/09/10 | SERVER_DEPLOY, NGINX_SSL_CONFIGURATION, STATUS | Stand yok, SSH 22 (canlı 25416); eski IP ve 64m limit (canlı 45.43.154.39, 256m); STATUS "deploy pending" | BELGE DÜZELTİLDİ (MD turu 2026-10-30: Stand, 256m, IP 45.43.154.39, SSH 25416 notu, STATUS deploy); betiklerin 22 varsayımı açık | P2 |
 | K-ECO-12 | ADR-0011 | `tasarim/` hâlâ duruyor (ADR "tema yayına girince kaldırılır") | BELGELER ÇELİŞİYOR | P2 |
 | K-ECO-13 | ADR-0011 kaynak sınırı | Docker konteynerlerinde bellek tavanı yok | KISMİ | P2 |
 | K-ECO-14 | `apply-nginx-upload-limit.sh` | `sed -i` yedekten önce; `nginx -t` hatasında satır geri alınmıyor; gzip tüm sitelere ekleniyor | KISMİ | P2 |
 | K-ECO-15/16 | ADR-0008, QUALITY_GATE §10 | Stand'in ayrı `deploy.sh`'ı farklı `.env` davranışı taşıyor ve belgesiz; deploy/backup/restore betiklerinin testi yok | BELGEDE EKSİK | P2 |
-| K-ECO-17/18/19 | ADR-0001, ADR-0010, DOCUMENT_GOVERNANCE | ADR-0001 amendment'sız; CRM favicon brand'den farklı (DOĞRULANMADI); Stand'de ~611 Markdown | BELGELER ÇELİŞİYOR / KISMİ | P2 |
+| K-ECO-17/18/19 | ADR-0001, ADR-0010, DOCUMENT_GOVERNANCE | ADR-0001 amendment'sız; CRM favicon brand'den farklı (DOĞRULANMADI); Stand'de ~611 Markdown | KISMİ — ADR-0001 amendment eklendi (MD turu 2026-10-30); favicon DOĞRULANMADI; Stand MD sayısı Stand turunda | P2 |
 
 #### Mevcut kayıtlarda durum değişikliği (bu değişiklikle uygulandı)
 

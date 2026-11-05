@@ -1,6 +1,6 @@
 # Repository Strategy
 
-Fixed KYROX repository model. Changes require a new ADR. Decision records: [ADR-0001](decisions/0001-repository-strategy.md), [ADR-0007](decisions/0007-fair-stand-product-ownership.md) and [ADR-0010](decisions/0010-brand-repository.md).
+Fixed KYROX repository model. Changes require a new ADR. Decision records: [ADR-0001](decisions/0001-repository-strategy.md), [ADR-0007](decisions/0007-fair-stand-product-ownership.md), [ADR-0008](decisions/0008-fair-stand-independent-service.md), [ADR-0010](decisions/0010-brand-repository.md) and [ADR-0011](decisions/0011-web-site-repository.md).
 
 ## The repositories
 
@@ -8,10 +8,10 @@ Fixed KYROX repository model. Changes require a new ADR. Decision records: [ADR-
 |------------|---------|----------------------------|-------------------------|
 | **kyrox-platform** | Management and documentation hub | No | **Yes — only docs hub** |
 | **kyrox-core** | Reusable SaaS backend platform | Yes | **No** |
-| **kyrox-fair-crm** | First CRM product on KYROX Core; hosts Fair Stand configurator shell and Admin catalog UI with same-origin proxy | Yes | **No** |
+| **kyrox-fair-crm** | First CRM product on KYROX Core; hosts Fair Stand configurator shell and Admin catalog UI with same-origin proxy | Yes | Only the backup operator guide `scripts/server/backup/README.md` (linked from `kyrox-restore.sh`) and one Cursor pointer rule |
 | **kyrox-fair-stand** | Fair Stand configurator runtime plus independent catalog API (`:8002`) and `fair_stand` database | Yes | Machine-readable contracts plus Fair Stand runtime docs required by that repo's change-gate |
 | **kyrox-brand** | Marka varlıkları: logo dosyaları (SVG/PNG/favicon), renk token'ları ve logoyu yeniden üreten betikler | Hayır — yalnızca statik dosyalar ve betikler | Hayır — kısa bir dosya listesi README'si dışında yok; marka kuralları `standards/brand/` altında |
-| **kyrox-web** | kyrox.studio web sitesi: özel WordPress teması ve sunucu kurulum dosyaları | Evet — tema ve kurulum; içerik WordPress veritabanında | Hayır — kurulum README'si dışında yok |
+| **kyrox-web** | kyrox.studio web sitesi: özel WordPress teması ve sunucu kurulum dosyaları | Evet — tema ve kurulum; içerik WordPress veritabanında | Kurulum README'si ve görsel üretim komutları (`GORSEL_KOMUTLARI.md`); `tasarim/src/blog/` altındaki Markdown statik tasarımın blog kaynağıdır |
 
 All **ecosystem** and **cross-product** human documentation is maintained under this repository. See [DOCUMENT_GOVERNANCE.md](DOCUMENT_GOVERNANCE.md). Fair Stand keeps its own runtime contracts in `fair-stand` because that repository's change-gate is machine-verified there; product ownership and ecosystem rules remain here.
 
@@ -39,7 +39,7 @@ Core is the shared backend foundation for all KYROX products. Documentation: [pr
 ### kyrox-fair-crm
 
 - CRM domain features
-- Product UI and CRM product database (`crm_` tables)
+- Product UI and CRM product database
 - Data integration / import / scraper product workflows
 - Product deployment and configuration
 - Fair Stand configurator mount, Admin catalog screens, and same-origin `/api/v1/fair-stand/` proxy — not the catalog process or `fair_stand` database
@@ -78,7 +78,7 @@ Documentation: [projects/fair-stand/](../projects/fair-stand/).
 ## Naming and ownership
 
 - Repositories use the `kyrox-` prefix and match their GitHub names (`kyrox-core`, `kyrox-fair-crm`, `kyrox-fair-stand`). Product names in code stay `fair-crm` / `fair-stand` (service names, prefixes below).
-- Fair Stand tables/APIs use the `fair_stand` / `/fair-stand` prefix. CRM tables use `crm_`.
+- Fair Stand tables/APIs use the `fair_stand` / `/fair-stand` prefix. CRM table naming: [CONSTITUTION.md §4](../projects/fair-crm/CONSTITUTION.md#4-language-and-naming).
 - Cross-repo references use repository names and milestone IDs (for example M4, ADR-0001).
 - `kyrox-brand` ve `kyrox-web` stüdyonun tamamına ait oldukları için `kyrox-` önekini kullanır.
 - Tüm repolar `kyrox-studio` GitHub organizasyonu altındadır.

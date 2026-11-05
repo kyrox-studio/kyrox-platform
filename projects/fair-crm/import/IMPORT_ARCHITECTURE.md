@@ -3,7 +3,7 @@
 **Module:** Data Integration (`data_integration`)  
 **Frontend label:** Veri Entegrasyonu  
 **Route:** `/data-integration`  
-**Status:** Implemented (Sprint 09.1) — pipeline live; source adapters formalized in Sprint 09.2 ([SOURCE_ADAPTER_FRAMEWORK.md](SOURCE_ADAPTER_FRAMEWORK.md)).
+**Status:** Implemented — backend modules `imports` and `data_integration`; source adapters: [SOURCE_ADAPTER_FRAMEWORK.md](SOURCE_ADAPTER_FRAMEWORK.md).
 
 This document defines the **Universal Import Standard** pipeline for KYROX Fair CRM. It extends the existing Import Engine ([IMPORT_ENGINE.md](../../../archive/fair-crm/import/IMPORT_ENGINE.md)) and Smart Import Wizard (Sprint 07) into a source-agnostic, preview-first integration platform.
 
@@ -69,9 +69,10 @@ User creates an **Import Batch** with:
 | Field | Required | Notes |
 |-------|----------|-------|
 | `fair_id` | Yes | Selected fair for entire batch (ADR-012) |
-| `source_type` | Yes | See source priority in ADR-016 |
-| `file` / payload | Yes (file sources) | Stored for replay and audit |
-| `mapping_template_id` | No | Reuse saved column mapping |
+| `source_type` | Yes | `ImportSourceType`: `excel`, `csv`, `api`, `pdf`, `scraper`, `database`, `manual`, `other` (ADR-016 priority) |
+| `file_name` + `stored_file_content` | Yes (file sources) | Stored for replay and audit |
+| `selected_sheet_name`, `header_mode`, `header_row_index` | Excel | Sheet and header choice |
+| `column_mapping_json` | After mapping | Source column → CRM field mapping of this batch; there is no saved/reusable mapping template |
 | `notes` | No | Operator context |
 
 **Entry points:**
@@ -85,14 +86,11 @@ User creates an **Import Batch** with:
 
 Source adapters extract **raw rows** without CRM semantics.
 
-| Source | Adapter responsibility |
-|--------|------------------------|
-| Excel | Sheet selection, row/column bounds, typed cell reads |
-| Web Scraper | Normalized scraper output → tabular rows |
-| CSV | Delimiter/encoding detection |
-| XML / JSON | Schema path → flat row projection |
-| REST API | Paginated fetch → row stream |
-| ERP | Connector-specific extract (future) |
+| Source | Adapter responsibility | In code |
+|--------|------------------------|---------|
+| Excel | Sheet selection, row/column bounds, typed cell reads | `ExcelSourceAdapter` |
+| Web Scraper | Normalized scraper output → tabular rows | Scraper handoff into the batch |
+| CSV, API, PDF, database | Source-specific extract | Only `ImportSourceType` values; no adapter |
 
 Output: **raw row matrix** + metadata (sheet name, row numbers, sample values per column).
 
@@ -113,7 +111,7 @@ On batch setup, user must choose **Excel Header Mode**:
 When **Başlık yok** is selected:
 
 - Mapping screen shows columns as **A, B, C, D, …**
-- Each column displays **sample values** from the first N data rows (e.g. 3–5 examples)
+- The mapping grid shows up to 50 data rows under the column headers ([IMPORT_MAPPING_STANDARD.md](IMPORT_MAPPING_STANDARD.md))
 - User manually maps A/B/C… → canonical fields (`company_name`, `email`, `phone`, …)
 - `company_name` mapping is **required** before analysis can proceed
 
@@ -132,7 +130,6 @@ Maps source columns → **canonical import fields**.
 |------|--------|
 | Required field | `company_name` only (single required mapping) |
 | Optional fields | email, phone, website, country, city, hall, stand, contact fields, … |
-| Template save | Mapping can be saved as **Mapping Şablonu** for reuse |
 | No `fair_name` | Fair comes from batch `fair_id` only (ADR-012) |
 
 Canonical field list aligns with `CANONICAL_FIELDS` in the Import Engine domain.
@@ -146,7 +143,7 @@ Applied after mapping, before matching:
 - Trim whitespace; empty strings → `null`
 - Company name normalization (see [MATCHING_RULES.md](MATCHING_RULES.md))
 - Email: lowercase, multi-email split/merge rules
-- Phone: E.164 or national format normalization (future sprint aligns with Customer Phones)
+- Phone: digits only; Turkish numbers become `90` + 10 digits (`normalize_phone`); match keys only, display keeps the original
 - Website: scheme normalization
 - Turkish character folding for match keys (matching only; display preserves original where appropriate)
 
@@ -159,12 +156,13 @@ Two-level matching (ADR-012):
 1. **Customer match** — existing `Customer` in organization
 2. **Fair participation match** — existing `CustomerFairParticipation` for batch `fair_id`
 
-Produces per row:
+Produces per row (`crm_import_rows`):
 
-- `match_status` (new, duplicate, update_candidate, conflict, invalid, …)
-- `confidence_score` (see [MATCHING_RULES.md](MATCHING_RULES.md))
-- `suggested_action` (create_new, update_existing, skip, manual_review)
-- `merge_preview` (field-level diff for updates)
+- `status` — `ImportRowStatus`: `pending`, `valid`, `invalid`, `possible_duplicate`, `ready_to_create`, `ready_to_update`, `applied`, `skipped`
+- `match_customer_id`, `match_confidence`, `match_reason` (see [MATCHING_RULES.md](MATCHING_RULES.md))
+- `participation_exists`, `match_participation_id`
+- `suggested_action` — `ImportSuggestedAction`: `create_customer_and_participation`, `link_existing_customer_to_fair`, `update_participation`, `skip`
+- `decision` — `ImportDecision`: `create_new`, `update_existing`, `participation_only`, `skip`, `manual_review`
 
 ---
 
@@ -188,6 +186,7 @@ User sets row-level or bulk decisions:
 |----------|---------|
 | `create_new` | New customer (+ participation if fair batch) |
 | `update_existing` | Merge into matched customer/participation per merge rules |
+| `participation_only` | Only the fair participation is written for the matched customer |
 | `skip` | Row ignored on apply |
 | `manual_review` | Held for operator; not applied until resolved |
 
@@ -199,7 +198,7 @@ Decisions are persisted on `ImportRow` before apply. Default: conservative (no o
 
 Apply runs as a **background job**:
 
-- Job record with status: `queued` → `running` → `completed` | `failed` | `partial`
+- Job record (`ImportJobType`: `analyze`, `apply`, `bulk_decision`) with status `queued` → `running` → `completed` | `failed` | `partial` | `cancelled`
 - Progress: processed / total rows
 - Row-level apply results stored for audit
 - Idempotent re-run rules (same batch + same decisions)
@@ -229,41 +228,29 @@ Report is downloadable and linked from batch detail. Failures do not roll back s
 
 ## Frontend navigation (Veri Entegrasyonu)
 
-**Route:** `/data-integration`
+Sidebar (`components/layout/sidebarTreeItems.tsx`):
 
-| Menu item | Route (planned) | Status |
-|-----------|-----------------|--------|
-| Import İşleri | `/data-integration/imports` | Active (Sprint 07 wizard migrates here) |
-| Import Geçmişi | `/data-integration/history` | Planned |
-| Mapping Şablonları | `/data-integration/templates` | Planned |
-| Web Scrapers | — | 🚧 Disabled |
-| Export İşleri | — | 🚧 Disabled |
-| API Entegrasyonları | — | 🚧 Disabled |
-| ERP Entegrasyonları | — | 🚧 Disabled |
-| CSV/XML Kaynakları | — | 🚧 Disabled |
-| Senkronizasyon İşleri | — | 🚧 Disabled |
-| Entegrasyon Ayarları | — | 🚧 Disabled |
+| Menu item | Route |
+|-----------|-------|
+| Import İşleri | `/data-integration/imports` (resume: `/data-integration/imports/continue/:batchId`) |
+| Excel Import | `/data-integration/imports/new` (fair pre-filled: `/data-integration/imports/fair/:fairId`) |
+| İşler | `/data-integration/jobs` |
+| Raporlar | `/data-integration/reports` |
+| Adapter Yönetimi | `/data-integration/adapters` |
+| Run History | `/data-integration/run-history` (detail `/data-integration/runs/:runId`) |
+| Scraper Test | `/data-integration/scraper-test` |
 
-Disabled items are visible in navigation with 🚧 badge; clicking shows “Yakında” placeholder.
+The legacy `/imports` and `/imports/fair/:fairId` frontend routes still open the same wizard.
 
----
+## API
 
-## Relationship to existing code
-
-| Artifact | Sprint | Evolution in 09.x |
-|----------|--------|-------------------|
-| Import Engine pipeline | 07 | Adapters + normalization + matching formalized |
-| Smart Import Wizard UI | 07–07.1 | Moves under Veri Entegrasyonu |
-| `POST /api/v1/imports/*` | 07 | Evolves toward `/api/v1/data-integration/*` (implementation sprint) |
-| Legacy `/imports` route | 07 | Deprecated; redirect to `/data-integration` |
-
-Sprint 09.0 delivers **documentation and ADR-016 only**. No API or UI code changes in this sprint.
+Import routes are mounted at `/api/v1/data-integration/imports`; the same router is also mounted at `/api/v1/imports` (hidden from OpenAPI) for existing consumers. Data-integration adapter/run routes live under `/api/v1/data-integration`.
 
 ---
 
 ## Background job standard
 
-Import apply stays an organization job: `job_scope = organization` and a required batch `organization_id`. Status, progress, error aggregation, Import Geçmişi, and polling or SSE follow the [background job standard](../../../standards/jobs/BACKGROUND_JOB_STANDARD.md).
+Import apply stays an organization job: `job_scope = organization` and a required batch `organization_id`. Status, progress, error aggregation, Import Geçmişi, and polling or SSE follow the [background job standard](../operations/BACKGROUND_JOB_STANDARD.md).
 
 TOBB catalog sync and the system fair scraper are not import-apply jobs. They are `job_scope = system` with `organization_id` null. They do not write customers or participations.
 
@@ -283,13 +270,6 @@ The system run and its handoff must not be deleted while organization import flo
 
 ---
 
-## Permissions (sketch)
+## Permissions
 
-| Permission | Scope |
-|------------|-------|
-| `data_integration:read` | List batches, history, templates |
-| `data_integration:import` | Create batch, upload, map, preview, decide |
-| `data_integration:apply` | Trigger background apply |
-| `data_integration:admin` | Templates, integration settings (future) |
-
-Exact permission strings finalized in implementation sprint with KYROX Core registration.
+Import routes use `fair_crm.imports.read`, `.create`, `.update`, `.delete`, `.execute`; scraper/adapter routes use `fair_crm.scraper.*` with the same actions. Scope rules: [PERMISSION_SCOPE_GOVERNANCE.md](../PERMISSION_SCOPE_GOVERNANCE.md).

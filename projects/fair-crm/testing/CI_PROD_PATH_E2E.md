@@ -56,12 +56,12 @@ Fail-fast sırası:
 2. **PostgreSQL** erişilebilir
 3. **Erken servis health** — Core + Fair CRM ayakta mı?
 4. **Erken bypass probe** — `Bearer dev-bypass` → 401/403 (200 ise fail)
-5. Core migrations + revision guard (`>= 20260701_0026`)
+5. Core migrations + revision guard (`>= 20260814_0047`, `MIN_CORE_MIGRATION_REVISION`)
 6. Dev identity seed + `.dev_state.json` doğrulama (`role_matrix_version`)
 7. Seed idempotency (2. çalıştırma, duplicate mapping yok)
 8. Pytest: `test_endpoint_permission_enforcement.py`, `test_role_matrix_authorization.py`
-9. Live auth: owner/admin, viewer, sales, scraper_operator, foreign org, scope mismatch
-10. Customer flow (adım 15–19) — mevcut E2E akışı korunur
+9. Live auth: Core Super Admin bypasses foreign organization scope and header mismatch (13a/13b), Fair CRM honors the Super Admin scope bypass (14a), bootstrap Super Admin authorization (14b)
+10. Customer flow: create, read, update, archive, audit events (adım 15–19)
 
 ## Koşulan testler
 
@@ -70,14 +70,7 @@ Fail-fast sırası:
 | Endpoint permission enforcement | `backend/tests/modules/test_endpoint_permission_enforcement.py` |
 | Role matrix authorization | `backend/tests/modules/test_role_matrix_authorization.py` |
 
-Live kontroller (14b):
-
-- **owner/admin** — customers + admin backups erişimi
-- **viewer** — GET ok, POST 403
-- **sales** — customer create ok, admin backups 403
-- **scraper_operator** — scraper runs ok, customer create 403, fair run 202
-- **foreign org** — Core + Fair CRM 403/400
-- **dev-bypass** — her path için reddedilir
+Seed yalnız `organization_admin` rolünü kurar (`fair_crm_role_matrix.py`); ayrı viewer/sales/scraper_operator rolleri yoktur. Canlı kontroller adım 9'dadır.
 
 ## Çıktı
 
@@ -98,7 +91,7 @@ Live kontroller (14b):
 | `11. Verify seed state` fail | Stale `.dev_state.json` | `python scripts/seed_core_dev_identity.py` |
 | `11f` role matrix SQL fail | Eksik role-permission mapping | Seed'i yeniden çalıştır |
 | `11c` idempotency fail | Duplicate `identity_role_permissions` | Seed script idempotent olmalı; DB'yi kontrol et |
-| `14b` live auth fail | Core authorization stale | Core restart + seed |
+| `14b` Bootstrap Super Admin authorization fail | Core authorization stale | Core restart + seed |
 
 ## CI (GitHub Actions)
 
@@ -106,9 +99,12 @@ Workflow: `.github/workflows/prod-path-e2e.yml`
 
 `kyrox-core` deposu aynı workspace'e checkout edilir (`KYROX_CORE_ROOT`). Job PostgreSQL service container kullanır, Core ve Fair CRM'yi bypass kapalı başlatır, ardından:
 
-```bash
-python scripts/e2e_validation.py --ci
-```
+1. `python scripts/e2e_validation.py --ci`
+2. OL07-03 lifecycle authority contract: Core `GET /api/v1/organizations/{id}/lifecycle-snapshot` with the product lifecycle token returns the exact active snapshot
+3. P0.2 identity lifecycle certification: `scripts/p0_2_identity_lifecycle_e2e.py` (Core real SMTP adapter + in-process SMTP sink)
+4. Todo worklist authorization regressions: `backend/tests/modules/todos/test_worklist_permission_authorization.py` plus live permission checks
+
+CI generates random `JWT_SECRET_KEY`, `DEV_USER_PASSWORD`, identity-action and lifecycle tokens per run.
 
 ## İlgili dosyalar
 

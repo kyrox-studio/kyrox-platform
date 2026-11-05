@@ -46,7 +46,7 @@ Stop Docker infrastructure as well:
 .\scripts\dev\reset-dev.ps1
 ```
 
-Kills listeners on Core `8000`, backend `8001`, and frontend `5173`–`5177`, then starts fresh processes (Core → Fair backend → frontend).
+Kills listeners on Core `8000`, backend `8001`, Fair Stand `8002` and frontend `5173`–`5177`, then starts fresh processes (Core → Fair backend → Fair Stand → frontend).
 
 ## Scripts
 
@@ -69,7 +69,7 @@ Kills listeners on Core `8000`, backend `8001`, and frontend `5173`–`5177`, th
 7. Starts Fair CRM backend only if `http://127.0.0.1:8001/health` is not OK
 8. Ensures PostgreSQL database `fair_stand`, runs Fair Stand alembic, then starts Fair Stand API only if `http://127.0.0.1:8002/health` is not OK (sibling `../kyrox-fair-stand` or `FAIR_STAND_ROOT`)
 9. Starts frontend only if `http://127.0.0.1:5173` is not OK
-10. Starts worker only if `scripts/dev/start-worker.ps1` exists (not configured in current sprint)
+10. Starts a worker only if `scripts/dev/start-worker.ps1` exists; that file does not exist, so the mail worker is not started locally
 11. Prints service URLs and `docker compose ps`
 
 ## URLs (direct service access)
@@ -144,17 +144,18 @@ python scripts/e2e_validation.py --prod-path
 
 Detaylar: [CI_PROD_PATH_E2E.md](../testing/CI_PROD_PATH_E2E.md)
 
-## Handover / memory docs (2026-07-05)
+Auth/RBAC hattını gerçek kimlikle doğrulama: [DEV_RESTART_GUIDE.md](DEV_RESTART_GUIDE.md).
 
-Uzun aradan sonra veya yeni geliştirici için:
+## 2026-07-05 handover snapshot (arşiv)
+
+O günkü durum; güncel kural değildir:
 
 | Doc | Purpose |
 |-----|---------|
 | [PROJECT_SNAPSHOT_2026-07-05.md](../../../archive/fair-crm/2026-07-05/PROJECT_SNAPSHOT.md) | O günkü durum — ilk okuma |
-| [DEV_RESTART_GUIDE.md](DEV_RESTART_GUIDE.md) | Makineyi ayağa kaldır |
-| [AUTH_RBAC_HANDOVER.md](../integrations/AUTH_RBAC_HANDOVER.md) | Auth/RBAC hattı |
+| [AUTH_RBAC_HANDOVER.md](../../../archive/fair-crm/2026-07-05/AUTH_RBAC_HANDOVER.md) | O günkü auth/RBAC hattı (eski rol matrisi v1) |
 | [ARCHITECTURE_STATUS.md](../../../archive/fair-crm/2026-07-05/ARCHITECTURE_STATUS.md) | Mimari özet |
-| [KNOWN_DECISIONS.md](../decisions/KNOWN_DECISIONS.md) | Kritik kararlar, dokunma listesi |
+| [KNOWN_DECISIONS.md](../../../archive/fair-crm/2026-07-05/KNOWN_DECISIONS.md) | O günkü karar özeti (güncel kararlar: [DECISIONS.md](../decisions/DECISIONS.md), [CONSTITUTION.md](../CONSTITUTION.md)) |
 
 ## After Windows restart
 
@@ -170,9 +171,8 @@ PostgreSQL may already be running via Docker `unless-stopped`; the script still 
 1. **Apply migrations** (from repo root): `python -m alembic upgrade head`
    - `restore-db.ps1` does this automatically; skip only if you restored by other means and forgot this step.
 2. **Verify revision:** `python -m alembic current` → must show `(head)`
-3. **Confirm org scope:** frontend `VITE_ORGANIZATION_ID` and backend `FAIR_CRM_DEV_ORGANIZATION_ID` match restored data
+3. **Confirm org scope:** frontend `VITE_ORGANIZATION_ID` and the seed's `FAIR_CRM_DEV_ORGANIZATION_ID` (`scripts/seed_core_dev_identity.py`) match restored data
 4. **Restart runtime:** `.\scripts\dev\reset-dev.ps1` (do not reuse a hung uvicorn from before restore)
-5. **Smoke-test:** `python scripts/verify_list_apis.py`
 
 ### If Admin → Database Backups shows "Failed to fetch"
 
@@ -193,7 +193,7 @@ scripts/dev/logs/frontend-5173.log
 - Sibling **kyrox-core** repo (`../kyrox-core`) or `KYROX_CORE_ROOT`
 - Sibling **kyrox-fair-stand** repo (`../kyrox-fair-stand`) or `FAIR_STAND_ROOT`
 - Python 3.12+ with `pip install -r backend/requirements.txt` (Fair CRM and Core)
-- Node.js 16+ with `npm install` in `frontend/`
+- Node.js `^20.19` or `>=22.12` (Vite 8; CI uses 22) with `npm install` in `frontend/`
 - Migrations: `dev-start.ps1` / `reset-dev.ps1` upgrade Core, Fair CRM and Fair Stand to head themselves
 - Optional: `FAIR_CRM_DEV_BYPASS_CORE` for UI-only work without real Core auth
 

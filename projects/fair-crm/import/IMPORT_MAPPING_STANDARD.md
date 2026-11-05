@@ -1,7 +1,7 @@
 # Universal Import Mapping Preview Standard
 
-**Status:** Accepted (Sprint 09.3)  
-**ADR:** [ADR-024](../decisions/DECISIONS.md)  
+**Status:** Accepted; the UI part is superseded by the ADR-025 mapping grid  
+**ADR:** [ADR-024](../decisions/DECISIONS.md), [ADR-025](../decisions/DECISIONS.md)  
 **Related:** [IMPORT_ARCHITECTURE.md](IMPORT_ARCHITECTURE.md), [IMPORT_WIZARD_UX_FLOW.md](../../../archive/fair-crm/import/IMPORT_WIZARD_UX_FLOW.md)
 
 ---
@@ -20,19 +20,11 @@ This standard defines how **sample values** are produced server-side and display
 
 ---
 
-## UI Layout (3 columns)
+## UI (ADR-025 grid)
 
-| CRM Alanı | Kaynak Kolonu | Kaynak Önizleme |
-|-----------|---------------|-----------------|
-| Firma Adı | Firma (A) ▼   | ABC Mobilya, XYZ Plastik, … |
-| Telefon   | Telefon (B) ▼ | 0212 555 44 33, … |
+The wizard (`ImportWizardPage.tsx`) shows the Excel rows as a table; every column header has a mapping dropdown (Kullanma / Firma Adı / …). `company_name` is required and a field cannot be assigned twice. The grid comes from `build_excel_grid_preview` and shows at most **50** data rows (`MAX_GRID_PREVIEW_ROWS`). Empty cells render as `—`.
 
-- **Live preview:** When the source column dropdown changes, the preview column updates immediately.
-- **Default rows:** 3 sample values visible.
-- **Expand:** "Diğer örnekleri göster" reveals up to **10** rows total.
-- **Empty cells:** Rendered as `—`.
-- **Long values:** Truncated with full value in hover tooltip.
-- **Column stats:** Small footer per preview — total, empty, filled, first value.
+The API still returns per-column `mapping_columns` samples (below); the wizard does not render them.
 
 ---
 
@@ -79,21 +71,21 @@ Query parameters:
 - `header_mode` — optional; `first_row_header` | `no_header` | `manual_header_row`
 - `header_row_index` — required for `manual_header_row` (0-based)
 
-Returns the same `columns` array shape. Used when the user changes header mode or manual header row in the wizard.
+Returns `columns` (same shape) and `grid`. The wizard calls it when the user changes header mode or the manual header row and reads `grid`.
 
 ---
 
 ## Performance Rules
 
-1. Sample data is computed from **at most the first 10 data rows** after header resolution.
-2. The full Excel grid is **not** sent to the UI for mapping preview.
+1. `mapping_columns` samples use at most the first **10** data rows (`MAX_MAPPING_SAMPLE_ROWS`); the grid uses at most **50** (`MAX_GRID_PREVIEW_ROWS`).
+2. The full Excel sheet is **not** sent to the UI.
 3. Raw preview remains stored server-side in `batch.raw_preview_json` for analyze/apply.
 
 ---
 
 ## Source Adapter Compatibility
 
-All future adapters (CSV, XML, API, scraper, ERP) must implement the same `mapping_columns` shape in their preview response. The Excel adapter is the reference implementation (`build_mapping_preview_columns` in `column_mapper.py`).
+Excel is the only adapter with a mapping preview (`build_mapping_preview_columns`, `build_excel_grid_preview` in `column_mapper.py`). A new adapter must return the same shapes.
 
 ---
 

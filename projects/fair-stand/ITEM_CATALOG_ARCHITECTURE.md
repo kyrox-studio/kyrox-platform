@@ -1,6 +1,6 @@
 # Fair Stand Item / Category katalog mimarisi (as-built)
 
-Bu belge Fair Stand Item ve Category sisteminin **yerelde doğrulanmış as-built mimarisidir**. Ürün sahipliği [ADR-0007](../../ecosystem/decisions/0007-fair-stand-product-ownership.md) ile tanımlıdır. Runtime Item semantiği `fair-stand` deposundaki `docs/items/contract/ITEM_CONTRACT.md` dosyasındadır; bu dosya o sözleşmeyi kopyalamaz, fiziksel soT ve hosting sınırını belgeler.
+Bu belge Fair Stand Item ve Category sisteminin **as-built mimarisidir** (2026-11-05 koda göre, `main` `38ac8c77`). Ürün sahipliği [ADR-0007](../../ecosystem/decisions/0007-fair-stand-product-ownership.md) ile tanımlıdır. Runtime Item semantiği `fair-stand` deposundaki `docs/items/contract/ITEM_CONTRACT.md` dosyasındadır; bu dosya o sözleşmeyi kopyalamaz, fiziksel soT ve hosting sınırını belgeler.
 
 ## Sahiplik
 
@@ -71,7 +71,7 @@ Category string `catalog_key` / `catalogKey` yoktur. Runtime ürün kimliği ola
 
 Tablolar ayrı PostgreSQL veritabanı `fair_stand` içindedir (`fair_stand_*` ad alanı). Katalog tabloları ilişkiseldir (JSON / EAV yok) ve `organization_id` taşımaz. Proje kaydı `fair_stand_projects` satırıdır: `payload` JSONB `{stand, modules}`, zorunlu `customer_id` UUID (`crm_customers` FK’si yok). Katalog FK’lerinin varsayılanı `ON DELETE CASCADE` + `ON UPDATE CASCADE`dır. İki açık istisna `ON DELETE RESTRICT` kullanır: `fair_stand_items.item_type` ve `fair_stand_items.unit`. Ürün silme stratejisi fiziksel DELETE değil `is_active` ile deaktive etmektir.
 
-Migration head (Stand): `0059_elektrik_panosu_item`. `0058` `fair_stand_items.is_cost_enabled` kolonunu ekler: BOOLEAN NOT NULL, default false. Mevcut satırlar false kalır. Kolon fiyat, birim ve reçete miktarı değildir. `0053_item_type_scene_behavior` item type sınıflandırmasını sahne davranışından ayırır. `0043` / `0044` cam panel SKU satırıdır, kolon eklemez. İlk şema `0001_fair_stand_schema`. CRM leftover drop: `0089_drop_fair_stand_tables`. Historical CRM revisions `0084`–`0088` yalnızca eski `fair_crm` kopyasını anlatır.
+Tablo ve kolon envanteri, Alembic head ve migration ayrıntıları tek kaynaktadır: Fair Stand `docs/refactor/DATABASE.md`. Aşağıdaki bölümler yalnız sahiplik ve anlamı anlatır.
 
 ### 1. `fair_stand_categories`
 
@@ -89,7 +89,7 @@ Super Admin Fair CRM Admin ekranlarından SYSTEM izinleriyle CRUD yapar. Organiz
 
 ### `fair_stand_units`
 
-Global ölçü birimi kataloğu. `id` INTEGER PK AUTO INCREMENT. Kolonlar: `unit_key` (addan üretilen unique teknik kimlik; JSON `unitKey`; ad değişince yeniden üretilir), `name`, `symbol`, `is_active` (default true), `created_at`, `updated_at`. `organization_id` yoktur. Migration unit satırı eklemez. `fair_stand_items.unit` nullable `VARCHAR(64)` kolonudur ve `fair_stand_units.unit_key` hedefine gider: `fk_fair_stand_items_unit_key`, ON UPDATE CASCADE, ON DELETE RESTRICT. Unit key değişince bağlı Item değerlerini veritabanı aynı transaction içinde günceller. Uygulama bu kopyayı yapmaz. Archive yalnız `is_active=false` yazar; key ve Item unit değerleri durur. Inactive bir unit key’i Item’a yazmak reddedilmez; FK yalnız varlığı garanti eder. Yönetim Fair Stand admin API `/admin/units` üzerindedir. Yetki mevcut SYSTEM `fair_crm.admin.fair_stand.catalog.read|create|update|archive` izinleridir. CRM yalnız Super Admin `Ölçü Birimleri` ekranını sunar. Alembic head `0064_tulle_fabric`.
+Global ölçü birimi kataloğu. `id` INTEGER PK AUTO INCREMENT. Kolonlar: `unit_key` (addan üretilen unique teknik kimlik; JSON `unitKey`; ad değişince yeniden üretilir), `name`, `symbol`, `is_active` (default true), `created_at`, `updated_at`. `organization_id` yoktur. Migration unit satırı eklemez. `fair_stand_items.unit` nullable `VARCHAR(64)` kolonudur ve `fair_stand_units.unit_key` hedefine gider: `fk_fair_stand_items_unit_key`, ON UPDATE CASCADE, ON DELETE RESTRICT. Unit key değişince bağlı Item değerlerini veritabanı aynı transaction içinde günceller. Uygulama bu kopyayı yapmaz. Archive yalnız `is_active=false` yazar; key ve Item unit değerleri durur. Inactive bir unit key’i Item’a yazmak reddedilmez; FK yalnız varlığı garanti eder. Yönetim Fair Stand admin API `/admin/units` üzerindedir. Yetki mevcut SYSTEM `fair_crm.admin.fair_stand.catalog.read|create|update|archive` izinleridir. CRM yalnız Super Admin `Ölçü Birimleri` ekranını sunar.
 
 ### `fair_stand_item_type` ve `fair_stand_item_type_scene_behavior`
 
@@ -127,7 +127,7 @@ Item → kanonik asset referansı (`asset_role`, `relative_path`). Binary blob t
 
 ### 8. `fair_stand_item_components`
 
-Ebeveyn–çocuk composition / BOM satırları (`quantity`, `sort_order`). Özyinelemeli A→B→C desteklenir; A→B→A yazımda reddedilir.
+Ebeveyn–çocuk composition / BOM satırları (`quantity`, `sort_order`). Özyinelemeli A→B→C desteklenir. A→A DB CHECK (`ck_fair_stand_item_components_self`) ve admin kaydında reddedilir; A→B→A yalnız seed'de (`assert_acyclic_components`) reddedilir, admin kaydında kontrol yok ([ROADMAP.md](ROADMAP.md) Item-first kalanları).
 
 ### 9. `fair_stand_item_video_walls`
 
@@ -204,12 +204,12 @@ Bunlar kanonik Item master değildir.
 
 ## API / bootstrap
 
-Okuma uçları (Fair CRM session auth, mevcut `X-Organization-Id` entegrasyonu; yeni permission kodu yok):
+Okuma uçları (Core JWT + organizasyon bağlamı; `require_fair_stand_catalog_access` Core `/api/v1/organizations/{id}/access/verify` ile organizasyon erişimini doğrular; ayrı permission kodu yok):
 
 - `GET /api/v1/fair-stand/catalog/bootstrap`
 - `GET /api/v1/fair-stand/items/{item_key}`
 
-Bootstrap tek snapshot’ta `revision`, `categories`, `items` ve `previewKinds` döner. `standDimensions` aynı HTTP cevabında taşınır ama Item/Category katalog modeli değildir; `docs/refactor/STAND_DIMENSIONS.md`.
+Bootstrap tek snapshot’ta `revision` (içeriğin sha256 özeti), `categories`, `items`, `previewKinds`, `itemTypes`, `ruleTypes`, `rules`, `standDimensions`, `settings` ve `units` döner (`get_catalog_bootstrap.py`). `standDimensions` Item/Category katalog modeli değildir; `docs/refactor/STAND_DIMENSIONS.md`.
 
 Akış:
 
@@ -227,19 +227,9 @@ Registry initialize edilmeden `getItem()` fail-fast / fail-closed’dır.
 
 Bilinmeyen `item_key` API’de 404 / fail-closed.
 
-## Son doğrulanan lokal sayılar
+## Sayılar
 
-Bu sayılar mimari invariant değildir; **son doğrulanan lokal implementation** özetidir. Fast-aging’dir. Güncel canlı durum [PROJECT_STATUS.md](PROJECT_STATUS.md) içindedir.
-
-| Ölçüm | Değer |
-|-------|--------|
-| Migration | Fair Stand head `0059_elektrik_panosu_item` |
-| Categories | 6 |
-| Items | 121 |
-| Visible Items | 58 |
-| Components | 186 |
-| Assets | 19 |
-| JSON / JSONB / EAV | Katalog ilişkisel. Proje `payload` JSONB `{stand, modules}`. EAV yok |
+Katalog sayıları: [PROJECT_STATUS.md](PROJECT_STATUS.md#katalog-sayıları-seed).
 
 ## İlgili belgeler
 

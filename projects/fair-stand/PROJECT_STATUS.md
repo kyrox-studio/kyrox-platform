@@ -2,7 +2,7 @@
 
 | Alan | Değer |
 |------|--------|
-| Son doğrulama | **2026-10-28** (Item belge temizliği #355/#356; canlı `b3f8cadd`, migration head `0088_upright_vertical_move`) |
+| Son doğrulama | **2026-11-05** koda göre (Fair Stand `main` `38ac8c77`, Alembic head `0090_carpet_anthracite`). Canlı: 2026-10-29 deploy kaydı (sunucu `38ac8c77`, prod head `0090`) |
 | Implementation deposu | `kyrox-studio/kyrox-fair-stand` |
 | Hosted backend | Fair Stand FastAPI (`:8002`) / PostgreSQL `fair_stand` |
 | Item master | İlişkisel PostgreSQL; catalog bootstrap API |
@@ -41,19 +41,19 @@ Doğrulama: **1548 Node testi**, **221 backend testi**, build ve contract:verify
 
 Doğrulama: **1547 Node testi**, **220 backend testi**, build ve contract:verify PASS; hedefli Chromium `reload-restore` + `wall-media-items-contract` **6/6 PASS**.
 
-## 2026-10-26 — Kompakt kart, dönüş ve ahşap ayak paketi (CI bekliyor)
+## 2026-10-26 — Kompakt kart, dönüş ve ahşap ayak paketi
 
 [Stand #350](https://github.com/kyrox-studio/kyrox-fair-stand/pull/350), kaynak `4eec7970`: içerik yüksekliğinde kart; −45/−15/+15/+45 düğmeleri ve mevcut açı; yan yana Kopyala/Sil; belirgin Kilitli düğmesi; kart üstünden gerçek seçimi kaldırma. Sahnede çoklu panel/modül korunur. Düğmeler Shift+R ile ortak açı imlecini kullanır; reddedilen ara açı bir sonraki basışı durdurmaz. Sıkıştırılmış GLB'nin ahşap ayak maskesi özgün varlık koordinatlarında hesaplanır: takım, tekli ve çiftli ayrı ayrı kontrol edildi.
 
-Yerel 0087 migration tanımlı Item dönüş adımlarını 15° yapar; NULL alt parçalar, varsayılan yönler ve kayıtlı müşteri proje açıları korunur. Önceki değerler downgrade için tutulur. Yerel DB 0087; bu paket üretime deploy edilmedi, son doğrulanmış üretim head'i 0086. Işık/pozlama denemeleri kullanıcı isteğiyle tamamen geri alındı; bu paket ilk ışık davranışını değiştirmez. Serbest sürükleme/kenar snap'i ve zorunlu strafor desteği henüz uygulanmadı.
+`0087_rotation_step_15` tanımlı Item dönüş adımlarını 15° yapar; NULL alt parçalar, varsayılan yönler ve kayıtlı müşteri proje açıları korunur. Önceki değerler downgrade için tutulur. 2026-10-27 deploy ile canlıda. Işık/pozlama denemeleri kullanıcı isteğiyle tamamen geri alındı; bu paket ilk ışık davranışını değiştirmez. Serbest sürükleme/kenar snap'i ve zorunlu strafor desteği henüz uygulanmadı.
 
-Doğrulama: **1547 Node testi**, **209 backend testi**, build/syntax/change-contract PASS; değişen akışlara ait **43 Chromium senaryosu PASS**. Eski sentetik dokunmalar native touch olaylarına taşındı ve ilgili iki senaryo ayrıca PASS; beklenti atlama veya çakışma kontrolü gevşetme yok. Test kataloğu 15°'ye güncellendi; kopyanın 180° beklentisi 12×15° ile korunur. Migration tek-head/geri dönüş testi vardır. Tam GitHub E2E #350'de çalışır; auto-merge açık, birleşme ve canlı kabul henüz tamamlandı sayılmaz. Fiziksel telefon/gerçek müşteri projesi kabulü ayrı açıktır.
+Doğrulama: **1547 Node testi**, **209 backend testi**, build/syntax/change-contract PASS; değişen akışlara ait **43 Chromium senaryosu PASS**. Eski sentetik dokunmalar native touch olaylarına taşındı ve ilgili iki senaryo ayrıca PASS; beklenti atlama veya çakışma kontrolü gevşetme yok. Test kataloğu 15°'ye güncellendi; kopyanın 180° beklentisi 12×15° ile korunur. Migration tek-head/geri dönüş testi vardır. #350 merge edildi (`62d717eb`). Fiziksel telefon kabulü açık iştir: [ROADMAP.md](ROADMAP.md).
 
 [CRM #374](https://github.com/kyrox-studio/kyrox-fair-crm/pull/374), kaynak `ad9e88f9`: mode-aware yerel FAIR_STAND_ROOT seçimi, varsayılan kardeş depo ve süreç ortamı önceliğini korur. Makine yolu/.env.local commit edilmedi. **685 frontend testi**, entegre build ve feature-contract PASS; 5173 gerçek güncel modül kaynağı doğrulandı. CRM backend/yetki değişikliği yok.
 
 Ayrıntı ve kullanıcı kararları: [Seçim kartı yol haritası](SECIM_OZELLIK_PANELI_YOL_HARITASI.md). Aşağıdaki tarihli kayıtlar tarihsel teslimlerdir; bu bölüm yeni kart/çubuk yerleşimi için önceliklidir.
 
-## 2026-10-24 — Özellikler paneli, katalog ve vitrin rengi (yerel)
+## 2026-10-24 — Özellikler paneli, katalog ve vitrin rengi
 
 Öğeye/yüzeye tek tık Özellikler panelini açar; boş alana tık kapatır. Seçim çubuğundaki Döndür, Kopyala, Sil ve Çoklu panel/modül korunur; kullanıcı kararıyla ⋯ kaldırılmıştır. Mevcut sağ tık ve uzun basma da aynı paneli kullanır. Renk/görsel ve desteklenen ölçüler seçimin yetenekleriyle gösterilir. Lightbox/Mesh taşıma kilidinin tıklama yayılımını durdurması, panelin capture aşamasında tıklamayı gözlemesiyle giderildi.
 
@@ -61,47 +61,47 @@ Ayrıntı ve kullanıcı kararları: [Seçim kartı yol haritası](SECIM_OZELLIK
 
 **Doğrulama:** 1.515/1.515 JavaScript birim testi, 198/198 backend testi, 242/242 Chromium E2E (6,9 dk; yeniden deneme olmadan), build ve contract:verify başarılı. Vitrin E2E yalnız varsayılan rengi okumaz: normal tıkla paleti açar, dört mesh rengini ve kayıt/açmayı kontrol eder; 600 px pencerede açıklamanın işlemle çakışmadığını ölçer. Sonraki yalnız kılavuz metni eklemesi ayrıca kılavuz regresyonuyla doğrulanır.
 
-**DB ve teslim:** Yerel PostgreSQL fair_stand 0083'ten sıralı 0084/0085 ile güncellendi; katalog bootstrap çıktısında sunta acceptsColor=true, acceptsImage=false doğrulandı. Kod son 3d03c0c6 commit’i ile [PR #340](https://github.com/kyrox-studio/kyrox-fair-stand/pull/340) üzerinden gönderildi; squash auto-merge açık, GitHub CI takip ediliyor. Önceki ortak kısa dikme PR #338 main'e birleşti (a098e723). Bu kayıt yeni bir canlı deploy veya uzak DB güncellemesi değildir.
+**DB ve teslim:** Yerel PostgreSQL fair_stand 0083'ten sıralı 0084/0085 ile güncellendi; katalog bootstrap çıktısında sunta acceptsColor=true, acceptsImage=false doğrulandı. Kod son 3d03c0c6 commit’i ile [PR #340](https://github.com/kyrox-studio/kyrox-fair-stand/pull/340) üzerinden gönderildi ve merge edildi (`33cb6f31`). Önceki ortak kısa dikme PR #338 main'e birleşti (a098e723).
 
 **SaaS etkisi:** Ortak katalog yetenek bayrakları ve editör sunumu; organization verisi/yetkisi, Core sahipliği, entitlement/usage, lifecycle, secrets, job ve veri saklama sınırları değişmez. Yeni Item veya proje şeması yoktur. İlgili plan: [Seçim Özellik Paneli](SECIM_OZELLIK_PANELI_YOL_HARITASI.md).
 
-## 2026-10-24 — Ortak kısa dikmenin taşıyıcıyla ikamesi (yerel)
+## 2026-10-24 — Ortak kısa dikmenin taşıyıcıyla ikamesi
 
 Kısa panel uç uca / köşe birleşiminde kalan tek ortak kısa dikme, aynı birleşim noktasını ve yükseklik bandını karşılayan bağımsız dikme varsa BOM'dan düşülür. Kural reçetedeki 49,5 ve 99 dikmeler için ortaktır; taşıyıcının kendi satırı korunur. Konum, bandı kapsama ve mevcut 3,5 cm üst boşluk toleransı yeniden kullanılır. Aynı ortak uç ikinci kez düşülmez. Üst üste kolonların uzun dikmeye çevrilmesi kuralı değişmez.
 
-İki eski 99 beklentisi bu kurala göre güncellendi; yeni testler genişlik/yön, karma bant, yetersiz yükseklik, uzak konum, mükerrer taşıyıcı, sıra bağımsızlığı ve kayıt normalizasyonunu kapsar. İlgili 85 birim testi ile gerçek üretim listesi ve kayıt/açma için iki Chromium senaryosu başarılı. Son tam doğrulama: 1.509 birim testi, 232/232 Chromium E2E (6,4 dk), build ve contract:verify başarılı. Yeni Item, migration veya proje şeması yoktur. Kod `2c6646f5`, [PR #338](https://github.com/kyrox-studio/kyrox-fair-stand/pull/338) ile gönderildi; PR main’e birleşti (a098e723); yerel main tabanı eşitlendi. Canlı deploy yapılmadı.
+İki eski 99 beklentisi bu kurala göre güncellendi; yeni testler genişlik/yön, karma bant, yetersiz yükseklik, uzak konum, mükerrer taşıyıcı, sıra bağımsızlığı ve kayıt normalizasyonunu kapsar. İlgili 85 birim testi ile gerçek üretim listesi ve kayıt/açma için iki Chromium senaryosu başarılı. Son tam doğrulama: 1.509 birim testi, 232/232 Chromium E2E (6,4 dk), build ve contract:verify başarılı. Yeni Item, migration veya proje şeması yoktur. Kod `2c6646f5`, [PR #338](https://github.com/kyrox-studio/kyrox-fair-stand/pull/338) ile gönderildi; PR main’e birleşti (a098e723).
 
-## 2026-10-24 — Kesik çizgili seçim sınırları (yerel)
+## 2026-10-24 — Kesik çizgili seçim sınırları
 
-Tek öğe mavi, grup/çoklu seçim tek turuncu kesik çizgili 3B sınırla gösterilir. Grup sınırı görünen üyelerin birleşik dünya sınırlarından üretilir, taşıma ve döndürmede güncellenir. Üyelerin ayrı kutuları gizlenir; yüzey seçimi mevcut düzenleme semantiğini korur. Çerçeveler raycast hedefi değildir ve Render Al çıktısından gizlenir. Proje, BOM, kilit ve taşıma kuralları değişmez. Doğrulama: 1.460 birim testi, build ve contract:verify başarılı. 230 Chromium senaryosundan 229 tanesi ilk denemede geçti; proje silme senaryosu yeniden denemede geçti (229 passed + 1 flaky, 6,8 dk). Grup senaryosu tek mavi kutuyu, tek ortak turuncu kutuyu, kesik malzemeyi ve grup işlemlerini gerçek sahnede doğrular. Uygulama commit’i `3a5a34db`, [PR #336](https://github.com/kyrox-studio/kyrox-fair-stand/pull/336) ile gönderildi; CI ve otomatik birleştirme bekleniyor.
+Tek öğe mavi, grup/çoklu seçim tek turuncu kesik çizgili 3B sınırla gösterilir. Grup sınırı görünen üyelerin birleşik dünya sınırlarından üretilir, taşıma ve döndürmede güncellenir. Üyelerin ayrı kutuları gizlenir; yüzey seçimi mevcut düzenleme semantiğini korur. Çerçeveler raycast hedefi değildir ve Render Al çıktısından gizlenir. Proje, BOM, kilit ve taşıma kuralları değişmez. Doğrulama: 1.460 birim testi, build ve contract:verify başarılı. 230 Chromium senaryosundan 229 tanesi ilk denemede geçti; proje silme senaryosu yeniden denemede geçti (229 passed + 1 flaky, 6,8 dk). Grup senaryosu tek mavi kutuyu, tek ortak turuncu kutuyu, kesik malzemeyi ve grup işlemlerini gerçek sahnede doğrular. Uygulama commit’i `3a5a34db`, [PR #336](https://github.com/kyrox-studio/kyrox-fair-stand/pull/336) ile gönderildi ve merge edildi (`5d07db0b`).
 
 ## 2026-10-23 — Basit / Gelişmiş mod ve Ayarlar
 
-**Implementation:** `kyrox-fair-stand`, commit `401bd238`, dal `feat/basit-mod-olcu-gorunumu` GitHub’a gönderildi. İlk paket [PR #334](https://github.com/kyrox-studio/kyrox-fair-stand/pull/334) ile main dalına birleştirildi; canlı deploy yapılmadı.
+**Implementation:** `kyrox-fair-stand`, commit `401bd238`, dal `feat/basit-mod-olcu-gorunumu` GitHub’a gönderildi. İlk paket [PR #334](https://github.com/kyrox-studio/kyrox-fair-stand/pull/334) ile main dalına birleştirildi.
 
 - Tek Basit / Gelişmiş seçici; Basit varsayılan. Ayarlar, Gruplar, Şablonlarım ve Standartlar yalnız Gelişmişte görünür. Ortak açılır/kapanır bölüm şablonu kullanılır.
 - Gelişmiş → Ayarlar: **Herşeyi Kilitle**, **Ölçüleri göster**, **Otomatik kayıt**. Kilit kutusu bütün mevcut öğeleri kilitler veya öğe/grup kilitlerini açar; grupları çözmez. Kısmi kilitte ara durum, boş sahnede pasif; geri alma ve proje kaydı mevcut kilit akışını kullanır.
-- Ölçüler Basitte kapalı, Gelişmişte açık başlar; Gelişmişte kullanıcı kapatabilir. Tercih oturumluktur, projeye yazılmaz. Izgara tekil/grup taşıma, katalog yerleştirme ve kopya önizlemesinde ölçü tercihinden bağımsız görünür.
+- Ölçüler Basitte kapalı, Gelişmişte açık başlar; Gelişmişte kullanıcı kapatabilir (Stand #342, 2026-10-25 ile değişti: ölçüler moddan bağımsız, varsayılan açık). Tercih oturumluktur, projeye yazılmaz. Izgara tekil/grup taşıma, katalog yerleştirme ve kopya önizlemesinde ölçü tercihinden bağımsız görünür.
 - Sol menü ve sihirbazda genişlik/derinlik metreyle, 0,5 m adımlarıyla girilir; virgül/nokta kabul edilir. Duvar yüksekliği metre gösterir. Proje/BOM hesapları cm kalır; migration yoktur.
 - Depo, alınlık ve zemin ifadeleri sadeleştirildi; sihirbaza zemin seçimi eklendi. Kaydet üst alana taşındı; paylaşım düğmesi **Ekranı paylaş** olarak adlandırıldı.
 - Kılavuzda tek **Gelişmiş > Ayarlar** açılır bölümü bu üç kontrolün işlevini ve tercihlerin saklanmasını açıklar.
 
 **Yerel kanıt:** 1.459 birim testi, 230 Chromium E2E testi, build ve contract:verify başarılı. Bu sayılar ilgili uygulama commit’inin yerel doğrulamasıdır; PR CI veya canlı kabul kaydı değildir.
 
-**Bölgesel zemin takibi (yerel, uygulama commit’i 48fcb9c4, PR #335):** Tüm stand kaplaması iki modda da erişilebilir; Alan X/Y, genişlik/derinlik, alan kaplaması ve ekle/çiz/sil kontrolleri yalnız Gelişmişte görünür. Mod geçişi uygulanmış bölgesel zemini sahneden, proje kaydından veya BOM’dan kaldırmaz; yalnız tamamlanmamış çizimi kapatır. Genel kural: mod geçişi yalnız arayüz/yardımcı gösterimleri değiştirir, standı veya tasarım verisini değiştirmez. Ek paket doğrulaması tamamlandı: 1.459 birim testi, build ve contract:verify başarılı. 230 E2E senaryosunun 225 tanesi ilk denemede, 2 tanesi koşu içi yeniden denemede geçti; kalan 3 senaryo tek işçiyle tekrar çalıştırılıp geçti. Bölgesel zemin testi görüntünün, tüm stand/modules verisinin ve Basitte kayıt/açma sonucunun korunduğunu doğrular.
+**Bölgesel zemin takibi (PR #335):** Tüm stand kaplaması iki modda da erişilebilir; Alan X/Y, genişlik/derinlik, alan kaplaması ve ekle/çiz/sil kontrolleri yalnız Gelişmişte görünür. Mod geçişi uygulanmış bölgesel zemini sahneden, proje kaydından veya BOM’dan kaldırmaz; yalnız tamamlanmamış çizimi kapatır. Genel kural: mod geçişi yalnız arayüz/yardımcı gösterimleri değiştirir, standı veya tasarım verisini değiştirmez. Ek paket doğrulaması tamamlandı: 1.459 birim testi, build ve contract:verify başarılı. 230 E2E senaryosunun 225 tanesi ilk denemede, 2 tanesi koşu içi yeniden denemede geçti; kalan 3 senaryo tek işçiyle tekrar çalıştırılıp geçti. Bölgesel zemin testi görüntünün, tüm stand/modules verisinin ve Basitte kayıt/açma sonucunun korunduğunu doğrular.
 
 **Açık kalanlar:** Grup toplam ölçüleri uygulanmadı. Stand / Ürün ekle / Tasarım menü düzeni kullanıcı kararıyla ertelendi. Teknik kartları gizleyerek otomatik yapı çözme veya bütün duvar/depo/alınlık düzenleme tamamlanmış sayılmaz.
 
 **SaaS etkisi:** Fair Stand editör sunumu ve mevcut proje kilitleri kapsamındadır. Mod seçimi yetki değildir. Organization izolasyonu, backend yetkilendirme, Core sahipliği, entitlement/usage, lifecycle, secrets, job ve veri saklama sınırları değişmez; yeni API/DB şeması yoktur.
 
-### Geçmiş ve üretim ayrıntıları — 2026-10-23 yerel takip
+### Geçmiş ve üretim ayrıntıları — 2026-10-23
 
 Revizyonlar Proje içindeki başlangıçta kapalı **Geçmiş** bölümünden açılır; revizyon yoksa gizlenir. Üretim Listesi 2026-10-24’te yeniden üst banta, İleri al’ın yanına alındı; Ayrıntılar bölümü kaldırıldı. Modül ekle kartında yalnız sürüklenebilir katalog kalır (Modül Ekle düğmesi kaldırıldı); Sahneyi Sıfırla sol menünün en altında Tüm Özellikleri Kaldır’ın üstündedir. Her iki modda da erişilir; sahne yokken liste düğmesi pasiftir. Revizyon oturum/API davranışı, BOM hesabı ve mevcut liste paneli değişmez; bölüm açma/kapatma tasarıma yazmaz. Kılavuz ve hedefli gerçek tarayıcı akışları güncellendi; hedefli dört senaryo geçti. Son tam doğrulama: 1.459 birim testi, 230/230 Chromium E2E testi (6,4 dk), build ve contract:verify başarılı. Üst bant küçülünce seçim çubuğunun Kaydet üzerine gelmesi düzeltildi; gerçek seçim/kayıt akışında çakışma kontrol edildi. Bu ek paket [PR #335](https://github.com/kyrox-studio/kyrox-fair-stand/pull/335) ile gönderildi; GitHub CI başarılı; PR #335 otomatik olarak main dalına birleştirildi (merge `9ba4b6c3`).
 
 ## 2026-10-22 — Profil kartı ve boy seçimi (migration 0078)
 
 **[Fair Stand PR #322](https://github.com/kyrox-studio/kyrox-fair-stand/pull/322) main'e merge edildi
-(2026-10-22). Canlı deploy yapılmadı; canlı veritabanına `0078` alınmalı.**
+(2026-10-22).**
 
 - Profil dikme gibi katalogda tek kartla gelir (`profile_289`); bırakırken boy sorulur
   ("Bir daha sorma" tercihi, sağ tık **Profil boyu…**). Gerçek boy (BOM) → sahne boyu:
@@ -117,7 +117,7 @@ Revizyonlar Proje içindeki başlangıçta kapalı **Geçmiş** bölümünden a�
 ## 2026-10-22 — Sahne ışığı, alınlık aydınlatması, uzak panel titremesi
 
 **[Fair Stand PR #321](https://github.com/kyrox-studio/kyrox-fair-stand/pull/321) main'e merge edildi
-(2026-10-22). Canlı deploy yapılmadı.**
+(2026-10-22).**
 
 - Standın tepesinde gölgesiz sahne spotu: zemine stand merkezli, köşeleri 2 m aşan
   yumuşak kenarlı ışık havuzu. Sahne ışığında ortam ışığı ters çevrilir (gök rengi koyu,
@@ -135,11 +135,10 @@ Revizyonlar Proje içindeki başlangıçta kapalı **Geçmiş** bölümünden a�
   209/209 ve CI yeşil. Timeout/tolerans gevşetilmedi.
 - SaaS etkisi: yalnız istemci görünümü; backend şeması, API ve Alembic migration yok.
 
-## 2026-10-22 — Yerel seçim ve kilit değişiklikleri
+## 2026-10-22 — Seçim ve kilit değişiklikleri
 
-**[Fair Stand PR #318](https://github.com/kyrox-studio/kyrox-fair-stand/pull/318) main'e merge edildi (2026-10-21).
-Canlı deploy bu kayıtta doğrulanmadı.**
-Ürün kuralları [Grup/Kilit kaydında](GROUP_LOCK_ROADMAP.md#2026-10-22--yerelde-uygulanan-seçim-ve-kilit-ekleri).
+**[Fair Stand PR #318](https://github.com/kyrox-studio/kyrox-fair-stand/pull/318) main'e merge edildi (2026-10-21).**
+Ürün kuralları [Grup/Kilit kaydında](GROUP_LOCK_ROADMAP.md#2026-10-22--seçim-ve-kilit-ekleri).
 
 - Yeni standın otomatik duvarları kilitli gelir; Ctrl/Cmd+A tüm sahne modüllerini
   seçer. Toplu kilit, kilit açma, grup kurma/çözme ve onaylı silme uygulandı.
@@ -157,14 +156,6 @@ Canlı deploy bu kayıtta doğrulanmadı.**
   organizasyon sınırı, yetki kataloğu, Core, kota, job, veri saklama ve backend
   şeması değişmez. Yeni API veya Alembic migration gerekmez.
 
-## Uygulama durumu
-
-**IMPLEMENTATION STATUS:** LOCAL READY
-
-**REMOTE / GITHUB STATUS:** bu görevde değerlendirilmedi / değiştirilmedi.
-
-Lokal runtime acceptance PASS. `deployed` / `merged` / `production` iddiası yoktur.
-
 ## Mevcut yetenek durumu
 
 | Alan | Durum |
@@ -176,26 +167,30 @@ Lokal runtime acceptance PASS. `deployed` / `merged` / `production` iddiası yok
 | Tenant-scoped Item katalog | Kapsam dışı; katalog global |
 | Static JS Item master | Kaldırıldı |
 | Fallback / dual SoT | Yok |
-| Migration | Kod, yerel DB ve prod DB head `0090_carpet_anthracite` ([Stand #361](https://github.com/kyrox-studio/kyrox-fair-stand/pull/361): `0089_parquet_reference` parke renkleri ve beton plaka 120,6 × 40,2; `0090` halı antrasit). Prod DB head da `0090_carpet_anthracite` (2026-10-29 deploy: sunucu Stand `38ac8c77`; öncesinde yedek `/var/backups/kyrox/manual/fair_stand-pre0090-20261029-211355.dump`; health OK). Önceki prod head `0088_upright_vertical_move` (2026-10-27). Önceki kayıt: yerel kod ve DB head `0086_variant_family_cards` (yerel DB 2026-10-25 0085 → 0086 yükseltildi; admin kaynaklı `tv_85` de 0086 ile TV ailesine katıldı; ortamda yoksa etkilenmez). `0086`: Vitrin (2/3 göz, kart 3 göz; Panel & Duvar altına taşındı), Raf (tekli/2/3 sıralı, kart tekli), TV (42/55/65, kart 42), Video Wall (2×2/3×3, kart 2×2) ve Uzun Saksı (100/150/200, kart 100) `variant` (`wall-showcase`, `shelf-row`, `tv`, `video-wall`, `long-planter`) ile tek kart; Ayaklı Vitrin Banko & Baza altına taşındı; Item/reçete/proje değişmez. Varyant Özellikler panelinde seçilir (bırakmada pencere yok). 0084/0085 yerelde uygulanmış, henüz gönderilmemiştir. Uzak DB için son burada kayıtlı deploy 0081’dir. Main’e birleşen #337: `0082_panel_separator_cards` + `0083_banko_base_cards` (`feat/katalog-tekli-ekle`; 0083: Banko / Köşe Banko / Baza `variant` `desk-banko` / `desk-banko-l` / `base`, kart 100'lük, 150 ve 200 gizli) — Panel (50/100/150/200) ve Separatör (50/100 + sarmaşıklı) aileleri `variant` ile işaretlenir (`wall-panel`, `wall-separator`, `wall-separator-sarmasik`), katalogda `wall_100_350` ve `wall_separator_100_350` kalır, diğer altı Item gizlenir; Item/reçete/proje değişmez. `0081_profile_346_5`: katalogda sahne profili kalmaz; admin kaynaklı `profile_X_scene` kartları aynı ölçülü normal profile çevrilir (proje/revizyon/şablon anahtarları dahil), `profile_346_5` (gerçek 346,5 / sahne 350) eklenir. 2026-10-23 DB eşitleme: lokal Fair Stand DB'si (şema, katalog, projeler, görseller) sunucuya bütünüyle kopyalandı; 28 tablo ve şema iki tarafta birebir aynı (md5 ile doğrulandı). Projeler güncel kataloğa göre normalize edildi (panel kimlik/ölçüleri, profil kesiti 10, dikme sahne ölçüsü 10 × 10 × 350). Lokal Core/CRM kendi verisini korur. Yedekler: sunucu `/var/backups/kyrox/manual-20261023-*`, lokal `Kyrox/db-yedek/`. `0080_item_length_parts`: `0080_item_length_parts` uzun profil/dikmenin parça bölünüşünü BOM etiketine ekler (`fair_stand_item_length_parts`; `upright_495` = 346,5 + 8 + 140,5; sahnede çizilmeyen `profile_8`); BOM miktarı değişmez. `0079_wall_short_cards` (#323): kısa panel tek kart — 6 genişlik katalogda gizlenir, Tek/Çift Sıra için birer kart kalır, ölçü ailelerinin adları DB'de ölçülü ("Panel Tek Sıra W", "Profil 41,5", "Dikme 346,5"); yerel DB 0079. `0078_profile_lengths` profil boylarını düzenler: `profile_289_scene` → `profile_289`, `profile_239_5` / `profile_388` / `profile_487` eklenir, sahne boyları 50…500, katalogda yalnız `profile_289`. `0077_upright_render` bütün dikmeleri sahnede çizilir yapar (`is_render`; 400+ cm dikme bırakma hatası). `0076_vertical_move` dikey taşınmayı ve taban referansını öğe ayarı yapar (`fair_stand_items.vertical_move`, `z_reference`: floor | wall-top). `0075_glass_bar_table` Bar Masası'nı (`glass_bar_table`, cam masa ailesi, 108 cm) ekler. `0073_move_snap_10cm` bütün türlerin taşıma adımını 10 cm yapar. `0074_showcase_brochure` ayaklı vitrin (`floor_showcase_100`) ve broşürlük (`brochure_stand`) tekil Item'larını, türlerini ve katalog önizlemelerini ekler. `0072` raf kartlarını (Tekli / 2 / 3 sıralı), `fair_stand_item_width_variants` tablosunu ve sıralı raf reçetelerini ekler. `0068`–`0071` duvar yüksekliği bant reçeteleri: `fair_stand_item_components.per_band` ve `height_matched`; düz duvar + dikmeler (`0068`), kapı ve 2/3 gözlü vitrin (`0069`), 100'lük ayırıcılar (`0070`), 50'lik ayırıcılar ve 350 reçete düzeltmesi (`0071`). `0067` organizasyon grup şablonlarını (`fair_stand_group_templates`) ekler. `0065_metal_separator` katalogda görünmeyen `metal_separator` Item'ını ekler; `0066` bu Item'ı `metre_kare` birimiyle maliyetlendirilebilir yapar (dönüştürülmüş panel bloğu adet değil en × boy olarak faturalanır). `fair_stand_cost_items` organization Item fiyatını ve manuel kalemi aynı tabloda tutar. ITEM satırında `item_key` zorunlu, `name` ve `unit` boştur. MANUAL satırında `item_key` boştur, `name` ve `unit` zorunludur. `unit` → `fair_stand_units.unit_key`, ON UPDATE CASCADE, ON DELETE CASCADE. Aynı organization aynı Item’ı iki kez yazamaz. Manuel ad ve birim için ek unique yoktur. `fair_stand_items` fiyat kolonu taşımaz. `fair_stand_items.is_cost_enabled` NOT NULL, default false; mevcut satırlar false kalır. Bu bayrak fiyat, birim ve reçete miktarı değildir. `fair_stand_item_type` sınıflandırmadır. Sahne davranışı isteğe bağlı `fair_stand_item_type_scene_behavior` satırıdır; satır yoksa tip non-scene’dir. `production` behavior satırı taşımaz. `digital_print`, `mesh_fabric`, `lightbox_fabric` bu tipe bağlı gizli Item’lardır. `foam_logo` kaldırıldı. Strafor metrekare `illuminated-foam` sahne kaydına yazılır. `tulle_fabric` (görünen ad Tül, tip `tulle-fabric`) tek Item’dır: katalogda görünür, sahneye sürüklenir, BOM miktarı en × boy / 10000 m² olarak aynı `itemKey` ile yazılır ve maliyet kalemi bu `itemKey` ile eşleşir. Kalınlık item master `depth_cm` 0.4 değeridir. İlk yerleşim `default_z_cm` 350 değerini kullanır. `fair_stand_items.unit` → `fair_stand_units.unit_key` FK’sidir: ON UPDATE CASCADE, ON DELETE RESTRICT. Proje BOM’u katalogdaki `elektrik_panosu` satırını her listeye 1 adet yazar; bu satır modül reçetesi değildir. Aynı liste Dijital Baskı, Mesh ve Lightbox alanlarını kendi production kalemlerine, strafor alanını `illuminated-foam` kaydına bağlar. |
+| Migration | Alembic head `0090_carpet_anthracite` (kod). Prod: 2026-10-29 deploy kaydı, sunucu Stand `38ac8c77`, prod head `0090`, öncesinde yedek `/var/backups/kyrox/manual/fair_stand-pre0090-20261029-211355.dump`, health OK. Migration ayrıntıları ve tablo kuralları (maliyet kalemi, birim FK, tip sahne davranışı, tül/strafor/üretim kalemleri): Fair Stand `docs/refactor/DATABASE.md` |
+
+## 2026-10-23 — DB eşitleme
+
+Lokal Fair Stand DB'si (şema, katalog, projeler, görseller) sunucuya bütünüyle kopyalandı; 28 tablo ve şema iki tarafta birebir aynı (md5 ile doğrulandı). Projeler güncel kataloğa göre normalize edildi (panel kimlik/ölçüleri, profil kesiti 10, dikme sahne ölçüsü 10 × 10 × 350). Lokal Core/CRM kendi verisini korur. Yedekler: sunucu `/var/backups/kyrox/manual-20261023-*`, lokal `Kyrox/db-yedek/`.
 
 Mimari ayrıntı: [ITEM_CATALOG_ARCHITECTURE.md](ITEM_CATALOG_ARCHITECTURE.md).
 
 ## Düz duvara arka yüz paneli — 2026-10-21
 
-`kyrox-fair-stand` dal `feat/arka-yuz-panel` (push edildi, PR yok; raf dalının üstünde, #313 sonrası main'e alınır). Migration yok.
+`kyrox-fair-stand` PR #314 (merge `1f8f1fb9`). Migration yok.
 
 - Sağ tık "Arka yüze panel ekle / kaldır": düz duvarlar (50/100/150/200, kısa duvarlar). Arka paneller seçilir, görsel/cam/Lightbox/metal alır.
-- BOM tek çerçeve + iki yüz panel: `wall_100` → 2 × `profile_91`, 2 × `upright_346_5`, 14 × `panel_98`. Köşede içe bakan yüz `panel_corner_*` olur; T'de gövde bugünkü kuralla düz kalır (karar bekliyor).
+- BOM tek çerçeve + iki yüz panel: `wall_100_350` → 2 × `profile_91`, 2 × `upright_346_5`, 14 × `panel_98`. Köşede içe bakan yüz `panel_corner_*` olur; T'de gövde bugünkü kuralla düz kalır (karar bekliyor).
 
 ## Bar Masası — 2026-10-22
 
-`kyrox-fair-stand` dal `feat/bar-masasi`. Migration `0075_glass_bar_table` (yerelde uygulandı; canlıya alınmadan önce sorulacak).
+`kyrox-fair-stand` PR #317 (merge `11a0cd55`). Migration `0075_glass_bar_table`.
 
 - `glass_bar_table` "Bar Masası": tekli cam masa ile aynı tür (`table-glass`), çizim ve BOM politikası; yalnız yükseklik 108 cm. Ayak masa yüksekliğine göre uzar. Extra kategorisinin sonunda.
 
 ## Izgara, ölçüler, tepeden ışık, 10 cm adım; ayaklı vitrin ve broşürlük — 2026-10-21
 
-`kyrox-fair-stand` PR #316 (merge edildi). Migration `0073_move_snap_10cm`, `0074_showcase_brochure` (yerelde uygulandı; canlıya alınmadan önce sorulacak).
+`kyrox-fair-stand` PR #316 (merge edildi). Migration `0073_move_snap_10cm`, `0074_showcase_brochure`.
 
 - Taşırken stand zemininde 1 m kalın / 50 cm ince ızgara; boşta gizli. Tek öğe seçiliyken taban alanı + genişlik/derinlik/yükseklik; taşırken stand kenarlarına dört uzaklık. Ölçü ve ızgara Render Al'a girmez.
 - Ana ışık tepeden stand merkezine; editörde gölge kapalı, Render Al'da açık.
@@ -214,7 +209,7 @@ Mimari ayrıntı: [ITEM_CATALOG_ARCHITECTURE.md](ITEM_CATALOG_ARCHITECTURE.md).
 
 ## Panel duvarı çerçevesi: dört kenar aynı kesit — 2026-10-21
 
-`kyrox-fair-stand` PR #312 (açık; dal `feat/panel-cerceve-gorunumu`, kullanıcı lokalde denedi). Yalnız 3B görünüm; migration yok, BOM ve kayıt biçimi değişmez.
+`kyrox-fair-stand` PR #312 (merge `02c9f944`). Yalnız 3B görünüm; migration yok, BOM ve kayıt biçimi değişmez.
 
 - Düz panel, bazalı duvar, kapı ve vitrinde iki dikme ile alt/üst profil aynı kesitte çizilir (3ds Max referansındaki kapalı çerçeve); profil kenarlarında koyu ton kenar çizgisi.
 - Kesit modül reçetesindeki profil Item'ının sahne ölçüsüdür (`fair_stand_item_scene_dimensions`, yerel DB'de 10 × 10). Reçetesinde profil olmayan modülde stand `frame_depth_cm` ile kare kesit. Stand `frame_width_cm` sahnede okunmaz.
@@ -224,7 +219,7 @@ Mimari ayrıntı: [ITEM_CATALOG_ARCHITECTURE.md](ITEM_CATALOG_ARCHITECTURE.md).
 
 ## Sahne editörü: yalnız Kaydet, Kopyala, çift tık seçimi — 2026-10-20
 
-`kyrox-fair-stand` PR #309 (açık; merge ve deploy yok, kullanıcı lokalde deniyor).
+`kyrox-fair-stand` PR #309 (merge `e17f1167`).
 
 - **Otomatik kayıt kapalıyken yalnız Kaydet:** görsel ekleme/kaldırma/silme, sekme gizleme ve editörden çıkış kaydetmez; revizyon yalnız Kaydet ile ilerler. Aç / Sahneyi Oluştur / İçe Aktar / proje seçimi onay sorar, Dışarı Aktar son kaydı aktarır, "← Standlar" "Kaydetmeden çıkılsın mı?" diye sorar. CRM değişmedi.
 - **Kopyala:** sağ tık menüsündeki Çoğalt Sağ / Sol kaldırıldı; seçim çubuğundaki Kopyala ve Ctrl/Cmd + C modülü hafızaya alır, her tıklama/dokunuşta katalogla aynı kuralla bir kopya bırakır (Esc / Kopyalamayı bitir; Ctrl/Cmd + V yeniden başlar). Grubu çoğalt aynı.
@@ -233,7 +228,7 @@ Mimari ayrıntı: [ITEM_CATALOG_ARCHITECTURE.md](ITEM_CATALOG_ARCHITECTURE.md).
 
 ## Yeni proje sihirbazı — 2026-10-20
 
-`kyrox-fair-stand` (PR açık; merge kullanıcı testinden sonra). Yeni projede boş sahnede 3 adımlı kurulum (stand tipi, ölçü + duvar yüksekliği + depo, özet + Oluştur) mevcut kurulum alanlarını ve Sahneyi Oluştur akışını kullanır. İlk sahneden sonra 3 ipucu bir kez gösterilir. Veritabanı / migration yok. Depo seçimi tek liste: "Depo yok" + ölçüler; depo seçiliyken "Depo içeriği eklensin" açılır (sol menü ve sihirbaz).
+`kyrox-fair-stand` PR #311 (merge `628fd934`). Yeni projede boş sahnede 3 adımlı kurulum (stand tipi, ölçü + duvar yüksekliği + depo, özet + Oluştur) mevcut kurulum alanlarını ve Sahneyi Oluştur akışını kullanır. İlk sahneden sonra 3 ipucu bir kez gösterilir. Veritabanı / migration yok. Depo seçimi tek liste: "Depo yok" + ölçüler; depo seçiliyken "Depo içeriği eklensin" açılır (sol menü ve sihirbaz).
 
 ## Tablet kullanımı — 2026-10-20
 
@@ -361,7 +356,7 @@ Mimari ayrıntı: [ITEM_CATALOG_ARCHITECTURE.md](ITEM_CATALOG_ARCHITECTURE.md).
 
 ## Sahne editörü: öğe kilidi — 2026-10-17
 
-[GROUP_LOCK_ROADMAP.md](GROUP_LOCK_ROADMAP.md) Faz 1. `kyrox-fair-stand` PR #278 merge edildi; CI (contract gate, test, pytest, build, Chromium E2E) yeşil. Sunucuya yayın bu kayıtta yoktur.
+[GROUP_LOCK_ROADMAP.md](GROUP_LOCK_ROADMAP.md) Faz 1. `kyrox-fair-stand` PR #278 merge edildi; CI (contract gate, test, pytest, build, Chromium E2E) yeşil.
 
 **Kullanıcı tarafı**
 - Sağ tık menüsünde **Kilitle / Kilidi aç**.
@@ -385,15 +380,16 @@ Lokal kanıt: 1.124 JavaScript testi; 10 Chromium kamera/etkileşim senaryosu; t
 
 Kapsam yalnız Fair Stand kamera UI/runtime davranışıdır. API, veritabanı, migration, Core sözleşmesi, organization izolasyonu, yetki, kayıt/BOM ve Item master değişikliği yoktur. GitHub teslimat kanıtının sahibi ilgili uygulama PR/CI kayıtlarıdır.
 
-## Son doğrulanan lokal sayılar (fast-aging)
+## Katalog sayıları (seed)
 
-Invariant değildir. 2026-09-18 lokal implementation:
+Kaynak `test/fixtures/itemCatalogSeed.json` (2026-11-05, `main` `38ac8c77`). Canlı DB admin kayıtlarıyla farklı olabilir.
 
 | Ölçüm | Değer |
 |-------|--------|
 | Categories | 6 |
-| Items | 96 |
-| Visible Items | 58 |
-| Components | 186 |
+| Preview kinds | 30 |
+| Items | 133 |
+| Visible Items | 35 |
+| Components | 199 |
 | Assets | 19 |
 | JSON / JSONB / EAV | Katalog ilişkisel. Proje `payload` JSONB `{stand, modules}`. EAV yok |
