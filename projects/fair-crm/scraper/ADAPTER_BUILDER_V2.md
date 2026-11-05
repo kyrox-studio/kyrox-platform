@@ -1,5 +1,7 @@
 # Scraper Akışı v2 — Adapter Builder Vizyonu
 
+> Açık işin sırası: [ROADMAP.md](../ROADMAP.md) § 2.
+
 **Modül:** Data Integration / Scraper  
 **Durum:** Vizyon referans dokümanı (henüz uygulanmadı)  
 **İlgili:** [SOURCE_ADAPTER_FRAMEWORK.md](../import/SOURCE_ADAPTER_FRAMEWORK.md), [IMPORT_ARCHITECTURE.md](../import/IMPORT_ARCHITECTURE.md), [PRODUCT_VISION.md](../VISION.md)

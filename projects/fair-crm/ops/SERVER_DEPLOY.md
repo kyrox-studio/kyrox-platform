@@ -112,7 +112,7 @@ Local Vite and server Nginx share one relative-path model. Public IP or domain c
 
 ## UFW checks
 
-- `[OK] 22 allowed`, `[OK] 80 allowed` — `check-server.sh` yalnız 22/OpenSSH kuralına bakar; canlı SSH 25416 olduğu için bu satır orada `[WARN]` verir
+- `[OK] SSH 25416 allowed`, `[OK] 80 allowed` — `check-server.sh` SSH portlarını sshd ayarından okur (`ssh_listen_ports`) ve her biri için ALLOW kuralı arar
 - `[WARN] 443 not configured` if no HTTPS rule
 - `[OK]` 5432, 8000, 8001, 8002 and 15432 not publicly exposed
 

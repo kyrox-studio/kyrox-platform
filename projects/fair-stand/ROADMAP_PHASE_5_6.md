@@ -6,7 +6,7 @@
 
 1. **FAZ 4 — Modül reçetesi + parametrik/yapısal editör:** Her modül kendi fiziksel parçalarını ve Raw BOM'unu bilir; connection graph sahnedeki ilişkileri bilir.
 2. **FAZ 5 — Final BOM / Assembly Normalization:** Modül Raw BOM'larını sahne bağlantılarına göre birleştirir, ortak parçaları düşer ve gerçek final malzeme listesini çıkarır.
-3. **FAZ 6 — Maliyet / Fair CRM:** FAZ 5 Final BOM'unu katalog ve fiyat verisiyle maliyete dönüştürür.
+3. **FAZ 6 — Maliyet:** FAZ 5 Final BOM'unu Fair Stand fiyat kalemleriyle maliyete dönüştürür.
 
 ---
 
@@ -96,13 +96,15 @@ Pipeline:
 
 ---
 
-# FAZ 6 — MALİYET / FAIR CRM ENTEGRASYONU
+# FAZ 6 — MALİYET
 
 ## Amaç
 
-FAZ 5'in doğrulanmış Final BOM ve miktarlarını Fair CRM katalog/fiyat altyapısıyla eşleştirip proje maliyetini güvenilir şekilde hesaplamak.
+FAZ 5'in doğrulanmış Final BOM ve miktarlarını Fair Stand fiyat kalemleriyle eşleştirip proje maliyetini güvenilir şekilde hesaplamak.
 
-## 6.1 — Fair CRM / Kyrox Core platform entegrasyonu
+**Fiyat sahibi (kullanıcı kararı 2026-11-05, kodla aynı):** Fair Stand. Organizasyon fiyatı `fair_stand_cost_items` tablosundadır: `ITEM` satırı bir `item_key`'e, `MANUAL` satırı ad + birime bağlıdır; `purchase_price` zorunlu, `sale_price` varsayılan 0; maliyete açık Item `fair_stand_items.is_cost_enabled`. API `/api/v1/fair-stand/cost-items`, yetki `fair_crm.fair_stand.cost_items.*`. Fair CRM fiyat kataloğu Fair Stand fiyatının kaynağı değildir.
+
+## 6.1 — Kyrox Core / platform entegrasyonu
 
 - [x] Fair Stand içinde ikinci login/kullanıcı sistemi yapılmaz.
 - [x] Authentication/session kaynağı Kyrox Core'dur (`backend/app/integrations/kyrox_core/auth.py`).
@@ -110,15 +112,14 @@ FAZ 5'in doğrulanmış Final BOM ve miktarlarını Fair CRM katalog/fiyat altya
 - [ ] Custom modül ownership backend tarafında doğrulanır.
 - [ ] Project/revision kimliği entegrasyon boyunca korunur.
 
-## 6.2 — Catalog / fiyat eşlemesi
+## 6.2 — Fiyat eşlemesi (Fair Stand)
 
-- [ ] Her maliyetlenebilir `itemKey` Fair CRM catalog/external ID'ye eşlenir.
-- Bugün kodda: Fair Stand `fair_stand_cost_items` organizasyon Item fiyatını (`item_key`) ve manuel kalemi tutar; maliyete açık Item `fair_stand_items.is_cost_enabled`. Fair CRM'de fiyat eşlemesi yok.
-- [ ] `adet`, `m`, `m²`, `kg`, `set` gibi birimler ortak contract ile eşleşir.
-- [ ] Fair CRM alış/maliyet fiyatı, satış/markup gerekirse, para birimi ve geçerlilik tarihinin sahibidir.
-- [ ] Eksik catalog eşleşmesi `unmapped` olarak raporlanır.
-- [ ] Eksik fiyat `0` kabul edilmez; `unpriced` olarak raporlanır.
-- [ ] Hesap hangi catalog/version/fiyat snapshot'ıyla yapıldığını saklar.
+- [x] Organizasyon Item fiyatı ve manuel kalem Fair Stand'de tutulur (`fair_stand_cost_items`, `cost_items.py`).
+- [ ] Her maliyetlenebilir (`is_cost_enabled`) `itemKey` için fiyat kalemi var mı kontrolü; yoksa `unpriced` raporlanır, `0` kabul edilmez.
+- [ ] `adet`, `m`, `m²`, `kg`, `set` gibi birimler Item `unit` (`fair_stand_units`) ile eşleşir.
+- [ ] Satış fiyatı boşken `0` saklanması (`sale_price` varsayılan 0) `unpriced` ile karıştırılmaz.
+- [ ] Para birimi ve geçerlilik tarihi: bugün kolon yok; gerekiyorsa eklenir.
+- [ ] Hesap hangi fiyat snapshot'ıyla yapıldığını saklar.
 
 ## 6.3 — Hazır sahne objeleri
 
@@ -152,7 +153,7 @@ FAZ 5'in doğrulanmış Final BOM ve miktarlarını Fair CRM katalog/fiyat altya
 
 ## FAZ 6 kapanış kriteri
 
-- [ ] Final BOM Fair CRM kataloglarına güvenilir eşleniyor.
+- [ ] Final BOM Fair Stand fiyat kalemlerine güvenilir eşleniyor.
 - [ ] Eksik fiyat/catalog durumları açık raporlanıyor.
 - [ ] Fire/işçilik/ek maliyet kuralları test edilmiş.
 - [ ] Aynı snapshot deterministik costing sonucu üretiyor.
@@ -165,4 +166,4 @@ FAZ 5'in doğrulanmış Final BOM ve miktarlarını Fair CRM katalog/fiyat altya
 
 - **FAZ 4:** Modül kendi fiziksel reçetesini ve Raw BOM'unu bilir; parametrik/custom yapı ve connection graph kurulur.
 - **FAZ 5:** Tüm modüllerin Raw BOM'u sahne bağlantılarına göre normalize edilerek Final BOM çıkarılır.
-- **FAZ 6:** Final BOM ve diğer ticari miktarlar Fair CRM fiyatlarıyla maliyete dönüşür.
+- **FAZ 6:** Final BOM ve diğer ticari miktarlar Fair Stand fiyat kalemleriyle maliyete dönüşür.

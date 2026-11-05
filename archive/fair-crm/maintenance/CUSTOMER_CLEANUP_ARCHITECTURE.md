@@ -1,5 +1,7 @@
 # Internal Customer Cleanup Utility (ADR-030)
 
+> Arşiv (2026-11-05): ADR-030 kapandı, yerini ADR-041 (Data Operations birleştirmesi) aldı: `projects/fair-crm/decisions/DECISIONS.md`.
+
 **Status:** Accepted — internal maintenance only  
 **Date:** 2026-07-03 (revised)  
 **Audience:** Operators / platform maintainers — **not** tenant-facing product

@@ -261,7 +261,7 @@ curl -I http://fuar.kyrox.studio
 
 ## 6. Firewall
 
-Canlı sunucu `45.43.154.39`, SSH portu `25416` (SECURITY_PROGRAM K-ECO-08/09 gözlemi, 2026-10-25). `setup-domain-ssl.sh` güvenlik duvarını açarken yalnız `ufw allow OpenSSH` (22) ekler; SSH 25416'daysa bu kural önce elle eklenmelidir (`ufw allow 25416/tcp`).
+Canlı sunucu `45.43.154.39`, SSH portu `25416` (SECURITY_PROGRAM K-ECO-08/09 gözlemi, 2026-10-25). `setup-domain-ssl.sh` ve `bootstrap-server.sh` UFW'yi açmadan önce SSH portlarını sunucunun sshd ayarından okur (`sshd -T`, yoksa `sshd_config` `Port` satırları, o da yoksa 22; `lib/common.sh` `ssh_listen_ports`) ve her biri için `ufw allow <port>/tcp` ekler. Port elle eklenmez.
 
 ```bash
 ufw status
