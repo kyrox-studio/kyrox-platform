@@ -749,7 +749,7 @@ Tenant screens, Cleanup Queue platform, suppression persistence, continuous data
 
 ## ADR-031: Defer communication-table indexes until Phase 2 performance review
 
-**Status:** Accepted — deferred work  
+**Status:** Accepted — amended 2026-11-05 to match the code  
 **Date:** 2026-07-03  
 **Detail:** [CUSTOMER_COMMUNICATION_PERFORMANCE.md](../performance/CUSTOMER_COMMUNICATION_PERFORMANCE.md)
 
@@ -759,9 +759,9 @@ Customer phone, email, and website data moved to child tables (`crm_customer_pho
 
 **Decision:**
 
-1. **Do not add indexes now** on normalized phone, email, or domain values.
-2. **No schema migration** for performance until the Phase 2 Performance Review is triggered.
-3. **Document future work** — triggers, `EXPLAIN ANALYZE` targets, and candidate indexes live in `CUSTOMER_COMMUNICATION_PERFORMANCE.md`.
+1. **Indexes in place (code):** plain btree indexes on `crm_customer_emails.email` (migration `0020`), `crm_customer_phones.phone` and `crm_customer_websites.website` (migration `0023_crm_list_performance_indexes`), plus `customer_id` / `organization_id` on each child table. The 2026-07-03 text said "no indexes"; `0020` and `0023` added them, and this amendment records that.
+2. **No further communication-value indexes** (normalized or domain-derived values) and no other performance migration on these tables until the Phase 2 Performance Review is triggered.
+3. **Document future work** — triggers, `EXPLAIN ANALYZE` targets, and candidate indexes live in `CUSTOMER_COMMUNICATION_PERFORMANCE.md`. The existing indexes have not been measured.
 
 **Triggers for Phase 2 review:**
 
@@ -771,7 +771,7 @@ Customer phone, email, and website data moved to child tables (`crm_customer_pho
 
 **Consequences:**
 
-- Phase 1 ships without extra communication indexes; acceptable at current scale.
+- Phase 1 ships with the plain value indexes above and no normalized-value indexes; acceptable at current scale.
 - Before large-scale production load, run the documented review and add indexes only with measured justification.
 
 ---
