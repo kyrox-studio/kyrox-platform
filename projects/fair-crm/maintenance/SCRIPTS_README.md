@@ -16,7 +16,3 @@ Run by `.github/workflows/development-standard.yml` (`refine_*` and `enrich_*` a
 | `compare_frontend_ui_inventory.py` | Fail when a frontend change introduces new UI governance violations |
 
 Their tests are `test_*.py` in the same folder. Standard: [SYSTEM_BEHAVIOR_MAP_STANDARD.md](../../../standards/development/SYSTEM_BEHAVIOR_MAP_STANDARD.md).
-
-## Cleanup
-
-`cleanup/delete_customers_without_fair.py` physically deletes every customer with no fair participation, without a confirmation prompt. It imports `scripts/maintenance/_paths.py`, which was removed in FAIR CRM PR #381, so the script does not run as it is. Nothing in the repository calls it.

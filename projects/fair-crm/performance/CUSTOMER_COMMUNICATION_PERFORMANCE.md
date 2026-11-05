@@ -22,8 +22,8 @@ The old scalar columns on `crm_customers` (`phone`, `email`, `website`) were dro
 
 **Explicit non-goals for now:**
 
-- No migration
-- No new indexes
+- No new migration on these tables
+- No further indexes beyond the ones listed above
 - No database schema changes
 - No application code changes for performance
 
