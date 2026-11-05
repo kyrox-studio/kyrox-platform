@@ -9,6 +9,10 @@
 | Category master | `fair_stand_categories` |
 | Catalog | Yalnız Item projeksiyonu |
 
+## 2026-11-05 — Stand tipi ve strafor kartı (PR açık)
+
+[Stand #363](https://github.com/kyrox-studio/kyrox-fair-stand/pull/363) ve [CRM #388](https://github.com/kyrox-studio/kyrox-fair-crm/pull/388), merge edilmedi. `boothType` (Maksima, Özel Tasarım, Paket) sihirbazın ilk adımı; katalog açık tipe göre süzülür, Item eşlemesi çoklu, eşleme yoksa bütün tipler. Sihirbaz açıkken sol menü kapanır; 2,5 ve 3 m duvarda otomatik projektör düzeltildi. Strafor: arşiv tıklaması logoyu uygular, kart kendi önizlemesini gösterir. Migration `0091_booth_types`, `0092_foam_card_preview`; dalda head `0092`, `main` ve canlı `0090`. Yayın sırası: önce Stand, sonra CRM. Doğrulama: 1542 Node, 231 backend; tam E2E 253 geçti (strafor birleşmeden önce), birleşik kodda hedefli 29 E2E; yerel Postgres'te iki migration ileri-geri çalıştı. Açık iş: [ROADMAP.md](ROADMAP.md).
+
 ## 2026-10-28 — Tek iş listesi
 
 Fair Stand'in açık, ertelenmiş ve karar bekleyen bütün işleri [ROADMAP.md](ROADMAP.md) içinde satır olarak toplandı; satırlar Fair Stand `main` `b3f8cadd` koduna göre doğrulandı. `OPEN_WORK_INVENTORY.md` (ikinci özet kopya) silindi. Kullanılabilirlik, seçim paneli, performans ve Item-first belgelerindeki açık madde listeleri ROADMAP'e taşındı; bu belgeler artık teşhis, kural ve mevcut davranışı tutar. Fair Stand deposundaki `RELEASE_HARDENING_ROADMAP.md` [arşive](../../archive/fair-stand/RELEASE_HARDENING_ROADMAP.md) taşındı, `docs/refactor/PERFORMANCE_ROADMAP.md` yönlendirmesi silindi; `PENDING_ITEM_DECISIONS.md` kararların gerekçe ve yasaklarını tutar, durum ve sırayı tutmaz. Koda göre kapanmış bulunanlar: `syncWallLengthFromSetup` kodda yok; 0073–0075 canlıda (prod head `0088`); lisans kararı F-043 ile verildi; `public/` altında referanssız model/doku yok.
