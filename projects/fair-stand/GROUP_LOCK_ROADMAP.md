@@ -22,11 +22,10 @@
 >
 > Kilit, grup ve şablon **fiziksel ürün değildir**: BOM'a, üretime ve maliyete kendileri girmez, `itemKey` taşımaz (`ITEM_CONTRACT.md` kapsamı dışı; açık ürün kararı). Şablondan sahneye konan parçalar normal Item'dır ve BOM'a bugünkü gibi girer.
 
-## 2026-10-22 — Yerelde uygulanan seçim ve kilit ekleri
+## 2026-10-22 — Seçim ve kilit ekleri
 
-**Teslim durumu:** Yerelde doğrulandı ve [Fair Stand PR #318](https://github.com/kyrox-studio/kyrox-fair-stand/pull/318)
-ile gönderildi. PR açık; henüz main'e merge veya canlı deploy yok.
-Doğrulama kaydı: [Proje Durumu](PROJECT_STATUS.md#2026-10-22--yerel-seçim-ve-kilit-değişiklikleri).
+**Teslim durumu:** [Fair Stand PR #318](https://github.com/kyrox-studio/kyrox-fair-stand/pull/318) main'e merge edildi (`ebe95989`).
+Doğrulama kaydı: [Proje Durumu](PROJECT_STATUS.md#2026-10-22--seçim-ve-kilit-değişiklikleri).
 
 - Yeni standın otomatik arka/yan duvarları kilitli başlar. Mevcut projeler açılırken
   kayıtlı kilit tercihleri değiştirilmez; menüden kilit açılabilir.
@@ -186,7 +185,7 @@ Kesin liste `contract:verify` discovery'si ile çıkarılır.
 - Grup bütün olarak her yöne taşınır (sürükleme, ok tuşu; 10 cm adım). **Tek kısıt:** hiçbir üye aktif stand alanının dışına taşamaz. Başka öğelerle çakışma ve tür kuralları (ör. TV'nin duvarda durması) aranmaz; zincir itme yoktur. Stand dışına çıkan adım uygulanmaz, grup kenarda durur.
 - İçinde ne olursa olsun her grup çoğaltılabilir. Kopya "… (kopya)" adıyla yeni, kilitsiz bir gruptur; grubun sağına, soluna, önüne ya da arkasına ilk boşluğa konur, yer yoksa işlem reddedilir.
 - Grubu silmek onaylıdır: "Grubun tamamı silinecek (N parça)". Delete tuşu yalnız seçili parçayı siler.
-- Tık bugünkü gibi panel seçer (boyama bozulmaz); grubun tamamını saran tek turuncu kesik çizgili kutu görünür (2026-10-24 yerel güncelleme). Alt+tık yok; grup işlemleri sağ tık menüsünde ve Gruplar kartında.
+- Tık bugünkü gibi panel seçer (boyama bozulmaz); grubun tamamını saran tek turuncu kesik çizgili kutu görünür (2026-10-24, PR #336). Alt+tık yok; grup işlemleri sağ tık menüsünde ve Gruplar kartında.
 - Bir öğe aynı anda tek grupta olur. Başka gruptaki öğe eklenmek istenirse sorulur: "… grubundan çıkarılıp … grubuna eklensin mi?" Hayır → hiçbir şey değişmez.
 - Grupta 1 parça kalırsa grup kendiliğinden çözülür.
 - Gruptaki öğede Shift+R (döndürme) reddedilir; grup döndürme sonraki faza kalır.
@@ -201,7 +200,7 @@ Kesin liste `contract:verify` discovery'si ile çıkarılır.
 
 **Testler.** Unit `test/moduleGroups.test.js` ve `test/moduleGroupPanel.test.js`; E2E `e2e/module-group.spec.mjs`: iki kutu blok gruplanır, kartta 2 parça görünür, birlikte taşınır, stand dışına taşmaz, kilitliyken oynamaz, çoğaltılır, onaylı silinir, çözülür.
 
-**Seçim görünümü — 2026-10-24 kullanıcı kararı (yerel uygulama):** Tek öğenin kapladığı alan mavi (`#2563EB`) kesik çizgili 3B kutuyla gösterilir. Grup ve çoklu öğe seçiminde üyelerin ortak dış sınırını saran tek turuncu (`#F97316`) kesik çizgili kutu kullanılır; üyelerde ayrı kutular gösterilmez. Bu, önceki bakır üye çerçeveleri kararının yerine geçer. Grup aç/kapat fazı uygulanmış sayılmaz.
+**Seçim görünümü — 2026-10-24 kullanıcı kararı (PR #336):** Tek öğenin kapladığı alan mavi (`#2563EB`) kesik çizgili 3B kutuyla gösterilir. Grup ve çoklu öğe seçiminde üyelerin ortak dış sınırını saran tek turuncu (`#F97316`) kesik çizgili kutu kullanılır; üyelerde ayrı kutular gösterilmez. Bu, önceki bakır üye çerçeveleri kararının yerine geçer. Grup aç/kapat fazı uygulanmış sayılmaz.
 
 ### Faz 3b — Grup aç / kapat (karar 2026-10-18; kod yok)
 

@@ -37,9 +37,9 @@ Archive için:
 
 ---
 
-### 5. Gerçek delete sadece admin / owner yapabilecek
+### 5. Gerçek delete ve archive aynı yetkiyle
 
-Gerçek silme işlemi sadece admin / owner yetkisine sahip kullanıcılar için açık olacak.
+Kodda `POST /todos/{id}/archive` (`ArchiveTodoUseCase`) ve `DELETE /todos/{id}` (`DeleteTodoUseCase`) ikisi de `fair_crm.todos.delete` ister; ayrı bir archive yetkisi yoktur. Normal "sil" UX'i archive akışına gider.
 
 ---
 
@@ -72,6 +72,7 @@ DB/API tarafında ASCII slug kullanılacak. Türkçe karakterli değerler yalnı
 - `musteri_guncelleme`
 - `genel_gorev`
 - `stand_tasarim`
+- `stand_work`
 - `diger`
 
 Varsayılan: `genel_gorev`
@@ -162,6 +163,7 @@ Category değerleri veritabanı ve API sözleşmesinde ASCII slug olarak saklan�
 - `musteri_guncelleme`
 - `genel_gorev`
 - `stand_tasarim`
+- `stand_work`
 - `diger`
 
 Türkçe karakterli gösterimler (ör. “Müşteri Güncelleme”, “Genel Görev”, “Diğer”) yalnızca frontend label katmanında (`labels/todoLabels.ts`) kullanılır. Encoding, URL filtreleme ve enum doğrulama risklerini önlemek için backend slug listesi Unicode varyantları kabul etmez.
@@ -181,21 +183,9 @@ Core org-members entegrasyonu (org üye listesi, display name lookup) Faz 1 kaps
 
 ---
 
-### 13. Delete ve archive permission rol dağılımı
+### 13. Todo yetkileri
 
-| Permission | owner | admin | manager | sales | viewer |
-|------------|:-----:|:-----:|:-------:|:-----:|:------:|
-| `fair_crm.todos.read` | ✓ | ✓ | ✓ | ✓ | ✓ |
-| `fair_crm.todos.create` | ✓ | ✓ | ✓ | ✓ | — |
-| `fair_crm.todos.update` | ✓ | ✓ | ✓ | ✓ | — |
-| `fair_crm.todos.archive` | ✓ | ✓ | ✓ | ✓ | — |
-| `fair_crm.todos.delete` | ✓ | ✓ | — | — | — |
-
-- **Delete** (`DELETE /todos/{id}`): yalnızca owner ve admin (`fair_crm.todos.delete`).
-- **Archive**: owner, admin, manager, sales (`fair_crm.todos.archive`); normal “sil” UX'i archive akışına yönlendirilir.
-- **Viewer**: yalnızca read; create, update, archive ve delete yetkisi yok.
-
-`scripts/fair_crm_role_matrix.py` bu dağılıma göre güncellenecek.
+Kodda kullanılan kodlar: `fair_crm.todos.read`, `.create`, `.update`, `.delete` (archive + gerçek silme) ve çıktılar için `fair_crm.todos.outcomes.read`, `.create`, `.update`. Rol matrisi (`scripts/fair_crm_role_matrix.py`) yalnız `organization_admin` rolünü tanımlar; rol kapsamı [PERMISSION_SCOPE_GOVERNANCE.md](../PERMISSION_SCOPE_GOVERNANCE.md).
 
 ---
 

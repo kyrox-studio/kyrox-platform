@@ -1,6 +1,6 @@
 # Customer Communication — Phase 2 Performance Review (TODO)
 
-**Status:** Deferred — documentation only  
+**Status:** Deferred (ROADMAP §4)  
 **Date:** 2026-07-03  
 **Related:** Migration `0020_customer_communications`, [decisions/DECISIONS.md](../decisions/DECISIONS.md) (ADR-031)
 
@@ -16,9 +16,9 @@ Customer phone, email, and website data now lives in child tables:
 | `crm_customer_emails` | One row per email address |
 | `crm_customer_websites` | One row per website |
 
-Scalar columns on `crm_customers` (`phone`, `email`, `website`) remain for backward compatibility and are kept in sync on write.
+The old scalar columns on `crm_customers` (`phone`, `email`, `website`) were dropped in migration `0021_drop_customer_communication_scalars`.
 
-**Current decision:** No additional indexes on communication values are added in Phase 1. The dataset is still small, and import / duplicate / merge business rules are still evolving. Index strategy should be decided after real query patterns are stable.
+**Current indexes:** each child table has `customer_id` and `organization_id` indexes and `crm_customer_emails.email` is indexed (migration `0020`); `crm_customer_phones.phone` and `crm_customer_websites.website` are indexed by migration `0023`. **Decision (ADR-031):** no further communication-value indexes until a trigger below is met; index strategy follows real query patterns.
 
 **Explicit non-goals for now:**
 
@@ -50,7 +50,7 @@ When triggered, run a structured performance review:
 
 Run `EXPLAIN ANALYZE` on the heaviest paths:
 
-- **Import lookup queries** — matching existing customers by phone, email, or website during import preview/apply
+- **Import lookup queries** — import matching is company-name only today ([MATCHING_RULES.md](../import/MATCHING_RULES.md)); this path matters only if phone/email/website matching is added
 - **Duplicate grouping queries** — admin data-operation duplicate analysis (group by email, phone, domain, etc.)
 - **Merge lookup queries** — loading and reconciling communication rows when merging winner/loser customers
 
@@ -99,5 +99,5 @@ Review bulk import and upsert paths:
 
 - Child table migration: `backend/alembic/versions/0020_customer_communications.py`
 - List API batch loading: `SqlAlchemyCustomerCommunicationRepository.load_list_summaries()`
-- Duplicate analysis: `docs/CUSTOMER_CLEANUP_ARCHITECTURE.md` (internal merge/cleanup)
+- Duplicate analysis and merge: Data Operations `duplicate_customer_analysis` (`customers/application/duplicate_group_merge*.py`)
 - Import matching: `import/MATCHING_RULES.md`

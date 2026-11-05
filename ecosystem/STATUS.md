@@ -8,35 +8,19 @@ Single source of truth for **cross-repository current state**. Detailed product/
 | Core policy | Frozen for speculative product work; bug/security/performance fixes and approved reusable product-driven platform needs are allowed |
 | Documentation hub | `kyrox-platform` |
 | Implementation repos | `kyrox-core`, `kyrox-fair-crm`, `kyrox-fair-stand`; marka varlıkları: `kyrox-brand`; web sitesi: `kyrox-web` |
-| Last ecosystem sync | **2026-10-15** |
+| Last ecosystem sync | **2026-10-29** |
 
 ## SaaS readiness
 
-**P0.1 Tenant Isolation Certification is DONE.** FAIR CRM organization-owned paths are certified across direct/nested resource access, derived relationships, bulk mutations, background execution, mail/SMTP ownership, exports/downloads/artifacts and audit context. The canonical Platform Super Admin exception is separately certified in Core and production-shaped FAIR CRM integration evidence.
+| Workstream | State | Canonical record |
+|---|---|---|
+| P0.1 tenant isolation | **DONE** (2026-08-26). New organization-owned behavior still ships with cross-organization evidence | [P0_1_TENANT_ISOLATION_CERTIFICATION](../archive/fair-crm/backlog/P0_1_TENANT_ISOLATION_CERTIFICATION.md) |
+| P0.2 identity / SaaS onboarding | **DONE** (2026-08-29). Organization is the account boundary; FAIR CRM is a thin consumer of Core identity APIs and owns no credential authority | [P0_2_IDENTITY_ONBOARDING_IMPLEMENTATION.md](P0_2_IDENTITY_ONBOARDING_IMPLEMENTATION.md) |
+| OL-07 suspension / reactivation | **DONE** (2026-09-07) | [P0_2_OL_07_IMPLEMENTATION.md](P0_2_OL_07_IMPLEMENTATION.md) |
+| OL-08 required-export closure | **DONE / certified** (2026-09-11) through package integrity, credential disposition, artifact/product cleanup, Core tombstone and 12-month retained-evidence expiry. `not_required` export has no accepted policy authority and fails closed | [P0_2_OL_08_IMPLEMENTATION.md](P0_2_OL_08_IMPLEMENTATION.md), [P0_2_OL_08_B_EXPORT_DECISION.md](P0_2_OL_08_B_EXPORT_DECISION.md) |
+| OL-09 timing / OL-10 backup ageing | Accepted contracts; obligations used by the closure path are runtime-covered | [P0_2_OL_09_RETENTION_GRACE_DECISION_READINESS.md](P0_2_OL_09_RETENTION_GRACE_DECISION_READINESS.md), [P0_2_OL_10_RUNTIME_ACCEPTANCE.md](P0_2_OL_10_RUNTIME_ACCEPTANCE.md) |
 
-Closure evidence is recorded in [archive/fair-crm/backlog/P0_1_TENANT_ISOLATION_CERTIFICATION.md](../archive/fair-crm/backlog/P0_1_TENANT_ISOLATION_CERTIFICATION.md). FAIR CRM PRs #83 and #84 close TI-07 and TI-09; Core PR #11 closes TI-08. The final FAIR CRM TI-09 head passed Development Standard Gate #268 and Prod-Path E2E #140 before merge. P0.1 completion does not waive the SaaS-impact gates for future changes; new organization-owned behavior must continue to ship with applicable cross-organization evidence.
-
-**The approved P0.2 identity / SaaS onboarding workstream is DONE as of 2026-08-29.** [ADR-0006](decisions/0006-organization-lifecycle-and-onboarding.md) remains Proposed overall. OL-01 through OL-07 are implemented/certified. The current-model required-export OL08 offboarding path is now also runtime-covered through export/package integrity, credential disposition, artifact/product cleanup, final Core tombstone and 12-calendar-month post-terminal retained-evidence expiry. OL09-A through OL09-E timing policy and OL10 backup ageing/restore behavior have accepted canonical contracts; applicable runtime obligations used by the current closure path are implemented/certified. The optional OL08-B `not_required` export disposition still has no accepted policy authority and therefore remains fail-closed rather than being treated as an unfinished required-export runtime. No additional OL08 lifecycle runtime is currently sequenced or authorized.
-
-The completed identity/onboarding workstream keeps `Organization` as the account boundary, keeps the direct single-organization user model, uses the existing protected `OrganizationAdmin` role for the first normal admin, preserves existing Platform Super Admin organization/user creation, and provides controlled public commercial signup plus Core-owned activation/set-password, password reset/change, one-time identity action tokens, shared password policy, session/credential invalidation and production identity-email capability. FAIR CRM remains a thin consumer of public Core identity APIs and owns no credential authority.
-
-The canonical completion record is [P0.2 Identity / SaaS Onboarding Implementation Tracker](P0_2_IDENTITY_ONBOARDING_IMPLEMENTATION.md). CORE-01 through CORE-09 were delivered through Core PRs #12–#20, ending at Core `main` `f6cbf417410d9148c225242790103d8cc9541f21` after CI #84 / run `33228476878` passed with 381 tests. The final Core certification includes privilege-injection resistance and cross-organization activation-token isolation.
-
-FAIR CRM then delivered CRM-BE-01/02 through PRs #86/#87, public auth and login integration through PRs #88/#89, authenticated `/settings/security` password change through PR #90, and Super Admin manual user-management compatibility certification through PR #91. CRM-UI-03 keeps current-password verification, PasswordPolicy, hashing and credential mutation in Core; after a successful change the Core sessions are revoked, the FAIR CRM refresh cookie is cleared, local frontend session state is cleared and the user returns to login. CRM-UI-04 confirms the existing admin-supplied manual password path remains available and no unsupported setup-link or new Super Admin assignment path was introduced.
-
-Final FAIR CRM PR #92 (`d498245c4c60bd36b9b3a8aeffed4912e198123b`) added a production-shaped cross-repository certification without changing application runtime. Development Standard Gate #306 and Prod-Path E2E #151 passed the final head before merge. The certified lifecycle covers signup → activation → login → forgot/reset → login → password change → login against real FAIR CRM + real KYROX Core, including one-time token replay rejection and prior-session invalidation.
-
-**OL-07 suspension/reactivation runtime is DONE as of 2026-09-07.** OL07-03 established the Core-owned product lifecycle snapshot contract and FAIR CRM fail-closed lifecycle guard. OL07-04 made queued/pending organization-owned FAIR CRM work cancel before start when Core reports a non-active lifecycle state. OL07-05 completed cooperative cancellation of already-running covered work at safe checkpoints. OL07-06 blocked new SMTP/provider handoff at the final central lifecycle checkpoint. OL07-07 made claimed mail durably `SENDING` before provider handoff, safely recovered a real SQLAlchemy session when that checkpoint commit failed, and made ambiguous MailerSend/SMTP in-flight outcomes terminal non-auto-retry. FAIR CRM PR #254 then certified deterministic reactivation/resumption semantics. PR #254 final head `e17593e49ecb25a3aef736b0ceaa1fafa14c7e77` passed Development Standard Gate #700 and Prod-Path E2E #264 before merge as `18b0b638ba946c2910698e1df7c4ab5283c4958f`.
-
-**OL08-A closure orchestration is ACCEPTED and OL08-01 is DONE as of 2026-09-07.** FAIR CRM PR #255 added the FAIR CRM-owned durable non-destructive closure execution state machine, SYSTEM-authorized start/status/retry, live Core `SUSPENDED` precondition, idempotent duplicate/race handling, explicit blocked/retry evidence, transactional append-only local audit evidence and canonical tenant-isolation registration. Final head `aa34cd3e5d00ec6f7d6b7adaad4afa950319830e` passed Development Standard Gate #707 / run `34155567277` and Prod-Path E2E #270 / run `34155567315`, then merged to FAIR CRM `main` as `e47d4ffced9f963fd06bc263996d2d5d95e7c5f2`. Platform PR #36 passed Platform Standards CI #104 / run `34156643910` and merged as `f08f3a334c56c3c1be31694af56bf65330e44fe9`, completing cross-repository certification.
-
-**OL08-B closure-export technical contract is PARTIALLY ACCEPTED as of 2026-09-07.** The accepted architecture uses explicit policy-conditioned `required` / `not_required` disposition, a versioned organization/execution-scoped manifest, explicit structured-data completeness classification, hard secret exclusion and SYSTEM/operator-only control. No accepted policy currently authorizes `not_required`, so that path must fail closed. The required-export path later gained canonical package/inventory/integrity and purge runtime under OL08-E. The detailed contract is [P0.2 OL-08B Closure Export Contract Decision](P0_2_OL_08_B_EXPORT_DECISION.md).
-
-**OL08-02 and OL08-03A are DONE as of 2026-09-08.** FAIR CRM PR #256 final head `bae0e7f720e29b688765999fff12deda8624dad7` passed Development Standard Gate #711 / run `34160597160` and Prod-Path E2E #273 / run `34160597182`, then merged as `00f7219c45a5c761df0861e7b30a89ad2a67652d`. It certified closure quiescence against the existing OL-07 runtime and fixed the closure-execution parent/event FK flush ordering while preserving one transaction. FAIR CRM PR #257 then implemented the bounded non-destructive OL08-03A planner: durable organization/execution/schema-version export-plan identity, explicit v1 completeness registry, organization-scoped counts, record-ID-only fingerprints, hard secret-source exclusion, SYSTEM metadata endpoints, idempotency and tenant-isolation evidence. Final head `6927dabea1cf46e1ee70b726d3c8ccd1ae247dcd` passed Development Standard Gate #715 / run `34163087279` and Prod-Path E2E #276 / run `34163087299`, then merged as `eac3a0793a6ea0382e3b82169a1e3c18c0accfc9`.
-
-**OL08-C is ACCEPTED and its current-model runtime is covered.** Platform PR #41 accepted the credential-only disposition contract and FAIR CRM PR #258 / Platform PR #42 certified the OL08-04A durable state/evidence foundation. FAIR CRM PR #266 later closed the legacy MailerSend current-model gap without guessed provider token IDs: operator assertion alone is not success, and only definitive exact-secret provider HTTP `401` proves invalidity before local API-token zeroization. OL09-B separately provides immediate post-suspension webhook ingress cutoff and signing-secret zeroization. Individual legacy credentials may still remain blocked until their required provider/operator action plus definitive proof is obtained; that is expected fail-closed execution state.
-
-**The current-model required-export OL08 closure path is COMPLETE / CERTIFIED as of 2026-09-11.** FAIR CRM PRs #267/#268 delivered canonical package/inventory/integrity plus strict managed-artifact/package purge; PR #269 delivered the dependency-aware 19-class product-data hard-delete runtime; Core PR #30 + FAIR CRM PR #270 delivered the same-suspension-episode final Core tombstone with `Core deleted_at = FAIR closed_at`; Core PR #31 + FAIR CRM PR #271 delivered exact 12-calendar-month Core-audit/FAIR-closure retained-evidence expiry with Core-first fail-closed ordering and idempotent retry semantics. Platform PR #63 recorded OL08-F runtime acceptance and Platform PR #64 closed the canonical OL08 tracker. The canonical records are [P0.2 OL-08 Organization Offboarding Implementation Tracker](P0_2_OL_08_IMPLEMENTATION.md) and [P0.2 OL-08F Runtime Acceptance](P0_2_OL_08_F_RUNTIME_ACCEPTANCE.md).
+[ADR-0006](decisions/0006-organization-lifecycle-and-onboarding.md) remains Proposed overall. No additional OL08 lifecycle runtime is sequenced or authorized; a new case needs an explicit policy/product decision.
 
 ## KYROX Core
 
@@ -47,7 +31,7 @@ Core remains the reusable, product-agnostic SaaS backend. Identity, authenticati
 
 The approved P0.2 identity/onboarding primitives are complete. Core owns canonical organization/identity lifecycle and SYSTEM-scoped organization suspend/reactivate/delete authority. Product-specific closure progress/export/provider/data/artifact behavior remains outside Core. For current-model closure, Core additionally owns the final tombstone timestamp and Core audit-retention execution; FAIR CRM consumes those accepted public/internal product-lifecycle contracts without taking Core identity/audit ownership.
 
-Core PR #42 (2026-10-13) added a generic `in_app` system notification channel and Super Admin inbox, requested by the FAIR CRM TOBB workflow; Core `main` migration head is `20261012_0073`.
+Core PR #42 (2026-10-13) added a generic `in_app` system notification channel and Super Admin inbox, requested by the FAIR CRM TOBB workflow. Core `main` migration head: `20261027_0078_login_throttles`.
 
 ## FAIR CRM
 
@@ -56,13 +40,16 @@ Current work queue: [projects/fair-crm/ROADMAP.md](../projects/fair-crm/ROADMAP.
 
 FAIR CRM remains the active M4 product. Its P0.1 tenant-isolation certification, P0.2 identity bridge, OL-07 suspension/reactivation runtime and the current-model required-export OL08 closure path are complete within their accepted boundaries. FAIR CRM `main` reaches migration `0098_tobb_manual_date_revision`; the closure path itself ends at `0083_terminal_closure`, and OL08-F adds post-terminal retention runtime without a new FAIR migration.
 
-The TOBB System Fair review and controlled synchronization workflow (ADR-038 amendment + ADR-040) merged on 2026-10-13 through FAIR CRM PR #342; production deployment is pending. Detail: [projects/fair-crm/PROJECT_STATUS.md](../projects/fair-crm/PROJECT_STATUS.md).
-
-The required-export closure path now covers durable closure execution/quiescence, versioned export planning, current-model credential disposition, canonical package/inventory/integrity, strict managed-artifact/package purge, dependency-aware product-data hard delete, final Core tombstone and exact 12-calendar-month retained-evidence expiry. The terminal clock remains authoritative Core `deleted_at`, mirrored exactly as FAIR `closed_at`. FAIR invokes Core-owned audit purge first and only then purges its own closure evidence in FK-safe order.
-
-The optional `not_required` export disposition still has no accepted policy authority and remains fail-closed. No additional OL08 lifecycle runtime is currently sequenced or authorized by the canonical tracker. New lifecycle/offboarding runtime requires an explicit policy/product decision rather than inference from old numbering.
+The TOBB System Fair review and controlled synchronization workflow (ADR-038 amendment + ADR-040) merged on 2026-10-13 through FAIR CRM PR #342 and is in the last recorded deploy (`122fdf9f`, 2026-10-28).
 
 The current documentation/quality focus is to keep Platform as the single human/AI knowledge source and to ensure permission-controlled UI surfaces consistently follow effective permissions and the shared CRUD/UI authorization standard.
+
+## Fair Stand
+
+Canonical detail: [projects/fair-stand/PROJECT_STATUS.md](../projects/fair-stand/PROJECT_STATUS.md)  
+Work queue: [projects/fair-stand/ROADMAP.md](../projects/fair-stand/ROADMAP.md)
+
+Fair Stand is an independent FastAPI service (`:8002`) with its own PostgreSQL `fair_stand` database; the configurator UI is hosted inside the FAIR CRM frontend ([ADR-0007](decisions/0007-fair-stand-product-ownership.md), [ADR-0008](decisions/0008-fair-stand-independent-service.md)). `main` migration head: `0090_carpet_anthracite`.
 
 ## Milestones
 

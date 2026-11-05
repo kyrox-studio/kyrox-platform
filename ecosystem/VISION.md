@@ -6,7 +6,7 @@ KYROX is a **reusable SaaS ecosystem** — a shared foundation and a set of prod
 
 ## Core-first strategy
 
-We build **KYROX Core first**. Core is the product-independent backend platform: authentication, tenancy, billing hooks, API conventions, and shared services that any KYROX product can adopt.
+We build **KYROX Core first**. Core is the product-independent backend platform: authentication, organization tenancy, authorization, audit, settings, jobs, notifications and API conventions that any KYROX product can adopt. Billing/entitlement is not built; its sequencing is in [SAAS_ROADMAP.md](SAAS_ROADMAP.md).
 
 Products do not define the platform. The platform defines what products can rely on. New capabilities belong in Core when they are reusable; they belong in a product repo when they are product-specific.
 
@@ -15,7 +15,7 @@ Products do not define the platform. The platform defines what products can rely
 KYROX Core must remain **independent of any single product**:
 
 - Core has no dependency on fair-crm or future products.
-- Core exposes stable contracts (APIs, events, configuration) that products consume.
+- Core exposes stable HTTP API contracts that products consume.
 - Shared behavior is implemented once in Core and reused across products.
 
 This separation keeps the ecosystem scalable: adding a second or third product should not require rewriting Core.
@@ -24,7 +24,7 @@ This separation keeps the ecosystem scalable: adding a second or third product s
 
 **FAIR CRM** is the first product built on KYROX Core. It validates the platform in production: real users, real workflows, real constraints.
 
-FAIR CRM proves that Core is sufficient for a full product while surfacing gaps early. Lessons from FAIR CRM feed back into Core and into platform decisions recorded in this repository.
+FAIR CRM proves that Core is sufficient for a full product while surfacing gaps early. Lessons from FAIR CRM feed back into Core and into platform decisions recorded in this repository. Fair Stand is the second product: an independent configurator service consuming Core identity ([ADR-0007](decisions/0007-fair-stand-product-ownership.md)).
 
 ## Principles
 
@@ -37,4 +37,4 @@ FAIR CRM proves that Core is sufficient for a full product while surfacing gaps 
 
 KYROX aims to support a portfolio of SaaS products on a common backend platform, with clear boundaries between platform and product, and a predictable workflow from vision → milestone → implementation → release.
 
-See [ROADMAP.md](ROADMAP.md) for the current milestone sequence and [../REPOSITORY_STRATEGY.md](REPOSITORY_STRATEGY.md) for how the pieces fit together.
+See [ROADMAP.md](ROADMAP.md) for the current milestone sequence and [REPOSITORY_STRATEGY.md](REPOSITORY_STRATEGY.md) for how the pieces fit together.

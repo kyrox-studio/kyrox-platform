@@ -1,12 +1,18 @@
-# Server deploy — KYROX Core + Fair CRM
+# Server deploy — KYROX Core + Fair Stand + Fair CRM
 
-Three-script workflow for repeatable Ubuntu server setup and diagnosis.
+Three-script workflow in `kyrox-fair-crm/scripts/server/` for repeatable Ubuntu server setup and diagnosis. `deploy-all.sh` updates and restarts all three services (`/opt/kyrox/kyrox-core`, `/opt/kyrox/kyrox-fair-stand`, `/opt/kyrox/kyrox-fair-crm`). Run it with `sudo`; without root it skips the systemd restart and the post-deploy health check.
 
 ```bash
 sudo bash scripts/server/bootstrap-server.sh
 sudo bash scripts/server/deploy-all.sh
 sudo bash scripts/server/check-server.sh
 ```
+
+## Dependencies (`npm ci`)
+
+`deploy-all.sh` installs CRM frontend and Fair Stand Node dependencies with `npm ci` from the committed lockfiles; new packages from a new commit are installed, the server never picks new versions or regenerates a lockfile. If `package.json` and the lockfile disagree, install stops; fix it in development and send it through a PR. After the CRM frontend install and build the script checks that `package.json` / `package-lock.json` are unchanged (`git diff --exit-code`).
+
+A lockfile change left over from the old `npm install` step: inspect the diff first; only when it is install-generated, set it aside with `git stash push -- frontend/package-lock.json` and run the deploy again. Do not re-apply that stash after a successful deploy.
 
 ## deploy-all.sh self-update
 
@@ -92,7 +98,7 @@ Local Vite and server Nginx share one relative-path model. Public IP or domain c
 - Browser/frontend **never** calls `http://127.0.0.1:8000` or `http://127.0.0.1:8001` directly.
 - `127.0.0.1` is only for Nginx `proxy_pass`, systemd-bound APIs, and server-internal health/curl (e.g. login smoke below).
 - `deploy-all.sh` / bootstrap write `frontend/.env` with empty `VITE_API_BASE_URL` and `VITE_CORE_BASE_URL` when creating the file.
-- Site config: `scripts/server/nginx/fair-crm.conf` (`/api/` → 8001, `/kyrox-core/` → 8000, `/` → `frontend/dist`).
+- Site config: `scripts/server/nginx/fair-crm.conf` (`/api/v1/fair-stand/` → 8002, `/api/` → 8001, `/kyrox-core/` → 8000, `/` → `frontend/dist`); details in [NGINX_SSL_CONFIGURATION.md](NGINX_SSL_CONFIGURATION.md#3-nginx-site-yapısı).
 
 ## Port binding expectations
 
@@ -101,19 +107,20 @@ Local Vite and server Nginx share one relative-path model. Public IP or domain c
 | PostgreSQL | 127.0.0.1:5432 — repo default and bootstrap patch `"5432:5432"` → `"127.0.0.1:5432:5432"` |
 | KYROX Core | 127.0.0.1:8000 (FAIL if 0.0.0.0) |
 | Fair CRM   | 127.0.0.1:8001 (FAIL if 0.0.0.0) |
+| Fair Stand | 127.0.0.1:8002 (`fair-stand.service`) |
 | Nginx      | public :80 (and :443 optional) |
 
 ## UFW checks
 
-- `[OK] 22 allowed`, `[OK] 80 allowed`
+- `[OK] 22 allowed`, `[OK] 80 allowed` — `check-server.sh` yalnız 22/OpenSSH kuralına bakar; canlı SSH 25416 olduğu için bu satır orada `[WARN]` verir
 - `[WARN] 443 not configured` if no HTTPS rule
-- `[OK] 5432/8000/8001 not publicly exposed`
+- `[OK]` 5432, 8000, 8001, 8002 and 15432 not publicly exposed
 
 ## systemd templates
 
 - `Restart=always`, `RestartSec=5`
 - Bind `127.0.0.1` only for API services
-- Templates: `scripts/server/systemd/kyrox-core.service`, `fair-crm-backend.service`
+- Templates in `kyrox-fair-crm/scripts/server/systemd/`: `kyrox-core.service`, `fair-crm-backend.service`, `fair-crm-mail-worker.service`, `fair-crm-tobb-sync.service`/`.timer`, `fair-crm-fair-completion.service`/`.timer`, `kyrox-dependency-audit.service`/`.timer`; Fair Stand's `fair-stand.service` comes from `kyrox-fair-stand/scripts/server/systemd/`
 - Placeholders use `__VAR__` (rendered by `deploy-all.sh`; legacy `@VAR@` still accepted)
 - `deploy-all.sh` runs `systemd-analyze verify` on rendered units before install
 

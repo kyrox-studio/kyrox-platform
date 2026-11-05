@@ -1,14 +1,14 @@
 # Backend Architecture Standards
 
-This document defines how KYROX Core backend code is structured, layered, and tested. It applies to all Core modules (identity, audit, settings, files, jobs, and future platform capabilities).
+This document defines how KYROX Core backend code is structured, layered, and tested. It applies to all Core modules (`identity`, `audit`, `settings`, `jobs`, `notifications` and future platform capabilities).
 
-**Scope:** Architecture and conventions only. Sprint 0.2.5 does not implement business logic.
+**Scope:** Architecture and conventions.
 
 **Related documents:**
 
 - [KYROX Core Architecture](../../projects/kyrox-core/README.md)
-- [ADR 0001: Core / Product Separation](../../ecosystem/decisions/0002-core-product-separation.md)
-- [ADR 0002: Backend Layered Architecture](../../projects/kyrox-core/decisions/0002-backend-layered-architecture.md)
+- [Ecosystem ADR-0002: Core / Product Separation](../../ecosystem/decisions/0002-core-product-separation.md)
+- [Core ADR-0002: Backend Layered Architecture](../../projects/kyrox-core/decisions/0002-backend-layered-architecture.md)
 - [Roadmap](../../projects/kyrox-core/ROADMAP.md)
 
 ---
@@ -42,35 +42,34 @@ The domain layer must not depend on outer layers.
 
 ```text
 backend/app/
+  main.py
   core/                    # Cross-cutting platform wiring (not business domain)
     config.py
     logging.py
     exceptions.py
-
-  shared/                  # Reusable building blocks across modules (optional sub-layers)
-    domain/
-    application/
-    infrastructure/
-    api/
-
+  db/                      # Engine/session (get_db), declarative base, shared column types
+    base.py
+    session.py
+    types.py
+    utils.py
   modules/                 # Platform capability modules
-    identity/              # Sprint 0.3+ (example; not implemented in 0.2.5)
+    audit/ identity/ jobs/ notifications/ settings/
       domain/
       application/
       infrastructure/
       api/
-
   api/                     # Global HTTP surface
     v1/
       router.py            # Aggregates module routers + platform routes
-      health.py            # Platform health (unchanged)
+      health.py            # Platform health
 ```
+
+There is no `shared/` package today; add one only when two modules would otherwise duplicate a primitive.
 
 ### 2.2 Module rules
 
 - Each platform capability lives under `modules/<name>/` with the four layers.
 - `core/` holds app-wide configuration, logging, and exception primitives only.
-- `shared/` holds cross-module primitives (base types, common ports) when duplication would otherwise occur.
 - Global routing lives under `app/api/v1/` and **includes** module routers; modules do not replace the global API root.
 - Products (FAIR CRM, etc.) **never** live under `backend/app/`. Products are separate repositories.
 
@@ -237,20 +236,20 @@ def get_create_user_use_case(db: Session = Depends(get_db)) -> CreateUserUseCase
 - ORM models live in `infrastructure/persistence/models/` (or equivalent), separate from domain entities.
 - Mappers convert ORM <-> domain at the repository boundary.
 - No raw SQL in domain or application unless encapsulated in an infrastructure repository with a documented reason.
-- Migrations (Alembic) apply to infrastructure-owned tables only; created when models exist (not in Sprint 0.2.5).
+- Migrations (Alembic) apply to infrastructure-owned tables only.
 
 ---
 
 ## 9. Error Handling Rules
 
-Built on `app.core.exceptions` (Sprint 0.2 foundation).
+Built on `app.core.exceptions`.
 
 | Error type | Raised by | HTTP mapping (API) |
 |------------|-----------|---------------------|
 | `AppException` | Application / domain-friendly wrappers | Configurable status (default 400) |
 | Validation errors | Pydantic (API) / domain validators | 422 / 400 |
 | Not found | Application use case | 404 via `AppException(status_code=404)` |
-| Unauthorized / forbidden | Auth layer (Sprint 0.3+) | 401 / 403 |
+| Unauthorized / forbidden | Auth layer | 401 / 403 |
 | Unexpected errors | Any | 500 via global handler; logged server-side |
 
 ### Rules
@@ -268,8 +267,8 @@ Three distinct schema categories—**do not merge**:
 
 | Type | Location | Purpose |
 |------|----------|---------|
-| **API schemas** | `modules/<name>/api/schemas/` | Request/response models for HTTP (Pydantic) |
-| **Application DTOs** | `modules/<name>/application/dto/` | Use-case input/output structures |
+| **API schemas** | `modules/<name>/api/schemas.py` or `modules/<name>/api/<area>/schemas.py` | Request/response models for HTTP (Pydantic) |
+| **Application DTOs** | `modules/<name>/application/dto.py` (and command modules such as `query_commands.py`) | Use-case input/output structures |
 | **Domain entities** | `modules/<name>/domain/` | Business objects with invariants |
 
 ### Rules
@@ -295,9 +294,9 @@ Three distinct schema categories—**do not merge**:
 
 - Tests live under `backend/tests/`, mirroring module structure: `tests/modules/identity/...`.
 - No product-specific fixtures in Core tests.
-- Tenant isolation tests are mandatory for identity and shared services (Sprint 0.3+).
+- Tenant isolation tests are mandatory for identity and shared services.
 - Prefer testing use cases directly for business rules; API tests for routing and serialization.
-- Run `python scripts/quality_check.py` before opening PRs.
+- Run `python scripts/quality_check.py` from `backend/` before opening PRs.
 
 ---
 
@@ -325,12 +324,5 @@ Before merging backend work:
 - [ ] API schemas separated from domain entities
 - [ ] Tests cover the changed layer appropriately
 - [ ] No product-specific logic, names in domain models, or FAIR CRM references in code
-- [ ] Health endpoint and existing Sprint 0.2 behavior unchanged unless explicitly scoped
+- [ ] Health endpoint behavior unchanged unless explicitly scoped
 
----
-
-## 14. Sprint 0.2.5 Status
-
-This document is the **deliverable** for Sprint 0.2.5. Implementation of `modules/identity/` and other layers begins in Sprint 0.3 (Identity Platform).
-
-Existing Sprint 0.2 code (`core/`, `api/v1/health.py`, `db/session.py`) remains valid foundation wiring and will be extended—not replaced—when modules are added.

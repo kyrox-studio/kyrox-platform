@@ -86,7 +86,7 @@ Only Platform Super Admin may lock, unlock, activate, or deactivate a permission
 **Lock** (temporary suspension) must atomically:
 
 1. mark the permission unavailable for new role assignment;
-2. leave existing `role_permissions` rows in place (templates, derived, custom, and `OrganizationAdmin`);
+2. leave existing `identity_role_permissions` rows in place (templates, derived, custom, and `OrganizationAdmin`);
 3. deny authorization for non-Super-Admin actors via active-only permission checks;
 4. ensure role editors and template sync preserve locked grants so they are not accidentally wiped while locked;
 5. record the actor, reason, and affected-role/user preview counts in the audit trail.

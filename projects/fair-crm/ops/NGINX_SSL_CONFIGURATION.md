@@ -19,7 +19,7 @@ Bu script `bootstrap-server.sh` ve uygulama deploy işlemi tamamlandıktan sonra
 ```text
 Type: A
 Host: faircrm
-Value: 64.226.110.223
+Value: 45.43.154.39
 ```
 
 DNS kaydının sunucu IP'sine çözülmesini bekle.
@@ -64,7 +64,7 @@ Public IP otomatik tespit edilemezse açıkça verilebilir:
 sudo bash /opt/kyrox/kyrox-fair-crm/scripts/server/setup-domain-ssl.sh \
   --domain fuar.kyrox.studio \
   --email admin@fuar.kyrox.studio \
-  --server-ip 64.226.110.223
+  --server-ip 45.43.154.39
 ```
 
 Script tamamlandığında aşağıdaki adres HTTPS üzerinden çalışmalıdır:
@@ -94,7 +94,7 @@ fuar.kyrox.studio
 Mevcut sunucu IP:
 
 ```text
-64.226.110.223
+45.43.154.39
 ```
 
 ## 2. DNS
@@ -104,7 +104,7 @@ A kaydı:
 ```text
 Type: A
 Host: faircrm
-Value: 64.226.110.223
+Value: 45.43.154.39
 ```
 
 Doğrulama:
@@ -122,7 +122,7 @@ dig +short fuar.kyrox.studio
 Beklenen:
 
 ```text
-64.226.110.223
+45.43.154.39
 ```
 
 DNS doğru IP'ye çözülmeden Certbot çalıştırma.
@@ -150,10 +150,15 @@ scripts/server/nginx/fair-crm.conf
 Mevcut yönlendirme:
 
 ```text
-/             -> frontend/dist
-/api/         -> http://127.0.0.1:8001
-/kyrox-core/  -> http://127.0.0.1:8000/
+/                               -> frontend/dist
+/api/v1/fair-stand/live-shares  -> http://127.0.0.1:8002 (WebSocket upgrade)
+/api/v1/fair-stand/             -> http://127.0.0.1:8002
+/api/                           -> http://127.0.0.1:8001
+/kyrox-core/                    -> http://127.0.0.1:8000/
+/assets/, /index.html, /models/, /textures/ -> frontend/dist with the cache rules below
 ```
+
+`client_max_body_size` is 256m.
 
 ### Statik dosya performansı (gzip + önbellek)
 
@@ -255,6 +260,8 @@ curl -I http://fuar.kyrox.studio
 ```
 
 ## 6. Firewall
+
+Canlı sunucu `45.43.154.39`, SSH portu `25416` (SECURITY_PROGRAM K-ECO-08/09 gözlemi, 2026-10-25). `setup-domain-ssl.sh` güvenlik duvarını açarken yalnız `ufw allow OpenSSH` (22) ekler; SSH 25416'daysa bu kural önce elle eklenmelidir (`ufw allow 25416/tcp`).
 
 ```bash
 ufw status

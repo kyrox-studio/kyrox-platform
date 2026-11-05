@@ -56,34 +56,9 @@ How humans and AI agents decide, document, and implement work across KYROX repos
 Canonical SaaS sequencing: [SAAS_ROADMAP.md](SAAS_ROADMAP.md).  
 Binding feature gates: [../standards/development/FEATURE_DELIVERY_STANDARD.md](../standards/development/FEATURE_DELIVERY_STANDARD.md).
 
-### Authorization and real-runtime acceptance gate
+### Authorization, real-runtime and SaaS acceptance
 
-When a feature introduces or depends on a new permission code, authorization is part of the same delivery path as the feature. The permission catalog, product role matrix/mapping, seed or synchronization path, and real runtime authorization check must all be aligned before the feature can be accepted.
-
-- Mock authorization, `AllowAllAuthorization`, dev bypass, or unit/API tests with authorization overridden are useful implementation tests, but they are **not acceptance evidence**.
-- A feature that requires authorization is **not complete** while a real user/JWT receives `401`/`403` on the intended flow.
-- For UI work, build success alone is insufficient. The affected UI flow must open with real authorization and display the real API data required by that workflow.
-- End-to-end acceptance must follow the production-shaped path: real login/JWT → Core authorization check → product API → affected UI/workflow → real result/data.
-- If any link in that chain fails, report the feature as implemented but **not accepted / not complete**; do not mark it DONE because mocks, bypasses, unit tests, or frontend build pass.
-
-### SaaS safety acceptance gate
-
-For every material change, green CI is necessary but does not replace evidence for the affected SaaS boundary.
-
-When applicable, acceptance must prove:
-
-- normal organization users and OrganizationAdmin cannot cross organization boundaries,
-- Platform Super Admin follows the documented bypass model rather than being misclassified as a tenant leak,
-- organization/system permission scope matches governance and assignability,
-- background/internal work preserves validated organization context or has deliberate system scope,
-- product/Core ownership remains correct and public integration contracts are used,
-- permission and entitlement/plan decisions are not conflated,
-- backend quota/usage enforcement is concurrency/retry safe when hard limits apply,
-- organization lifecycle behavior follows explicit approved policy rather than invented Owner/self-service destructive semantics,
-- development bypass/fallback identities and unsafe secret handling cannot become production authority,
-- export/retention/delete behavior is verified when data lifecycle changes.
-
-If an affected SaaS property is unresolved, untested where testing is required, or fails the real runtime path, report **implemented but not accepted / not complete** even if ordinary tests/build are green.
+Acceptance gates are defined once in the Feature Delivery Standard: [SaaS safety overlay](../standards/development/FEATURE_DELIVERY_STANDARD.md#saas-safety-overlay--mandatory-for-every-material-delivery) and [Gate 14 — Authorization acceptance](../standards/development/FEATURE_DELIVERY_STANDARD.md#gate-14--authorization-acceptance). Mocks, bypasses, unit tests and a green build are implementation evidence, not acceptance.
 
 ## Active milestone
 
@@ -173,5 +148,3 @@ Use [PRODUCT_INTEGRATION_GUIDE.md](../projects/kyrox-core/integrations/PRODUCT_I
 - [REPOSITORY_STRATEGY.md](REPOSITORY_STRATEGY.md)
 - [PHILOSOPHY.md](PHILOSOPHY.md)
 - [VISION.md](VISION.md)
-- [standards/ai/](../standards/ai/)
-- [standards/git/](../standards/git/)

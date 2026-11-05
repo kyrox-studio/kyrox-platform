@@ -1,92 +1,29 @@
-# FAIR CRM — Dev Restart Guide
+# FAIR CRM — Dev Restart Guide (auth / RBAC)
 
-**Amaç:** Projeye uzun aradan sonra (veya yeni makinede) Fair CRM + Core + auth/RBAC hattını çalışır hale getirmek.  
-**Son güncelleme:** 2026-07-05  
-**Süre tahmini:** 15–30 dakika (ilk kurulum hariç)
-
----
-
-## Ön koşullar
-
-- Docker Desktop (PostgreSQL)
-- Python 3.12+
-- Node.js 16+
-- **kyrox-core** repo, fair-crm ile sibling: `../kyrox-core` (veya `KYROX_CORE_ROOT` env)
-- Git clone: `fair-crm` + `kyrox-core`
+**Amaç:** Yerelde Core + Fair CRM kimlik ve yetki hattını gerçek auth ile (bypass kapalı) çalışır hale getirmek ve doğrulamak.
+Ön koşullar, kurulum (`setup-dev.ps1`), servis başlatma/durdurma, portlar, migration'lar ve restore sonrası adımlar: [DEV_RUNTIME.md](DEV_RUNTIME.md).
 
 ---
 
-## Adım 1 — İlk kurulum (yeni makine)
+## 1 — Dev identity seed (Core RBAC)
+
+`dev-start.ps1` / `reset-dev.ps1` seed'i kendisi çalıştırır (`Invoke-DevCoreIdentitySeed`); `DEV_USER_PASSWORD` ortamda veya `backend/.env` içinde yoksa durur. Elle:
 
 ```powershell
 cd kyrox-fair-crm
-.\scripts\dev\setup-dev.ps1
-```
-
-Python/npm bağımlılıkları, Playwright, `.env` kontrolleri.
-
----
-
-## Adım 2 — Altyapı
-
-```powershell
-docker compose up -d
-```
-
-PostgreSQL container'ının healthy olduğunu doğrula:
-
-```powershell
-docker compose ps
-```
-
----
-
-## Adım 3 — Veritabanı migration'ları
-
-`dev-start.ps1` ve `reset-dev.ps1` Core, Fair CRM ve Fair Stand migration'larını kendisi head'e taşır ve doğrular. Aşağıdaki komutlar yalnız betik kullanmadan elle kurulum içindir.
-
-**Core (zorunlu — permission catalog burada):**
-
-```powershell
-cd ..\kyrox-core
-python -m alembic upgrade head
-python -m alembic current   # >= 20260701_0026 olmalı
-```
-
-**Fair CRM:**
-
-```powershell
-cd ..\fair-crm
-python -m alembic upgrade head
-python -m alembic current   # (head) olmalı
-```
-
-> DB restore yaptıysan: restore sonrası **mutlaka** her iki repo için `alembic upgrade head`, ardından `reset-dev.ps1`. Bkz. [DEV_RUNTIME.md](DEV_RUNTIME.md#after-database-restore).
-
----
-
-## Adım 4 — Dev identity seed (Core RBAC)
-
-```powershell
-cd kyrox-fair-crm
+$env:DEV_USER_PASSWORD = "<dev-password>"
 python scripts/seed_core_dev_identity.py
 ```
 
-Başarılı ise `scripts/.dev_state.json` oluşur.
+Seed **yalnız ekler**: organizasyon ve kullanıcı yoksa oluşturur; var olan kullanıcıyı (şifre, e-posta, durum) hiç değiştirmez. Kullanıcı `dev@example.com`, rolü korunan `organization_admin`; organizasyon `FAIR_CRM_DEV_ORGANIZATION_ID` (varsayılan `00000000-0000-4000-8000-000000000010`). Rol matrisi `scripts/fair_crm_role_matrix.py` (`ROLE_MATRIX_VERSION = 25`).
 
-Doğrulama:
+Başarılıysa `scripts/.dev_state.json` yazılır:
 
 ```powershell
 Get-Content scripts\.dev_state.json | ConvertFrom-Json | Select-Object organization_id, role_matrix_version
 ```
 
-Beklenen: `role_matrix_version = 1`, 6 rol under `roles`.
-
----
-
-## Adım 5 — Backend `.env` (kritik)
-
-`backend/.env` (veya ortam değişkenleri):
+## 2 — Backend `.env`
 
 ```env
 APP_ENV=development
@@ -96,133 +33,31 @@ KYROX_CORE_BASE_URL=http://127.0.0.1:8000
 DATABASE_URL=postgresql+psycopg2://postgres:postgres@localhost:5432/fair_crm
 ```
 
-**Prod-path test ve gerçek RBAC için bypass kapalı olmalı.**
+Gerçek RBAC ve prod-path test için bypass kapalı olmalı. Core `backend/.env` içindeki `JWT_SECRET_KEY` Fair CRM ile aynı olmalı. `KYROX_CORE_BASE_URL` backend → Core sunucu içi HTTP içindir. Frontend `.env` ve tarayıcı yolları: [DEV_RUNTIME.md](DEV_RUNTIME.md#browser--frontend-network-local--server).
 
-Core `backend/.env` içinde de `JWT_SECRET_KEY` Fair CRM ile eşleşmeli.
-
-> `KYROX_CORE_BASE_URL=http://127.0.0.1:8000` **backend → Core** sunucu-içi HTTP içindir. Browser/frontend bu adresi kullanmaz.
-
----
-
-## Adım 5b — Frontend `.env` (relative-path)
-
-`frontend/.env` (veya `.env.example` ile aynı):
-
-```env
-VITE_API_BASE_URL=
-VITE_CORE_BASE_URL=
-```
-
-Local ve sunucu aynı relative-path sistemini kullanır:
-
-| Hedef | Browser path | Proxy (local / sunucu) |
-|-------|--------------|-------------------------|
-| Fair CRM API | `/api/v1/...` | Vite `/api` veya Nginx `/api` → `127.0.0.1:8001` |
-| KYROX Core | `/kyrox-core/api/v1/...` | Vite `/kyrox-core` veya Nginx `/kyrox-core` → `127.0.0.1:8000` |
-
-- Boş `VITE_API_BASE_URL` → same-origin `/api/v1/...`
-- Boş `VITE_CORE_BASE_URL` → frontend fallback `/kyrox-core`
-- Browser **asla** `127.0.0.1:8000` / `127.0.0.1:8001` kullanmaz; IP/domain değişince frontend base URL değiştirilmez.
-
-Detay: [DEV_RUNTIME.md](DEV_RUNTIME.md#browser--frontend-network-local--server), [scripts/server/README.md](SERVER_DEPLOY.md).
-
----
-
-## Adım 6 — Servisleri başlat
-
-### Seçenek A — Script (önerilen)
-
-```powershell
-cd kyrox-fair-crm
-$env:FAIR_CRM_DEV_BYPASS_CORE = "false"
-.\scripts\dev\reset-dev.ps1
-```
-
-`reset-dev.ps1` port 8000/8001/5173'teki eski process'leri öldürüp yeniden başlatır (önce Core, sonra Fair backend, sonra frontend).
-
-Core sibling repo gerekir: `../kyrox-core` veya `KYROX_CORE_ROOT`.
-
-### Seçenek B — Manuel
-
-```powershell
-# Terminal 1 — Core
-cd kyrox-core\backend
-python -m uvicorn app.main:app --host 127.0.0.1 --port 8000
-
-# Terminal 2 — Fair CRM
-cd kyrox-fair-crm\backend
-$env:FAIR_CRM_DEV_BYPASS_CORE = "false"
-python -m uvicorn app.main:app --host 127.0.0.1 --port 8001
-
-# Terminal 3 — Frontend
-cd kyrox-fair-crm\frontend
-npm run dev -- --host 127.0.0.1 --port 5173 --strictPort
-```
-
----
-
-## Adım 7 — Health check
-
-Aşağıdaki curl adresleri **server-internal** (process bind) kontrolüdür; frontend API base URL değildir.
-
-```powershell
-curl http://127.0.0.1:8000/api/v1/health
-curl http://127.0.0.1:8001/health
-```
-
-Bypass kapalı doğrulama (200 dönmemeli):
+## 3 — Bypass kapalı mı?
 
 ```powershell
 curl -H "Authorization: Bearer dev-bypass" -H "X-Organization-Id: 00000000-0000-4000-8000-000000000010" http://127.0.0.1:8001/api/v1/customers
 ```
 
-Beklenen: **401** veya **403** (200 ise bypass hâlâ açık — `reset-dev.ps1` tekrar).
+Beklenen **401** veya **403**. 200 dönerse bypass açıktır: `.env` → `false`, `reset-dev.ps1`.
 
-UI üzerinden doğrulama: tarayıcıda `http://127.0.0.1:5173` aç; Fair CRM istekleri `/api/v1/...`, Core login `/kyrox-core/api/v1/...` olmalı (Network sekmesi).
-
----
-
-## Adım 8 — Prod-path E2E gate
+## 4 — Prod-path E2E gate
 
 ```powershell
-cd kyrox-fair-crm
 $env:FAIR_CRM_DEV_BYPASS_CORE = "false"
 python scripts/e2e_validation.py --prod-path
 ```
 
-veya:
+Bütün adımlar `[PASS]` ise auth/RBAC hattı sağlıklı. Rapor: `scripts/e2e_validation_report.json`. Adımlar ve CI karşılığı: [CI_PROD_PATH_E2E.md](../testing/CI_PROD_PATH_E2E.md).
 
-```powershell
-.\scripts\run-prod-path-e2e.ps1
-```
-
-Tüm adımlar `[PASS]` ise auth/RBAC hattı sağlıklı.
-
-Rapor: `scripts/e2e_validation_report.json`
-
----
-
-## Adım 9 — Hızlı pytest (servis gerekmez)
+## 5 — Hızlı pytest (servis gerekmez)
 
 ```powershell
 cd kyrox-fair-crm\backend
 python -m pytest tests/modules/test_endpoint_permission_enforcement.py tests/modules/test_role_matrix_authorization.py -q
 ```
-
-Beklenen: 73 passed.
-
----
-
-## Günlük kullanım
-
-| Durum | Komut |
-|-------|-------|
-| Windows / Docker restart sonrası | `.\scripts\dev\dev-start.ps1` (Core + Fair backend + frontend) |
-| Port stuck / eski uvicorn | `.\scripts\dev\reset-dev.ps1` |
-| Gün sonu | `.\scripts\dev\dev-stop.ps1` |
-| Auth garip davranıyor | Seed + reset-dev + prod-path e2e |
-
----
 
 ## Sık sorunlar
 
@@ -231,39 +66,17 @@ Beklenen: 73 passed.
 | E2E adım **0b** fail | Fair CRM bypass açık; `.env` → `false`, `reset-dev.ps1` |
 | E2E adım **4/5** fail | Core (8000) veya Fair (8001) kapalı |
 | 403 her yerde | `python scripts/seed_core_dev_identity.py` |
+| Giriş şifresi tutmuyor | Seed var olan kullanıcının şifresini değiştirmez; kullanıcı daha önce başka şifreyle oluşturulduysa o şifre geçerlidir |
 | JWT invalid | `JWT_SECRET_KEY` Core ↔ Fair CRM eşleşmesi |
-| Migration hatası | Her iki repo `alembic upgrade head` |
-| Admin backups "Failed to fetch" | Fair CRM migration eksik (restore sonrası) |
-| kyrox-core bulunamadı | Clone sibling veya `KYROX_CORE_ROOT=C:\path\to\kyrox-core` |
+| kyrox-core bulunamadı | Sibling clone veya `KYROX_CORE_ROOT=C:\path\to\kyrox-core` |
 
----
-
-## Dev login bilgileri
-
-Seed sonrası (`.dev_state.json` email/org; şifre ortam değişkeninden):
-
-- **Owner:** `dev@example.com`
-- **Password:** `$env:DEV_USER_PASSWORD` (sunucuda `/etc/fair-crm/dev-seed.env`)
-- **Org ID:** 00000000-0000-4000-8000-000000000010
-
-Seed:
-
-```powershell
-$env:DEV_USER_PASSWORD = "<dev-password>"
-python scripts/seed_core_dev_identity.py
-```
-
-Core login:
+Core login denemesi:
 
 ```powershell
 curl -X POST http://127.0.0.1:8000/api/v1/auth/login -H "Content-Type: application/json" -d "{\"email\":\"dev@example.com\",\"password\":\"$env:DEV_USER_PASSWORD\"}"
 ```
 
----
+## İlgili
 
-## İlgili dokümanlar
-
-- [AUTH_RBAC_HANDOVER.md](../integrations/AUTH_RBAC_HANDOVER.md) — RBAC detayı
-- [CI_PROD_PATH_E2E.md](../testing/CI_PROD_PATH_E2E.md) — E2E adımları
-- [DEV_RUNTIME.md](DEV_RUNTIME.md) — script referansı
-- [PROJECT_SNAPSHOT_2026-07-05.md](../../../archive/fair-crm/2026-07-05/PROJECT_SNAPSHOT.md) — son bilinen durum
+- [PERMISSION_SCOPE_GOVERNANCE.md](../PERMISSION_SCOPE_GOVERNANCE.md) ve [INTEGRATION_WITH_CORE.md](../integrations/INTEGRATION_WITH_CORE.md) — RBAC ayrıntısı
+- [DEV_RUNTIME.md](DEV_RUNTIME.md) — betikler ve çalışma ortamı

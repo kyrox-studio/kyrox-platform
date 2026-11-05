@@ -21,9 +21,9 @@ Index of architecture and ecosystem decisions for KYROX. ADRs live in this direc
 | [0003](0003-identity-security-strategy.md) | Identity security strategy | Accepted | 2026-07-01 |
 | [0004](0004-audit-service-strategy.md) | Audit service strategy | Accepted | 2026-07-01 |
 | [0005](0005-role-template-and-permission-governance.md) | Role template and permission governance | Accepted | 2026-08-14 |
-| [0006](0006-organization-lifecycle-and-onboarding.md) | Organization lifecycle and SaaS onboarding contract | Proposed | 2026-08-26 |
-| [0007](0007-fair-stand-product-ownership.md) | Fair Stand product ownership and hosted Item catalog | Accepted | 2026-09-18 |
-| [0008](0008-fair-stand-independent-service.md) | Fair Stand independent service | Accepted | 2026-09-18 |
+| [0006](0006-organization-lifecycle-and-onboarding.md) | Organization lifecycle and SaaS onboarding contract | Proposed overall (OL-01…OL-10 required-export path accepted) | 2026-08-26 |
+| [0007](0007-fair-stand-product-ownership.md) | Fair Stand product ownership and hosted Item catalog | Accepted (amended) | 2026-09-18 |
+| [0008](0008-fair-stand-independent-service.md) | Fair Stand independent service | Accepted | 2026-09-20 |
 | [0009](0009-demo-recorder-repository.md) | Demo recorder repository | Deprecated | 2026-09-30 |
 | [0010](0010-brand-repository.md) | Marka varlıkları reposu (kyrox-brand) | Accepted | 2026-10-14 |
 | [0011](0011-web-site-repository.md) | kyrox.studio web sitesi reposu (kyrox-web, WordPress) | Accepted | 2026-10-15 |
@@ -33,5 +33,5 @@ Index of architecture and ecosystem decisions for KYROX. ADRs live in this direc
 1. Copy the structure from an existing ADR in this folder.
 2. Assign the next sequential number.
 3. Add an entry to this index.
-4. Link from relevant docs in `docs/` or `milestones/` if applicable.
+4. Link from the relevant `ecosystem/`, `projects/` or `standards/` documents.
 5. Implement only after status is **Accepted**.

@@ -5,7 +5,7 @@
 **Status:** Canonical / binding master standard  
 **Scope:** `fair-crm/frontend` production UI  
 **Audience:** All AI agents and human developers working on frontend UI  
-**Related (supporting, not superseding):** [UI_DESIGN_SYSTEM.md](UI_DESIGN_SYSTEM.md), [RESPONSIVE_UI_STANDARD.md](RESPONSIVE_UI_STANDARD.md), ADR-032 / ADR-034 in [decisions/DECISIONS.md](../decisions/DECISIONS.md)
+**Related:** ADR-032 / ADR-034 in [decisions/DECISIONS.md](../decisions/DECISIONS.md); history: [UI_DESIGN_SYSTEM_PRE_CONSOLIDATION.md](../../../archive/fair-crm/frontend/UI_DESIGN_SYSTEM_PRE_CONSOLIDATION.md), [RESPONSIVE_UI_STANDARD_PRE_CONSOLIDATION.md](../../../archive/fair-crm/frontend/RESPONSIVE_UI_STANDARD_PRE_CONSOLIDATION.md)
 
 Bu dosya, FAIR CRM frontend UI için **tek ve ana** kaynaktır. Geçmiş sohbet, sprint notu veya yerel alışkanlık bu dosyanın yerine geçmez. Frontend UI konusunda başka bir doküman bu dosyayla çelişirse **bu dosya kazanır** (bkz. §26).
 
@@ -85,8 +85,6 @@ Aşağıdaki alanların **tamamı** tek standarda bağlıdır. Yeni ekran veya d
 | NavLink | `components/layout/NavLink.tsx` |
 | PageShell | `components/ui/PageShell.tsx` |
 
-Detay katalog ve token listesi için [UI_DESIGN_SYSTEM.md](UI_DESIGN_SYSTEM.md) destekler; çelişkide **bu master** geçerlidir.
-
 ---
 
 ## 5. Raw / ad-hoc kullanım kuralı
@@ -157,9 +155,9 @@ Aşağıdakiler merkezi sistemden (`frontend/src/styles.css` `:root`) gelmelidir
 | Borders | `--border`, `--border-strong` |
 | Semantic | `--primary*`, `--success*`, `--warning*`, `--danger*`, `--info*`, `--neutral*` |
 | Type | `--font-sans`, `--font-mono`, `--text-xs`…`--text-3xl`, `--leading-*`, `--weight-*` |
-| Spacing | `--space-1`…`--space-12`, `--section-gap`, `--form-gap` |
+| Spacing | `--space-1`…`--space-12` |
 | Layout | `--page-padding` (`clamp`), `--page-content-max-width` |
-| Form widths | `--form-width-narrow` (28rem), `--form-width-standard` (48rem), `--form-width-wide` (72rem), `--form-width-full` |
+| Form widths | `--form-width-narrow` (28rem), `--form-width-standard` (48rem), `--form-width-wide` (72rem); full width has no token (`.crm-form--full`: `width: 100%`) |
 | Controls | `--control-height*`, `--control-padding-x`, `--control-radius`, `--check-size` |
 | Radius / shadow | `--radius-sm|radius|radius-lg`, `--shadow-sm|shadow|shadow-lg` |
 | Focus / disabled | `--focus-ring`, `--focus-ring-danger`, `--disabled-opacity` |
@@ -227,14 +225,14 @@ Formlar viewport boyunca **rastgele yayılmamalıdır**.
 
 ### Form genişlik niyetleri
 
-Token + class (eşdeğer):
+Token + class:
 
 | Intent | Token | Class | Tipik kullanım |
 |--------|-------|-------|----------------|
-| **narrow** | `--form-width-narrow` (28rem) | `.crm-form--narrow` / `.form-width-narrow` | Kısa ayar, tek kolon, basit dialog formu |
-| **standard** | `--form-width-standard` (48rem) | `.crm-form--standard` / `.form-width-standard` | Varsayılan entity CRUD |
-| **wide** | `--form-width-wide` (72rem) | `.crm-form--wide` / `.form-width-wide` | Çok alanlı / 3 kolonlu yoğun formlar |
-| **full** | `--form-width-full` (100%) | `.crm-form--full` / `.form-width-full` | Specialty yoğun grid; bilinçli seçim |
+| **narrow** | `--form-width-narrow` (28rem) | `.crm-form--narrow` | Kısa ayar, tek kolon, basit dialog formu |
+| **standard** | `--form-width-standard` (48rem) | `.crm-form--standard` | Varsayılan entity CRUD |
+| **wide** | `--form-width-wide` (72rem) | `.crm-form--wide` | Çok alanlı / 3 kolonlu yoğun formlar |
+| **full** | — (100%) | `.crm-form--full` | Specialty yoğun grid; bilinçli seçim |
 
 `FormGrid`: varsayılan responsive 3 → 2 → 1 kolon (desktop / tablet / mobile). Sabit px kolon genişlikleriyle taşırma yasaktır.
 
@@ -395,8 +393,6 @@ Kesinlikle yasak:
 Mesaj bağlama göre özelleşebilir; **görsel loading pattern** ortak kalır (spinner + `loading-state` veya tablo skeleton).
 
 **Tablo yalnızca overflow vermiyor diye doğru kabul edilmez.** Okunabilirlik, hiyerarşi, action erişimi ve child-row davranışı da PASS koşuludur.
-
-Detay: [RESPONSIVE_UI_STANDARD.md](RESPONSIVE_UI_STANDARD.md) §8 — çelişkide bu master.
 
 ---
 
@@ -717,7 +713,6 @@ Reviewer / author:
 
 - Frontend UI konusunda başka doküman bu dosyayla çelişirse **bu dosya ana kaynak** kabul edilir.
 - Daha yeni bilinçli bir ADR bu standardı değiştirirse **bu master dosya da aynı değişiklikle güncellenmelidir**.
-- Supporting docs (`UI_DESIGN_SYSTEM.md`, `RESPONSIVE_UI_STANDARD.md`) uygulama detayı sağlar; master’ı sessizce override edemez.
 
 ---
 

@@ -131,8 +131,7 @@ For these, if persistence fails after the business operation succeeded, the serv
 
 **Application:**
 
-- `AuditService.record(...)` — accepts explicit fields (organization_id, user_id, session_id, action, resource_type, resource_id, old/new/metadata, ip, user_agent)
-- Optional helpers: `record_user_event(...)`, `record_system_event(...)` for clarity
+- `AuditService.record(RecordAuditEventCommand)` — explicit fields (organization_id, user_id, session_id, action, resource_type, resource_id, old/new/metadata, ip, user_agent); product audit writes go through `RecordOrganizationAuditEventUseCase` (`POST /organizations/{id}/audit-events`)
 - Security-critical flag or internal routing for stricter error policy
 
 **Infrastructure:**

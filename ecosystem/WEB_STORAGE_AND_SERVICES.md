@@ -48,12 +48,12 @@ Amaç sütunu teknik kullanımdır; tercih/izin uygulamasının kararı 13–14.
 
 | Servis | Ne zaman kullanılır? | Aktarılan işlev / veri kapsamı | Durum |
 |---|---|---|---|
-| Google Fonts (`fonts.googleapis.com`, `fonts.gstatic.com`) | CRM girişinde otomatik | Font CSS/dosya istekleri ziyaretçinin tarayıcısından gider | Canlı gözlendi. Tanıtım sayfalarında yerel font kullanılıyor; CRM fontlarını yerelleştirme ayrı uygulama işi olarak açık |
+| Google Fonts (`fonts.googleapis.com`, `fonts.gstatic.com`) | Artık hiçbir yerde | — | 26 Ekim'de CRM girişinde canlı gözlendi; CRM [#370](https://github.com/kyrox-studio/kyrox-fair-crm/pull/370) Inter'i `public/fonts/` altına aldı. CRM, Stand ve web kodunda Google Fonts isteği yok |
 | WhatsApp / `wa.me` | Kullanıcı bağlantıya tıklayınca | Önceden doldurulmuş mesaj; iş fişinde yazılan talep/iletişim bilgileri WhatsApp bağlantısına eklenebilir | Gömülü sohbet/piksel yok; incelemede tıklanmadı veya mesaj gönderilmedi |
 | Instagram ve LinkedIn | Sosyal bağlantıya tıklanınca | Kullanıcı ilgili profil/sayfaya gider | Gömülü akış/SDK isteği gözlenmedi |
 | Google Haritalar | Adres bağlantısına tıklanınca | Stüdyo adresi araması | Gömülü harita veya otomatik Maps isteği gözlenmedi |
 | `mail.kurumsaleposta.com:465` SMTP | Web iş fişi gönderildikten sonra, sunucudan | Talep ve iletişim bilgisinin stüdyo e-postasına bildirimi | Canlı SMTP host/port doğrulandı. Şifre okunmadı, deneme talebi/e-postası gönderilmedi |
-| Google STUN `stun:stun.l.google.com:19302` | Stand uygulamasında canlı ekran paylaşımı başlatılınca | WebRTC bağlantı kurulumu; tanıtım GLB görüntüleyicisinin parçası değil | Production yapılandırmasında var; paylaşım başlatılarak ağ ölçümü yapılmadı. TURN URL'si yapılandırılmamış |
+| STUN (production'da Google `stun:stun.l.google.com:19302`) | Stand uygulamasında canlı ekran paylaşımı başlatılınca | WebRTC bağlantı kurulumu; tanıtım GLB görüntüleyicisinin parçası değil | Adres kodda değil, Stand `FAIR_STAND_LIVE_SHARE_STUN_URLS` ortam değişkenindedir; TURN yalnız TURN değişkenleri verilince eklenir (`live_share.py`). Paylaşım başlatılarak ağ ölçümü yapılmadı |
 | WordPress, CRM, Stand ve Core API'leri | İlgili sayfa/özellik kullanıldığında | Birinci taraf servisler; CRM/Core entegrasyonu ürün işlemlerini yürütür | Dış reklam sağlayıcısı olarak sınıflandırılmaz; erişim/organizasyon kontrollerinin kaynağı ortak güvenlik programıdır |
 
 ## Form, sunucu kayıtları ve sonraki işler

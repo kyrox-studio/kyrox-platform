@@ -84,7 +84,7 @@ Core issues signed JWT access tokens. Claims include:
 
 Product services validate access tokens locally using the same `JWT_SECRET_KEY` and `JWT_ALGORITHM` configured on Core (environment alignment — not a code import).
 
-Reject expired or invalid tokens with `401 Unauthorized`.
+Reject expired or invalid tokens with `401 Unauthorized`. Local decoding cannot see a revoked server-side session; Core rejects it on the next Core call (every Core-protected route requires the `sid` session to be active), so products must authorize protected operations through `POST /organizations/{organization_id}/authorization/check`.
 
 ---
 
@@ -144,18 +144,9 @@ Core platform modules: `audit`, `core`, `identity`, `jobs`, `notifications`, `se
 
 Product modules use the same naming rules (e.g. `fair_crm`). Product permission codes are stored in Core's RBAC tables and assigned to roles — products do not reimplement RBAC.
 
-### FAIR CRM customer permissions (seeded)
+### Product permissions
 
-Migration `20260701_0025` registers:
-
-| Code | Description |
-|------|-------------|
-| `fair_crm.customers.create` | Create CRM customers |
-| `fair_crm.customers.read` | Read CRM customers |
-| `fair_crm.customers.update` | Update CRM customers |
-| `fair_crm.customers.delete` | Archive CRM customers |
-
-Assign these codes to organization roles in Core. Products check them via the authorization check API above.
+Product permission codes are seeded by Core migrations (FAIR CRM customers first in `20260701_0025`; later modules in their own migrations) and assigned to organization roles in Core. Products check them through the authorization check API below. FAIR CRM catalog and scope: [PERMISSION_SCOPE_GOVERNANCE.md](../../fair-crm/PERMISSION_SCOPE_GOVERNANCE.md).
 
 ### Check permission (product integration API)
 
@@ -187,17 +178,25 @@ Protected Core routes use `require_permission` internally and return `403` when 
 
 ---
 
-## 6. Organization and membership
+## 6. Organizations, users and lifecycle
+
+Core has no membership/invitation model (removed in `20260817_0057_remove_memberships`); a normal user belongs to one organization.
 
 | Operation | API |
 |-----------|-----|
-| Create organization | `POST /api/v1/organizations` |
-| Get organization | `GET /api/v1/organizations/{id}` |
-| List memberships | `GET /api/v1/organizations/{id}/memberships` |
-| Invite member | `POST /api/v1/organizations/{id}/memberships/invite` |
-| Accept invite | `POST /api/v1/memberships/invites/accept` |
+| List / create organization (create: Super Admin) | `GET`, `POST /api/v1/organizations` |
+| Get / update / delete organization | `GET`, `PATCH`, `DELETE /api/v1/organizations/{organization_id}` |
+| Suspend / reactivate (SYSTEM) | `POST /api/v1/organizations/{organization_id}/suspend`, `.../reactivate` |
+| Organization access check | `GET /api/v1/organizations/{organization_id}/access/verify` |
+| Lifecycle snapshot (product lifecycle token) | `GET /api/v1/organizations/{organization_id}/lifecycle-snapshot` |
+| Retained audit evidence purge (product lifecycle token) | `POST /api/v1/organizations/{organization_id}/retained-audit-evidence/purge` |
+| Users | `GET /api/v1/organizations/{organization_id}/users`, `.../users/deleted`, `POST .../users/manual`, `GET`/`PATCH`/`DELETE .../users/{user_id}`, `POST .../users/{user_id}/restore` |
+| Caller context (incl. Super Admin) | `GET /api/v1/user-management/context` |
+| Roles | `GET`/`POST .../roles`, `GET`/`PATCH`/`DELETE .../roles/{role_id}`, `PUT .../roles/{role_id}/permissions`, `GET .../managed-roles`, `GET .../role-permissions` |
+| Permission catalog and lifecycle | `GET /api/v1/permissions`, `POST /api/v1/permissions/{permission_id}/lifecycle` (+ `/preview`) |
+| Role templates | `GET /api/v1/role-templates`, `PATCH .../{role_id}`, `POST .../{role_id}/derive`, `.../sync` (+ `/preview`) |
 
-Products consume these APIs directly or via client apps. Products do not reimplement org/membership lifecycle.
+Products consume these APIs; they do not reimplement organization or user lifecycle.
 
 ---
 
@@ -274,7 +273,7 @@ System settings (`/api/v1/system/settings/...`) require platform super-admin.
 
 | Method | Path | Permission |
 |--------|------|------------|
-| `POST` | `/organizations/{id}/jobs` | `jobs.platform.enqueue` |
+| `POST` | `/organizations/{id}/jobs` | `jobs.platform.execute` |
 | `GET` | `/jobs/{id}` | `jobs.platform.read` |
 
 Enqueue example:
@@ -294,7 +293,7 @@ Product job **handlers** execute in the product service (or product worker). Cor
 
 | Method | Path | Permission |
 |--------|------|------------|
-| `POST` | `/organizations/{id}/notifications/send` | `notifications.platform.send` |
+| `POST` | `/organizations/{id}/notifications/send` | `notifications.platform.execute` |
 | `GET` | `/notifications/{id}` | `notifications.platform.read` |
 
 Products pass rendered subject/body or template metadata. Core dispatches asynchronously via the jobs platform.
@@ -343,7 +342,7 @@ Use for load balancer and local development smoke checks.
 ## 14. Versioning
 
 - Current API version prefix: `/api/v1`
-- Pin product integrations to tagged Core releases (e.g. `v0.4.0`).
+- Core is not released by tag today (last tag `v0.4.0`): `deploy-all.sh` pulls Core `main`, and FAIR CRM prod-path CI checks out the Core branch with the same name as the PR branch when it exists, otherwise `main`.
 - Breaking API changes require a new version prefix and migration notes.
 
 ---
@@ -351,7 +350,7 @@ Use for load balancer and local development smoke checks.
 ## 15. Related documents
 
 - [KYROX Core Architecture](../README.md)
-- [Backend Architecture Standards](../../../standards/backend/../../standards/backend/BACKEND_ARCHITECTURE_STANDARDS.md)
+- [Backend Architecture Standards](../../../standards/backend/BACKEND_ARCHITECTURE_STANDARDS.md)
 - [Platform Services Design](../../../archive/kyrox-core/designs/PLATFORM_SERVICES_DESIGN.md)
 - [Identity Platform Design](../../../archive/kyrox-core/designs/IDENTITY_PLATFORM_DESIGN.md)
 - kyrox-platform [ADR-0004 Audit service strategy](../../../ecosystem/decisions/0004-audit-service-strategy.md)

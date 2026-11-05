@@ -4,7 +4,7 @@ KYROX ekosistemindeki fuar standı configurator ürünü.
 
 **Kod deposu:** `https://github.com/kyrox-studio/kyrox-fair-stand`  
 **İnsan / AI ekosistem dokümantasyonu:** `kyrox-platform` altındaki bu ağaç  
-**Runtime sözleşmeleri:** `fair-stand` deposu (`ITEM_CONTRACT.md`, change-gate)  
+**Runtime sözleşmeleri:** `fair-stand` deposu (`docs/items/contract/ITEM_CONTRACT.md`, change-gate)  
 **Ekosistem durumu:** [../../ecosystem/STATUS.md](../../ecosystem/STATUS.md)  
 **Sahiplik ADR:** [../../ecosystem/decisions/0007-fair-stand-product-ownership.md](../../ecosystem/decisions/0007-fair-stand-product-ownership.md)  
 **Item / Category as-built mimari:** [ITEM_CATALOG_ARCHITECTURE.md](ITEM_CATALOG_ARCHITECTURE.md)
@@ -18,7 +18,6 @@ KYROX ekosistemindeki fuar standı configurator ürünü.
 | Configurator, catalog projeksiyonu, sahne, BOM | Fair Stand deposu |
 | Fiziksel PostgreSQL `fair_stand` + FastAPI `:8002` | Fair Stand deposu |
 | Auth / org UUID / session | KYROX Core; CRM login köprüsü + same-origin JWT |
-
 | CRM müşteri, fuar, görev, `crm_*` tabloları | Fair CRM |
 
 Fair Stand’ın CRM `/fair-stand` rotasına gömülmesi Item verisini CRM domaini yapmaz.
@@ -37,11 +36,12 @@ Kanonik Item ürün verisi DB/API’den gelir; static JS Item/Category master yo
 | [SECIM_OZELLIK_PANELI_YOL_HARITASI.md](SECIM_OZELLIK_PANELI_YOL_HARITASI.md) | Mevcut seçim çubuğu korunarak sağ tık işlemlerinin yeteneğe bağlı ortak panele taşınması; önce işlev, sonra görsel tasarım |
 | [ROADMAP.md](ROADMAP.md) | **Tek iş listesi:** açık, ertelenmiş ve karar bekleyen her iş; FAZ 4 detayı ve audit bulguları `fair-stand` deposundadır |
 | [ROADMAP_PHASE_5_6.md](ROADMAP_PHASE_5_6.md) | FAZ 5 (Final BOM) ve FAZ 6 (maliyet / Fair CRM) detaylı planı |
-| [GROUP_LOCK_ROADMAP.md](GROUP_LOCK_ROADMAP.md) | Sahne editörü planı: kilit (Faz 1), geri al (Faz 2) ve öğeden bağımsız grup (Faz 3) ve grup döndürme (Faz 4) uygulandı; kurumsal şablon ve gelişmiş özellikler planda |
+| [GROUP_LOCK_ROADMAP.md](GROUP_LOCK_ROADMAP.md) | Sahne editörü: kilit, geri al, grup, grup döndürme ve kurumsal şablon (Faz 1–5) uygulandı; grup aç/kapat (Faz 3b) ve Faz 6 opsiyonelleri planda |
 | [ADMIN_FORM_DB_AUDIT.md](ADMIN_FORM_DB_AUDIT.md) | Admin Item / Item tipi formu ↔ kod ↔ canlı DB denetimi (2026-10-18) ve bekleyen düzeltmeler |
 | [PRODUCT_FUTURE.md](PRODUCT_FUTURE.md) | Henüz faza yerleşmemiş gelecek ürün gereksinimleri |
 | [RENDER_FUTURE_BACKLOG.md](RENDER_FUTURE_BACKLOG.md) | Render / HDRI / PBR gelecek backlog'u |
 | [PERFORMANCE_ROADMAP.md](PERFORMANCE_ROADMAP.md) | Sahne hızı: teşhis, P-ağ (yapıldı), P0–P4 (kod yok; uygulama fair-stand) |
+| [VARYANT_AILELERI_ADMIN_PLANI.md](VARYANT_AILELERI_ADMIN_PLANI.md) | Varyant ailelerinin admin'den yönetimi planı (kod yok) |
 | [COMPETITOR_ANALYSIS.md](COMPETITOR_ANALYSIS.md) | BoothDesign / StandBuilder ürün-stack-hız gözlemi — rakip analizinin tek kaynağı (kod yok) |
 
 Tarihsel Fair Stand kayıtları (normatif değil): [../../archive/fair-stand/](../../archive/fair-stand/) — `MILESTONES.md`, `CHANGELOG_2026-08.md`, `LEGACY_TRASH.md`, `RELEASE_HARDENING_ROADMAP.md`, `BASE_FAMILY_MIGRATION_HANDOFF.md`.

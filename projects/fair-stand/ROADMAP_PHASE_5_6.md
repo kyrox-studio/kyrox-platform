@@ -22,6 +22,8 @@ FAZ 5'in ana sorusu:
 
 FAZ 5'te fiyat hesabı yapılmaz.
 
+Bugün kodda: `src/projectBom.js` `resolveProjectBom` sahnedeki modüllerin reçete BOM'unu modül başına ve toplam leaf satırı olarak çıkarır; `src/relationshipBom.js` kilitli duvar birleşimlerinde (uç uca, köşe, T) tekli → çiftli ve köşe bağlantı aparatı dönüşümünü yerleşim geometrisinden hesaplar; `baseRunBom.js` baza satırlarını, `printAreaBom.js` baskı alanlarını ekler; ekran `productionBomPanel.js`. FAZ 4 connection graph (`sourceAnchor -> targetAnchor`) yoktur; aşağıdaki maddeler o graf üzerinden Final BOM hedefidir.
+
 ## 5.1 — Raw BOM toplama
 
 - [ ] Tüm aktif scene instance'larının FAZ 4 Raw BOM çıktıları toplanır.
@@ -52,7 +54,7 @@ Pipeline:
 
 - [ ] Ortak kullanılan dikme/profil/aparat yalnız bir kez sayılır.
 - [ ] Paylaşım kuralı doğrulanmamış parçalar güvenli varsayımla ayrı sayılır.
-- [ ] Aynı `partId + aynı ölçü` uygun olduğunda aggregate edilir.
+- [ ] Aynı `itemKey + aynı ölçü` uygun olduğunda aggregate edilir.
 - [ ] Farklı ölçüdeki aynı part ID yanlışlıkla merge edilmez.
 - [ ] Final miktar negatif olamaz.
 - [ ] Raw → Final farkı açıklanabilir olur; örn. `8 raw dikme - 3 shared = 5 final dikme`.
@@ -102,15 +104,16 @@ FAZ 5'in doğrulanmış Final BOM ve miktarlarını Fair CRM katalog/fiyat altya
 
 ## 6.1 — Fair CRM / Kyrox Core platform entegrasyonu
 
-- [ ] Fair Stand içinde ikinci login/kullanıcı sistemi yapılmaz.
-- [ ] Authentication/session kaynağı Kyrox Core / mevcut platform olur.
+- [x] Fair Stand içinde ikinci login/kullanıcı sistemi yapılmaz.
+- [x] Authentication/session kaynağı Kyrox Core'dur (`backend/app/integrations/kyrox_core/auth.py`).
 - [ ] `CustomModuleRepository` backend adapter'ı local adapter contract'ıyla uyumlu çalışır.
 - [ ] Custom modül ownership backend tarafında doğrulanır.
 - [ ] Project/revision kimliği entegrasyon boyunca korunur.
 
 ## 6.2 — Catalog / fiyat eşlemesi
 
-- [ ] Her maliyetlenebilir `partId` Fair CRM catalog/external ID'ye eşlenir.
+- [ ] Her maliyetlenebilir `itemKey` Fair CRM catalog/external ID'ye eşlenir.
+- Bugün kodda: Fair Stand `fair_stand_cost_items` organizasyon Item fiyatını (`item_key`) ve manuel kalemi tutar; maliyete açık Item `fair_stand_items.is_cost_enabled`. Fair CRM'de fiyat eşlemesi yok.
 - [ ] `adet`, `m`, `m²`, `kg`, `set` gibi birimler ortak contract ile eşleşir.
 - [ ] Fair CRM alış/maliyet fiyatı, satış/markup gerekirse, para birimi ve geçerlilik tarihinin sahibidir.
 - [ ] Eksik catalog eşleşmesi `unmapped` olarak raporlanır.

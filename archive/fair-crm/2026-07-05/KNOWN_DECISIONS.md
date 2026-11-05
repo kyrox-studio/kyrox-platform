@@ -162,7 +162,7 @@ Kaynak: `.cursor/rules/db-restore-alembic.mdc`
 
 ## İlgili dokümanlar
 
-- [AUTH_RBAC_HANDOVER.md](../integrations/AUTH_RBAC_HANDOVER.md)
+- [INTEGRATION_WITH_CORE.md](../integrations/INTEGRATION_WITH_CORE.md)
 - [ARCHITECTURE_STATUS.md](../../../archive/fair-crm/2026-07-05/ARCHITECTURE_STATUS.md)
 - [INTEGRATION_WITH_CORE.md](../integrations/INTEGRATION_WITH_CORE.md)
 - [PROJECT_SNAPSHOT_2026-07-05.md](../../../archive/fair-crm/2026-07-05/PROJECT_SNAPSHOT.md)

@@ -30,5 +30,5 @@ Bu işler tekrar aktif geliştirmeye alınırken:
 
 1. Güncel renderer mimarisi ve performans bütçesi incelenir.
 2. İşler yeni bir faz/sprint altında yeniden önceliklendirilir.
-3. `fair-stand` deposundaki `ROADMAP.md` içine açıkça eklenir.
+3. Tek iş listesine, [ROADMAP.md](ROADMAP.md)'ye satır olarak eklenir.
 4. Eski `FAZ 4` etiketi tekrar kullanılmaz.

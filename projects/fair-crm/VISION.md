@@ -176,7 +176,7 @@ As Fair CRM grows, **all new work** is classified before implementation ([ADR-02
 
 **Tier 1 gate:** Tier 3 UX initiatives do not outrank unresolved Tier 1 foundation unless explicitly waived.
 
-Tier definitions and current snapshot: [PROJECT_STATUS.md § Tier-Based Product Delivery](PROJECT_STATUS.md)
+Open work, whatever its tier: [ROADMAP.md](ROADMAP.md).
 
 ---
 
@@ -202,7 +202,7 @@ Platforms share patterns (preview-first, background jobs, approval queues) but r
 
 **Purpose:** Operate Fair CRM safely at scale — protect customer data, recover from failure, and prove resilience before high-risk work (import, migration, upgrade).
 
-**Today (shipped):** Admin → System → **Database Backups** — manual backup with format choice (`.dump` DR, `.sql` export, Universal Data Package `.zip` MVP).
+**Today (shipped):** Admin → System → **Database Backups** — manual backup with format choice (`.dump` DR, `.sql` export, Universal Data Package `.zip` MVP) and restore jobs; on the server a nightly backup of projects, databases and settings to local disk and Google Drive (`scripts/server/backup/`, [README](https://github.com/kyrox-studio/kyrox-fair-crm/blob/main/scripts/server/backup/README.md)). Backup policies, backup history and the change-detection gate below are not built.
 
 **Business Continuity** is the conceptual umbrella under System Administration for everything that keeps data **available, recoverable, and auditable**:
 
@@ -232,7 +232,7 @@ Daily policy runs only when `last_data_change > last_successful_backup`; otherwi
 
 Vendor-independent export (`manifest.json` + entity JSON). Target systems: MSSQL, MySQL, MariaDB, other CRMs. **Migration package, not backup.** Foundation shipped in Sprint 09.2.4; maturity continues under Business Continuity roadmap.
 
-**Roadmap detail:** [PROJECT_STATUS.md § System Administration & Business Continuity Roadmap](PROJECT_STATUS.md) · **ADR-022**
+**Decision:** ADR-022.
 
 ---
 
@@ -365,7 +365,8 @@ What must stay stable is the **compass**: preview-first, human approval, platfor
 | Document | Relationship |
 |----------|--------------|
 | [CONSTITUTION.md](CONSTITUTION.md) | Development standards; incorporates Product Vision principles |
-| [PROJECT_STATUS.md](PROJECT_STATUS.md) | Current sprint and delivery status |
+| [PROJECT_STATUS.md](PROJECT_STATUS.md) | Delivered capabilities |
+| [ROADMAP.md](ROADMAP.md) | Open work |
 | [decisions/DECISIONS.md](decisions/DECISIONS.md) | ADRs (e.g. ADR-005 preview, ADR-016 Universal Import, ADR-023 Tier delivery) |
 | [import/IMPORT_ARCHITECTURE.md](import/IMPORT_ARCHITECTURE.md) | Universal Import Engine architecture |
 | [CHANGELOG.md](CHANGELOG.md) | Shipped features by version |

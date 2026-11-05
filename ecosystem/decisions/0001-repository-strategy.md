@@ -1,6 +1,6 @@
 # ADR-0001: Repository strategy
 
-- **Status:** Accepted
+- **Status:** Accepted; amended by [ADR-0007](0007-fair-stand-product-ownership.md)/[ADR-0008](0008-fair-stand-independent-service.md) (`kyrox-fair-stand`), [ADR-0010](0010-brand-repository.md) (`kyrox-brand`) and [ADR-0011](0011-web-site-repository.md) (`kyrox-web`). Repositories are now named `kyrox-*`; current list: [REPOSITORY_STRATEGY.md](../REPOSITORY_STRATEGY.md)
 - **Date:** 2026-07-01
 - **Deciders:** KYROX ecosystem maintainers
 
@@ -43,5 +43,4 @@ This three-repo structure is **final for now**. Additional repositories (e.g. ky
 ## Related
 
 - [REPOSITORY_STRATEGY.md](../REPOSITORY_STRATEGY.md)
-- [ECOSYSTEM.md](../REPOSITORY_STRATEGY.md)
 - [ADR-0002: Core and product separation](0002-core-product-separation.md)

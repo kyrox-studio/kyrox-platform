@@ -53,7 +53,7 @@ Formdaki öneri listesi, DB'de daha önce kullanılmış değerlerden (`distinct
 |------|------|------|
 | `shape` | `L` (`designState.js`) | L 3 · NULL 124 |
 | `material` | Raf gövde uyumu için `sunta` (`items.js`) | sunta 26, alüminyum 17, cam 9, mdf 2, ahşap 1, metal 1, NULL 71 |
-| `variant` | `wall-short-1`, `wall-short-2` | 4 + 4 · NULL 119 |
+| `variant` | `src/catalogWidthFamily.js` `VARIANT_FAMILIES` aile anahtarları ve seçenek varyantları (2026-10-18'de yalnız `wall-short-1` / `wall-short-2`; 0082–0086 ile panel, separatör, banko, baza, vitrin, raf, TV, video wall, uzun saksı aileleri eklendi) | 2026-10-18: 4 + 4 · NULL 119 |
 
 **Ölü kolonlar.** `snap_anchor` ve `snap_target_item_type`:
 - 127 item'ın hepsinde boş.

@@ -1,6 +1,6 @@
 # ADR-0006: Organization lifecycle and SaaS onboarding contract
 
-- **Status:** Proposed — OL-01 through OL-07 accepted and implementation/certification complete; OL08-A accepted and OL08-01 complete; OL08-B technical export contract partially accepted; OL08-C credential-disposition contract accepted; OL08-D through OL08-G, OL-09 and OL-10 unresolved
+- **Status:** Proposed overall — OL-01 through OL-07 accepted and certified; OL-08 required-export closure path (OL08-A…F, OL08-G via OL-10) accepted and runtime-certified 2026-09-11; OL-09 timing and OL-10 backup/restore contracts accepted; OL08-B `not_required` export disposition has no accepted policy authority (fails closed). Current state: [STATUS.md](../STATUS.md#saas-readiness)
 - **Date:** 2026-08-26
 - **Deciders:** KYROX ecosystem maintainers
 - **Roadmap gate:** P0.2 — Organization lifecycle contract and SaaS onboarding decisions

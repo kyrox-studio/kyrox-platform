@@ -13,20 +13,13 @@ Fair CRM stores backend known-failure governance metadata at:
 .kyrox/backend-test-baseline.json
 ```
 
-The baseline records exact pytest node IDs and exists only to represent demonstrably pre-existing debt when needed by the repository gate. Its target is always zero.
+The baseline records exact pytest node IDs and exists only to represent demonstrably pre-existing debt when needed by the repository gate. Its target is always zero; today `known_failures` is empty.
 
 The validator must reject baseline growth/new failures and must not use the baseline to hide collection/infrastructure errors or newly introduced authorization/security regressions.
 
 ## 2. Feature-contract metadata
 
-Fair CRM machine-readable feature contracts live under:
-
-```text
-.kyrox/features/*.json
-.kyrox/feature-contract.schema.json
-```
-
-These are CI/governance inputs, not human documentation. Applicability semantics come from [FEATURE_APPLICABILITY_STANDARD.md](FEATURE_APPLICABILITY_STANDARD.md) and the shared KYROX applicability standard.
+Location and schema: [FEATURE_APPLICABILITY_STANDARD.md §1](FEATURE_APPLICABILITY_STANDARD.md#1-fair-crm-feature-contract-location).
 
 ## 3. Fair CRM quality surfaces
 
@@ -54,15 +47,7 @@ Changes to Fair CRM workflow/quality scripts, `.kyrox` schemas/baselines/contrac
 
 ## 6. Branch protection and reporting
 
-Do not claim GitHub CI prevents a merge/push unless required checks are actually enforced by repository rulesets/branch protection.
-
-Completion reports distinguish:
-
-- strict green,
-- zero-new-regression with explicitly remaining legacy debt,
-- failure/new regression.
-
-Never call all three states “PASS” without qualification.
+`kyrox-fair-crm` is a private repository on the free GitHub plan: branch protection and rulesets are unavailable, so CI does not block a merge or push to `main`. Merges happen manually after a green PR run. Reporting states follow the [shared standard §13](../../standards/quality/QUALITY_GATE_STANDARD.md#13-completion-reporting).
 
 ## Related
 

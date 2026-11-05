@@ -1,6 +1,6 @@
 # Infrastructure & Performance Roadmap
 
-**Status:** Active — infrastructure planning only  
+**Status:** Index migration in code; measurement open (ROADMAP §4)  
 **Scope:** FAIR CRM backend, database, and operational performance. No product feature changes unless explicitly noted in a future item.
 
 This document tracks technical work to keep the CRM responsive as data volume and background workloads grow. Each priority is self-contained: goal, affected paths, tasks, acceptance criteria, and references.
@@ -40,20 +40,9 @@ Captured with `backend/scripts/diagnose_crm_performance.py` against PostgreSQL w
 
 **Note:** Background duplicate analysis on the full customer set previously blocked the API for minutes when run on the main event loop. That was addressed with thread-pool background jobs; index work remains separate and still required for sustainable list and analysis performance.
 
-### Tasks
+### State
 
-- [ ] **Review all critical tables and queries** — `crm_customers`, communication child tables (`crm_customer_emails`, `crm_customer_phones`, `crm_customer_websites`), import/scraper-related tables, and data-operation query paths. Use `EXPLAIN (ANALYZE, BUFFERS)` on production-like volume.
-- [ ] **Identify missing indexes** — Document each slow query, current plan (seq scan vs index scan), and proposed index DDL.
-- [ ] **Add indexes for high-traffic access patterns**, including at minimum:
-  - `organization_id` (org-scoped filters on all tenant tables)
-  - `status` (active / archived / deleted filters)
-  - `deleted_at` (soft-delete and cleanup queries)
-  - `normalized_name` (duplicate grouping by company name)
-  - `display_name` sorting — functional index on `lower(display_name)` with partial predicate excluding deleted rows where appropriate
-  - **Communication fields** — phone and website value lookups for duplicate and import matching (email indexes deferred until normalization rules and Phase 2 review are finalized; see [CUSTOMER_COMMUNICATION_PERFORMANCE.md](CUSTOMER_COMMUNICATION_PERFORMANCE.md))
-- [ ] **Apply migration `0023` or equivalent manual SQL** if Alembic upgrade is blocked in an environment.
-- [ ] **Benchmark before and after** — Re-run `diagnose_crm_performance.py` and capture list COUNT, sort+page, duplicate-analysis-adjacent lookups, and import match queries. Record results in this section.
-- [ ] **Make index review mandatory** for every new table and major query (see process below).
+Migration `0023_crm_list_performance_indexes` is in `main` and is applied by `deploy-all.sh` (`alembic upgrade head`). It adds `(organization_id, status)`, `(organization_id, normalized_name)`, `deleted_at`, `(organization_id, lower(display_name)) WHERE status <> 'deleted'`, `crm_customer_phones.phone` and `crm_customer_websites.website`; communication `customer_id`, `organization_id` and `crm_customer_emails.email` indexes come from migration `0020`. The after-index benchmark below is still empty; open work is the ROADMAP row ([ROADMAP.md](../ROADMAP.md) §4). Benchmark tool: `backend/scripts/diagnose_crm_performance.py`.
 
 ### Migration `0023` — CRM list and duplicate-analysis indexes
 
@@ -95,7 +84,7 @@ After manual apply, stamp Alembic if needed: `alembic stamp 0023_crm_list_perfor
 ### Acceptance criteria
 
 - Migration `0023` applied (or manual SQL + Alembic stamp) in dev, staging, and production.
-- `diagnose_crm_performance.py` post-index run shows measurable improvement on sort+page and org-scoped filters, with `EXPLAIN` confirming index use where expected.
+- `backend/scripts/diagnose_crm_performance.py` post-index run shows measurable improvement on sort+page and org-scoped filters, with `EXPLAIN` confirming index use where expected.
 - No new indexes added without a mapped slow query or documented access pattern.
 - Index review checklist completed for any schema or query change merged after this item.
 
@@ -117,20 +106,14 @@ For **every new table** and **every major query change** (new list endpoint, new
 | COUNT (org + non-deleted) | ~11–22 ms | _TBD_ | |
 | Sort + page (display name) | ~61–109 ms | _TBD_ | Target: index scan on `ix_crm_customers_org_display_name_lower` |
 | Duplicate phone/website lookup | _TBD_ | _TBD_ | |
-| Import match sample query | _TBD_ | _TBD_ | |
+| Import match sample query (company name) | _TBD_ | _TBD_ | |
 
 ### References
 
 - Diagnose script: `backend/scripts/diagnose_crm_performance.py`
 - Customer list repository: `backend/app/modules/customers/infrastructure/repositories/customer_repository.py`
 - Communication batch loading: `backend/app/modules/customers/infrastructure/repositories/customer_communication_repository.py`
-- Duplicate / data-operation paths: [CUSTOMER_CLEANUP_ARCHITECTURE.md](../maintenance/CUSTOMER_CLEANUP_ARCHITECTURE.md)
+- Duplicate / data-operation paths: `backend/app/modules/customers/application/duplicate_group_merge*.py`, `backend/app/modules/system_admin/application/data_operation_service.py`
 - Communication index deferral (Phase 2): [CUSTOMER_COMMUNICATION_PERFORMANCE.md](CUSTOMER_COMMUNICATION_PERFORMANCE.md)
 - Import matching rules: [import/MATCHING_RULES.md](../import/MATCHING_RULES.md)
 - Request / SQL observability: `backend/app/core/request_timing.py`, `backend/app/core/performance_monitoring.py`
-
----
-
-## Future priorities (placeholder)
-
-Additional infrastructure and performance items (connection pool tuning, background job isolation, frontend list refresh patterns, import bulk paths) will be added here as separate numbered priorities. This document does not change product behavior until each item is executed and tracked independently.

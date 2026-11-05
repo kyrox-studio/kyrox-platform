@@ -100,7 +100,7 @@ The P0.2 identity/onboarding workstream was an explicitly approved product-drive
 
 The sequence below is intentionally ordered from safety foundation to commercial capability to scale. Later phases must not be used to bypass unresolved P0 work.
 
-## P0.0 — SaaS delivery governance enforcement — IMMEDIATE
+## P0.0 — SaaS delivery governance enforcement — IN PLACE (shared standards + Fair CRM contract gate)
 
 ### Goal
 
@@ -185,7 +185,7 @@ Test list/detail/create/update/delete/archive/restore/execute/export/download pa
 
 ---
 
-## P0.2 — Organization lifecycle contract and SaaS onboarding — ONBOARDING + OL-05 + OL-06 + OL-07 DONE / OFFBOARDING GATED
+## P0.2 — Organization lifecycle contract and SaaS onboarding — DONE for the required-export path (2026-09-11)
 
 ### Goal
 
@@ -210,83 +210,22 @@ Core owns the canonical organization and user-management primitives, and the ide
 - Core exposes explicit Platform SuperAdmin reactivation through `POST /organizations/{organization_id}/reactivate`, using the canonical `SUSPENDED -> ACTIVE` domain transition and lifecycle audit evidence,
 - FAIR CRM consumes the Core product lifecycle snapshot at execution boundaries and has certified deterministic suspension/reactivation behavior through OL-07.
 
-### Approved onboarding/credential subset — DONE 2026-08-29
+### Delivered slices
 
-ADR-0006 remains Proposed overall, but OL-01 through OL-04 were approved for implementation and the approved identity/onboarding slice is complete:
+| Slice | Done | Canonical record |
+|---|---|---|
+| Identity / SaaS onboarding (OL-01…OL-04): public signup, Core-owned activation and password flows, one-time action tokens, shared password policy, session invalidation, Core identity email; first admin uses `OrganizationAdmin`; Super Admin manual creation preserved | 2026-08-29 | [P0_2_IDENTITY_ONBOARDING_IMPLEMENTATION.md](P0_2_IDENTITY_ONBOARDING_IMPLEMENTATION.md) |
+| OL-05 destructive organization authority (SYSTEM only, audited) | 2026-09-03 | [P0_2_OL_05_IMPLEMENTATION.md](P0_2_OL_05_IMPLEMENTATION.md) |
+| OL-06 reactivation (`SUSPENDED → ACTIVE`, SYSTEM `identity.organizations.reactivate`) | 2026-09-04 | [P0_2_OL_06_IMPLEMENTATION.md](P0_2_OL_06_IMPLEMENTATION.md) |
+| OL-07 suspension job/provider behavior and reactivation semantics | 2026-09-07 | [P0_2_OL_07_IMPLEMENTATION.md](P0_2_OL_07_IMPLEMENTATION.md) |
+| OL-08 closure: execution, export plan/package, credential disposition, artifact and product-data cleanup, Core tombstone, 12-month retained-evidence expiry | 2026-09-11 | [P0_2_OL_08_IMPLEMENTATION.md](P0_2_OL_08_IMPLEMENTATION.md) |
+| OL-09 retention/grace timing and OL-10 backup ageing/restore reconciliation | accepted contracts; obligations used by closure are runtime-covered | [P0_2_OL_09_RETENTION_GRACE_DECISION_READINESS.md](P0_2_OL_09_RETENTION_GRACE_DECISION_READINESS.md), [P0_2_OL_10_RUNTIME_ACCEPTANCE.md](P0_2_OL_10_RUNTIME_ACCEPTANCE.md) |
 
-- existing Platform Super Admin organization creation is preserved,
-- controlled public commercial organization signup is available alongside it,
-- the first normal admin uses the existing protected `OrganizationAdmin` role; no Owner role was introduced,
-- the direct single-organization user model remains,
-- Core owns account activation/set-password rather than restoring membership invitations,
-- Core owns forgot/reset/change password,
-- reusable hash-only one-time identity action tokens are implemented,
-- shared Core password policy is implemented,
-- user-wide credential/session invalidation is implemented,
-- production Core identity-email capability is implemented,
-- existing Super Admin manual user creation and admin-supplied password mode are preserved,
-- FAIR CRM remains a thin Core API consumer for identity.
+### Still open
 
-The canonical completion record is [P0.2 Identity / SaaS Onboarding Implementation Tracker](P0_2_IDENTITY_ONBOARDING_IMPLEMENTATION.md). Core phases CORE-01 through CORE-09, FAIR CRM CRM-BE-01/02 and CRM-UI-01 through CRM-UI-04 are complete. Final production-shaped certification is FAIR CRM PR #92, final head `d498245c4c60bd36b9b3a8aeffed4912e198123b`, with Development Standard Gate #306 and Prod-Path E2E #151 green before merge `2f9f159a303ffd055121547de51dcaefc15fc6a9`. The lifecycle certification exercises signup → activation → login → forgot/reset → login → password change → login against real Core/FAIR CRM services and Core SMTP delivery, including one-time token replay rejection and prior session/refresh invalidation.
-
-### OL-05 destructive organization authority — DONE 2026-09-03
-
-ADR-0006 OL-05 is accepted and implementation-certified:
-
-- suspend/closure/destructive lifecycle execution is Platform SuperAdmin / SYSTEM authority only,
-- OrganizationAdmin cannot directly execute those operations,
-- SYSTEM lifecycle permissions cannot be assigned to organization roles,
-- successful Core suspend/delete transitions produce audit evidence,
-- Core PR #21 certifies lifecycle endpoint authorization/audit behavior,
-- Core PR #22 certifies the SYSTEM-permission role-assignment boundary,
-- current FAIR CRM integration does not widen or duplicate Core lifecycle authority.
-
-Canonical completion record: [P0.2 OL-05 Destructive Organization Authority Implementation Tracker](P0_2_OL_05_IMPLEMENTATION.md).
-
-OL-05 certifies **authority only**. Core organization delete remains a soft-delete/tombstone; product-data offboarding semantics remain OL-08 scope.
-
-### OL-06 organization reactivation — DONE 2026-09-04
-
-ADR-0006 OL-06 is accepted and implementation-certified:
-
-- reactivation is Platform SuperAdmin / SYSTEM authority only,
-- `identity.organizations.reactivate` is SYSTEM-scoped and non-assignable,
-- Core exposes `POST /organizations/{organization_id}/reactivate`,
-- only a non-deleted `SUSPENDED` organization may transition to `ACTIVE`,
-- `ACTIVE`, `PENDING_ACTIVATION`, `ARCHIVED` and soft-deleted/tombstoned source states are rejected,
-- successful reactivation emits `identity.organization.reactivated` audit evidence,
-- Core PR #23 final head `655b61155e0ad799d7381d21858c9fd1d5b3a0f7` passed CI #88 and was squash-merged as `f24089cbb29f38b42270d0d9edb2235aa7815719`,
-- FAIR CRM current-main verification found no alternate product-owned lifecycle authority and no OL-06 product runtime change was required.
-
-Canonical completion record: [P0.2 OL-06 Organization Reactivation Implementation Tracker](P0_2_OL_06_IMPLEMENTATION.md).
-
-OL-06 certifies **Core lifecycle reactivation authority/state transition**. Product-side suspension/reactivation execution semantics are certified separately by OL-07.
-
-### OL-07 suspension job/provider behavior — DONE 2026-09-07
-
-ADR-0006 OL-07 is accepted and implementation-certified across Core lifecycle authority and FAIR CRM product runtime:
-
-- Core PR #25 + FAIR CRM PR #249 establish the public product lifecycle snapshot contract and fail-closed lifecycle guard,
-- FAIR CRM PR #250 cancels covered queued/pending organization-owned work before start when lifecycle is explicitly non-active,
-- FAIR CRM PR #251 cooperatively stops covered already-running work at safe checkpoints,
-- FAIR CRM PR #252 blocks new SMTP/provider handoff at the final central lifecycle boundary while preserving encrypted provider configuration,
-- FAIR CRM PR #253 durably checkpoints mail as `SENDING` before provider handoff, recovers the SQLAlchemy session if that checkpoint commit fails before any provider call, and terminalizes ambiguous in-flight provider/SMTP outcomes as non-auto-retry,
-- FAIR CRM PR #254 certifies deterministic reactivation/resumption: suspension-cancelled work remains terminal, fresh/new work may proceed after `ACTIVE`, work deferred only by temporary lifecycle-authority outage may proceed once authority returns `ACTIVE`, preserved provider credentials require no lifecycle re-enable, and ambiguous external handoff never becomes a safe auto-retry merely because lifecycle returned to `ACTIVE`,
-- PR #254 final head `e17593e49ecb25a3aef736b0ceaa1fafa14c7e77` passed Development Standard Gate #700 and Prod-Path E2E #264 before squash merge as `18b0b638ba946c2910698e1df7c4ab5283c4958f`.
-
-Canonical completion record: [P0.2 OL-07 Suspension Job / Provider Behavior Implementation Tracker](P0_2_OL_07_IMPLEMENTATION.md).
-
-OL-07 certifies suspension/reactivation product execution only. It does not authorize closure/export/retention/anonymization/delete sequencing, closure-time provider credential revocation, retention/grace durations or backup restoration policy.
-
-### Remaining lifecycle decisions — STILL GATED
-
-The following remain unresolved and are **not** authorized by completion of OL-01 through OL-07:
-
-- closure/export/retention/anonymization/delete sequence,
-- retention/grace durations,
-- backup ageing/restoration implications.
-
-The next lifecycle decision gate is **OL-08 — closure/export/retention/delete sequencing**.
+- The optional OL08-B `not_required` export disposition has no accepted policy authority and fails closed.
+- No further lifecycle runtime is sequenced; a new retained-evidence class, provider lifecycle case or backup/restore obligation needs an explicit policy/product decision first.
+- ADR-0006 remains Proposed overall.
 
 ### Hard rules
 
@@ -294,12 +233,12 @@ The next lifecycle decision gate is **OL-08 — closure/export/retention/delete 
 - Do not add a new Owner role.
 - Do not create a second identity/password/token store in FAIR CRM.
 - Do not remove or silently replace existing Super Admin manual organization/user creation.
-- Do not interpret OL-07 completion as approval for OL-08 closure/offboarding, OL-09 retention/grace policy or OL-10 backup behavior.
+- Do not treat a completed slice as approval for a lifecycle case outside its accepted contract.
 - All new organization/user identifiers remain subject to the permanent tenant-isolation system regression gate.
 
 ### Exit criteria
 
-The **identity/onboarding subset, OL-05 destructive-authority gate, OL-06 reactivation gate and OL-07 suspension/reactivation runtime gate are satisfied**. Full P0.2 remains open until the still-gated offboarding decisions are explicitly approved, implemented and production-safe. The full organization lifecycle must be explicit, permission-scoped, auditable and backed by public Core contracts plus product orchestration where necessary.
+Satisfied for the required-export lifecycle. Any new lifecycle case reopens P0.2 only through an explicit decision. The lifecycle stays explicit, permission-scoped, auditable and backed by public Core contracts plus product orchestration.
 
 ---
 
@@ -325,7 +264,7 @@ Raise the production runtime from single-product operational safety to commercia
 
 Account activation, password reset/change, one-time identity tokens, credential/session invalidation and identity-email delivery were delivered and production-shaped certified through the completed P0.2 identity/onboarding slice; they are no longer deferred candidates.
 
-Remaining deferred candidates include MFA, richer login rate limiting/account lockout beyond the controls required for P0.2 recovery endpoints, refresh-token reuse detection and richer device/session management. They become active only through an explicit requirement/planning decision.
+Also in Core: database-backed sign-in throttle and lockout (`20261027_0078_login_throttles`, `CORE_LOGIN_LOCKOUT_SECONDS`, SECURITY_PROGRAM F-004) and refresh-token reuse detection (`refresh_session.py`). Remaining deferred candidates: MFA and richer device/session management; they become active only through an explicit requirement/planning decision.
 
 ### Exit criteria
 

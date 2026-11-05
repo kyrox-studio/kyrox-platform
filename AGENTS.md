@@ -4,9 +4,7 @@ This file is the mandatory entry point for AI agents and a concise routing guide
 
 ## Fundamental rule
 
-> **Humans and AI agents learn KYROX from `kyrox-platform`. Application repositories are implementation and verification layers.**
-
-Do not treat documentation, chat history, local conventions or tool-specific rule files in `kyrox-fair-crm` / `kyrox-core` / `kyrox-fair-stand` as independent sources of truth for ecosystem ownership. Human-readable ecosystem rules belong here.
+The platform doctrine is defined in [ecosystem/DOCUMENT_GOVERNANCE.md](ecosystem/DOCUMENT_GOVERNANCE.md#platform-doctrine). Do not treat documentation, chat history, local conventions or tool-specific rule files in `kyrox-fair-crm` / `kyrox-core` / `kyrox-fair-stand` as independent sources of truth for ecosystem ownership. Human-readable ecosystem rules belong here.
 
 ## Required reading order
 
@@ -39,20 +37,6 @@ For CRUD, permission-driven UI visibility, route/action gating and backend autho
 
 For material feature/platform work, SaaS readiness is not a separate optional cleanup phase: classify organization isolation, permission scope, Core/product ownership, entitlement/usage/lifecycle/security/job/data-lifecycle impact before implementation and prove every affected dimension before DONE.
 
-## Precedence
+## Precedence and hard rules
 
-When documents appear to overlap:
-
-1. Shared standard governs reusable semantics.
-2. Project document may add product-specific detail but must not silently redefine the shared rule.
-3. An explicit, documented project exception may override a shared default only for that project and must link back to the shared standard.
-4. Archive and chat history never override live canonical documents.
-
-## Hard rules
-
-- This repository contains the human/AI knowledge base; do not add application code here.
-- Do not duplicate ecosystem documentation into `kyrox-fair-crm` or `kyrox-core`. Fair Stand may keep in its application repository the documents its CI reads: runtime change-gate and Item contracts (`SYSTEM_*.md`, `docs/items/contract/ITEM_CONTRACT.md`) and the two roadmaps its tests read (`ROADMAP.md`, `ROADMAP_PHASE_4.md`). Every other Fair Stand plan or history document lives in `projects/fair-stand/` or `archive/fair-stand/`; Platform links to the repository-local ones instead of copying them.
-- One topic has one canonical source. Merge duplicate rules; use links for context instead of copied normative text.
-- Reusable rules go to `standards/`; product-only rules go to `projects/<name>/`.
-- Machine-readable contracts needed by CI/runtime may stay in code repositories, but they are not a second human documentation system.
-- Green tests/build/CI are necessary but do not override an unresolved applicable SaaS, tenant-isolation, authorization-scope or production-runtime acceptance gate.
+Precedence, anti-duplication and placement rules: [ecosystem/DOCUMENT_GOVERNANCE.md](ecosystem/DOCUMENT_GOVERNANCE.md#precedence-and-overlap). This repository contains the human/AI knowledge base; do not add application code here.
