@@ -25,6 +25,10 @@ Kurallar:
 | Müşteriyi pasife alma | Yok. Neden (seçilir veya yazılır), not ve müşteri aktivite kaydı; gönderim öncesi kontrol "Customer pasif mi?" adımını da içerir. Müşteri/Contact e-posta izni, MailerSend unsubscribe/spam webhook'u ve merkezi `EmailConsentPolicy` mevcut | [archive: EMAIL_COMMUNICATION_PREFERENCES](../../archive/fair-crm/backlog/EMAIL_COMMUNICATION_PREFERENCES.md) |
 | Görevler Faz 3 | Faz 2 dışında bırakılanlar: kişi / lead / katılımcı bazlı çalışma listesi, satır bazlı kullanıcı atama, otomatik görev oluşturma ve auto-reopen, `follow_up_at` üzerinden görev/bildirim/takvim, Excel export, AI not özeti, kampanya otomasyonu, otomatik arama entegrasyonu | [WORKLIST_PHASE2.md](todo/WORKLIST_PHASE2.md) § 7 |
 | WhatsApp ve SMS gönderimi | Kodda gönderim yok (WhatsApp yalnız aktivite tipi) | [TODO_MODULE_DECISIONS.md](todo/TODO_MODULE_DECISIONS.md) |
+| Adapter adım yapısı ve kaldığı yerden devam | Kodda yok: adapter bazlı adım tanımı, Operation Engine adım / checkpoint / resume yok | [ADAPTER_WORKFLOW_STEP_ARCHITECTURE.md](operations/ADAPTER_WORKFLOW_STEP_ARCHITECTURE.md) |
+| Adapter Builder (URL'den adapter üretimi) | Vizyon; kodda yok | [ADAPTER_BUILDER_V2.md](scraper/ADAPTER_BUILDER_V2.md) |
+| Otomasyon sihirbazları: tekil e-posta (3.4), veri temizleme (3.5), hatırlatma (3.7) | Handler ve operasyon tipi yok | [AUTOMATION_ARCHITECTURE.md](operations/AUTOMATION_ARCHITECTURE.md) |
+| Maliyet kataloğu: USD → TL güncel kur | Kur sağlayıcısı seçilmedi; ekranda "Kur bekleniyor". Maliyet hesabı ve teklif sonraki faz | [COST_CATALOG.md](decisions/COST_CATALOG.md) |
 
 ## 3. Mail gönderim kuyruğu
 

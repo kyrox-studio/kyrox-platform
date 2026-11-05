@@ -1,5 +1,34 @@
 # Architecture Decisions
 
+## ADR-041 — Duplicate customer merge in Data Operations
+
+**Status:** Accepted  
+**Date:** 2026-11-05 (owner decision; records the behavior already in the code)  
+**Supersedes:** ADR-030
+
+**Context:**
+
+ADR-030 (2026-07-03) planned duplicate-customer cleanup as an internal CLI only, with no tenant UI, no physical delete and no merge event table, and marked it not implemented. The code later delivered the merge in the Super Admin Data Operations screen with a different shape. This ADR writes down what the code does.
+
+**Decision:**
+
+1. **Where:** Super Admin Data Operations. A `duplicate_customer_analysis` run groups candidate customers (`duplicate_check_handler.py`); the operator opens a group, previews the merge and executes it. API: `/admin/data-operations/runs/{run_id}/dataset/duplicate-groups`, `/admin/data-operations/duplicate-groups/{group_key}/merge-preview`, `/admin/data-operations/duplicate-groups/{group_key}/merge-execute`.
+2. **Permission:** `fair_crm.admin.data_operations.execute`. It is not an organization role permission.
+3. **Operator decides:** the operator picks the surviving customer, the source of each scalar field (`company_name`, `legal_name`, `trade_name`, `city`, `country`) and which emails, phones and websites stay. There is no automatic merge. Execute uses the preview calculation as its single source (`duplicate_group_merge.py`, `duplicate_group_merge_execute.py`).
+4. **References move to the survivor** in one transaction: fair participations, contacts, activities, todos and todo worklist states, enrichment states, import rows and soft customer references in mail send operations and fair email outbox (`customer_merge_reassignment.py`). The merge fails if any loser relationship remains (`assert_no_loser_customer_relationships_remain`).
+5. **Losers are physically deleted** (`hard_delete_loser_customers`); no soft delete and no `merged_into_customer_id`.
+6. **Audit:** every execute writes `system_duplicate_group_merge_audit_logs` (actor, run, group, survivor, removed customer ids, field sources, selected channels, statistics and a reconstruction JSON). A repeated execute of the same merge returns the earlier result (`duplicate_group_merge_idempotency.py`).
+7. **Import flow is unchanged.**
+
+**Out of scope:** merge undo, automatic merge, organization-facing cleanup screens.
+
+**Consequences:**
+
+- ADR-030 is closed. Its detail document moved to `archive/fair-crm/maintenance/CUSTOMER_CLEANUP_ARCHITECTURE.md`.
+- Restoring a deleted loser is possible only from the audit reconstruction data or a database backup.
+
+---
+
 ## ADR-040 — TOBB persistent review and controlled synchronization
 
 Status: Accepted product requirements (2026-10-12); local implementation and acceptance verified 2026-10-13; merged 2026-10-13 (FAIR CRM PR #342, Core PR #42); production deployment pending.
@@ -720,9 +749,9 @@ Decision Queue screens require row-by-row dropdown changes for large batches. Us
 
 ## ADR-030: Internal Customer Cleanup Utility
 
-**Status:** Accepted  
+**Status:** Superseded by ADR-041 (2026-11-05)  
 **Date:** 2026-07-03  
-**Detail:** [CUSTOMER_CLEANUP_ARCHITECTURE.md](../maintenance/CUSTOMER_CLEANUP_ARCHITECTURE.md)
+**Detail (archived):** [CUSTOMER_CLEANUP_ARCHITECTURE.md](../../../archive/fair-crm/maintenance/CUSTOMER_CLEANUP_ARCHITECTURE.md)
 
 **Context:**
 

@@ -1,5 +1,7 @@
 # Maliyet Kataloğu — Ürün Kararı
 
+> Açık işin sırası: [ROADMAP.md](../ROADMAP.md) § 2.
+
 **Durum:** Bu faz uygulandı (`backend/app/modules/cost_catalog`, tablolar `crm_cost_categories` / `crm_cost_products`, ekran `/admin/cost-catalog` `CostCatalogPage.tsx`, yetkiler Core migration `0056`). USD → TL kuru henüz yok (aşağıda)  
 **Tarih:** 2026-08-17
 

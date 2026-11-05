@@ -1,5 +1,7 @@
 # FAIR CRM — Adapter Workflow Step Architecture
 
+> Açık işin sırası: [ROADMAP.md](../ROADMAP.md) § 2.
+
 ## Karar
 
 Scraper otomasyonlarında **workflow tanımı adapter bazlı**, **workflow yürütme motoru Operation Engine bazlı** olacaktır.

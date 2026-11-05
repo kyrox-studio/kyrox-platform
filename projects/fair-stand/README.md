@@ -35,7 +35,7 @@ Kanonik Item ürün verisi DB/API’den gelir; static JS Item/Category master yo
 | [KULLANILABILIRLIK_YOL_HARITASI.md](KULLANILABILIRLIK_YOL_HARITASI.md) | Basit/Gelişmiş, başlangıç, zemin ve kayıt: teşhis, kurallar, mevcut davranış |
 | [SECIM_OZELLIK_PANELI_YOL_HARITASI.md](SECIM_OZELLIK_PANELI_YOL_HARITASI.md) | Mevcut seçim çubuğu korunarak sağ tık işlemlerinin yeteneğe bağlı ortak panele taşınması; önce işlev, sonra görsel tasarım |
 | [ROADMAP.md](ROADMAP.md) | **Tek iş listesi:** açık, ertelenmiş ve karar bekleyen her iş; FAZ 4 detayı ve audit bulguları `fair-stand` deposundadır |
-| [ROADMAP_PHASE_5_6.md](ROADMAP_PHASE_5_6.md) | FAZ 5 (Final BOM) ve FAZ 6 (maliyet / Fair CRM) detaylı planı |
+| [ROADMAP_PHASE_5_6.md](ROADMAP_PHASE_5_6.md) | FAZ 5 (Final BOM) ve FAZ 6 (maliyet; fiyat Fair Stand'de) detaylı planı |
 | [GROUP_LOCK_ROADMAP.md](GROUP_LOCK_ROADMAP.md) | Sahne editörü: kilit, geri al, grup, grup döndürme ve kurumsal şablon (Faz 1–5) uygulandı; grup aç/kapat (Faz 3b) ve Faz 6 opsiyonelleri planda |
 | [ADMIN_FORM_DB_AUDIT.md](ADMIN_FORM_DB_AUDIT.md) | Admin Item / Item tipi formu ↔ kod ↔ canlı DB denetimi (2026-10-18) ve bekleyen düzeltmeler |
 | [PRODUCT_FUTURE.md](PRODUCT_FUTURE.md) | Henüz faza yerleşmemiş gelecek ürün gereksinimleri |

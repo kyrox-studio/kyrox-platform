@@ -157,6 +157,7 @@ For `kyrox-core`, `kyrox-fair-crm`, `kyrox-fair-stand` and `kyrox-platform` the 
 - Workflows therefore trigger on `pull_request` (and `workflow_dispatch`), not on `push: main`. Deploy or maintenance workflows that must act on `main` are not test gates and keep their own triggers.
 - Merging without a green PR run, or bypassing the required checks, is forbidden. If a repository loses the required-check or strict rule, the PR-only model no longer holds and `push: main` checks must be restored.
 - `kyrox-web` and `kyrox-brand` are outside this rule for now (owner decision).
+- `kyrox-fair-crm` exception (owner decision 2026-11-05): the repository is private on the free GitHub plan, where rulesets and branch protection are unavailable (API 403). Its `main` is protected by process, not by GitHub: merge only after every required PR check is green and the branch is up to date with `main`; no auto-merge; no direct push. Workflows stay PR-only; `push: main` checks are not restored.
 
 ## 13. Completion reporting
 

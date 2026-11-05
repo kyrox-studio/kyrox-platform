@@ -78,6 +78,7 @@ Canonical boundary: [ADR-0002](../../ecosystem/decisions/0002-core-product-separ
 - Backend code, DB schema, API paths/query params and permission codes: **English**.
 - User-visible frontend labels/messages/confirmations/empty states: **Turkish**.
 - Product database tables use the `crm_` prefix unless an accepted product architecture decision defines another owned system table family.
+  Accepted owned table families without the prefix (owner decision 2026-11-05, matching the code): `email_*` and `mail_send_operations` (email accounts and sending), `scraper_*` (scraper adapters and runs), `system_*` (backups, restore jobs, data operations, duplicate-merge audit) and `operation_types`. New tables use `crm_` or one of these families.
 - Fair CRM permission codes use the `fair_crm.` namespace.
 
 ## 5. Tenant and authorization invariant
