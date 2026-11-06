@@ -1,7 +1,7 @@
 # Fair Stand — Seçime Göre Özellik Paneli Yol Haritası
 
 **Kod karşılaştırması:** 2026-10-25, Fair Stand `main` / `ac18bc1a` (PR #340 ve #341 sonrası).
-**Durum:** Ortak panel ve seçim girişleri kodda mevcut. Canlı varyant seçimi ve desteklenen düzenlenebilir ölçü alanları da panelde. Görsel düzen / erişilebilirlik kabulü açık.
+**Durum:** Ortak panel ve seçim girişleri kodda mevcut. Canlı varyant seçimi ve desteklenen düzenlenebilir ölçü alanları da panelde. Görsel düzen 2026-11-06'da kodlandı: sabit kolon, Item'a göre sekmeler ([PROJECT_STATUS.md](PROJECT_STATUS.md)). Gerçek tablet ve erişilebilirlik kabulü açık.
 **Okuma kuralı:** `[x]` kodda mevcut davranışı gösterir. Kalan doğrulama ve uygulama yalnız [ROADMAP.md](ROADMAP.md) § 2'dedir. Bu belge düzenlemesinde testler yeniden çalıştırılmadı; geçmiş koşu sonuçları [PROJECT_STATUS.md](PROJECT_STATUS.md) içindedir. Kodda bulunması, bütün görsel veya dokunmatik kabul senaryolarının kapandığı anlamına gelmez.
 
 **Sıralama:** Önce işlev ve mevcut davranışların korunması; görsel düzenleme en son.

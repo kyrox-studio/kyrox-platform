@@ -46,6 +46,7 @@ Kurallar:
 | Sol menüyü Stand / Ürün ekle / Tasarım etrafında sadeleştirmek | Kullanıcı erteledi (2026-10-23); önceki öneri dört sekmeydi (Stand / Duvar & Panel / Mobilya / Teklif) | [KULLANILABILIRLIK_YOL_HARITASI.md](KULLANILABILIRLIK_YOL_HARITASI.md) |
 | "Render Al" → "Görsel oluştur" | Düğme hâlâ "Render Al" | [KULLANILABILIRLIK_YOL_HARITASI.md](KULLANILABILIRLIK_YOL_HARITASI.md) |
 | İşe uygun kısa ipuçları | Tam rehber erişilebilir kalır | [KULLANILABILIRLIK_YOL_HARITASI.md](KULLANILABILIRLIK_YOL_HARITASI.md) |
+| Render Al parlaması: kalan sahneler | 2026-11-06 render ayarı canlıda; parke/koyu zemin, büyük stand ve raf altı ışıklı sahnede denenmedi | [PROJECT_STATUS.md](PROJECT_STATUS.md) |
 | Editör ışığında beyaz yüzey parlaması | Açık; 2026-10-26 ışık denemeleri kullanıcı kararıyla geri alındı | [SECIM_OZELLIK_PANELI_YOL_HARITASI.md](SECIM_OZELLIK_PANELI_YOL_HARITASI.md) |
 | Kenar / yüzey hizalaması ve hassas taşıma | Uygulanmadı | [SECIM_OZELLIK_PANELI_YOL_HARITASI.md](SECIM_OZELLIK_PANELI_YOL_HARITASI.md) |
 | Straforun zorunlu destek yüzeyine bağlanması | Uygulanmadı | [SECIM_OZELLIK_PANELI_YOL_HARITASI.md](SECIM_OZELLIK_PANELI_YOL_HARITASI.md) |
@@ -58,7 +59,7 @@ Kurallar:
 | "Projeyi kontrol et" | Çakışma, açık kenar, eksik dikme, stand dışı modül; tıklayınca sahnede gösterir; kodda yok | — |
 | Rehbere kısa video / GIF | — | — |
 | Özellikler paneli görsel düzeni | Konum/boyut (masaüstü sağ, mobil alt), başlık ve bölüm sırası, boş durum, kilit açıklaması, ortak bileşenler, Basit/Gelişmiş hiyerarşisi, örtüşme kontrolü (masaüstü / dar ekran / tablet) | [SECIM_OZELLIK_PANELI_YOL_HARITASI.md](SECIM_OZELLIK_PANELI_YOL_HARITASI.md) |
-| Özellikler paneli erişilebilirliği | Klavye odağı, ekran okuyucu etiketleri, kaydırma, dokunma hedefleri, açık/kapalı davranış | [SECIM_OZELLIK_PANELI_YOL_HARITASI.md](SECIM_OZELLIK_PANELI_YOL_HARITASI.md) |
+| Özellikler paneli erişilebilirliği | Sekmelerde klavye geçişi var. Ekran okuyucu ve gerçek tablette dokunma hedefleri denenmedi; kolonun sahnenin sağ 300 px'ini örtmesi izlenecek | [SECIM_OZELLIK_PANELI_YOL_HARITASI.md](SECIM_OZELLIK_PANELI_YOL_HARITASI.md) |
 | Özellikler paneli doğrulaması | Büyük seçimde ve sürüklemede gereksiz yeniden kurulum olmaması; renk/görsel/ölçü/silme/grup işlemlerinin undo-redo, otomatik kayıt, revizyon ve kayıt-açma ile eşliği | [SECIM_OZELLIK_PANELI_YOL_HARITASI.md](SECIM_OZELLIK_PANELI_YOL_HARITASI.md) |
 
 ## 3. Item, BOM ve DB
