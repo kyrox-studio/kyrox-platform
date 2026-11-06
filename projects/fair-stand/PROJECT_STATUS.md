@@ -2,16 +2,20 @@
 
 | Alan | Değer |
 |------|--------|
-| Son doğrulama | **2026-11-06** koda göre (Fair Stand `main` `a8e736b0`, Alembic head `0092_foam_card_preview`). Canlı: 2026-11-06 deploy (sunucu `a8e736b0`, prod head `0092`) |
+| Son doğrulama | **2026-11-06** koda göre (Fair Stand `main` `26eb9981`, Alembic head `0092_foam_card_preview`). Canlı: 2026-11-06 deploy (sunucu `26eb9981`, prod head `0092`) |
 | Implementation deposu | `kyrox-studio/kyrox-fair-stand` |
 | Hosted backend | Fair Stand FastAPI (`:8002`) / PostgreSQL `fair_stand` |
 | Item master | İlişkisel PostgreSQL; catalog bootstrap API |
 | Category master | `fair_stand_categories` |
 | Catalog | Yalnız Item projeksiyonu |
 
+## 2026-11-06 — Özellikler paneli yeniden düzeni ve Render Al ışığı
+
+[Stand #365](https://github.com/kyrox-studio/kyrox-fair-stand/pull/365) ve [#366](https://github.com/kyrox-studio/kyrox-fair-stand/pull/366) merge edildi ve canlıya alındı (`26eb9981`). Panel 1024 px ve üstünde sağda sabit tam boy kolon, altında alttan açılır. Üstte Kopyala, Sil, Kilitle, Ekle; altında döndürme; altında seçilen Item'a göre adlanan sekmeler (Genişlik, Görsel, Tür, Aydınlatma, Grup). Görünüm küpü geniş ekranda sol altta sabit. Arşivde çift tık Doldur ile aynıdır. Banko ve baza yüzleri Çoklu panel ile tek tek seçilir; tek yüz seçimi bütün modülü çerçevelemez. Çift tıkla seçilen öğe boş alana tıklanınca çerçevesini bırakır. Render Al'da beyaz parlama yalnız render'a özel değerlerle azaltıldı; editör ışığı değişmedi. Migration yok. Doğrulama: 1544 Node testi, build; lokal tam E2E 256/261, kalan 5 senaryo düzeltmeden sonra hedefli koşuda geçti; birleşik son halin tam E2E'si CI'da. Öncesinde yedek: `/var/backups/kyrox/manual/*-pre-panel-20261106-180134.dump`. Gerçek tablette denenmedi. Render ayarı parke/koyu zemin, büyük stand ve raf altı ışıklı sahnede denenmedi.
+
 ## 2026-11-06 — Kutu blokta görsel ölçüsü
 
-[Stand #364](https://github.com/kyrox-studio/kyrox-fair-stand/pull/364) açıldı (auto-merge açık, CI bekliyor; canlıya alınmadı). Sağ tık menüsü kalkınca kutu blokta kaybolan **Görsel ölçüsü** alanları panelde kutunun ölçülerinin altına döndü; görsel yüklenince panel yenilenir. Kılavuz, README ve canlı belgeler bugünkü panele göre düzeltildi. Şablon olarak kaydet kaybolmadı: Gelişmiş moddaki Gruplar kartındadır. Veri, şema ve BOM değişmez; Alembic head aynı kalır.
+[Stand #364](https://github.com/kyrox-studio/kyrox-fair-stand/pull/364) merge edildi, 2026-11-06 canlıya alındı. Sağ tık menüsü kalkınca kutu blokta kaybolan **Görsel ölçüsü** alanları panelde kutunun ölçülerinin altına döndü; görsel yüklenince panel yenilenir. Kılavuz, README ve canlı belgeler bugünkü panele göre düzeltildi. Şablon olarak kaydet kaybolmadı: Gelişmiş moddaki Gruplar kartındadır. Veri, şema ve BOM değişmez; Alembic head aynı kalır.
 
 ## 2026-11-05 — Stand tipi ve strafor kartı
 
@@ -175,7 +179,7 @@ Revizyonlar Proje içindeki başlangıçta kapalı **Geçmiş** bölümünden a�
 | Tenant-scoped Item katalog | Kapsam dışı; katalog global |
 | Static JS Item master | Kaldırıldı |
 | Fallback / dual SoT | Yok |
-| Migration | Alembic head `0092_foam_card_preview` (kod). Prod: 2026-11-06 `deploy-all.sh`, sunucu Stand `a8e736b0`, prod head `0092`, öncesinde yedek `/var/backups/kyrox/manual/fair_stand-pre-booth-type-20261106-124254.dump`, health OK. Migration ayrıntıları ve tablo kuralları (maliyet kalemi, birim FK, tip sahne davranışı, tül/strafor/üretim kalemleri): Fair Stand `docs/refactor/DATABASE.md` |
+| Migration | Alembic head `0092_foam_card_preview` (kod). Prod: 2026-11-06 `deploy-all.sh`, sunucu Stand `26eb9981`, prod head `0092`, öncesinde yedek `/var/backups/kyrox/manual/fair_stand-pre-panel-20261106-180134.dump`, health OK. Migration ayrıntıları ve tablo kuralları (maliyet kalemi, birim FK, tip sahne davranışı, tül/strafor/üretim kalemleri): Fair Stand `docs/refactor/DATABASE.md` |
 
 ## 2026-10-23 — DB eşitleme
 
