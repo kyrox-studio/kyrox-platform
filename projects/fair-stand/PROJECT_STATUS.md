@@ -9,6 +9,10 @@
 | Category master | `fair_stand_categories` |
 | Catalog | Yalnız Item projeksiyonu |
 
+## 2026-11-06 — Kutu blokta görsel ölçüsü
+
+[Stand #364](https://github.com/kyrox-studio/kyrox-fair-stand/pull/364) açıldı (auto-merge açık, CI bekliyor; canlıya alınmadı). Sağ tık menüsü kalkınca kutu blokta kaybolan **Görsel ölçüsü** alanları panelde kutunun ölçülerinin altına döndü; görsel yüklenince panel yenilenir. Kılavuz, README ve canlı belgeler bugünkü panele göre düzeltildi. Şablon olarak kaydet kaybolmadı: Gelişmiş moddaki Gruplar kartındadır. Veri, şema ve BOM değişmez; Alembic head aynı kalır.
+
 ## 2026-11-05 — Stand tipi ve strafor kartı
 
 [Stand #363](https://github.com/kyrox-studio/kyrox-fair-stand/pull/363) ve [CRM #388](https://github.com/kyrox-studio/kyrox-fair-crm/pull/388) merge edildi (`a8e736b0`, CRM `1561418b`); 2026-11-06 canlıya alındı. `boothType` (Maksima, Özel Tasarım, Paket) sihirbazın ilk adımı; katalog açık tipe göre süzülür, Item eşlemesi çoklu, eşleme yoksa bütün tipler. Sihirbaz açıkken sol menü kapanır; 2,5 ve 3 m duvarda otomatik projektör düzeltildi. Strafor: arşiv tıklaması logoyu uygular, kart kendi önizlemesini gösterir. Migration `0091_booth_types`, `0092_foam_card_preview`; kodda ve canlıda head `0092`. Yayın sırası: önce Stand, sonra CRM. Doğrulama: 1542 Node, 231 backend; tam E2E 253 geçti (strafor birleşmeden önce), birleşik kodda hedefli 29 E2E ve CI tam E2E geçti; yerel Postgres'te iki migration ileri-geri çalıştı. Açık iş: [ROADMAP.md](ROADMAP.md).
