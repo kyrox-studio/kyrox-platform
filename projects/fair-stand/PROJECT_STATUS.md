@@ -2,7 +2,7 @@
 
 | Alan | Değer |
 |------|--------|
-| Son doğrulama | **2026-11-06** koda göre (Fair Stand `main` `a8e736b0`, Alembic head `0092_foam_card_preview`). Canlı: 2026-10-29 deploy kaydı (sunucu `38ac8c77`, prod head `0090`) |
+| Son doğrulama | **2026-11-06** koda göre (Fair Stand `main` `a8e736b0`, Alembic head `0092_foam_card_preview`). Canlı: 2026-11-06 deploy (sunucu `a8e736b0`, prod head `0092`) |
 | Implementation deposu | `kyrox-studio/kyrox-fair-stand` |
 | Hosted backend | Fair Stand FastAPI (`:8002`) / PostgreSQL `fair_stand` |
 | Item master | İlişkisel PostgreSQL; catalog bootstrap API |
@@ -11,7 +11,7 @@
 
 ## 2026-11-05 — Stand tipi ve strafor kartı
 
-[Stand #363](https://github.com/kyrox-studio/kyrox-fair-stand/pull/363) ve [CRM #388](https://github.com/kyrox-studio/kyrox-fair-crm/pull/388) merge edildi (`a8e736b0`, CRM `1561418b`); canlıya çıkmadı. `boothType` (Maksima, Özel Tasarım, Paket) sihirbazın ilk adımı; katalog açık tipe göre süzülür, Item eşlemesi çoklu, eşleme yoksa bütün tipler. Sihirbaz açıkken sol menü kapanır; 2,5 ve 3 m duvarda otomatik projektör düzeltildi. Strafor: arşiv tıklaması logoyu uygular, kart kendi önizlemesini gösterir. Migration `0091_booth_types`, `0092_foam_card_preview`; kodda head `0092`, canlı `0090`. Yayın sırası: önce Stand, sonra CRM. Doğrulama: 1542 Node, 231 backend; tam E2E 253 geçti (strafor birleşmeden önce), birleşik kodda hedefli 29 E2E ve CI tam E2E geçti; yerel Postgres'te iki migration ileri-geri çalıştı. Açık iş: [ROADMAP.md](ROADMAP.md).
+[Stand #363](https://github.com/kyrox-studio/kyrox-fair-stand/pull/363) ve [CRM #388](https://github.com/kyrox-studio/kyrox-fair-crm/pull/388) merge edildi (`a8e736b0`, CRM `1561418b`); 2026-11-06 canlıya alındı. `boothType` (Maksima, Özel Tasarım, Paket) sihirbazın ilk adımı; katalog açık tipe göre süzülür, Item eşlemesi çoklu, eşleme yoksa bütün tipler. Sihirbaz açıkken sol menü kapanır; 2,5 ve 3 m duvarda otomatik projektör düzeltildi. Strafor: arşiv tıklaması logoyu uygular, kart kendi önizlemesini gösterir. Migration `0091_booth_types`, `0092_foam_card_preview`; kodda ve canlıda head `0092`. Yayın sırası: önce Stand, sonra CRM. Doğrulama: 1542 Node, 231 backend; tam E2E 253 geçti (strafor birleşmeden önce), birleşik kodda hedefli 29 E2E ve CI tam E2E geçti; yerel Postgres'te iki migration ileri-geri çalıştı. Açık iş: [ROADMAP.md](ROADMAP.md).
 
 ## 2026-10-28 — Tek iş listesi
 
@@ -171,7 +171,7 @@ Revizyonlar Proje içindeki başlangıçta kapalı **Geçmiş** bölümünden a�
 | Tenant-scoped Item katalog | Kapsam dışı; katalog global |
 | Static JS Item master | Kaldırıldı |
 | Fallback / dual SoT | Yok |
-| Migration | Alembic head `0092_foam_card_preview` (kod). Prod: 2026-10-29 deploy kaydı, sunucu Stand `38ac8c77`, prod head `0090`, öncesinde yedek `/var/backups/kyrox/manual/fair_stand-pre0090-20261029-211355.dump`, health OK. Migration ayrıntıları ve tablo kuralları (maliyet kalemi, birim FK, tip sahne davranışı, tül/strafor/üretim kalemleri): Fair Stand `docs/refactor/DATABASE.md` |
+| Migration | Alembic head `0092_foam_card_preview` (kod). Prod: 2026-11-06 `deploy-all.sh`, sunucu Stand `a8e736b0`, prod head `0092`, öncesinde yedek `/var/backups/kyrox/manual/fair_stand-pre-booth-type-20261106-124254.dump`, health OK. Migration ayrıntıları ve tablo kuralları (maliyet kalemi, birim FK, tip sahne davranışı, tül/strafor/üretim kalemleri): Fair Stand `docs/refactor/DATABASE.md` |
 
 ## 2026-10-23 — DB eşitleme
 
