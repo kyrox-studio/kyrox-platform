@@ -75,7 +75,7 @@
 - [x] Kaydet ve ekranı paylaş işlemleri kolay erişilen üst alanda bulunsun.
 - [x] Gruplar, Şablonlarım ve Standartlar yalnız **Gelişmiş** modda erişilebilir olsun. **Ayarlar** bölümü de yalnız Gelişmiş modda görünür.
 
-**Mevcut kanıt:** `src/newProjectWizard.js` üç adımlı sihirbaz içeriyor. `src/configuratorMarkup.js` içinde Proje, Stand Tipi, Modül ekle, Gruplar, Şablonlarım, Seçili yüzey ve Standartlar bölümleri bulunuyor.
+**Mevcut kanıt:** `src/newProjectWizard.js` dört adımlı sihirbaz içeriyor. `src/configuratorMarkup.js` içinde Proje, Yerleşim, Modül ekle, Gruplar, Şablonlarım, Seçili yüzey ve Standartlar bölümleri bulunuyor.
 
 ### 3. Seçim ve düzenleme
 
