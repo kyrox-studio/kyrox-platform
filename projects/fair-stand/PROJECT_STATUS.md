@@ -2,12 +2,16 @@
 
 | Alan | Değer |
 |------|--------|
-| Son doğrulama | **2026-11-09** koda göre (Fair Stand `main` `5ce89ddd`, Alembic head `0094_demo_usage`). Canlı: 2026-11-09 deploy (sunucu `5ce89ddd`, prod head `0094_demo_usage`) |
+| Son doğrulama | **2026-11-09** koda göre (Fair Stand `main` `4532102d`, Alembic head `0094_demo_usage`). Canlı: 2026-11-09 deploy (sunucu `4532102d`, prod head `0094_demo_usage`) |
 | Implementation deposu | `kyrox-studio/kyrox-fair-stand` |
 | Hosted backend | Fair Stand FastAPI (`:8002`) / PostgreSQL `fair_stand` |
 | Item master | İlişkisel PostgreSQL; catalog bootstrap API |
 | Category master | `fair_stand_categories` |
 | Catalog | Yalnız Item projeksiyonu |
+
+## 2026-11-09 — Gizli Geçmiş kartı, demo filigranında logo, kyrox.studio bağlantısı
+
+[Stand #369](https://github.com/kyrox-studio/kyrox-fair-stand/pull/369): `.collapsible-panel { display: flex }` `[hidden]` özniteliğini eziyordu, revizyonu olmayan projede boş Geçmiş kartı görünüyordu (oturumlu akışta da); genel `.collapsible-panel[hidden] { display: none }` eklendi, demoya özel kural kaldırıldı. Demo filigranı artık Kyrox Studio logosu (kyrox-brand `kyrox-logo-siyah.svg`, `src/assets/` kopyası) ve altında DEMO; düz, %10 opaklık. [kyrox-web #22](https://github.com/kyrox-studio/kyrox-web/pull/22): kyrox.studio Stand Konfiguratör sayfasında "Giriş yapmadan dene ↗" düğmeleri ve SSS cevabı demoya bağlandı (canlı `e04c696`). Stand canlıda `4532102d`. Doğrulama: Node 1558, build, change-contract kabul; E2E `demo-mode` (logo yüklenir, döndürülmez) ve `project-revision-session` (revizyonsuz kart gizli; eski CSS ile düştüğü görüldü) geçti.
 
 ## 2026-11-09 — Oturumsuz demo sayfası (canlıda)
 
