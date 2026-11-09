@@ -152,6 +152,7 @@ Mevcut yönlendirme:
 ```text
 /                               -> frontend/dist
 /api/v1/fair-stand/live-shares  -> http://127.0.0.1:8002 (WebSocket upgrade)
+/api/v1/fair-stand/demo/        -> http://127.0.0.1:8002 (IP başına 30 istek/dk, patlama 20; Stand ADR-0012)
 /api/v1/fair-stand/             -> http://127.0.0.1:8002
 /api/                           -> http://127.0.0.1:8001
 /kyrox-core/                    -> http://127.0.0.1:8000/
@@ -170,6 +171,7 @@ Mevcut yönlendirme:
 | `/assets/` | site dosyası | `Cache-Control: public, max-age=31536000, immutable` — Vite dosya adı içerik özetini taşır. 404 yanıtı önbelleğe alınmaz. |
 | `/index.html` (SPA girişi) | site dosyası | `no-cache` — yeni deploy hemen görünür. |
 | `/models/`, `/textures/` | site dosyası | `no-cache` + ETag — ad sabit; dosya değişmediyse 304 döner, gövde inmez. GLB `model/gltf-binary` olarak sunulur. |
+| `/api/v1/fair-stand/demo/` | site dosyası (`limit_req_zone` sunucu bloklarının dışında) | Oturumsuz Stand demosu: IP başına dakikada 30 istek, patlama 20, aşınca 429. Sayfa bir oturum, bir katalog ve 30 sn'de bir sinyal ister; asıl süre sınırını Stand sayar ([ADR-0012](../../../ecosystem/decisions/0012-fair-stand-anonymous-demo.md)). |
 
 Ne zaman çalışır:
 

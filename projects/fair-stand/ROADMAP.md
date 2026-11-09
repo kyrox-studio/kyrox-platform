@@ -101,6 +101,8 @@ Kurallar:
 | Işıklı Strafor seçim mesajı | `main.js` ışık rengi değişiminde mesajı `selectionFeedback.js` formatter'ı yerine elle yazıyor | — |
 | `main.js` ve `scene3d.js` parçalanması | 2026-10-23 ertelendi | — |
 | Yalnız testlerde kullanılan export'lar (~35) | Gözden geçirilecek | — |
+| Demo sayfasına kyrox.studio bağlantısı | Demo 2026-11-09'dan beri canlı (https://fuar.kyrox.studio/stand-demo); kyrox.studio sitesinde bağlantı yok | [ADR-0012](../../ecosystem/decisions/0012-fair-stand-anonymous-demo.md) |
+| Geçmiş kartında `hidden` ezilmesi | `#project-revisions` `hidden` iken `.collapsible-panel` `display: flex` kuralı onu gösteriyor; revizyonu olmayan projede boş Geçmiş görünür (oturumlu akışta da). Demo kendi CSS kuralıyla gizler | — |
 | Performans P4 ve kalan ölçümler | 0 / 20 görselli proje açılışı, `rebuildWall` aynı kare birleştirme, 30 modülde `buildWall` | [PERFORMANCE_ROADMAP.md](PERFORMANCE_ROADMAP.md) |
 
 ## 7. Gelecek (faza yerleşmemiş)

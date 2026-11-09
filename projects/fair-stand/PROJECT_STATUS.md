@@ -2,12 +2,16 @@
 
 | Alan | Değer |
 |------|--------|
-| Son doğrulama | **2026-11-06** koda göre (Fair Stand `main` `26eb9981`, Alembic head `0092_foam_card_preview`). Canlı: 2026-11-06 deploy (sunucu `26eb9981`, prod head `0092`) |
+| Son doğrulama | **2026-11-09** koda göre (Fair Stand `main` `5ce89ddd`, Alembic head `0094_demo_usage`). Canlı: 2026-11-09 deploy (sunucu `5ce89ddd`, prod head `0094_demo_usage`) |
 | Implementation deposu | `kyrox-studio/kyrox-fair-stand` |
 | Hosted backend | Fair Stand FastAPI (`:8002`) / PostgreSQL `fair_stand` |
 | Item master | İlişkisel PostgreSQL; catalog bootstrap API |
 | Category master | `fair_stand_categories` |
 | Catalog | Yalnız Item projeksiyonu |
+
+## 2026-11-09 — Oturumsuz demo sayfası (canlıda)
+
+[ADR-0012](../../ecosystem/decisions/0012-fair-stand-anonymous-demo.md). CRM `/stand-demo` giriş yapmadan editörü açar (`mountFairStand(el, { demo: true })`). Kilitli (oturum mesajı): Farklı Kaydet, Dışarı Aktar, İçe Aktar, Aç, Sil, Kaydet, Render Al, Ekranı paylaş, Şablon olarak kaydet, proje adı Değiştir. Sahne kurulur ama ad sorulmaz ve hiçbir yere kaydedilmez; otomatik kayıt kapalı, Geçmiş gizli; Gelişmiş mod açık. Üretim Listesi sabit örnek ve "Demo görüntülemede gerçek Üretim Listesi görülemez." gösterir. Süre sunucuda: tarayıcı 25 dk / 24 saat, IP 3 katı; bitince kilit ekranı. Demo kataloğu `lengthParts` ve `isCostEnabled` çıkarılmış bootstrap'tır; `composition` sahne için gerektiğinden açıktır (kabul edilen risk). Migration `0094_demo_usage`. Varsayılan kapalı: `FAIR_STAND_DEMO_ENABLED` + `FAIR_STAND_DEMO_SECRET` gerekir. Nginx demo uçlarına IP başına 30 istek/dk (CRM `nginx_performance.py`). Doğrulama: 1558 Node, 248 backend (16 yeni demo testi), build, change-contract kabul; hedefli E2E 13 spec geçti (3 yeni demo senaryosu + sihirbaz, otomatik kayıt, kayıt koruması, canlı paylaşım, içe/dışa aktarma, şablon, revizyon, render, BOM ve keşfin bulduğu 3 spec); CRM 675 vitest, UI envanteri ve özellik sözleşmesi kapıları, 12 Nginx testi. Tam E2E 263/264 (düşen `vertical-move-upright-height` tek başına 4/4 geçti). [Stand #368](https://github.com/kyrox-studio/kyrox-fair-stand/pull/368) ve [CRM #389](https://github.com/kyrox-studio/kyrox-fair-crm/pull/389) merge edildi, 2026-11-09'da canlıya alındı (Stand `5ce89ddd`, CRM `016c1d7d`); sunucu Stand `.env` içinde demo açık, eski `.env` yedeği `/root/env-backups/`. Canlıda https://fuar.kyrox.studio/stand-demo açılıyor, sayaç görünüyor, Kaydet oturum mesajı veriyor ve yalnız demo uçları çağrılıyor. kyrox.studio'dan bağlantı henüz yok.
 
 ## 2026-11-06 — Özellikler paneli yeniden düzeni ve Render Al ışığı
 
