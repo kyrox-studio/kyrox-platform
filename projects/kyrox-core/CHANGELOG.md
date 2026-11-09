@@ -25,7 +25,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Fixed
 
-- **Kayıt yanıttan önce (2026-11-09)** — `get_db` commit'i FastAPI'nin varsayılan `request` kapsamında yanıt gönderildikten sonra çalışıyordu; hızlı istemci bir sonraki isteği (etkinleştirme, şifre sıfırlama, yeni access token) commit'ten önce atınca 400/401 alıyordu (CRM `prod-path-e2e` P0.2 ara sıra düşüyordu). Bütün `Depends(get_db)` kullanımları `scope="function"` oldu; commit artık yanıttan önce. `fastapi>=0.121.0`; regresyon testi `backend/tests/test_db_session_scope.py`.
+- **Kayıt yanıttan önce (2026-11-09)** — `get_db` commit'i FastAPI'nin varsayılan `request` kapsamında yanıt gönderildikten sonra çalışıyordu; hızlı istemci bir sonraki isteği (etkinleştirme, şifre sıfırlama, yeni access token) commit'ten önce atınca 400/401 alıyordu (CRM `prod-path-e2e` P0.2 ara sıra düşüyordu). Bütün `Depends(get_db)` kullanımları `scope="function"` oldu; commit artık yanıttan önce. `fastapi>=0.121.0`; regresyon testi `backend/tests/test_db_session_scope.py`. [Core #54](https://github.com/kyrox-studio/kyrox-core/pull/54), 2026-11-09 canlıda (`7546356`).
 - Granting Super Admin no longer clears `identity_users.organization_id` or revokes the user's active organization role. The user-management context returns that owned `organization_id`.
 - OL08 retained-audit purge now canonicalizes naive tombstone timestamps as UTC. SQLite and some drivers return naive datetimes; `datetime.astimezone(UTC)` previously treated them as process-local time, so a 12-calendar-month deadline could pass a microsecond early and serialized `terminal_deleted_at` could shift by the local UTC offset.
 
