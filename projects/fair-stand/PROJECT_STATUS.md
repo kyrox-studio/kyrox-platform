@@ -2,12 +2,16 @@
 
 | Alan | Değer |
 |------|--------|
-| Son doğrulama | **2026-11-09** koda göre (Fair Stand `main` `4532102d`, Alembic head `0094_demo_usage`). Canlı: 2026-11-09 deploy (sunucu `4532102d`, prod head `0094_demo_usage`) |
+| Son doğrulama | **2026-11-10** koda göre (Fair Stand `main` `83e64a46`, Alembic head `0094_demo_usage`). Canlı: 2026-11-10 deploy (sunucu `83e64a46`, prod head `0094_demo_usage`) |
 | Implementation deposu | `kyrox-studio/kyrox-fair-stand` |
 | Hosted backend | Fair Stand FastAPI (`:8002`) / PostgreSQL `fair_stand` |
 | Item master | İlişkisel PostgreSQL; catalog bootstrap API |
 | Category master | `fair_stand_categories` |
 | Catalog | Yalnız Item projeksiyonu |
+
+## 2026-11-10 — Buzlu Özellikler paneli, arşivde sıra ve arama, kılavuz düzeltmesi
+
+[Stand #370](https://github.com/kyrox-studio/kyrox-fair-stand/pull/370): Özellikler paneli ve üst çubuk buzlu cam (4px blur); panel masaüstünde üst çubuğun altında yüzen yuvarlak köşeli kart, panel açılınca üst çubuk yerinden oynamaz, sahne ölçü etiketleri panelin altında kalır, düz yazılar lacivert. Dar ekranda (≤680px) üst çubuk koyu zeminini korur. Görsel arşivi: SVG dosyaları üstte, ada göre sıralı (Türkçe, doğal sayı sırası; `src/assetLibraryOrder.js`) ve ada göre arama kutusu. Kılavuz: sihirbaz 4 adım (stand tipi, yerleşim, ölçü, özet); ölçüler varsayılan açık ve moda bağlı değil. Demo sayfası aynı kodu kullanır.
 
 ## 2026-11-09 — Gizli Geçmiş kartı, demo filigranında logo, kyrox.studio bağlantısı
 
