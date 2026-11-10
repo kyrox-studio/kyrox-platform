@@ -2,7 +2,7 @@
 
 | Alan | Değer |
 |------|--------|
-| Son doğrulama | **2026-11-10** koda göre (Fair Stand `main` `83e64a46`, Alembic head `0094_demo_usage`). Canlı: 2026-11-10 deploy (sunucu `83e64a46`, prod head `0094_demo_usage`) |
+| Son doğrulama | **2026-11-10** koda göre (Fair Stand `main` `87035628`, Alembic head `0094_demo_usage`). Canlı: 2026-11-10 deploy (sunucu `87035628`, #373 dahil, prod head `0094_demo_usage`) |
 | Implementation deposu | `kyrox-studio/kyrox-fair-stand` |
 | Hosted backend | Fair Stand FastAPI (`:8002`) / PostgreSQL `fair_stand` |
 | Item master | İlişkisel PostgreSQL; catalog bootstrap API |
