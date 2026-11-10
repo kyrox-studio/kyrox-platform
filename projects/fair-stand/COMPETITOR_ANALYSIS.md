@@ -164,7 +164,7 @@ Arayüz artık Türkçe ("Stand Tasarımcı · Exphora"); sürüm etiketi yine `
 
 | Denenen | Sonuç |
 |---|---|
-| Duvar yüksekliği | Editörün içinde, stand kurulduktan sonra 2,7 / 3,0 / 3,5 / 4,0 m arasında değişiyor; sahnedeki TV ve mobilya yerinde kalıyor. Bizde yok; yeniden boyutlandırma motorunun ilk adımı ([ROADMAP.md](ROADMAP.md) § 2). |
+| Duvar yüksekliği | Editörün içinde, stand kurulduktan sonra 2,7 / 3,0 / 3,5 / 4,0 m arasında değişiyor; sahnedeki TV ve mobilya yerinde kalıyor. Bizde de var (2026-11-10): önizleme + onay, bantlar ve kaplama korunur, Geri al döner; genişlik/derinlik ve yerleşim sırada ([ROADMAP.md](ROADMAP.md) § 2). |
 | Duvara metin | Texts → Back / Left / Right Wall → pencere: metin, yazı tipi, renk, boyut → "Add Text to Wall". Sol panelde "Placed Texts" listesi (sil). Seçilen metnin üstünde ← ↑ ↓ → (taşı), − / + (boyut), kopyala, sil. **Maxima sisteminde metin yok** ("Custom wall text is not available for Maxima"). |
 | Sağ tık | Sahnede sağ tık menüsü yok. Karşılığı: panele bir tık = panel yeşil vurgulanır + "Click again for options"; ikinci tık = **Wall Options**: Graphics, Generate AI Design, Add Your Graphic, Add Custom Text, Lightbox, Arc, Circular Arc, Glass Door, Basic Door, TV ›, Storage ›, Clear Wall. |
 | Nesne seçimi | TV: Kopyala / Sil. Bırakılan broşürlük: Döndür / Kopyala / Sil. Seçim yeşil vurgu. |
@@ -176,7 +176,7 @@ Arayüz artık Türkçe ("Stand Tasarımcı · Exphora"); sürüm etiketi yine `
 | Export | Düğme açıklaması "Export stand as paid PDF": dışa aktarma ücretli. |
 
 **Bu denemeden alınabilecekler (karar kullanıcıda):**
-1. Açık standda duvar yüksekliğini değiştirme (B.16) rakipte var ve içerik korunuyor.
+1. Açık standda duvar yüksekliğini değiştirme (B.16) rakipte var ve içerik korunuyor; bizde 2026-11-10'dan beri var.
 2. Panel üstü seçenekler dokunmatikte de çalışır. Bizde karşılığı var: tek tık, sağ tık ve uzun basma ortak Özellikler panelini açar.
 3. Seçili nesnenin işlemleri: bizde seçim çubuğunda Döndür / Kopyala / Sil var, taşıma sahnede sürüklemeyle.
 4. Duvar metni için ayrı, basit pencere (yazı tipi / renk / boyut) ve yerleştirilen metinler listesi.
@@ -196,6 +196,69 @@ Arayüz artık Türkçe ("Stand Tasarımcı · Exphora"); sürüm etiketi yine `
 | Bitiş | Save Design, Load, Submit Design, Reset Design, Get Consultation |
 | Asistan | Vexa açılır pencere ("Design with Vexa") |
 
+## 2d. Senaryo: içerik varken stand ölçüsünü değiştirme (2026-11-10, anonim, giriş yok)
+
+**Yöntem:** Aynı senaryo iki rakipte adım adım koşuldu. BoothDesign'da konumlar sahne nesnelerinden (`_booth` çocukları, stand merkezli metre) okunup her adımda kaydedildi; ekran görüntüsü yalnız destek. Etiketler: **denendi** / **yalnız menüde görüldü** / **denenemedi**.
+
+### BoothDesign (denendi)
+
+Başlangıç: varsayılan "Inline" stand (sırt + iki yan duvar; bizim U'ya karşılık) 6,1 × 3,05 m; içinde sırtta tek parça baskı, TV, masa + 4 sandalye, banko, figür.
+
+| Adım | Duvarlar | Mobilya / öğeler | Not |
+|---|---|---|---|
+| Genişlik 6,1 → 9 m | Stand merkezde kalır, iki yandan eşit büyür. Sırt duvarı 6 yerine 9 modülle **baştan dizilir**; baskı yeni genişliğe yayılır | x konumları **oranla ölçeklenir** (×1,49): banko 2,23 → 3,33 m; masanın iki yanındaki sandalyeler 0,62 → 0,92 m açılır (grup korunmaz). Boyutlar değişmez | Silinen yok |
+| Genişlik 9 → 3 m | Sırt duvarı dar dolgu panellerle kapanır (eşit olmayan modüller) | Oranla sıkışır; taşan 1 öğe içeri itilir; öğeler üst üste binebilir | Bildirim: "Layout refitted — 1 item(s) moved to stay inside the booth." Silinen yok, onay penceresi yok |
+| Genişlik 3 → 6 m | Yeniden dizilir | İçeri itilen öğe eski yerine dönmez (2,23 yerine 2,42 m) | Ölçü değişimi kayıplı |
+| Derinlik 3 → 6 m | Stand yine merkezde: **sırt duvarı geriye gider**, açık kenar öne gelir; yan duvarlar iki uçtan uzar | z konumları oranla ölçeklenir (×1,96); masa–sandalye arası açılır | — |
+| Derinlik 6 → 2 m | Kısalır | Oranla sıkışır, 1 öğe içeri itilir | Aynı bildirim |
+| Ctrl+Z | Ölçü 6 × 6'ya döner | Bir öğe 1,99 yerine 2,72 m'ye döner | Geri al anlık görüntüden değil, yeniden ölçekleyerek; birebir değil |
+| Tip Inline → Ada | Bütün duvarlar ve sırttaki baskı kalkar | Mobilya kalır | Uyarı yok |
+| Ada'da ölçü değişimi | — | İçerik ortada kalır, oranla yayılır | Yalnız ekran görüntüsü; ölçülmedi |
+
+### StandBuilder (denendi)
+
+- 5 adımlı sihirbazda Size adımında 6 × 3 m Inline + "Basic" şablon ile kuruldu.
+- **Editörde genişlik / derinlik alanı yok.** Booth, Walls, Furniture ve Cart sekmelerinde ölçü değiştiren bir şey bulunmadı. Editörden yalnız duvar yüksekliği değişiyor (2b).
+- Sayfa yenilenince tasarım gidiyor, sihirbaz baştan başlıyor (giriş yapmadan kayıt yok). Ölçüyü değiştirmenin tek yolu standı baştan kurmak.
+
+### Kyrox Fair Stand (kod, `feat/stand-yukseklik-degistir`, commit'siz)
+
+Kaynak: `src/standResize.js` → `planStandSizeChange` ve birim testleri. Tarayıcıda bu oturumda yeniden koşulmadı.
+
+- Önizleme + onay penceresi ("eklenecek / kalkacak / taşınacak" sayıları), tek adımda uygulanır, Ctrl+Z ile birebir geri döner.
+- **Sırt / U:** genişlikte sırt duvarı iki uçtan eşit uzar / kısalır (50 cm adım), içerik ortada kalır. **L:** köşe sabit, açık uç uzar. **Ada:** bütün içerik farkın yarısı kadar kayar, ortada kalır.
+- **Derinlik:** sırt duvarı yerinde kalır, açık ön kenar uzar; öğeler en yakın kenara mesafesini korur.
+- Mobilya **ölçeklenmez**; mesafe korunur, gruplar tek parça kayar. Kısalan kenarda dışarıda kalan panel ve görseli kalkar (önizlemede sayılır), taşan öğe kenara yaslanır.
+
+### Karşılaştırma
+
+| Konu | BoothDesign | StandBuilder | Bizim karar |
+|---|---|---|---|
+| Ölçüyü sonradan değiştirme | Var, anında, onaysız | Yok (baştan kur) | Var, önizleme + onay |
+| Sırt duvarı genişlikte | İki uçtan eşit (stand merkezli) | — | Sırt / U'da iki uçtan eşit: **aynı** |
+| Derinlik | Stand merkezli: sırt duvarı geriye gider | — | Sırt duvarı sabit, ön uzar: **farklı** |
+| Mobilya | Oranla ölçeklenir; grup bozulur | — | Mesafe korunur, grup tek parça |
+| Küçülünce | Hiçbir şey silinmez, öğeler içeri itilir / üst üste biner | — | Dışarıdaki panel/görsel kalkar, önizlemede sayılır |
+| Geri al | Var, birebir değil | — | Birebir |
+| Ada | Ortada kalır | — | Ortada kalır: **aynı** |
+
+**Tek davranış farkı:** Derinlikte rakip standı merkezde tutup sırt duvarını geriye itiyor; bizde sırt duvarı yerinde kalıyor. **Karar (kullanıcı, 2026-11-10): sırt duvarı yerinde kalır**; fuar parselinde sırt komşuya dayalıdır.
+
+## 2e. Senaryo: içerik varken yerleşimi değiştirme (2026-11-10, anonim, giriş yok)
+
+**BoothDesign (denendi; duvar sayısı ve öğe konumları sahne nesnelerinden okundu):** Başlangıç Inline 6,1 × 3,05 m (sırt 6 modül, sol 3, sağ 3), 12 öğe.
+
+| Geçiş | Duvarlar | Öğeler | Not |
+|---|---|---|---|
+| Inline → Köşe | Sağ duvar kalkar; sırt ve sol baskısıyla kalır | 12 öğe yerinde | Onay / uyarı yok |
+| Köşe → Yarımada (yalnız sırt) | Sol duvar da kalkar; sırt 7 modülle yeniden dizilir, baskı kalır | Yerinde | — |
+| Yarımada → Inline | Yan duvarlar **eski baskılarıyla** geri gelir | Yerinde | Kaldırılan duvarın baskısını hatırlıyor |
+| Inline → Ada | Bütün duvarlar ve baskılar kalkar | Mobilya kalır | Uyarı yok (2d) |
+
+**StandBuilder (denendi):** Editörde yerleşim (Open Sides) değiştirme yok; yalnız sihirbazın Size adımında seçiliyor.
+
+**Bizim karar (kullanıcı, 2026-11-10):** Rakip gibi kalan duvar korunur, kalkan kenar gider, yeni kenara duvar gelir; farklı olarak önizleme + onay var, kalkan görsel hatırlanmaz (Geri al döner), depo ve alınlık yeni yerleşime göre kurulur.
+
 ---
 
 ## 3. Üçlü özet
@@ -213,6 +276,7 @@ Arayüz artık Türkçe ("Stand Tasarımcı · Exphora"); sürüm etiketi yine `
 | BOM | Sistem + satır | Sepet / fiyat | Panel / ilişki / üretim |
 | Fiyat / teklif | Sahneden otomatik teklif kalemleri, fiyat elle; PDF / gönderme girişle; Fiyat al → üretici ağı | Sepet anlık toplam | Editörde yok; CRM maliyet + Excel |
 | Operasyon | Tasarım onayı, elektrik planı, malzeme + palet, görsel listesi; CSV / PDF | Yok | Üretim listesi (TXT), baskı satırları |
+| Ölçüyü sonradan değiştirme | Var: merkezli, mobilya oranla ölçeklenir, onaysız (2d) | Yok, baştan kurulur (2d) | Var: önizleme + onay, mesafe korunur (2d) |
 | Dönen kamera / video | Tur videosu 360°, 1280×720 (çalışması doğrulanmadı) | Cinematic rotation, video yok | Yok |
 | Paylaşım | Link: izin, süre, PIN, filigran; kim açtı takibi | Submit Design | Canlı sekme paylaşımı (tek izleyici, 2 saat) |
 | AR | Var, girişsiz (USDZ / GLB, QR, WhatsApp / e-posta / SMS) | Yok | Yok |
