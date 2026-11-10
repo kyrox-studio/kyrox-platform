@@ -1,7 +1,7 @@
 # Fair Stand — rakip analizi (ürün / stack / hız)
 
 **Durum:** Gözlem notu (kod yok). Rakip analizinin tek kaynağı bu dosyadır.  
-**Tarih:** Rakip gözlemleri 2026-10-18 ve 2026-10-20 (siteler o tarihten sonra yeniden gezilmedi). Kyrox Fair Stand satırları 2026-11-06'da `main` koduna göre güncellendi.  
+**Tarih:** Rakip gözlemleri 2026-10-18 ve 2026-10-20; 2026-11-10'da iki site yeniden gezildi (§ 1b, § 2c; hesap açılmadı, kayıt yapılmadı). Kyrox Fair Stand satırları 2026-11-06'da `main` koduna göre güncellendi.  
 **Amaç:** Canlı app üzerinden BoothDesign ve StandBuilder’ı kaydetmek; Fair Stand hız stratejisine girdi.  
 **Uygulama planı (yapılacaklar):** [PERFORMANCE_ROADMAP.md](PERFORMANCE_ROADMAP.md). Kod: `kyrox-fair-stand` ayrı PR.
 
@@ -55,6 +55,44 @@ Kyrox Fair Stand'de ekleme, silme, taşıma ve geri al artık sahneyi yerinde g�
 - **Çıktılar:** BOM / CSV, artwork list, quote, AR (QR), snapshot, turntable video, share link, PDF/print (Tools menüsü).
 - **Fair Stand için ders:** Incremental graph + GPU’ya göre kalite; üretim derinliğini kopyalamadan hız katmanı.
 
+### 1b. Güncel gözlem (2026-11-10, anonim, giriş yok)
+
+Arayüz artık Türkçe ("Stand Tasarımcı · Exphora"); sürüm etiketi yine `v17.10`. Açılışta "Terms of Use" bandı çıkar: uygulamanın ve 3D modellerin kopyalanması yasak (band kabul edilmedi).
+
+| Alan | Gözlem |
+|---|---|
+| Mod | Basit / Uzman |
+| Sistem | Custom (ahşap), Aluvision (Omni-55 / Hybrid-55, Hybrid-62), Maxima (BETA), beMatrix, Octanorm (BETA), Çadır (BETA) |
+| Booth | Birim Feet / Metre; Inline / Köşe / Yarımada / Ada; hazır ölçüler 10×10 … 40×40 ft ve Özel |
+| Sol bölümler | Yükseklik, Köşe, Kaplama, Zemin, Tavan (yok / ahşap lata / tam kapalı / yarım + yarım / truss + ışık), kol spot, tavan armatürü (gömme spot / spot / ray / sarkıt), armatür sayısı, renk sıcaklığı (3500K / 5000K / soğuk), duvar yıkayıcı, özel ışık ekle, header bandı (fascia), koridora bakan uç, köşe bağlantısı, birleşim noktaları |
+| Alt araç çubuğu | Elektrik ana şalteri (ışık ve ekranlar), açık / koyu tema, maket görünümü, üstten, dört yönden yandan, ziyaretçi göz hizası (zemine tıkla → kamera oraya), kaydır, ortala, zemin ve kaplama, el çizimi bölücü (üstten serbest çizim → katalog ölçüsünde panel), görsel kalite, iki nokta arası ölçü, stüdyo görünümü (beyaz zemin, ölçüler gizli) |
+| Üst bant | Add item, AI düğmesi, Giriş yap; ağırlık (kg) ve kalem sayısı rozeti; hazır stand tasarımları ("Browse pre-made booth designs") |
+| Araçlar → Satış | **Fiyat al** (tasarımı üreticiye gönder, 24 saatte dönüş), **Teklif** (her kalem fiyatlı satır) |
+| Araçlar → Üretim | **Operasyon** (onay, elektrik, malzeme, baskı sekmeleri), **Görsel Listesi** (basılacak yüzey, ölçü, dosya isteği) |
+| Araçlar → Görünüm | Studio (yakında, Enterprise), Wireframe, **AR** (QR ile telefonda gerçek ölçü), Teknik özet (parsel, yapı, ağırlık), Görsel kalite (Yüksek: yumuşak gölge + salon yansıması) |
+| Araçlar → Çıktı | **Anlık görüntü** (altı açıdan kare, filigran isteğe bağlı), **Tur videosu** ("Kamera stand çevresinde 360° · tarayıcıda kayıt · 1280×720") |
+| Araçlar → Paylaşım | **Paylaş** (müşteriye link: izin, süre, PIN, filigran), **Görüntülenmeler** (linki kim açtı: ülke, şehir, cihaz, zaman), arkadaş daveti (EXP-XXXX kodu), Embed (Enterprise) |
+| Katalog | Konsol kaydı: 1407 ürün, 824 grup, 5 marka |
+| Açılış sahnesi | Hazır mobilya: danışma, tabure, masa, 4 sandalye, raf, bitki |
+
+#### Açılan ekranlar (2026-11-10, giriş yapılmadan; hiçbir form gönderilmedi, dosya indirilmedi)
+
+| Ekran | Giriş gerekir mi | İçerik |
+|---|---|---|
+| **Teklif** | Görmek için hayır; göndermek ve PDF için ücretsiz hesap | Alıcı (firma, yetkili, e-posta, telefon, fuar, salon/stand no); teklif no, tarih, geçerlilik (gün), para birimi (EUR, USD, TRY, GBP, AED, SAR). Kalemler sahneden kendiliğinden gelir ve gruplanır: Yapı (sistem frame adedi, bağlantı ve köşe elemanları), Baskı (SEG kumaş ft²), Zemin, Ekler, Mobilya (marka, SKU, ölçü, kg, liste fiyatı; ör. IKEA, Amazon, T-EXO), Hizmet (nakliye, montaj/demontaj, elektrik 3 kW, grafik hazırlık, depolama, sigorta). Birim fiyat elle girilir; ara toplam, iskonto %, KDV %, genel toplam; "+ Satır ekle"; teknik özet (fiyata girmez); "Bu rakamlar tahmindir" notu |
+| **Operasyon → Tasarım onayı** | Hayır | Dört açıdan stand görseli (perspektif sol/sağ, önden, üstten plan); parsel, yapı ölçüsü, yükseklik, toplam ağırlık, palet sayısı; duvar tablosu; brief metni; "Organizatör onay e-postası" metni (kopyala); CSV indir, PDF/Yazdır |
+| **Operasyon → Elektrik planı** | Hayır | Üstten planda priz yerleşimi (priz ekle, main drop, 230 V / 120 V, sahneden yenile, SVG indir); yük tablosu (öğe, W, A, V, faz) ve sipariş edilen güç (3 kW monofaze) |
+| **Operasyon → Malzemeler** | Hayır | Toplam ağırlık, hacim (ölçülen + tahmin), palet adedi ve ölçüsü; malzeme listesi üretici ürün koduyla (frame, kumaş, aydınlatma, bağlantı, zemin, mobilya); palet hesabının kabulleri açıkça yazılı; teyit bekleyen kod "⚠ üretici teyidi bekliyor" işaretli |
+| **Operasyon → Görsel Listesi** | Hayır | Basılacak yüzeyler: duvar iç/dış, banko ön/yanlar, zemin; sipariş, görünen ve kesim ölçüsü ayrı; görseli olmayan yüzey "Marka görseli — temin edilecek" |
+| **AR görünümü** | Hayır | USDZ / GLB üretir; QR, AR linki kopyala, WhatsApp / e-posta / SMS ile gönder, GLB indir; iOS ve Android |
+| **Fiyat al** | Göndermek için evet | Tasarım (ölçü, duvar, sistem, zemin, ağırlık, mobilya, görsel, malzeme listesi) **Exphora Builders Club**'a gider: doğrulanmış stand üreticileri ağı, fuar ve bölgeye göre eşleşme, karşılaştırmalı teklif. Üreticiler için "Builders Club'a katıl" bağlantısı var |
+| **Paylaş** | Evet ("Paylaşmak için Exphora hesabına gir") | Açılmadı |
+| **Anlık görüntü** | Tıklanınca kayıt / giriş penceresi çıktı (e-posta, şifre, Google, LinkedIn) | Açılmadı |
+
+**İş modeli gözlemi:** BoothDesign ücretsiz tasarım aracıyla stand alıcısını toplayıp talebi üretici ağına (Builders Club) yönlendiriyor; stand üreticisi rakip değil, ağın üyesi olarak konumlanıyor. Kyrox Fair Stand ise üreticinin kendi aracı.
+
+**Doğrulanmadı:** Tur videosu üç denemede başlamadı (konsolda kayıt satırı yok); Paylaş ve Anlık görüntü giriş istediği için tur videosu da girişe bağlı olabilir. Görüntülenmeler, Wireframe, Teknik özet ve alt araç çubuğundaki düğmeler denenmedi.
+
 ---
 
 ## 2. Stand Builder — AetherEx
@@ -97,7 +135,7 @@ Kyrox Fair Stand'de ekleme, silme, taşıma ve geri al artık sahneyi yerinde g�
 | Duvar | Custom Wall **çizilerek** (DRAW), kapı, Clear Wall | Genişliğe göre panel modülleri, şeride ekleme, snap, kısa duvar, ayırıcı |
 | Fiyat | Sepet anlık toplam: "Maxima · Basic Stand €5.825" (panel, zemin, nakliye, işçilik, kurulum dahil); zemin seçeneklerinde fark fiyatı (Wood +€1.125) | Editörde fiyat yok, maliyet CRM'de; üretim listesi ekranda okunur adlarla (kod ipucunda), TXT indirilir |
 | Marka | Ayrı bölümler: Graphics & Logos, Texts; varsayılan alın "YOUR BRAND" | Panel bazında renk / görsel (Doldur / Sığdır), lightbox, mesh, cam; logo için ışıklı strafor; duvara yazı aracı yok |
-| Sunum | Fuar salonu arka planı, Cinematic mode / rotation, Hide UI, Camera Views, Export | Render Al (PNG), view cube, Persp / Ortho; salon yalnız beton zemin ve sis; dönen kamera yok |
+| Sunum | Fuar salonu arka planı, Cinematic mode (salon ışığı; § 2c), Hide UI → Cinematic rotation, Camera Views, Export | Render Al (PNG), view cube, Persp / Ortho; salon yalnız beton zemin ve sis; dönen kamera yok |
 | Yardım | Yapay zekâ asistanı (Vexa), "AI Generate (Beta)" (kilitli), Get Consultation | Kılavuz (?), "5 Dakikada İlk Standın", ilk kullanım ipuçları |
 | Bitiş | Save / Load, **Submit Design** (ekip iletişime geçer), Reset | Otomatik kayıt, revizyonlar, canlı paylaşım, CRM projesi |
 | Upsell | Yükseltilmiş zemin (+€1.000), asma yapı, ön kemer (+€325) | Yok |
@@ -146,6 +184,20 @@ Kyrox Fair Stand'de ekleme, silme, taşıma ve geri al artık sahneyi yerinde g�
 
 ---
 
+## 2c. Stand Builder — güncel gözlem (2026-11-10, anonim, kayıt yok)
+
+| Alan | Gözlem |
+|---|---|
+| Akış | 5 adımlı sihirbaz değişmemiş: Event (fuar arama; "Istanbul" → Prohunt, Stationery Fair, IFF…) → Size → Structure → Start (Start from blank veya Custom Stand şablonları: Front Arc, Overhead Arch …) → Build |
+| Üst bant | Hide UI, dil, Cinematic mode, Template, Export, Camera Views (Center / Top / Right / Left) |
+| Cinematic mode | Kamerayı döndürmez; salonu karanlık / sinematik ışığa alır, düğme "Bright mode" olur |
+| Dönen kamera | Yalnız **Hide UI** ile arayüz gizlenince sağ üstte **Cinematic rotation** çıkar. Kamera standın çevresinde sabit hızla, hafif yukarıdan sürekli döner; bir tur yaklaşık 30 sn; "Stop rotation" ile durur. **Video kaydı yok.** |
+| Sol panel | Booth / Walls / Furniture / Cart; AI Generate (Beta, kilitli); Wall panel height 2,7 / 3,0 / 3,5 / 4,0 m; Booth Customization; Graphics & Logos; Texts |
+| Bitiş | Save Design, Load, Submit Design, Reset Design, Get Consultation |
+| Asistan | Vexa açılır pencere ("Design with Vexa") |
+
+---
+
 ## 3. Üçlü özet
 
 | | BoothDesign | StandBuilder | Kyrox Fair Stand |
@@ -159,5 +211,11 @@ Kyrox Fair Stand'de ekleme, silme, taşıma ve geri al artık sahneyi yerinde g�
 | 3D model sıkıştırma | Draco | Draco / Meshopt / KTX2 | Meshopt (`public/models` 12,5 MB) |
 | Kod koruma | Token’lı, süreli çekirdek | Minify | Minify, sourcemap yok |
 | BOM | Sistem + satır | Sepet / fiyat | Panel / ilişki / üretim |
+| Fiyat / teklif | Sahneden otomatik teklif kalemleri, fiyat elle; PDF / gönderme girişle; Fiyat al → üretici ağı | Sepet anlık toplam | Editörde yok; CRM maliyet + Excel |
+| Operasyon | Tasarım onayı, elektrik planı, malzeme + palet, görsel listesi; CSV / PDF | Yok | Üretim listesi (TXT), baskı satırları |
+| Dönen kamera / video | Tur videosu 360°, 1280×720 (çalışması doğrulanmadı) | Cinematic rotation, video yok | Yok |
+| Paylaşım | Link: izin, süre, PIN, filigran; kim açtı takibi | Submit Design | Canlı sekme paylaşımı (tek izleyici, 2 saat) |
+| AR | Var, girişsiz (USDZ / GLB, QR, WhatsApp / e-posta / SMS) | Yok | Yok |
+| Tavan / ışık | Tavan tipleri, armatür, renk sıcaklığı, duvar yıkayıcı, elektrik şalteri | Doğrulanmadı | Tül, LED projektör, raf altı LED, sahne ışığı |
 
 **Sonuç (ürün kararı değil, hız stratejisi):** Rakibi kopyalamıyoruz. Yapılacaklar [PERFORMANCE_ROADMAP.md](PERFORMANCE_ROADMAP.md); uygulama `kyrox-fair-stand` ayrı PR.
