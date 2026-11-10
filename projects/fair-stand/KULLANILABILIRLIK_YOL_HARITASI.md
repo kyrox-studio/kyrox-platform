@@ -15,7 +15,7 @@
 3. **Teknik dil.** Üretim listesinde `profile_388` gibi kodlar, "strip", "reçete" gibi terimler.
 4. **Önemli işler artık tek tıkla açılan Özellikler panelinde.** Eski sağ tık keşfedilebilirlik sorunu için uygulama var; son görsel hiyerarşi ve erişilebilirlik kabulü açık.
 5. **Fiyat yok.** Kullanıcı tasarladığı standın ne tuttuğunu görmüyor; maliyet CRM tarafında.
-6. **Geri dönüş zor.** Stand kurulduktan sonra duvar yüksekliği değiştirilemiyor (B.16).
+6. **Geri dönüş zor.** 2026-11-10'dan beri kurulu standın duvar yüksekliği, genişlik/derinliği ve yerleşimi (Sırt / L / U / Ada) yerinde değiştirilebiliyor (B.16).
 
 ### Rakipte neden kolay?
 - Her adımda tek soru soran sihirbaz (etkinlik → ölçü → yapı → başlangıç → editör).
