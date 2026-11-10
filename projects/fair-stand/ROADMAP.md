@@ -60,7 +60,7 @@ Kurallar:
 | Rehbere kısa video / GIF | — | — |
 | Özellikler paneli görsel düzeni | Konum/boyut (masaüstü sağ, mobil alt), başlık ve bölüm sırası, boş durum, kilit açıklaması, ortak bileşenler, Basit/Gelişmiş hiyerarşisi, örtüşme kontrolü (masaüstü / dar ekran / tablet) | [SECIM_OZELLIK_PANELI_YOL_HARITASI.md](SECIM_OZELLIK_PANELI_YOL_HARITASI.md) |
 | Özellikler paneli erişilebilirliği | Sekmelerde klavye geçişi var. Ekran okuyucu ve gerçek tablette dokunma hedefleri denenmedi; kolonun sahnenin sağ 300 px'ini örtmesi izlenecek | [SECIM_OZELLIK_PANELI_YOL_HARITASI.md](SECIM_OZELLIK_PANELI_YOL_HARITASI.md) |
-| Özellikler paneli doğrulaması | Büyük seçimde ve sürüklemede gereksiz yeniden kurulum olmaması; renk/görsel/ölçü/silme/grup işlemlerinin undo-redo, otomatik kayıt, revizyon ve kayıt-açma ile eşliği | [SECIM_OZELLIK_PANELI_YOL_HARITASI.md](SECIM_OZELLIK_PANELI_YOL_HARITASI.md) |
+| Özellikler paneli doğrulaması | Yeniden kurulum kısmı 2026-11-10'da kapandı (çoklu seçim, sürükleme, renk, cam, ölçü, arka panel ve kumaşlı silmede tam kurulum yok; `e2e/in-place-module-update.spec.mjs`). Kalan: renk/görsel/ölçü/silme/grup işlemlerinin undo-redo, otomatik kayıt, revizyon ve kayıt-açma ile eşliği | [SECIM_OZELLIK_PANELI_YOL_HARITASI.md](SECIM_OZELLIK_PANELI_YOL_HARITASI.md) |
 
 ## 3. Item, BOM ve DB
 
@@ -101,7 +101,7 @@ Kurallar:
 | Işıklı Strafor seçim mesajı | `main.js` ışık rengi değişiminde mesajı `selectionFeedback.js` formatter'ı yerine elle yazıyor | — |
 | `main.js` ve `scene3d.js` parçalanması | 2026-10-23 ertelendi | — |
 | Yalnız testlerde kullanılan export'lar (~35) | Gözden geçirilecek | — |
-| Performans P4 ve kalan ölçümler | 0 / 20 görselli proje açılışı, `rebuildWall` aynı kare birleştirme, 30 modülde `buildWall` | [PERFORMANCE_ROADMAP.md](PERFORMANCE_ROADMAP.md) |
+| Performans P4 ve kalan ölçümler | 0 / 20 görselli proje açılışı. 30 modülde `buildWall` ölçüldü (31–42 ms, 2026-11-10); `rebuildWall` aynı kare birleştirme gerek yok (kalan tam kurulumlar yalnız stand oluşturma, proje açma, tümünü sıfırla) | [PERFORMANCE_ROADMAP.md](PERFORMANCE_ROADMAP.md) |
 
 ## 7. Gelecek (faza yerleşmemiş)
 
