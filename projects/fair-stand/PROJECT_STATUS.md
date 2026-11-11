@@ -2,7 +2,7 @@
 
 | Alan | Değer |
 |------|--------|
-| Son doğrulama | **2026-11-11** koda göre (Fair Stand `main` `a9aa0868`, Alembic head `0096_drop_rotation_step_backup`). Canlı: 2026-11-11 deploy (sunucu `a9aa0868`, #375 dahil, prod head `0096_drop_rotation_step_backup`) |
+| Son doğrulama | **2026-11-11** koda göre (Fair Stand `main` `0d80aa2a`, Alembic head `0096_drop_rotation_step_backup`). Canlı: 2026-11-11 deploy (sunucu `0d80aa2a`, #376 dahil, prod head `0096_drop_rotation_step_backup`) |
 | Implementation deposu | `kyrox-studio/kyrox-fair-stand` |
 | Hosted backend | Fair Stand FastAPI (`:8002`) / PostgreSQL `fair_stand` |
 | Item master | İlişkisel PostgreSQL; catalog bootstrap API |
@@ -12,6 +12,10 @@
 ## 2026-11-11 — Varyant aileleri admin'den
 
 [VARYANT_AILELERI_ADMIN_PLANI.md](VARYANT_AILELERI_ADMIN_PLANI.md) uygulandı. [Stand #375](https://github.com/kyrox-studio/kyrox-fair-stand/pull/375) ve [CRM #390](https://github.com/kyrox-studio/kyrox-fair-crm/pull/390) merge edildi, 2026-11-11'de canlıya alındı (sunucu Stand `a9aa0868`, CRM `b1939092`; yedek `/var/backups/kyrox/manual/fair_stand-pre-varyant-aileleri-20261111-130912.dump`). Stand: migration `0095_variant_families` (`fair_stand_variant_families`, Item `variant` FK, 15 aile; profil ve dikme de aile), `0096_drop_rotation_step_backup` (0087 yedek tablosu kalktı), `/admin/variant-families` (Item admin izinleri, denetim kaydı), bootstrap `variantFamilies`, editör aile tanımını kayıttan okur; profil duvarın üst / alt rayına dik (T) bağlanır. CRM: `Varyant Aileleri` ekranı (`/admin/fair-stand/variant-families`), üyeler aile penceresinde toplu seçilir, Item formunda aile seçimi. Doğrulama: backend pytest, Stand `npm test`, tam E2E 274/274, CRM `npm test` + build; canlıda 15 aile.
+
+## 2026-11-11 — Grup döndürme ızgarası, köşe grupları, profil rengi, ayrı geri alma adımı
+
+[Stand #376](https://github.com/kyrox-studio/kyrox-fair-stand/pull/376) merge edildi, 2026-11-11'de canlıya alındı (sunucu `0d80aa2a`; migration yok). Grup dik açılarda 5 cm ızgaraya oturarak döner; grup / şablon işlemleri uygulama içi pencereyle sorulur; profil rengi (varsayılan / siyah) seçilir; art arda iki tuş işlemi ayrı geri alma adımıdır. Doğrulama: `npm test`, tam E2E (module-group ara sıra donması `main`'de de var), CI yeşil.
 
 ## 2026-11-11 — Otomatik projektör dağılımı, silinmiş duvarın dolması, ölçü okları, kilit tercihi
 
