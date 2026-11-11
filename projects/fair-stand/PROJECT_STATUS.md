@@ -2,16 +2,16 @@
 
 | Alan | Değer |
 |------|--------|
-| Son doğrulama | **2026-11-11** koda göre (Fair Stand `main` `81f45d3a`, Alembic head `0094_demo_usage`). Canlı: 2026-11-11 deploy (sunucu `81f45d3a`, #374 dahil, prod head `0094_demo_usage`) |
+| Son doğrulama | **2026-11-11** koda göre (Fair Stand `main` `a9aa0868`, Alembic head `0096_drop_rotation_step_backup`). Canlı: 2026-11-11 deploy (sunucu `a9aa0868`, #375 dahil, prod head `0096_drop_rotation_step_backup`) |
 | Implementation deposu | `kyrox-studio/kyrox-fair-stand` |
 | Hosted backend | Fair Stand FastAPI (`:8002`) / PostgreSQL `fair_stand` |
 | Item master | İlişkisel PostgreSQL; catalog bootstrap API |
 | Category master | `fair_stand_categories` |
 | Catalog | Yalnız Item projeksiyonu |
 
-## 2026-11-11 — Varyant aileleri admin'den (PR açık)
+## 2026-11-11 — Varyant aileleri admin'den
 
-[VARYANT_AILELERI_ADMIN_PLANI.md](VARYANT_AILELERI_ADMIN_PLANI.md) uygulandı; Stand PR kyrox-fair-stand#375, CRM PR kyrox-fair-crm#390. Stand dalı `feat/varyant-aileleri-admin` (worktree `kyrox-fair-stand-varyant`): migration `0095_variant_families` (`fair_stand_variant_families`, Item `variant` FK, 15 aile; profil ve dikme de aile), `/admin/variant-families` (Item admin izinleri, denetim kaydı), bootstrap `variantFamilies`, editör aile tanımını kayıttan okur. CRM dalı `feat/varyant-aileleri-admin` (worktree `kyrox-fair-crm-varyant`): `Varyant Aileleri` ekranı (`/admin/fair-stand/variant-families`) ve Item formunda aile seçimi. Doğrulama: backend pytest, Stand `npm test` + hedefli E2E, CRM `npm test` + build; Postgres kopyasında 0095 yükselt / geri al / yükselt. Kullanıcı lokalde denedi; tam E2E yerelde 274/274. Alembic head (dal): `0096_drop_rotation_step_backup` (0096: 0087 yedek tablosu kalktı); `main` ve canlı `0094_demo_usage`.
+[VARYANT_AILELERI_ADMIN_PLANI.md](VARYANT_AILELERI_ADMIN_PLANI.md) uygulandı. [Stand #375](https://github.com/kyrox-studio/kyrox-fair-stand/pull/375) ve [CRM #390](https://github.com/kyrox-studio/kyrox-fair-crm/pull/390) merge edildi, 2026-11-11'de canlıya alındı (sunucu Stand `a9aa0868`, CRM `b1939092`; yedek `/var/backups/kyrox/manual/fair_stand-pre-varyant-aileleri-20261111-130912.dump`). Stand: migration `0095_variant_families` (`fair_stand_variant_families`, Item `variant` FK, 15 aile; profil ve dikme de aile), `0096_drop_rotation_step_backup` (0087 yedek tablosu kalktı), `/admin/variant-families` (Item admin izinleri, denetim kaydı), bootstrap `variantFamilies`, editör aile tanımını kayıttan okur; profil duvarın üst / alt rayına dik (T) bağlanır. CRM: `Varyant Aileleri` ekranı (`/admin/fair-stand/variant-families`), üyeler aile penceresinde toplu seçilir, Item formunda aile seçimi. Doğrulama: backend pytest, Stand `npm test`, tam E2E 274/274, CRM `npm test` + build; canlıda 15 aile.
 
 ## 2026-11-11 — Otomatik projektör dağılımı, silinmiş duvarın dolması, ölçü okları, kilit tercihi
 
