@@ -1,6 +1,6 @@
 # Varyant Aileleri — Admin'den Yönetim Planı
 
-> Tarih: 2026-10-25 · Durum: **PR açık (2026-11-11): Stand #375, CRM #390**. Sırası: [ROADMAP.md](ROADMAP.md).
+> Tarih: 2026-10-25 · Durum: **uygulandı, canlıda (2026-11-11): Stand #375, CRM #390**. Sırası: [ROADMAP.md](ROADMAP.md).
 > Uygulama 2026-11-11 (kullanıcı onayı "Tam plan"): migration numarası `0095_variant_families` oldu (0087 başka işe gitti). Kolonlar, uçlar ve ekran kodda; ayrıntı Fair Stand `docs/refactor/DATABASE.md` ve README, bu belgede kopyalanmaz.
 
 ## Uygulamada verilen kararlar (2026-11-11)

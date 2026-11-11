@@ -4,7 +4,7 @@ Living status for FAIR CRM. This file records **current implementation truth onl
 
 | Field | Value |
 |-------|-------|
-| Last verified | **2026-10-29** (`main` `9671b83b`, migration head `0098_tobb_manual_date_revision`); last recorded deploy `122fdf9f` (2026-10-28) |
+| Last verified | **2026-11-11** (`main` `b1939092`, migration head `0098_tobb_manual_date_revision`); last recorded deploy `b1939092` (2026-11-11) |
 | Active ecosystem milestone | **M4 — FAIR CRM v1** |
 | Implementation repository | `kyrox-studio/kyrox-fair-crm` |
 | Migration head in `main` | `0098_tobb_manual_date_revision` |
