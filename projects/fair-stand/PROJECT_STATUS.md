@@ -9,6 +9,10 @@
 | Category master | `fair_stand_categories` |
 | Catalog | Yalnız Item projeksiyonu |
 
+## 2026-11-11 — Varyant aileleri admin'den (PR açık)
+
+[VARYANT_AILELERI_ADMIN_PLANI.md](VARYANT_AILELERI_ADMIN_PLANI.md) uygulandı; Stand PR kyrox-fair-stand#375, CRM PR kyrox-fair-crm#390. Stand dalı `feat/varyant-aileleri-admin` (worktree `kyrox-fair-stand-varyant`): migration `0095_variant_families` (`fair_stand_variant_families`, Item `variant` FK, 15 aile; profil ve dikme de aile), `/admin/variant-families` (Item admin izinleri, denetim kaydı), bootstrap `variantFamilies`, editör aile tanımını kayıttan okur. CRM dalı `feat/varyant-aileleri-admin` (worktree `kyrox-fair-crm-varyant`): `Varyant Aileleri` ekranı (`/admin/fair-stand/variant-families`) ve Item formunda aile seçimi. Doğrulama: backend pytest, Stand `npm test` + hedefli E2E, CRM `npm test` + build; Postgres kopyasında 0095 yükselt / geri al / yükselt. Kullanıcı lokalde denedi; tam E2E yerelde 274/274. Alembic head (dal): `0096_drop_rotation_step_backup` (0096: 0087 yedek tablosu kalktı); `main` ve canlı `0094_demo_usage`.
+
 ## 2026-11-11 — Otomatik projektör dağılımı, silinmiş duvarın dolması, ölçü okları, kilit tercihi
 
 [Stand #374](https://github.com/kyrox-studio/kyrox-fair-stand/pull/374) merge edildi, 2026-11-11'de canlıya alındı (sunucu `81f45d3a`; migration yok). Duvar projektörü her kesintisiz duvar koşusuna 150 cm başına bir, sayı yukarı yuvarlanır ve eşit dağıtılır (400 cm → 3, 100 cm → 1); ölçü / yerleşim değişiminde boyu değişen, yeni gelen ya da boşluğu dolan duvarın projektörleri aynı kuralla yeniden dizilir. Elle silinmiş duvar panelleri ölçü / yerleşim değişiminde boş panelle dolar. Genişlik / derinlik okları 1 m; elle 0,5 m adımlı değer yazılır. Değişimin yeni ürettiği parçalar kullanıcının kilit tercihini izler, "Herşeyi Kilitle" kendi kendine değişmez. Kararlar: Fair Stand `PENDING_ITEM_DECISIONS.md` B.16. Doğrulama: 1655 Node testi, build, change-contract; CI tam E2E geçti.
