@@ -268,7 +268,7 @@ Kesin liste `contract:verify` discovery'si ile çıkarılır.
 - ~~Grubu döndürme.~~ **Faz 4 ile uygulandı** (`kyrox-fair-stand` PR #285). Kararlar (kullanıcı, 2026-10-18):
   - Gruptaki öğe seçiliyken yalnız **Shift+R**; sağ tık ve Gruplar kartında düğme yok.
   - Adım **45°**; yön tek öğe Shift+R ile aynı. Gruptaki 90° adımlı duvar, kapı ve panel de 45° açıya geçebilir.
-  - Merkez üye merkezlerinin ortalamasıdır; dönüşte sabit kaldığı için art arda döndürmede grup kaymaz (8 × 45° başa döner).
+  - Merkez üye merkezlerinin ortalamasıdır. **Güncelleme (kullanıcı, 2026-11-11):** bütün üyeler dik açıya (0/90/180/270) gelince grup en küçük ortak kaydırmayla (eksen başına en çok 2,5 cm) 5 cm ızgaraya oturur; ham ortalama grubu 632,85 gibi konumlara düşürüyor, kenara sıfır oturmayı engelliyordu. Bedeli: art arda tam tur döndürmede grup nadiren birkaç cm kayabilir (eski "8 × 45° tam başa döner" kuralı bu kadar gevşedi). Grup kendi içinde ızgaraya uymuyorsa kaydırma yapılmaz.
   - Her üyenin konumu ve açısı birlikte döner. Tek kısıt stand alanı: sığmazsa işlem yapılmaz. Kilitli grup ya da kendi kilidi olan üye döndürmeyi engeller.
 - (Opsiyonel, ayrı karar) Rafların gruplamadan bağımsız olarak bağlı oldukları duvarı her zaman takip etmesi: raf state'ine kalıcı "ev sahibi duvar" bağı. Duvar ve raf aynı gruptaysa Faz 3 ile zaten birlikte taşınır.
 - ~~Şablon görselleri.~~ **Yapılmayacak** (2026-10-18): görsel / Lightbox / Mesh şablona girmez; backlog maddesi yok.
