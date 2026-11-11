@@ -1,6 +1,16 @@
 # Varyant Aileleri — Admin'den Yönetim Planı
 
-> Tarih: 2026-10-25 · Durum: **plan, kod yok**. Sırası: [ROADMAP.md](ROADMAP.md).
+> Tarih: 2026-10-25 · Durum: **PR açık (2026-11-11): Stand #375, CRM #390**. Sırası: [ROADMAP.md](ROADMAP.md).
+> Uygulama 2026-11-11 (kullanıcı onayı "Tam plan"): migration numarası `0095_variant_families` oldu (0087 başka işe gitti). Kolonlar, uçlar ve ekran kodda; ayrıntı Fair Stand `docs/refactor/DATABASE.md` ve README, bu belgede kopyalanmaz.
+
+## Uygulamada verilen kararlar (2026-11-11)
+
+1. **Etiket kuralı:** önerilen yol — hazır kural türleri (`label_rule`). Profil ve dikme için iki kural eklendi: `profile_length`, `upright_height`.
+2. **Varsayılan kart:** önerilen yol — ailenin katalogda görünen üyesi; tabloda `default_item_key` yok.
+3. **Raf genişlik eşlemesi:** bu işe girmedi; `fair_stand_item_width_variants` olduğu gibi kalır.
+4. **Plan dışı genişletme:** profil ve dikme boyları da aile oldu (`profile`, `upright`). Bırakılırken boy penceresi aynı kalır; liste artık `item_type` yerine aile üyeliğidir, admin'den üye eklenip çıkarılır.
+5. **Sistem ailesi:** koda bağlı aileler (`wall-short-1`, `wall-short-2`, `profile`, `upright`) `is_system`: arşivlenmez, etiket kuralı ve eş ailesi değişmez; metinleri değişir.
+6. **Üyeler aile ekranından (kullanıcı kararı 2026-11-11):** üyeler tek tek Item formundan değil, aile penceresinde arama + tip süzgeci + "görünenlerin hepsini seç" ile toplu seçilir ve tek istekte yazılır. Item formundaki Varyant alanı da kalır.
 > Önceki iş: `0086_variant_family_cards` (Vitrin, Raf, TV, Video Wall, Uzun Saksı tek kart; varyant Özellikler panelinde).
 
 ## Amaç

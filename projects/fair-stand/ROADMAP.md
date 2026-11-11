@@ -26,7 +26,7 @@ Kurallar:
 
 | İş | Durum | Ayrıntı |
 |---|---|---|
-| Varyant aileleri admin'den | Plan; kod yok. Aile tanımı hâlâ `src/catalogWidthFamily.js` içinde; backend tablosu, `/admin/variant-families` ve CRM ekranı yok | [VARYANT_AILELERI_ADMIN_PLANI.md](VARYANT_AILELERI_ADMIN_PLANI.md) |
+| Varyant aileleri admin'den | PR açık (2026-11-11; Stand #375, CRM #390): Stand dalı `feat/varyant-aileleri-admin` (migration `0095_variant_families`, `/admin/variant-families`, bootstrap `variantFamilies`; profil ve dikme de aile), CRM dalı `feat/varyant-aileleri-admin` (`Varyant Aileleri` ekranı, Item formunda aile seçimi). Kalan: merge, canlı göç (deploy) | [VARYANT_AILELERI_ADMIN_PLANI.md](VARYANT_AILELERI_ADMIN_PLANI.md) |
 | Görsel arşivinde çift tık seçili yüzeye uygular | Yok (`#asset-library` karolarında `dblclick` yok) | — |
 | Grup aç / kapat (Faz 3b) | Karar 2026-10-18; kod yok | [GROUP_LOCK_ROADMAP.md](GROUP_LOCK_ROADMAP.md) |
 | "Raf ev sahibi duvar" (grup Faz 6) | Plan | [GROUP_LOCK_ROADMAP.md](GROUP_LOCK_ROADMAP.md) |
