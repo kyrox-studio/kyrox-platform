@@ -11,7 +11,7 @@
 
 ## 2026-11-12 — Baza dizisinde karşı yüzlerdeki host dikmeleri ayrı düşer
 
-[Stand #377](https://github.com/kyrox-studio/kyrox-fair-stand/pull/377) merge edildi, 2026-11-12'de canlıya alındı (sunucu `1d743217`; migration yok). İki baza karşı uzun yüzlerden aynı genişlikte host'a yaslanınca ortak sınırdaki iki 49,5 dikme tek parça sayılıyor, üretim listesi 1 eksik düşüyordu. Köşe anahtarı host'un yaslandığı yüz hattına (arka / ön) göre kurulur; aynı hattaki ortak dikme ve köşedeki tek başına dikme kuralı (#376) korunur. Doğrulama: `npm test` 1685/1685, hedefli E2E 2/2, CI yeşil.
+[Stand #377](https://github.com/kyrox-studio/kyrox-fair-stand/pull/377) merge edildi, 2026-11-12'de canlıya alındı (sunucu `1d743217`; migration yok). İki baza karşı uzun yüzlerden aynı genişlikte host'a yaslanınca ortak sınırdaki iki 49,5 dikme tek parça sayılıyor, üretim listesi 1 fazla dikme yazıyordu (2 yerine 3). Köşe anahtarı host'un yaslandığı yüz hattına (arka / ön) göre kurulur; aynı hattaki ortak dikme ve köşedeki tek başına dikme kuralı (#376) korunur. Doğrulama: `npm test` 1685/1685, hedefli E2E 2/2, CI yeşil.
 
 ## 2026-11-12 — Tarayıcı onay kutuları uygulamanın penceresinde
 
