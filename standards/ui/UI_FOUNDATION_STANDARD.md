@@ -68,6 +68,8 @@ Expected semantics:
 - failed save does not clear dirty state,
 - do not create page-local `window.confirm` or a second dirty-state framework when a shared mechanism exists.
 
+Enforcement (2026-11-12): FAIR CRM's UI gate (`scripts/maintenance/inventory_frontend_ui.py`, P0 `native_dialogs`) fails on `window.confirm`, `window.alert` or `window.prompt` in non-test frontend code; the shared replacement is `ConfirmDialog` / `useConfirmDialog` (`frontend/src/components/ui/ConfirmDialog.tsx`). Fair Stand uses its in-app `requestConfirmation` (`src/inAppDialogs.js`).
+
 Exact copy and implementation API are product-specific.
 
 ## 8. Loading, empty, error and refresh are distinct states

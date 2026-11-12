@@ -55,6 +55,7 @@ Mevcut: `fair-crm-mail-worker` systemd servisi kuyruğu sürekli işler; takıla
 
 | İş | Durum | Ayrıntı |
 |---|---|---|
+| Arka plan işi ortak alanları (BACKGROUND_JOB_STANDARD §2) | İptal ucu ve `job_scope` bütün işlerde var (migration `0099`). Ad farkları ve eksik ilerleme / heartbeat / özet alanları tablo tablo standarttaki listede; alanların doldurulması işçi kodu ister | [BACKGROUND_JOB_STANDARD.md](operations/BACKGROUND_JOB_STANDARD.md) § 14 |
 | GitHub'ın eski `refs/pull/*` ve önbelleği silmesi | Depo private ve geçmiş 2026-10-27'de yeniden yazıldı; Support talebi açık, yanıt kullanıcıda | [HISTORY_REWRITE_2026-10-27](ops/HISTORY_REWRITE_2026-10-27.md) |
 
 ## Kapanış sınırı: organizasyon yaşam döngüsü

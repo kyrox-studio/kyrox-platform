@@ -552,7 +552,23 @@ Enrichment cancel standardı oturduktan sonra sırayla:
 
 Her modülde partial result ve rollback kuralı ayrıca netleştirilecektir.
 
-Koddaki durum: iptal ucu `POST /api/v1/scraper/runs/{run_id}/cancel` (scraper ve zenginleştirme), `POST /api/v1/operations/{operation_id}/cancel` (otomasyonlar, mail gönderim operasyonu dahil) ve `POST /api/v1/fairs/system/tobb/runs/{run_id}/cancel` için var. Import analyze, data operations, backup ve duplicate analysis için iptal ucu yok. Bölüm 2'deki ortak alanların hepsi yalnız `scraper_run_history`'de büyük ölçüde var (`job_scope` kolonu hiçbir iş tablosunda yok; system işler `organization_id = NULL` ile ayrılır); diğer iş tabloları alanların bir kısmını taşır.
+Koddaki durum (2026-11-12):
+
+- **İptal ucu:** `POST /api/v1/scraper/runs/{run_id}/cancel` (scraper ve zenginleştirme), `POST /api/v1/operations/{operation_id}/cancel` (otomasyonlar, mail gönderim operasyonu dahil), `POST /api/v1/fairs/system/tobb/runs/{run_id}/cancel`, `POST /api/v1/admin/data-operations/runs/{run_id}/cancel` (Data Operations ve duplicate analysis), `POST /api/v1/admin/backups/{backup_id}/cancel` ve `POST /api/v1/data-integration/jobs/{job_id}/cancel` (yalnız import analyze; apply ve bulk decision satır satır müşteri verisi yazdığı için iptal edilmez). Hepsi iş birlikçi: kuyruktaki iş hemen `cancelled`, çalışan iş `cancel_requested` olur ve bir sonraki güvenli noktada durur; kullanıcı iptalinde `error_message` boş kalır. Duplicate analysis'i başlatan CRM operasyonu iptal edilince bağlı Data Operations koşusu da aynı yoldan iptal edilir (eskiden `failed` yazıyordu). Yedek iptalinde yarım dosya silinir. Ekranda Data Operations, Yedekler ve İçe Aktarmalar listesinde Durdur düğmesi var.
+- **`job_scope`:** bütün iş tablolarında var (`organization` | `system`, migration `0099`); `organization_id` ile eşleşmesi CHECK ile zorlanır (`app/shared/job_scope.py`).
+- **§2 alan adları:** tablolar alanların bir kısmını farklı adla taşır (`started_by` = `requested_by`, `completed_at` = `finished_at`, `duration_seconds` = `duration_ms`'nin saniyelisi, `operation_key` / `job_type`). Ad ya da alan olarak eksik kalanlar:
+
+| Tablo | Eksik (§2 adıyla) |
+|---|---|
+| `scraper_run_history` | `job_type`, `source_module`, `progress_percent`, `created_at`, `updated_at` |
+| `crm_operation_runs` | `job_type`, `source_module`, `requested_by`, `cancel_requested_by`, `cancel_requested_at`, `duration_ms`, `progress_current`, `progress_total`, `progress_percent`, `last_heartbeat_at`, `summary_json` |
+| `crm_import_jobs` | `source_module`, `requested_by`, `finished_at`, `duration_ms`, `progress_current`, `progress_percent`, `last_heartbeat_at`, `summary_json` |
+| `mail_send_operations` | `job_type`, `source_module`, `requested_by`, `cancel_requested_by`, `cancel_requested_at`, `started_at`, `finished_at`, `duration_ms`, `progress_current`, `progress_total`, `progress_percent`, `last_heartbeat_at`, `summary_json` |
+| `system_backups` | `job_type`, `source_module`, `requested_by`, `finished_at`, `duration_ms`, `progress_current`, `progress_total`, `progress_percent`, `last_heartbeat_at`, `summary_json` |
+| `system_backup_restore_jobs` | `job_type`, `source_module`, `requested_by`, `cancel_requested_by`, `cancel_requested_at`, `finished_at`, `duration_ms`, `progress_current`, `progress_total`, `progress_percent`, `last_heartbeat_at`, `summary_json` |
+| `system_data_operation_runs` | `job_type`, `source_module`, `requested_by`, `finished_at`, `duration_ms`, `progress_current`, `progress_total`, `progress_percent`, `last_heartbeat_at` |
+
+Sırası: [ROADMAP.md](../ROADMAP.md) § 5.
 
 ---
 
