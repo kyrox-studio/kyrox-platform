@@ -141,6 +141,8 @@ There is no `shared/` package today; add one only when two modules would otherwi
 
 **Rule of thumb:** if a change in HTTP routing or database technology should not force a domain rewrite, the dependency is wrong.
 
+Enforcement (2026-11-12): KYROX Core runs `backend/tests/test_api_layer_has_no_orm.py`, which fails when an `api` module imports ORM models or runs queries, when `application` / `domain` import ORM models, SQLAlchemy or the `api` layer, or when `infrastructure` imports the `api` layer.
+
 ---
 
 ## 5. Repository Pattern

@@ -9,6 +9,14 @@
 | Category master | `fair_stand_categories` |
 | Catalog | Yalnız Item projeksiyonu |
 
+## 2026-11-12 — Tarayıcı onay kutuları uygulamanın penceresinde
+
+`src/main.js`'teki 6 `window.confirm` (arka yüz panellerini kaldırma, tüm özellikleri kaldırma, görsel silme, proje değiştirme, proje silme, kaydetmeden çıkma) ve `projectActionSaveGuard.js`'teki kaydedilmemiş değişiklik sorusu `requestConfirmation` (`src/inAppDialogs.js`) ile soruluyor; çok satırlı metin satır satır görünür. Kaydetmeden çıkmada tık durdurulur, onaylanınca aynı düğme yeniden tıklanır. Etkilenen E2E'ler uygulamanın penceresini kullanıyor (`e2e/helpers/inAppDialog.mjs` `dismissConfirmDialog`).
+
+## 2026-11-11 — Tenant izolasyon kapısı
+
+Fair Stand'e organizasyon izolasyonu sistem kapısı eklendi (`backend/tests/system/tenant_isolation_registry.py`, `test_tenant_isolation_governance.py`; [TENANT_ISOLATION_SYSTEM_TEST_STANDARD](../../standards/quality/TENANT_ISOLATION_SYSTEM_TEST_STANDARD.md#fair-stand-implementation-contract)). `organization_id` taşıyan her üretim dosyası kanıtla kayıtlı olmalı; yoksa backend pytest düşer. Projeler için ABC/XYZ testi yeni: başka organizasyon projeyi okuyamaz, listeleyemez, güncelleyemez, müşterisini değiştiremez, silemez; görseline ve dışa aktarımına erişemez, kendi projesi üzerinden başka organizasyonun görsel kimliğini ele geçiremez (`test_project_tenant_isolation.py`). Uygulama kodu değişmedi. Doğrulama: backend 268 test.
+
 ## 2026-11-11 — Varyant aileleri admin'den
 
 [VARYANT_AILELERI_ADMIN_PLANI.md](VARYANT_AILELERI_ADMIN_PLANI.md) uygulandı. [Stand #375](https://github.com/kyrox-studio/kyrox-fair-stand/pull/375) ve [CRM #390](https://github.com/kyrox-studio/kyrox-fair-crm/pull/390) merge edildi, 2026-11-11'de canlıya alındı (sunucu Stand `a9aa0868`, CRM `b1939092`; yedek `/var/backups/kyrox/manual/fair_stand-pre-varyant-aileleri-20261111-130912.dump`). Stand: migration `0095_variant_families` (`fair_stand_variant_families`, Item `variant` FK, 15 aile; profil ve dikme de aile), `0096_drop_rotation_step_backup` (0087 yedek tablosu kalktı), `/admin/variant-families` (Item admin izinleri, denetim kaydı), bootstrap `variantFamilies`, editör aile tanımını kayıttan okur; profil duvarın üst / alt rayına dik (T) bağlanır. CRM: `Varyant Aileleri` ekranı (`/admin/fair-stand/variant-families`), üyeler aile penceresinde toplu seçilir, Item formunda aile seçimi. Doğrulama: backend pytest, Stand `npm test`, tam E2E 274/274, CRM `npm test` + build; canlıda 15 aile.

@@ -70,6 +70,17 @@ The system test scans `backend/app/modules/*` for production modules carrying `o
 
 The existing P0.1 TI-01 through TI-09 suites remain regression evidence; the system registry makes future coverage growth mandatory rather than optional.
 
+## Fair Stand implementation contract
+
+Fair Stand implements this standard through:
+
+```text
+backend/tests/system/tenant_isolation_registry.py
+backend/tests/system/test_tenant_isolation_governance.py
+```
+
+Fair Stand has one bounded context (`app/modules/fair_stand`), so the scoped unit is a production source file. The system test scans `backend/app/modules` for files carrying `organization_id`; an unregistered file is a CI failure, and a registry entry for a file that no longer carries `organization_id` is also a failure. Registered evidence must resolve to executable pytest code with organization context and a foreign/cross-organization negative test. Projects (with revisions, customer assignment, assets and export), cost items and group templates are covered; the trusted-context dependency and the ORM schema file are the only exclusions, each with a reason.
+
 ## Pull-request / reviewer hard fail
 
 A material change is **NOT DONE** and must not be accepted when any of the following applies:

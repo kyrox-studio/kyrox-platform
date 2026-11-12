@@ -53,6 +53,10 @@ Current Core organization lifecycle behavior relevant to SaaS P0.2:
 
 The cross-repository lifecycle contract is [ADR-0006](../../ecosystem/decisions/0006-organization-lifecycle-and-onboarding.md) (Proposed overall; OL-01…OL-10 required-export path accepted).
 
+## Layering (2026-11-12)
+
+Role and user management queries moved from `api/` to `infrastructure/role_management` and `infrastructure/user_management`; `AuthorizationContext` lives in `application/authorization/context.py` (re-exported by `api/authorization/context.py`). `backend/tests/test_api_layer_has_no_orm.py` enforces the layer imports. No behavior or schema change.
+
 ## Migration status
 
 Current head: `20261027_0078_login_throttles`. Recent: `0073` in-app notifications, `0075` permission lock keeps role grants (ADR-0005), `0076` roles.assign grants, `0077` session absolute expiry, `0078` login throttle. Fair Stand admin/project/settings/item permissions: `0066`–`0069`; preview permissions dropped in `0072`.
