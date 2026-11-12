@@ -4,10 +4,10 @@ Living status for FAIR CRM. This file records **current implementation truth onl
 
 | Field | Value |
 |-------|-------|
-| Last verified | **2026-11-11** (`main` `b1939092`, migration head `0098_tobb_manual_date_revision`); last recorded deploy `b1939092` (2026-11-11) |
+| Last verified | **2026-11-12** (`main` `b447c00a`, migration head `0099_background_job_scope_and_cancel`); last recorded deploy `b447c00a` (2026-11-12, production head `0099_background_job_scope_and_cancel`) |
 | Active ecosystem milestone | **M4 — FAIR CRM v1** |
 | Implementation repository | `kyrox-studio/kyrox-fair-crm` |
-| Migration head in `main` | `0098_tobb_manual_date_revision`; branch `feat/standart-uyum` adds `0099_background_job_scope_and_cancel` (`job_scope` on every job table, cancel fields for Data Operations runs, backups and import jobs) |
+| Migration head in `main` | `0099_background_job_scope_and_cancel` (`job_scope` on every job table, cancel fields for Data Operations runs, backups and import jobs; [#392](https://github.com/kyrox-studio/kyrox-fair-crm/pull/392)) |
 | Current work queue | [ROADMAP.md](ROADMAP.md) |
 | Shared standards | [../../standards/README.md](../../standards/README.md) |
 

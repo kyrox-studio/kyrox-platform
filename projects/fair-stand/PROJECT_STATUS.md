@@ -2,12 +2,16 @@
 
 | Alan | Değer |
 |------|--------|
-| Son doğrulama | **2026-11-11** koda göre (Fair Stand `main` `0d80aa2a`, Alembic head `0096_drop_rotation_step_backup`). Canlı: 2026-11-11 deploy (sunucu `0d80aa2a`, #376 dahil, prod head `0096_drop_rotation_step_backup`) |
+| Son doğrulama | **2026-11-12** koda göre (Fair Stand `main` `1d743217`, Alembic head `0096_drop_rotation_step_backup`). Canlı: 2026-11-12 deploy (sunucu `1d743217`, #377 ve #378 dahil, prod head `0096_drop_rotation_step_backup`) |
 | Implementation deposu | `kyrox-studio/kyrox-fair-stand` |
 | Hosted backend | Fair Stand FastAPI (`:8002`) / PostgreSQL `fair_stand` |
 | Item master | İlişkisel PostgreSQL; catalog bootstrap API |
 | Category master | `fair_stand_categories` |
 | Catalog | Yalnız Item projeksiyonu |
+
+## 2026-11-12 — Baza dizisinde karşı yüzlerdeki host dikmeleri ayrı düşer
+
+[Stand #377](https://github.com/kyrox-studio/kyrox-fair-stand/pull/377) merge edildi, 2026-11-12'de canlıya alındı (sunucu `1d743217`; migration yok). İki baza karşı uzun yüzlerden aynı genişlikte host'a yaslanınca ortak sınırdaki iki 49,5 dikme tek parça sayılıyor, üretim listesi 1 eksik düşüyordu. Köşe anahtarı host'un yaslandığı yüz hattına (arka / ön) göre kurulur; aynı hattaki ortak dikme ve köşedeki tek başına dikme kuralı (#376) korunur. Doğrulama: `npm test` 1685/1685, hedefli E2E 2/2, CI yeşil.
 
 ## 2026-11-12 — Tarayıcı onay kutuları uygulamanın penceresinde
 
