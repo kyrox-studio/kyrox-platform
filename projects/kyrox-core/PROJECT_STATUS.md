@@ -8,7 +8,7 @@ Living status for KYROX Core. Ecosystem summary: [../../ecosystem/STATUS.md](../
 | Repository mode | Stable platform baseline; fixes and reusable product-driven changes continue |
 | Active ecosystem milestone | M4 — FAIR CRM v1 |
 | Migration head in `main` | `20261027_0078_login_throttles` (`main` `3cf08c8`) |
-| Last recorded deploy | `1224fae` (2026-10-28), production head `20261027_0078` |
+| Last recorded deploy | `cac2f9f` (2026-11-12, #55), production head `20261027_0078` |
 
 Notification `in_app` system channel and Super Admin inbox: Core PR #42 (2026-10-13), migration `20261012_0073`.
 
