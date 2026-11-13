@@ -2,12 +2,16 @@
 
 | Alan | Değer |
 |------|--------|
-| Son doğrulama | **2026-11-12** koda göre (Fair Stand `main` `1d743217`, Alembic head `0096_drop_rotation_step_backup`). Canlı: 2026-11-12 deploy (sunucu `1d743217`, #377 ve #378 dahil, prod head `0096_drop_rotation_step_backup`) |
+| Son doğrulama | **2026-11-13** koda göre (Fair Stand `main` `9290a0ca`, Alembic head `0096_drop_rotation_step_backup`). Canlı: 2026-11-13 deploy (sunucu `9290a0ca`, #379 dahil, prod head `0096_drop_rotation_step_backup`) |
 | Implementation deposu | `kyrox-studio/kyrox-fair-stand` |
 | Hosted backend | Fair Stand FastAPI (`:8002`) / PostgreSQL `fair_stand` |
 | Item master | İlişkisel PostgreSQL; catalog bootstrap API |
 | Category master | `fair_stand_categories` |
 | Catalog | Yalnız Item projeksiyonu |
+
+## 2026-11-13 — Köşe ortak dikme, aynalama, panel kaldırma, İki Nokta Profil
+
+[Stand #379](https://github.com/kyrox-studio/kyrox-fair-stand/pull/379) merge edildi, 2026-11-13'te canlıya alındı (sunucu `9290a0ca`; migration yok). Köşede birleşen duvarlarda ortak dikme tek kez çizilir, ayrılınca uç dikmesi geri gelir; aynalı kopya ve panel kaldırma (BOM'a yansır); İki Nokta Profil (dikme / profil gövdesine T, boş uç, önizleme çizgisi, en yakın katalog boyu). Profil her yerde profil, dikme her yerde dikme: duvar ailesi kuralı profil / dikmeyi kapsamaz, profil dikmeye ortalı oturur. Seçim çubuğu iki satırlı üst bantta seçimin altına geçer. Doğrulama: `npm test` 1736/1736, tam E2E 281 geçti (düşen 3 düzeltildi), hedefli E2E 93/93, CI yeşil.
 
 ## 2026-11-12 — Baza dizisinde karşı yüzlerdeki host dikmeleri ayrı düşer
 
