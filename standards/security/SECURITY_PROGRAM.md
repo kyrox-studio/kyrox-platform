@@ -782,6 +782,7 @@ Yalnız uyumsuz satırlar; tam liste ve kanıtlar alt ajan raporlarındaydı (de
 
 - **Durum:**
   - F-G2: otomasyon canlıda. Kilit dosyası kararı artık gerekli değil; çözüm deploy anına bağlı otomatik yama ve haftalık rapor. Major yükseltmeler yine PR ister.
+  - **F-G2 kararı değişti (kullanıcı kararı 2026-11-13):** sürümler kilit dosyasında (`requirements.lock.txt`, sunucu `pip freeze`); deploy sunucuda yama yapmaz, `pip-audit` açık bulursa deploy durur ve yama kilit dosyasında PR ile yapılır. Ayrıntı: `standards/development/ORTAM_SURUMLERI.md`.
   - R-1: tetikleyici canlıda kaldırıldı; seed yolu E-020'de kapanmıştı → **R-1 kapandı.**
 - **Kalan:**
   - Haftalık taramanın ilk gerçek çalışması 2026-11-02'de gözlenecek.
@@ -825,7 +826,7 @@ Yalnız uyumsuz satırlar; tam liste ve kanıtlar alt ajan raporlarındaydı (de
 | F-V12 | KAPSAM DÜZELTİLMELİ | Asıl sorun doğrulandı: `kyrox-restore.sh` reconciliation yapmıyor ve `restore_maintenance.lock` koymuyor (OL10-C/E, OL10_RUNTIME_ACCEPTANCE §7). "30 gün yaş kontrolü yok" kısmı pratikte etkisiz: sihirbaz yalnız 3 günlük yerel ve 14 günlük Drive yedeklerini listeliyor | P1 |
 | F-V13 | DOĞRULANDI | ADR-0011 satır 59 ve 62 canlıyla çelişiyor; 2 talep kaydı (2026-10-15, büyük olasılıkla test); iki AI anahtarı `wp_options`'ta düz metin | P1 |
 | F-G1 | DOĞRULANDI | 6 public depoda secret scanning, push protection ve Dependabot security updates kapalı; Dependabot alerts yalnız web'de açık; org 2FA zorunlu değil | P1 |
-| F-G2 | ZATEN DÜZELTİLMİŞ | Canlı venv'ler yamalı sürümlerde (E-020, E-022) | kapalı |
+| F-G2 | ZATEN DÜZELTİLMİŞ | Canlı venv'ler yamalı sürümlerde (E-020, E-022); 2026-11-13'ten beri kilit dosyası + açıkta deploy durur (`ORTAM_SURUMLERI.md`) | kapalı |
 | F-G3 / F-005 | KAPSAM DÜZELTİLMELİ | "Python taraması hiçbir CI'da yok" **artık yanlış**: pip-audit Core #48, CRM #366 ve Stand #346'da var (uyarı modunda). Açık kalanlar: Core'da ruff atlanıyor (F-005); CRM'de npm audit ve Python lint yok; `prod-path-e2e.yml:57` `head_ref` shell'e giriyor; 25 `uses:` SHA ile sabit değil. "Web ruleset'inde PR/zorunlu kontrol yok" alt iddiası bulgu değil: QUALITY_GATE §12 satır 159 web/brand'i sahip kararıyla kapsam dışı bırakıyor | P1 (kalan kısım) |
 | F-G4 | DOĞRULANDI | CRM ruleset 3 zorunlu kontrol; ihlal yok. `prod-path-e2e` yol filtreli olduğu için doğrudan zorunlu yapılamıyor | P1 → **P2** önerisi |
 
