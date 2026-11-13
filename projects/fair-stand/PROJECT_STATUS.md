@@ -2,12 +2,16 @@
 
 | Alan | Değer |
 |------|--------|
-| Son doğrulama | **2026-11-13** koda göre (Fair Stand `main` `9290a0ca`, Alembic head `0096_drop_rotation_step_backup`). Canlı: 2026-11-13 deploy (sunucu `9290a0ca`, #379 dahil, prod head `0096_drop_rotation_step_backup`) |
+| Son doğrulama | **2026-11-13** koda göre (Fair Stand `main` `094200da`, Alembic head `0096_drop_rotation_step_backup`). Canlı: 2026-11-13 deploy (sunucu `094200da`, #380 dahil, prod head `0096_drop_rotation_step_backup`) |
 | Implementation deposu | `kyrox-studio/kyrox-fair-stand` |
 | Hosted backend | Fair Stand FastAPI (`:8002`) / PostgreSQL `fair_stand` |
 | Item master | İlişkisel PostgreSQL; catalog bootstrap API |
 | Category master | `fair_stand_categories` |
 | Catalog | Yalnız Item projeksiyonu |
+
+## 2026-11-13 — Profil gerçek boyundaki aralığa oturur, H/U köşe, baza yan yüzü dar panel
+
+[Stand #380](https://github.com/kyrox-studio/kyrox-fair-stand/pull/380) merge edildi, 2026-11-13'te canlıya alındı (sunucu `9290a0ca` → `094200da`; migration yok, yedek gerekmedi). Profil gerçek boyundaki aralığa oturur (eksenden eksene gerçek boy ya da sahne boyu, daha kısa aralığa girmez); aynı hattaki iki profil T düğümünün karesini birlikte örter; H / U çiziminde iki çıkıntı arasındaki profil kısa çizilir (L kuralı korunur); short / profil ucuna değen dikme dikme sayılır; katalogdan sürüklenen profil kendi yüksekliğinde izlenir; el imleci; kopyalarken sahne döner. Bazanın yan yüzleri dar panel olarak dijital baskı listesine girer. Deploy: health Core / Fair Stand / Fair CRM 200, login smoke ve post-deploy check geçti. #381 (köşeden dönen panellere tek görsel) açık, bu deploy'a girmedi.
 
 ## 2026-11-13 — Köşe ortak dikme, aynalama, panel kaldırma, İki Nokta Profil
 
