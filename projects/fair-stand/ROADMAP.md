@@ -9,6 +9,32 @@ Kurallar:
 - FAZ 4 planı Fair Stand deposundaki [`ROADMAP.md`](https://github.com/kyrox-studio/kyrox-fair-stand/blob/main/ROADMAP.md) ve [`ROADMAP_PHASE_4.md`](https://github.com/kyrox-studio/kyrox-fair-stand/blob/main/ROADMAP_PHASE_4.md) içindedir; `test/roadmapProductionSourceOfTruth.test.js` onları okur.
 - Item / zarf / davranış kararlarının gerekçesi ve yasakları: [`docs/refactor/PENDING_ITEM_DECISIONS.md`](https://github.com/kyrox-studio/kyrox-fair-stand/blob/main/docs/refactor/PENDING_ITEM_DECISIONS.md) (aşağıda "PENDING").
 
+## 0. İlk yapılacaklar (kolaydan zora)
+
+Rakip karşılaştırmasında bizi geride bırakan eksikler, kolaydan zora (2026-11-13, kullanıcı isteği). Zorluk kodda görülene dayanan tahmindir, ölçüm değil. Ayrıntısı olan işin satırı aşağıdaki bölümde durur, burada yalnız sıra tutulur. Kurulu standın yüksekliği, genişliği ve derinliğini değiştirme bu listedeydi; 2026-11-10'da yapıldı ([PROJECT_STATUS.md](PROJECT_STATUS.md)). Rakip gözlemleri: [COMPETITOR_ANALYSIS.md](COMPETITOR_ANALYSIS.md).
+
+| # | İş | Zorluk | Neden | Satırı |
+|---|---|---|---|---|
+| 1 | Dönen kamera | Çok kolay | Mevcut kamera kontrolüne küçük bir ek | § 2 Sunum modu |
+| 2 | Basit modda teknik kartları gizleme | Kolay | Katalogda filtre; kısayol ve sağ tık yolları da kapanmalı | § 2 Basit modda gizlenen işlemler |
+| 3 | PDF çıktısı | Kolay | Render Al PNG'si var, üstüne sayfa düzeni | § 2 Sunum modu, § 7 |
+| 4 | Dönen tanıtım videosu (turntable) | Kolay-orta | Dönen kamerayı tarayıcıda kaydetmek; yavaş makinede kalite düşebilir | — |
+| 5 | Sahnesiz ürünler (sarf, hizmet) | Orta | Kayıt, liste ve Üretim Listesi bağlantısı | § 2 Sahnesiz ürünler |
+| 6 | Panele / duvara yazı aracı | Orta | Yazı tipi, renk, boyut, yerleşen yazılar listesi; panel görsel altyapısı işe yarar. Baskı mı ayrı öğe mi kararı gerekir | § 2 Logo ve yazı aracı |
+| 7 | Editörde fiyat ve anlık toplam | Orta | Maliyet CRM'de hazır; yetki kararı ve eksik fiyatlar gerekir. Satışa en çok etki eden | § 5 FAZ 6 |
+| 8 | Birden çok hazır stand tasarımı | Orta | Asıl iş tasarımları hazırlamak; şablon ve otomatik mobilya var | § 1 Hazır stand tasarımları |
+| 9 | Fuar seçerek başlama | Orta | CRM fuar verisinin kullanımı incelenmedi | — |
+| 10 | Tam salon ortamı, sinematik sunum | Orta | Kod az; model ve görsel üretimi gerekir, hız korunmalı | § 2 Sunum modu |
+| 11 | Yapay zekâ yardım asistanı | Orta | Dış servis bağımlılığı ve maliyet | — |
+| 12 | Çoklu dil ve ft / m | Orta-zor | Çeviri altyapısı yok; metinler elden geçmeli | — |
+| 13 | Zemine çizerek duvar | Orta-zor | Çizim kolay; köşe / T birleşimlerinin Üretim Listesi'ne yansıması zor | § 2 Zemine çizerek duvar |
+| 14 | AR | Orta-zor | Sahneyi dışa aktarmak; panel görselleri ve ağır modeller sorun çıkarabilir | — |
+| 15 | Yapay zekâyla tasarım üretme | Zor | Üretilen tasarım üretim kurallarına uymalı | — |
+| 16 | Özel Tasarım ve Paket stand tipleri | Çok zor | Tip altyapısı var; her tipin kuralları ve Üretim Listesi | § 1 Paket ve Özel Tasarım stand tipleri |
+| 17 | Başka modüler sistemler (Aluvision, beMatrix…) | Çok zor | Her sistem ayrı katalog, birleşim kuralı ve Üretim Listesi | — |
+
+İlk dördü küçük işler, hızlı kazanç için oradan başlanabilir. Satışa en çok etki edecek olan 7. sıradaki editörde fiyat.
+
 ## 1. Kullanıcı kararı bekleyen
 
 | İş | Bekleyen karar | Ayrıntı |
