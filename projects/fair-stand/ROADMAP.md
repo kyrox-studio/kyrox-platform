@@ -11,6 +11,8 @@ Kurallar:
 
 ## İlk iş — Tasarımda fuar ve müşteri seçimi
 
+Yerel uygulama ve doğrulama tamamlandı. Canlı dağıtım bekliyor. [Yerel doğrulama](PROJECT_STATUS.md#2026-11-15--isteğe-bağlı-fuar-ve-müşteri-atamaları-yerel).
+
 - [ ] Stand tasarımı müşteri seçmeden oluşturulabilsin ve kaydedilebilsin.
 - [ ] Her tasarımda fuar ve müşteri seçilebilsin. İki alan birbirinden bağımsız ve isteğe bağlı olsun. Kullanıcı yalnız fuar, yalnız müşteri, ikisini birden veya hiçbirini seçmeden devam edebilsin.
 
