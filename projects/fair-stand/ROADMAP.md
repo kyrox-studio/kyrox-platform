@@ -9,7 +9,19 @@ Kurallar:
 - FAZ 4 planı Fair Stand deposundaki [`ROADMAP.md`](https://github.com/kyrox-studio/kyrox-fair-stand/blob/main/ROADMAP.md) ve [`ROADMAP_PHASE_4.md`](https://github.com/kyrox-studio/kyrox-fair-stand/blob/main/ROADMAP_PHASE_4.md) içindedir; `test/roadmapProductionSourceOfTruth.test.js` onları okur.
 - Item / zarf / davranış kararlarının gerekçesi ve yasakları: [`docs/refactor/PENDING_ITEM_DECISIONS.md`](https://github.com/kyrox-studio/kyrox-fair-stand/blob/main/docs/refactor/PENDING_ITEM_DECISIONS.md) (aşağıda "PENDING").
 
-## 0. İlk yapılacaklar (kolaydan zora)
+## İlk iş — Tasarımda fuar ve müşteri seçimi
+
+- [ ] Stand tasarımı müşteri seçmeden oluşturulabilsin ve kaydedilebilsin.
+- [ ] Her tasarımda fuar ve müşteri seçilebilsin. İki alan birbirinden bağımsız ve isteğe bağlı olsun. Kullanıcı yalnız fuar, yalnız müşteri, ikisini birden veya hiçbirini seçmeden devam edebilsin.
+
+## İkinci iş — Zemin üretim listesi
+
+- [ ] Parke miktarı üretim listesinde adet olarak çıksın.
+- [ ] Parke çıtası miktarı üretim listesinde metre olarak çıksın.
+- [ ] Karolaj hesabında 0,5 m² ve 1 m² parçalar ayrı hesaplansın.
+- [ ] Karolajın alüminyum aparat adedi hesaplansın.
+
+## 0. Sonraki işler (kolaydan zora)
 
 Rakip karşılaştırmasında bizi geride bırakan eksikler, kolaydan zora (2026-11-13, kullanıcı isteği). Zorluk kodda görülene dayanan tahmindir, ölçüm değil. Ayrıntısı olan işin satırı aşağıdaki bölümde durur, burada yalnız sıra tutulur. Kurulu standın yüksekliği, genişliği ve derinliğini değiştirme bu listedeydi; 2026-11-10'da yapıldı ([PROJECT_STATUS.md](PROJECT_STATUS.md)). Rakip gözlemleri: [COMPETITOR_ANALYSIS.md](COMPETITOR_ANALYSIS.md).
 
@@ -17,21 +29,20 @@ Rakip karşılaştırmasında bizi geride bırakan eksikler, kolaydan zora (2026
 |---|---|---|---|---|
 | 1 | Dönen kamera | Çok kolay | Mevcut kamera kontrolüne küçük bir ek | § 2 Sunum modu |
 | 2 | Basit modda teknik kartları gizleme | Kolay | Katalogda filtre; kısayol ve sağ tık yolları da kapanmalı | § 2 Basit modda gizlenen işlemler |
-| 3 | PDF çıktısı | Kolay | Render Al PNG'si var, üstüne sayfa düzeni | § 2 Sunum modu, § 7 |
+| 3 | Otomatik render ve PDF sunum dosyası | Değerlendirilecek | Belirli açılardan otomatik render alıp görsellerden müşteriye sunulacak PDF dosyası hazırla | § 2 Sunum modu |
 | 4 | Dönen tanıtım videosu (turntable) | Kolay-orta | Dönen kamerayı tarayıcıda kaydetmek; yavaş makinede kalite düşebilir | — |
 | 5 | Sahnesiz ürünler (sarf, hizmet) | Orta | Kayıt, liste ve Üretim Listesi bağlantısı | § 2 Sahnesiz ürünler |
 | 6 | Panele / duvara yazı aracı | Orta | Yazı tipi, renk, boyut, yerleşen yazılar listesi; panel görsel altyapısı işe yarar. Baskı mı ayrı öğe mi kararı gerekir | § 2 Logo ve yazı aracı |
 | 7 | Editörde fiyat ve anlık toplam | Orta | Maliyet CRM'de hazır; yetki kararı ve eksik fiyatlar gerekir. Satışa en çok etki eden | § 5 FAZ 6 |
 | 8 | Birden çok hazır stand tasarımı | Orta | Asıl iş tasarımları hazırlamak; şablon ve otomatik mobilya var | § 1 Hazır stand tasarımları |
-| 9 | Fuar seçerek başlama | Orta | CRM fuar verisinin kullanımı incelenmedi | — |
-| 10 | Tam salon ortamı, sinematik sunum | Orta | Kod az; model ve görsel üretimi gerekir, hız korunmalı | § 2 Sunum modu |
-| 11 | Yapay zekâ yardım asistanı | Orta | Dış servis bağımlılığı ve maliyet | — |
-| 12 | Çoklu dil ve ft / m | Orta-zor | Çeviri altyapısı yok; metinler elden geçmeli | — |
-| 13 | Zemine çizerek duvar | Orta-zor | Çizim kolay; köşe / T birleşimlerinin Üretim Listesi'ne yansıması zor | § 2 Zemine çizerek duvar |
-| 14 | AR | Orta-zor | Sahneyi dışa aktarmak; panel görselleri ve ağır modeller sorun çıkarabilir | — |
-| 15 | Yapay zekâyla tasarım üretme | Zor | Üretilen tasarım üretim kurallarına uymalı | — |
-| 16 | Özel Tasarım ve Paket stand tipleri | Çok zor | Tip altyapısı var; her tipin kuralları ve Üretim Listesi | § 1 Paket ve Özel Tasarım stand tipleri |
-| 17 | Başka modüler sistemler (Aluvision, beMatrix…) | Çok zor | Her sistem ayrı katalog, birleşim kuralı ve Üretim Listesi | — |
+| 9 | Tam salon ortamı, sinematik sunum | Orta | Kod az; model ve görsel üretimi gerekir, hız korunmalı | § 2 Sunum modu |
+| 10 | Yapay zekâ yardım asistanı | Orta | Dış servis bağımlılığı ve maliyet | — |
+| 11 | Çoklu dil ve ft / m | Orta-zor | Çeviri altyapısı yok; metinler elden geçmeli | — |
+| 12 | Zemine çizerek duvar | Orta-zor | Çizim kolay; köşe / T birleşimlerinin Üretim Listesi'ne yansıması zor | § 2 Zemine çizerek duvar |
+| 13 | AR | Orta-zor | Sahneyi dışa aktarmak; panel görselleri ve ağır modeller sorun çıkarabilir | — |
+| 14 | Yapay zekâyla tasarım üretme | Zor | Üretilen tasarım üretim kurallarına uymalı | — |
+| 15 | Özel Tasarım ve Paket stand tipleri | Çok zor | Tip altyapısı var; her tipin kuralları ve Üretim Listesi | § 1 Paket ve Özel Tasarım stand tipleri |
+| 16 | Başka modüler sistemler (Aluvision, beMatrix…) | Çok zor | Her sistem ayrı katalog, birleşim kuralı ve Üretim Listesi | — |
 
 İlk dördü küçük işler, hızlı kazanç için oradan başlanabilir. Satışa en çok etki edecek olan 7. sıradaki editörde fiyat.
 
@@ -57,7 +68,6 @@ Rakip karşılaştırmasında bizi geride bırakan eksikler, kolaydan zora (2026
 | "Raf ev sahibi duvar" (grup Faz 6) | Plan | [GROUP_LOCK_ROADMAP.md](GROUP_LOCK_ROADMAP.md) |
 | Grup dış sınır ölçüleri | Açık | [KULLANILABILIRLIK_YOL_HARITASI.md](KULLANILABILIRLIK_YOL_HARITASI.md) |
 | Stand tipi altyapısı (`boothType`: Maksima / Özel Tasarım / Paket) | `standType` yerleşim olarak kalır (Sırt Duvar / U / L / Ada), yeniden adlandırılmaz. **Adım 1:** [Stand #363](https://github.com/kyrox-studio/kyrox-fair-stand/pull/363), canlıda (2026-11-06): `boothType` sabit listesi (yalnız Maksima aktif), sihirbazın ilk adımı tip seçimi, proje `stand.boothType` (eski projeler Maksima), başlık açık tipten gelir ("<tip> Yapılandırması"), sihirbaz açıkken sol menü kapalı; migration yok. **Adım 2:** aynı PR ve [CRM #388](https://github.com/kyrox-studio/kyrox-fair-crm/pull/388), canlıda (2026-11-06) (migration `0091_booth_types`): kullanıcı kararı 2026-11-05: tip tablosu (aktif bilgisiyle), Item–tip eşlemesi çoklu seçimli (eşleme yoksa = null, Item bütün tiplerde), Extra ile Elektronik & Aydınlatma kategorileri null, admin Item formunda çoklu tip seçimi, katalog seçili tipe göre süzülür. Açık: katalogda görünmeyen 106 Item (yerel DB, 2026-11-05) şimdilik null; kullanıcı Excel'de seçip geri verecek | — |
-| Müşterisiz Yeni Proje | Plan 2026-10-29; kod yok. CRM Stand Projeleri → Yeni Proje müşteri sormadan sahneyi açar; proje "Geçici bağ" (`UNASSIGNED_PROJECT_CUSTOMER_ID`) ile kaydedilir, müşteri mevcut atama penceresinden sonra bağlanır. Bugün müşteri üç yerde zorunlu: CRM müşteri seçme penceresi (`StandProjectsPage.tsx`), backend `create_project` (`customerId is required`), editör içe aktarma | — |
 | Zemine çizerek duvar | Plan 2026-10-29; kod yok. Zeminde çizgi çizilir (10 cm ve 0°/90° yapışma, uzunluk etiketi), çizgi `composeStraightWall` ile serbest (`wallId: 'free'`) panellere bölünür (depo duvarları gibi). Açık: çizilen duvarların köşe/T birleşimlerinin BOM'a yansıması | — |
 | Yeniden boyutlandırma motoru | Kullanıcı kararı 2026-11-05: yükseklik, genişlik/derinlik ve yerleşim değişimi stand sistemi veya stand tipi başına ayrı yazılmaz, tek motor olur. **Adım 1 (duvar yüksekliği), adım 2 (genişlik/derinlik) ve adım 3 (yerleşim: Sırt Duvar / U / L / Ada) yapıldı (2026-11-10):** motor `src/standResize.js`, kural katmanı `src/standResizeRules.js` (yalnız Maksima); önizleme + onay, tek adım Geri al ([PROJECT_STATUS.md](PROJECT_STATUS.md)). Sıra: Paket ve Özel Tasarım kuralları kararları çıkınca. Açık: Özel Tasarım ölçüye kesimse bölme kuralının bu yapıya oturup oturmadığı | PENDING B.16 |
 | Bölgesel zemini sahneye bırakarak ekleme ve sürükleyerek taşıma | Bugün tek dikdörtgen `stand.floorArea`, X/Y girişi | [KULLANILABILIRLIK_YOL_HARITASI.md](KULLANILABILIRLIK_YOL_HARITASI.md) |
@@ -76,7 +86,10 @@ Rakip karşılaştırmasında bizi geride bırakan eksikler, kolaydan zora (2026
 | Döndürme kartının gerçek hesap ve fiziksel telefonda kabulü | 15° adım ve kart tarayıcı testleriyle doğrulandı; fiziksel cihaz kabulü yapılmadı | [SECIM_OZELLIK_PANELI_YOL_HARITASI.md](SECIM_OZELLIK_PANELI_YOL_HARITASI.md) |
 | Katalog kartı açıklaması | DB'de Item açıklama alanı + admin ekranı + kart ipucu; kodda Item'a özel metin yasak | — |
 | Logo ve yazı aracı | Duvara metin (yazı tipi, renk, boyut), yerleşen yazılar listesi; kodda yok | — |
-| Sunum modu | Salon ortamı, dönen kamera, hazır açılar, müşteriye PDF; kodda yok | — |
+| Sunum modu | Salon ortamı, dönen kamera ve hazır açılar. Belirli açılardan otomatik render alınıp görsellerden müşteriye sunulacak PDF dosyası hazırlanacak. | — |
+| Panel ölçülerini gösterme | Seçilen panelin ölçülerini sahnede göster. | — |
+| Parçaya odaklanma | Odaklanılan parçayı sahnede tek başına göster. Diğer öğeleri ve grupları geçici olarak gizle. Odaktan çıkınca önceki görünürlüğü geri getir. | — |
+| Elektrik planı | Stand için elektrik planı oluşturma. Kapsamı belirlenecek. | — |
 | Müşteri onay akışı | Canlı paylaşım linkinde "Onayla / Not bırak"; kodda yok | — |
 | Sahnesiz ürünler | Sarf, hizmet, montaj için listeye ekleme; kodda yok | — |
 | "Projeyi kontrol et" | Çakışma, açık kenar, eksik dikme, stand dışı modül; tıklayınca sahnede gösterir; kodda yok | — |
