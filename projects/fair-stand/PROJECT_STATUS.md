@@ -2,16 +2,16 @@
 
 | Alan | Değer |
 |------|--------|
-| Son doğrulama | **2026-11-13** koda göre (Fair Stand `main` `094200da`, Alembic head `0096_drop_rotation_step_backup`). Canlı: 2026-11-13 deploy (sunucu `094200da`, #380 dahil, prod head `0096_drop_rotation_step_backup`) |
+| Son doğrulama | **2026-11-16** koda göre (Fair Stand `main` `91d359b7`, Alembic head `0099_upright_148_5_198`). Canlı: 2026-11-16 deploy (sunucu `91d359b7`, #384 ve #385 dahil, prod head `0099_upright_148_5_198`; yedek `fair_stand-pre-karolaj-yarim-20261116-203700.dump`) |
 | Implementation deposu | `kyrox-studio/kyrox-fair-stand` |
 | Hosted backend | Fair Stand FastAPI (`:8002`) / PostgreSQL `fair_stand` |
 | Item master | İlişkisel PostgreSQL; catalog bootstrap API |
 | Category master | `fair_stand_categories` |
 | Catalog | Yalnız Item projeksiyonu |
 
-## 2026-11-16 — Karolaj parçaları, panel dökümü, dikme ve kısa panel kuralları (yerel)
+## 2026-11-16 — Karolaj parçaları, panel dökümü, dikme ve kısa panel kuralları (canlı)
 
-[Stand #385](https://github.com/kyrox-studio/kyrox-fair-stand/pull/385) (auto-merge). Alembic head `0099_upright_148_5_198` (yerel; canlı dağıtım bekliyor).
+[Stand #385](https://github.com/kyrox-studio/kyrox-fair-stand/pull/385) merge edildi, 2026-11-16 canlıya alındı. Alembic head `0099_upright_148_5_198` (prod).
 
 - **Karolaj:** Üretim Listesi'nde `Karolaj` (100 × 100), `Karolaj Yarım` (kenardaki 50 × 100 ve köşedeki 50 × 50) ve karo kenarlarından sayılan profil: `Profil 1 m`, `Profil 0.5 m` (ortak kenar bir kez; 6 × 3,5 m = 51 + 7). Yeni gizli Item'lar `karolaj_yarim`, `profile_karolaj_100`, `profile_karolaj_50` (tip `floor-piece`, migration `0098_karolaj_parts`). CRM'de fiyatları girilmeli.
 - **Panel dökümü:** Paneller bölümünde Görsel atanan / Renk atanan / Varsayılan Panel / Depo içi paneller; satırlar panel ölçüsü başlığı altında, ölçü birleşim ve köşe kuralından sonraki panelin ölçüsü. Depo içine bakan duvar yüzü 7 yerine alttaki 4 bantla sayılır (toplama dahil, aparat değişmez). Üst bantta **Panel Ölçüleri** aynı sayımı sahnede gösterir: alt alta aynı etiketli paneller ve üst üste kısa panel kolonu tek etiket, arkada kalan ve üst üste binen etiket gizlenir.
@@ -28,7 +28,7 @@ CRM Standlar listesindeki **Yeni Proje**, müşteri seçimi açmadan stand edit�
 
 Stand, kayıt sırasında müşterinin aynı organizasyonda ve silinmemiş olduğunu CRM'den doğrular. Fuar aynı organizasyonda ya da genel sistem fuarı olabilir. Silinmiş kayıtlar yeni atamaya alınmaz. Mevcut çizim kaydı atamaları korur. ZIP içe aktarmanın müşterisiz paket kontrolü ayrı bir akıştır.
 
-Kod değişiklikleri [Stand #384](https://github.com/kyrox-studio/kyrox-fair-stand/pull/384) ve [CRM #398](https://github.com/kyrox-studio/kyrox-fair-crm/pull/398) üzerinden izlenir. Canlı dağıtım bekliyor.
+Kod değişiklikleri [Stand #384](https://github.com/kyrox-studio/kyrox-fair-stand/pull/384) ve [CRM #398](https://github.com/kyrox-studio/kyrox-fair-crm/pull/398) üzerinden izlenir. 2026-11-16 canlıya alındı (sunucu Stand `91d359b7`, CRM `5a6ad010`).
 
 **Yerel kanıt.** 1.756 Stand birim testi, 281 Stand backend testi, 286 Chromium senaryosu ve 694 CRM arayüz testi geçti. Tarayıcıda müşterisiz proje oluşturuldu, kaydedildi ve yeniden açıldı. Fuar ve müşteri atandı, sayfa yenilendiğinde ikisi de seçili görüldü ve ikisi de kaldırıldı. Gerçek yerel CRM, mevcut olmayan referansları reddetti. Kuralların organizasyon ve sistem fuarı senaryoları backend testlerinde doğrulandı. Stand PostgreSQL'e `0097_project_fair_assignment` yerelde uygulandı. Dağıtımda Stand API ve migration, CRM arayüzünden önce uygulanır.
 
