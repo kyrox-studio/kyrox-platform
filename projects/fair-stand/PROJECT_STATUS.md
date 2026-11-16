@@ -9,6 +9,19 @@
 | Category master | `fair_stand_categories` |
 | Catalog | Yalnız Item projeksiyonu |
 
+## 2026-11-16 — Karolaj parçaları, panel dökümü, dikme ve kısa panel kuralları (yerel)
+
+[Stand #385](https://github.com/kyrox-studio/kyrox-fair-stand/pull/385) (auto-merge). Alembic head `0099_upright_148_5_198` (yerel; canlı dağıtım bekliyor).
+
+- **Karolaj:** Üretim Listesi'nde `Karolaj` (100 × 100), `Karolaj Yarım` (kenardaki 50 × 100 ve köşedeki 50 × 50) ve karo kenarlarından sayılan profil: `Profil 1 m`, `Profil 0.5 m` (ortak kenar bir kez; 6 × 3,5 m = 51 + 7). Yeni gizli Item'lar `karolaj_yarim`, `profile_karolaj_100`, `profile_karolaj_50` (tip `floor-piece`, migration `0098_karolaj_parts`). CRM'de fiyatları girilmeli.
+- **Panel dökümü:** Paneller bölümünde Görsel atanan / Renk atanan / Varsayılan Panel / Depo içi paneller; satırlar panel ölçüsü başlığı altında, ölçü birleşim ve köşe kuralından sonraki panelin ölçüsü. Depo içine bakan duvar yüzü 7 yerine alttaki 4 bantla sayılır (toplama dahil, aparat değişmez). Üst bantta **Panel Ölçüleri** aynı sayımı sahnede gösterir: alt alta aynı etiketli paneller ve üst üste kısa panel kolonu tek etiket, arkada kalan ve üst üste binen etiket gizlenir.
+- **Hata düzeltmeleri:** Daraltılan duvarda bantlarda kalan eski panel kimliği (ör. 100'lük duvarda `panel_197`) reçeteye göre onarılır; liste ve Dijital Baskı ölçüsü düzelir. Köşede üst üste duran kısa panellerin her biri köşe eklemi kurar (eski "aynı uçta ikinci short yuvayı kullanmaz" kararı güncellendi).
+- **Dikme:** Tam boy duvar ya da kısa panel ucunda bağımsız dikme varsa tek dikme sayılır, uzun olan kalır. Yalnız kısa panellerden oluşan kolonda her uçta tek dikme: 99 + 49,5 → `upright_148_5`, 99 + 99 → `upright_198` (migration `0099_upright_148_5_198`).
+- **İskelet:** üst banttaki düğmeyle sahnede yalnız dikme ve profiller kalır, üstlerinde katalog boyu; alt özet Üretim Listesi'nin dikme / profil satırları. Panel Ölçüleri etiketleri kısa biçimde (`197 · Varsayılan · 3`), arkada kalan ve üst üste binen etiket gizlenir.
+- **Kısa panel yerleşimi:** ↑/↓ 50 cm ızgarada, alttakine binmez; bırakınca ve proje açılınca ±25 cm içindeki tepeye oturur; üst üste aynı genişlikteki kısa paneller sahnede tek kolon çizilir.
+
+**Yerel kanıt.** Stand birim 1.802, backend 283; hedefli Chromium senaryoları geçti. Tam test (2026-11-16, kopya klasör): Core 536 geçti; CRM ön yüz test ve build geçti, CRM backend 2.313 geçti / 25 ortam kaynaklı düştü (pytest kök klasörden, Linux betiği); Stand birim, backend, build geçti; Stand Chromium 285 geçti, 2 düştü: `panel-removal` sunucu bağlantısı koptu (tekrarda geçti), `variant-snap-fit` BOM JSON'una eklenen yüzey kimliği yüzünden — kimlik alanları JSON dışı yapıldı, tekrarda geçti. Kararlar: `docs/refactor/PENDING_ITEM_DECISIONS.md` (Fair Stand).
+
 ## 2026-11-15 — İsteğe bağlı fuar ve müşteri atamaları (yerel)
 
 CRM Standlar listesindeki **Yeni Proje**, müşteri seçimi açmadan stand editörüne gider. **Atamaları düzenle** penceresinde önce Fuar, sonra Müşteri gösterilir. Mevcut atamalar seçili gelir ve iki alan ayrı ayrı eklenebilir, değiştirilebilir ya da temizlenebilir. Arama üç karakterden sonra başlar.
