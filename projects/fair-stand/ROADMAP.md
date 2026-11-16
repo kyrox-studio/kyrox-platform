@@ -20,8 +20,10 @@ Yerel uygulama ve doğrulama tamamlandı. Canlı dağıtım bekliyor. [Yerel do�
 
 - [ ] Parke miktarı üretim listesinde adet olarak çıksın.
 - [ ] Parke çıtası miktarı üretim listesinde metre olarak çıksın.
-- [ ] Karolaj hesabında 0,5 m² ve 1 m² parçalar ayrı hesaplansın.
-- [ ] Karolajın alüminyum aparat adedi hesaplansın.
+
+## Üretim listesi — Panel dökümü kalanları
+
+- [ ] **Renk atanan paneller** satırında renk adı yazılsın (ör. **Kırmızı**). Bugün renk kutucuğu ve hex kodu (`#c0392b`) yazar; renklerin adı kayıtlı değil.
 
 ## 0. Sonraki işler (kolaydan zora)
 
@@ -89,7 +91,6 @@ Rakip karşılaştırmasında bizi geride bırakan eksikler, kolaydan zora (2026
 | Katalog kartı açıklaması | DB'de Item açıklama alanı + admin ekranı + kart ipucu; kodda Item'a özel metin yasak | — |
 | Logo ve yazı aracı | Duvara metin (yazı tipi, renk, boyut), yerleşen yazılar listesi; kodda yok | — |
 | Sunum modu | Salon ortamı, dönen kamera ve hazır açılar. Belirli açılardan otomatik render alınıp görsellerden müşteriye sunulacak PDF dosyası hazırlanacak. | — |
-| Panel ölçülerini gösterme | Seçilen panelin ölçülerini sahnede göster. | — |
 | Parçaya odaklanma | Odaklanılan parçayı sahnede tek başına göster. Diğer öğeleri ve grupları geçici olarak gizle. Odaktan çıkınca önceki görünürlüğü geri getir. | — |
 | Elektrik planı | Stand için elektrik planı oluşturma. Kapsamı belirlenecek. | — |
 | Müşteri onay akışı | Canlı paylaşım linkinde "Onayla / Not bırak"; kodda yok | — |
