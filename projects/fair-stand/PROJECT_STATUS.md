@@ -2,12 +2,25 @@
 
 | Alan | Değer |
 |------|--------|
-| Son doğrulama | **2026-11-16** koda göre (Fair Stand `main` `91d359b7`, Alembic head `0099_upright_148_5_198`). Canlı: 2026-11-16 deploy (sunucu `91d359b7`, #384 ve #385 dahil, prod head `0099_upright_148_5_198`; yedek `fair_stand-pre-karolaj-yarim-20261116-203700.dump`) |
+| Son doğrulama | **2026-11-18** koda göre (Fair Stand `main` `5dbe14cc`, Alembic head `0099_upright_148_5_198`). Canlı: 2026-11-18 deploy (sunucu `5dbe14cc`, #386 dahil, prod head `0099_upright_148_5_198`; migration yok, yedek gerekmedi) |
 | Implementation deposu | `kyrox-studio/kyrox-fair-stand` |
 | Hosted backend | Fair Stand FastAPI (`:8002`) / PostgreSQL `fair_stand` |
 | Item master | İlişkisel PostgreSQL; catalog bootstrap API |
 | Category master | `fair_stand_categories` |
 | Catalog | Yalnız Item projeksiyonu |
+
+## 2026-11-18 — Ara profil, İskelet parça bölünüşü, baza / banko birleşimi, müşterisiz içe aktarma (canlı)
+
+[Stand #386](https://github.com/kyrox-studio/kyrox-fair-stand/pull/386) merge edildi, 2026-11-18 canlıya alındı. Migration yok; Alembic head `0099_upright_148_5_198` (prod).
+
+- **Ara profil:** yan yana kısa panellerin açıklığı içindeki taşıyıcısız ortak uçta dikme yerine 8 cm kısa profil (49,5 → 41,5, 99 → 91, 148,5 → 140,5, 198 → 190); sahne de profil çizer.
+- **İskelet:** uzun profil / dikme bölünüşüyle yazılır: `388 (346,5 + 41,5)`.
+- **Baza / banko birleşimi:** yan yana bazada ve düz bankoda ortak uçtaki dikme ve 41,5 listede ve sahnede tek; aradaki yan paneller ve aparatları düşer. L banko ve baza↔banko birleşmez.
+- **Panel kimliği:** #385 gerilemesi düzeltildi; baza ve banko yüzleri listede rolünden panel alır (bazada sol yanak, L bankoda sol / sağ).
+- **Baza:** arka yüz panelsiz (her bazada 1 uzun panel); sahnede serbest bazada ön + arka uzun ray (4), duvar sırtında 2.
+- **Banko rayları:** düz bankoda ön alt, ön üst, arka üst; L bankoda orta kot yok, iç kenarda üstte uzun + kısa ray. 100 / 150 / 200 sahne listeyle aynı.
+- **İçe aktarma:** müşteri zorunluluğu kalktı; paket ya da editör müşterisizse proje atanmamış kaydedilir (#384).
+- **CI:** `npm audit` kapısında picomatch ReDoS (GHSA-fc5q-39xc-vjpf) için gerekçeli geçici istisna; yama çıkınca silinir.
 
 ## 2026-11-16 — Karolaj parçaları, panel dökümü, dikme ve kısa panel kuralları (canlı)
 
