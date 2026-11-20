@@ -163,6 +163,11 @@ Item-specific model dosya adı renderer kodunda ikinci master olarak hardcode ed
 
 `default_screen` rolü aynı mantıktadır. Örnek: `tv-screen.jpg`. Aggregate alanı `defaultScreenFile`dır.
 
+`texture` rolü panel tipi (`panel-finish`) dokusudur; aggregate alanı `textureFile` (2026-11-18/20). İki kaynak vardır:
+
+- Depodaki hazır doku: `textures/panel/mese.jpg` (Fair Stand `public/textures/panel/`, uygulamanın kendi dosyası).
+- Admin'den yüklenen doku: CRM Item kayıtları → Assets → **Doku yükle** dosyayı Fair Stand'ın kalıcı klasörüne yükler (`POST /api/v1/fair-stand/admin/textures`, `catalog_texture_root`, env `FAIR_STAND_CATALOG_TEXTURE_ROOT`); dönen göreli yol `uploads/textures/<32 hex>.<uzantı>` asset satırına, rol `texture` olarak yazılır. Renderer bu yolu `GET /api/v1/fair-stand/textures/<ad>` üzerinden okur. Döşeme ölçüsü Item'ın `width_cm` × `height_cm` değeridir.
+
 Kullanıcı proje görseli (`imageAssetId`) kanonik Item asset değildir; `fair_stand_item_assets` tablosuna taşınmaz. Binary `fair_stand_project_assets` ve disk yolundadır; IndexedDB önbellektir.
 
 ## Ürün verisi vs kod

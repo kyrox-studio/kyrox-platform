@@ -9,6 +9,20 @@
 | Category master | `fair_stand_categories` |
 | Catalog | Yalnız Item projeksiyonu |
 
+## 2026-11-20 — Panel tipi, doku yükleme, dikme birleşimi, Tüm Özellikleri Kaldır (yerel, commit'siz)
+
+Fair Stand `feat/panel-tipi` dalı ve CRM `main` çalışma kopyası, commit yok. Migration'lar `0100_panel_finishes` ve `0101_catalog_data_fixes` (yerel DB'de; prod head hâlâ `0099_upright_148_5_198`). 0101 yalnız veri: canlı DB'deki katalog tutarsızlıkları (kutu blok sırası, gizli dikme ve raf kalemlerinin katalog alanları, `profile_49_5` rengi / yüksekliği, raf kartlarının sahne yüksekliği 3,5 cm tahtaya göre, `base_100` bağlama yüksekliği, `upright_148_5` / `upright_198` sahne kesiti 10 × 10). Test kataloğu DB'den üretilir (`scripts/export-test-catalog.py`).
+
+- **Panel tipi:** Varsayılan / Antrasit (RAL 7016) / Meşe / Siyah; stand geneli ve seçili panele (açılır liste). Tipler gizli `panel-finish` Item'ları; ürün değil, Üretim Listesi kalemi değişmez, dökümde "Panel tipi" grubu. Seçili panele atanan Varsayılan stand tipinden ayrılır. Meşe dokusu soldan sağa, 141 × 100 cm döşenir.
+- **Admin:** yeni tip Item olarak eklenir; CRM Item → Assets → **Doku yükle** (Stand `POST /fair-stand/admin/textures`, kalıcı klasör). Pasifleştirilen tip listeden kalkar, paneller Varsayılan'a döner. 5173'te uçtan uca denendi.
+- **Dikme:** dikme dikmeyle ve dikmesi olan her modülle birleşir, sahnede ve listede uzun olan kalır; dikme başka dikmenin yerine bırakılabilir. Stand kenarındaki köşeye sürüklenen dikme köşe karesine oturur (duvarla aynı sınır kuralı).
+- **Panel etiketleri / vitrin:** Panel Ölçüleri baza ve banko yüzlerini de etiketler; vitrinde panel kimliği sahnenin çizdiği bantlardadır (üst paneller tip, renk ve dökümde sayılır).
+- **Lightbox / Mesh:** kaldırılan panelin yerine konur; kaplanan panel ve iki yan aparatı listeden düşer (en alt bantta başlangıçlar da), kumaş m² olarak eklenir; panel dökümü listeyle aynı. Baza ve banko yüzlerinde de (alt yüzde başlangıçlar da düşer).
+- **Tüm Özellikleri Kaldır:** yalnız atamalar kalkar (görsel, cam, metal separatör, Mesh / Lightbox, renk, panel tipi); arka yüz ve kaldırılmış panel kalır.
+- **İskelet:** kesik profil kenarı, kısa panel ray açıklıkları, köşede 346,5 üstü short → 396.
+
+**Bekleyen:** köşe kolonu kuralı (plan noktası aynı, yükseklik farklı uçlar tek dikme kolonu); depo içi sayımının işarete değil sahneye bakması; koddaki sabit kural envanteri ve tüm katalog denetimi. Tam E2E son düzeltmelerden sonra koşmadı.
+
 ## 2026-11-18 — Ara profil, İskelet parça bölünüşü, baza / banko birleşimi, müşterisiz içe aktarma (canlı)
 
 [Stand #386](https://github.com/kyrox-studio/kyrox-fair-stand/pull/386) merge edildi, 2026-11-18 canlıya alındı. Migration yok; Alembic head `0099_upright_148_5_198` (prod).
@@ -20,7 +34,7 @@
 - **Baza:** arka yüz panelsiz (her bazada 1 uzun panel); sahnede serbest bazada ön + arka uzun ray (4), duvar sırtında 2.
 - **Banko rayları:** düz bankoda ön alt, ön üst, arka üst; L bankoda orta kot yok, iç kenarda üstte uzun + kısa ray. 100 / 150 / 200 sahne listeyle aynı.
 - **İçe aktarma:** müşteri zorunluluğu kalktı; paket ya da editör müşterisizse proje atanmamış kaydedilir (#384).
-- **CI:** `npm audit` kapısında picomatch ReDoS (GHSA-fc5q-39xc-vjpf) için gerekçeli geçici istisna; yama çıkınca silinir.
+- **CI:** `npm audit` kapısında geçici istisna yok (picomatch ReDoS GHSA-fc5q-39xc-vjpf istisnası 2026-11-20'de kaldırıldı; audit artık bildirmiyor).
 
 ## 2026-11-16 — Karolaj parçaları, panel dökümü, dikme ve kısa panel kuralları (canlı)
 
