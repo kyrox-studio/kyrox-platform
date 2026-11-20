@@ -2,16 +2,16 @@
 
 | Alan | Değer |
 |------|--------|
-| Son doğrulama | **2026-11-18** koda göre (Fair Stand `main` `5dbe14cc`, Alembic head `0099_upright_148_5_198`). Canlı: 2026-11-18 deploy (sunucu `5dbe14cc`, #386 dahil, prod head `0099_upright_148_5_198`; migration yok, yedek gerekmedi) |
+| Son doğrulama | **2026-11-20** koda göre (Fair Stand `main` `47262bc9`, Alembic head `0101_catalog_data_fixes`). Canlı: 2026-11-20 deploy (sunucu `47262bc9`, #387 dahil, prod head `0101_catalog_data_fixes`; öncesinde yedek `/var/backups/kyrox/manual/fair_stand-pre-0101-catalog-20261120-181740.dump`) |
 | Implementation deposu | `kyrox-studio/kyrox-fair-stand` |
 | Hosted backend | Fair Stand FastAPI (`:8002`) / PostgreSQL `fair_stand` |
 | Item master | İlişkisel PostgreSQL; catalog bootstrap API |
 | Category master | `fair_stand_categories` |
 | Catalog | Yalnız Item projeksiyonu |
 
-## 2026-11-20 — Panel tipi, doku yükleme, dikme birleşimi, Tüm Özellikleri Kaldır (yerel, commit'siz)
+## 2026-11-20 — Panel tipi, doku yükleme, dikme birleşimi, Tüm Özellikleri Kaldır
 
-Fair Stand `feat/panel-tipi` dalı ve CRM `main` çalışma kopyası, commit yok. Migration'lar `0100_panel_finishes` ve `0101_catalog_data_fixes` (yerel DB'de; prod head hâlâ `0099_upright_148_5_198`). 0101 yalnız veri: canlı DB'deki katalog tutarsızlıkları (kutu blok sırası, gizli dikme ve raf kalemlerinin katalog alanları, `profile_49_5` rengi / yüksekliği, raf kartlarının sahne yüksekliği 3,5 cm tahtaya göre, `base_100` bağlama yüksekliği, `upright_148_5` / `upright_198` sahne kesiti 10 × 10). Test kataloğu DB'den üretilir (`scripts/export-test-catalog.py`).
+[Stand #387](https://github.com/kyrox-studio/kyrox-fair-stand/pull/387) ve [CRM #399](https://github.com/kyrox-studio/kyrox-fair-crm/pull/399) merge edildi, 2026-11-20 canlıya alındı. Migration'lar `0100_panel_finishes` ve `0101_catalog_data_fixes` prod'da uygulandı (prod head `0101_catalog_data_fixes`). 0101 yalnız veri: canlı DB'deki katalog tutarsızlıkları (kutu blok sırası, gizli dikme ve raf kalemlerinin katalog alanları, `profile_49_5` rengi / yüksekliği, raf kartlarının sahne yüksekliği 3,5 cm tahtaya göre, `base_100` bağlama yüksekliği, `upright_148_5` / `upright_198` sahne kesiti 10 × 10). Test kataloğu DB'den üretilir (`scripts/export-test-catalog.py`).
 
 - **Panel tipi:** Varsayılan / Antrasit (RAL 7016) / Meşe / Siyah; stand geneli ve seçili panele (açılır liste). Tipler gizli `panel-finish` Item'ları; ürün değil, Üretim Listesi kalemi değişmez, dökümde "Panel tipi" grubu. Seçili panele atanan Varsayılan stand tipinden ayrılır. Meşe dokusu soldan sağa, 141 × 100 cm döşenir.
 - **Admin:** yeni tip Item olarak eklenir; CRM Item → Assets → **Doku yükle** (Stand `POST /fair-stand/admin/textures`, kalıcı klasör). Pasifleştirilen tip listeden kalkar, paneller Varsayılan'a döner. 5173'te uçtan uca denendi.
